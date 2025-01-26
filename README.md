@@ -8,7 +8,7 @@ npm install
 
 ### Общие требования
 
-<p align="center"><img src="./imagez/tt.png" alt="Требования к реализации." width="350"></p>
+<p align="center"><img src="./imagez/tt.png" alt="Требования к реализации." width="400"></p>
 
 ### Доска Миро целиком
 
