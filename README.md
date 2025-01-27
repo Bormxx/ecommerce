@@ -14,6 +14,8 @@ npm install
 
 [Доска Миро](https://miro.com/app/board/uXjVKPFlI1Y=/)
 
+Пароль: 11223344
+
 ### Почитать сокращения tailwind
 
 [Справочник тут](https://tailwindcss.com/docs/installation/using-vite)
