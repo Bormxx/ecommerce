@@ -35,6 +35,7 @@ export default function Header() {
         </div>
       </header>
 
+      {/* Верхняя часть при маленьком экране */}
       <div className="relative flex h-[36px] w-full lg:hidden">
         <input
           type="text"
@@ -45,8 +46,8 @@ export default function Header() {
           <Image src={iconSearch16} width={16} height={16} alt="Search" />
         </div>
       </div>
-
-      <div className="absolute bottom-0 flex w-full items-center justify-center lg:hidden">
+      {/* Нижняя часть при маленьком экране */}
+      <div className="absolute bottom-0 flex w-full items-center justify-center pr-[10px] lg:hidden">
         <LoginMenu />
       </div>
     </>
