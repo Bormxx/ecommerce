@@ -1,12 +1,11 @@
 import Banner from "../Banner/Banner";
-import Header from "../Header/Header"
+import Carousel from "../Carousel/Carousel";
 
-
-export default function Main(){
-    return (
-      <>
-        <Header />
-        <Banner />
-      </>
-    );
+export default function Main() {
+  return (
+    <>
+      <Banner />
+      <Carousel />
+    </>
+  );
 }

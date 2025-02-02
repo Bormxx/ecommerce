@@ -47,7 +47,7 @@ export default function Header() {
         </div>
       </div>
       {/* Нижняя часть при маленьком экране */}
-      <div className="absolute bottom-0 flex w-full items-center justify-center pr-[10px] lg:hidden">
+      <div className="absolute bottom-0 flex w-[calc(100%-15px)] items-center justify-center pb-[10px] pr-[10px] lg:hidden">
         <LoginMenu />
       </div>
     </>

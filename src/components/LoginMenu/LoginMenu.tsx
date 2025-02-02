@@ -9,7 +9,7 @@ import IconLink from "../IconLink/IconLink";
 import { inter } from "@/app/fonts";
 
 export default function LoginMenu() {
-  const userName = "Pavel";
+  const userName = "";
 
   return (
     <>
