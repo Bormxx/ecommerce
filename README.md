@@ -38,14 +38,14 @@ npm install
 
 ### Используемые библиотеки ###
 
-[Next.js](https://nextjs.org/docs)
-[Tailwind CSS](https://v3.tailwindcss.com/)
-[TanStack Query](https://tanstack.com/query/latest)
-[React Hook Form](https://react-hook-form.com/)
-[Zod](https://zod.dev/)
-[Zustand](https://github.com/pmndrs/zustand)
-[HeadlessUI](https://headlessui.com/)
-[Heroicons](https://heroicons.com/)
-[Luxon](https://moment.github.io/luxon/#/?id=luxon)
-[Clsx](https://www.npmjs.com/package/clsx)
-[Tailwind-merge](https://www.npmjs.com/package/tailwind-merge)
+[Next.js](https://nextjs.org/docs) /
+[Tailwind CSS](https://v3.tailwindcss.com/) /
+[TanStack Query](https://tanstack.com/query/latest) /
+[React Hook Form](https://react-hook-form.com/) /
+[Zod](https://zod.dev/) /
+[Zustand](https://github.com/pmndrs/zustand) /
+[HeadlessUI](https://headlessui.com/) /
+[Heroicons](https://heroicons.com/) /
+[Luxon](https://moment.github.io/luxon/#/?id=luxon) /
+[Clsx](https://www.npmjs.com/package/clsx) /
+[Tailwind-merge](https://www.npmjs.com/package/tailwind-merge) /
