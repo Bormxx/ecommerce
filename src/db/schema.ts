@@ -155,9 +155,7 @@ export const posts = sqliteTable('posts', {
   message: text().notNull(),
   rating: integer().notNull(),
   posted: integer('timestamp', { mode: 'timestamp' }).default(sql`(strftime('%s', 'now'))`)
-}, (t) => ({
-  uniqFields: unique('custom').on(t.itemId, t.userId),
-}));
+});
 
 export const postsRelation = relations(posts, ({ one }) => ({
   user: one(users, {
