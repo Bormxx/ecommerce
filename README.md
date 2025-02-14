@@ -8,6 +8,8 @@ npm install
 
 ### Общие требования
 
+[***!!! Чек-лист !!!***](https://practicum.yandex.ru/learn/high-education-web-developer-magistr/courses/796aa395-f3b3-49b0-90b4-3e903d9fb0bd/sprints/479640/topics/f1c6e9f8-96ca-4a94-ae70-3023f6839b20/lessons/1e01dac9-4fdc-4802-998c-c715e057eb23/)
+
 <p align="center"><img src="./imagez/tt.png" alt="Требования к реализации." width="400"></p>
 
 ### Доска Миро целиком
