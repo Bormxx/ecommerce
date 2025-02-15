@@ -1,11 +1,12 @@
+import Header from "@/components/Header/Header";
+import Home from "@/components/Home/Home";
 import Main from "@/components/Main/Main";
-import Header from "../components/Header/Header";
 
-export default function Home() {
+export default function HomeContainer() {
   return (
-    <div className="mx-auto max-w-[1180px]">
+    <Home>
       <Header />
       <Main />
-    </div>
+    </Home>
   );
 }
