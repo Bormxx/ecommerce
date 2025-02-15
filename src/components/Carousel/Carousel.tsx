@@ -52,26 +52,24 @@ export default function Carousel() {
   }, [currentIndex]);
 
   return (
-    <div className="mt-[20px] rounded-[8px] bg-white px-[24px] py-[16px]">
-      <div
-        className="flex overflow-hidden transition-all" // Используем transition-all для плавной анимации
-        ref={sliderRef}
-        style={{ scrollBehavior: "smooth" }} // Добавляем плавную прокрутку
-      >
-        {products.map((product, index) => (
-          <div
-            key={index}
-            className="mx-[10px] h-auto w-[172px] flex-shrink-0"
-            onClick={() => scrollToSlide(index)} // Ручной клик для перехода на слайд
-          >
-            <MiniCard
-              title={product.title}
-              price={product.price}
-              img_url={product.img_url}
-            />
-          </div>
-        ))}
-      </div>
+    <div
+      className="py-[16px]flex mt-[20px] overflow-hidden rounded-[8px] bg-white px-[24px] transition-all" // Используем transition-all для плавной анимации
+      ref={sliderRef}
+      style={{ scrollBehavior: "smooth" }} // Добавляем плавную прокрутку
+    >
+      {products.map((product, index) => (
+        <div
+          key={index}
+          className="mx-[10px] h-auto w-[172px] flex-shrink-0"
+          onClick={() => scrollToSlide(index)} // Ручной клик для перехода на слайд
+        >
+          <MiniCard
+            title={product.title}
+            price={product.price}
+            img_url={product.img_url}
+          />
+        </div>
+      ))}
     </div>
   );
 }
