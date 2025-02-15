@@ -1,3 +1,6 @@
+
+## [ !!! Чек-лист !!!](https://practicum.yandex.ru/learn/high-education-web-developer-magistr/courses/796aa395-f3b3-49b0-90b4-3e903d9fb0bd/sprints/479640/topics/f1c6e9f8-96ca-4a94-ae70-3023f6839b20/lessons/1e01dac9-4fdc-4802-998c-c715e057eb23/)
+
 ### Начало работы
 
 После клонирования репозитория откройте интерфейс командной строки в этой папке и выполните команду:
@@ -35,3 +38,44 @@ npm install
 ### Рекомендуемое дополнение к vscode
 
 [tailwindcss](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+
+### Используемые библиотеки ###
+
+[Next.js](https://nextjs.org/docs) /
+[Tailwind CSS](https://v3.tailwindcss.com/) /
+[TanStack Query](https://tanstack.com/query/latest) /
+[React Hook Form](https://react-hook-form.com/) /
+[Zod](https://zod.dev/) /
+[Zustand](https://github.com/pmndrs/zustand) /
+[HeadlessUI](https://headlessui.com/) /
+[Heroicons](https://heroicons.com/) /
+[Luxon](https://moment.github.io/luxon/#/?id=luxon) /
+[Clsx](https://www.npmjs.com/package/clsx) /
+[Tailwind-merge](https://www.npmjs.com/package/tailwind-merge) /
+
+### Общие правила написания кода
+
+1. __Иконки__
+    - По умолчанию, для вставки иконок используется библиотека [Heroicons](https://heroicons.com/)
+    - Если такой иконки нет в Heroicons, используется компонент `Image` из `next/image`. Сами иконки хранятся в папке `icons`, которая лежит в папке `public`
+2. __Шрифты__
+    - Шрифты добавляются согласно документации `Next.js`
+    - Для хранения шрифтов используется папка `fonts`, которая лежит в папке `public`
+3. __Картинки__
+    - Для вставки изображений используется компонент `Image` из `next/image`. Сами картинки хранятся в папке `images`, которая лежит в папке `public`
+4. __Стили__
+    - Для написания стилей используется библиотека [Tailwind CSS](https://v3.tailwindcss.com/)
+    - По умолчанию используются стандартные стили из Tailwind CSS, например: `text-red-400`
+    - Если в Tailwind CSS отсутствует какой-либо стиль, тогда используется кастомный, например `text-[#50d71e]`
+    - Для объединения групп стилей или для использования стилей с условиями выполнения используется функция `cn`, которая лежит в `src/utils`
+5. __Функции__
+    - Часто используемые функции лежат в папке `utils` внутри папки `src`
+6. __Типы и схемы валидации__
+    - Типы и схемы валидации хранятся в папке `utils` внутри папки `src`
+7. __Компоненты__
+    - Часто используемые и отдельные компоненты страниц хранятся в папке `components` внутри папки `src`, в папках соответсвующих названию компонентов
+    - Для компонентов форм (_input, checkbox, button, и т.д._) используется [HeadlessUI](https://headlessui.com/)
+    - Для валидации компонентов форм исполуется [Zod](https://zod.dev/)
+    - Для метаданных используется компонент `Head` из `next/head`
+8. __API__
+    - Для валидации API запросов используется [Zod](https://zod.dev/)

@@ -13,10 +13,13 @@
 # testing
 /coverage
 
+#dev
+/.idea/
+dev.db
+
 # next.js
 /.next/
 /out/
-
 # production
 /build
 
