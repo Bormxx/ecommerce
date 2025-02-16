@@ -6,7 +6,7 @@ import iconSearch16 from "../../images/Icons-search-16x16.svg";
 import LoginMenu from "../LoginMenu/LoginMenu";
 import { inter } from "@/app/fonts";
 
-export default function Header() {
+export default function HeaderComponent() {
   return (
     <>
       <header className="hidden justify-between gap-[30px] lg:flex">
@@ -47,7 +47,7 @@ export default function Header() {
         </div>
       </div>
       {/* Нижняя часть при маленьком экране */}
-      <div className="absolute bottom-0 flex w-[calc(100%-15px)] items-center justify-center pb-[10px] pr-[10px] lg:hidden">
+      <div className="fixed bottom-0 z-50 flex w-[calc(100%-30px)] items-center justify-center bg-white p-3 lg:hidden">
         <LoginMenu />
       </div>
     </>
