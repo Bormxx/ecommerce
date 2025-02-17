@@ -7,7 +7,7 @@ import FormFooter from "../FormsComponents/FormFooter";
 
 export default function RegistrForm() {
   return (
-    <div className="flex flex-col w-[380px] p-6 gap-10 shadow-lg rounded-xl">
+    <div className="flex flex-col max-w-[380px] p-6 gap-10 shadow-lg rounded-xl">
       <div className="flex flex-col gap-6">
         <FormHeader text={"Регистрация"} />
         <form action="" className="flex flex-col gap-6">

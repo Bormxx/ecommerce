@@ -10,7 +10,7 @@ const a = () => {console.log(5)} // Тестовая функция
 
 export default function AuthForm() {
   return (
-    <div className="flex flex-col w-[380px] p-6 gap-10 shadow-lg rounded-xl">
+    <div className="flex flex-col max-w-[380px] p-6 gap-10 shadow-lg rounded-xl">
       <div className="flex flex-col gap-6">
         <FormHeader text={"Вход в аккаунт"} />
         <form action={a} className="flex flex-col gap-6">
