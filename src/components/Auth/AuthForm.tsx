@@ -6,14 +6,22 @@ import FormButton from "../FormsComponents/FormButton";
 import AlterAuth from "../FormsComponents/AlterAuth";
 import FormFooter from "../FormsComponents/FormFooter";
 
-const a = () => {console.log(5)} // Тестовая функция
+const getFormData = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  const form = e.target as HTMLFormElement;
+  const formData = new FormData(form);
+  const val = Object.fromEntries(formData) as { login: string, password: string};
+  console.log(val);
+  form.reset();
+}
 
 export default function AuthForm() {
   return (
-    <div className="flex flex-col max-w-[380px] p-6 gap-10 shadow-lg rounded-xl">
+    <div className="flex flex-col min-w-[380px] p-6 gap-10 shadow-lg rounded-xl bg-white">
       <div className="flex flex-col gap-6">
         <FormHeader text={"Вход в аккаунт"} />
-        <form action={a} className="flex flex-col gap-6">
+        <form onSubmit={getFormData} className="flex flex-col gap-6">
           <Fieldset className="flex flex-col gap-4">
             <FormField name={"login"} type={"text"} text={"Ваш email"} placeholder={"ivanov@yandex.ru"} />
             <FormField name={"password"} type={"password"} text={"Пароль"} placeholder={"*******"}>
@@ -24,7 +32,7 @@ export default function AuthForm() {
         </form>
         <AlterAuth text={"Войти с помощью"} />
       </div>
-      <FormFooter text={"У вас ещё нет аккаунта?"} link={""} />
+      <FormFooter headerText={"У вас ещё нет аккаунта?"} link={"/registration"} footerText={"Зарегистрироваться"} />
     </div>
   );
 }
