@@ -1,12 +1,12 @@
-import iconLogin from "../../images/Icon-login.svg";
-import iconFavorite from "../../images/icon-favorite.svg";
-import iconTrash from "../../images/icon-trash.svg";
-import iconProducts from "../../images/icon-products.svg";
-import iconHome from "../../images/icon-home.svg";
-// import { inter } from "@/app/fonts";
-
 import IconLink from "../IconLink/IconLink";
 import { inter } from "@/app/fonts";
+import {
+  HeartIcon,
+  HomeIcon,
+  QueueListIcon,
+  ShoppingBagIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 
 export default function LoginMenu() {
   const userName = "Kristina";
@@ -17,9 +17,8 @@ export default function LoginMenu() {
         {!userName ? (
           <>
             <IconLink
-              link="/"
-              icon={iconLogin}
-              icon_alt="login"
+              link="/login"
+              icon={<UserIcon />}
               text="Войти"
               lg_hidden=""
             />
@@ -33,37 +32,32 @@ export default function LoginMenu() {
           <>
             <IconLink
               link="/"
-              icon={iconHome}
-              icon_alt="main"
+              icon={<HomeIcon />}
               text="Главная"
               lg_hidden="lg:hidden"
             />
             <IconLink
               link="/"
-              icon={iconProducts}
-              icon_alt="products"
+              icon={<QueueListIcon />}
               text="Товары"
               lg_hidden="lg:hidden"
             />
 
             <IconLink
               link="/"
-              icon={iconLogin}
-              icon_alt="login"
+              icon={<UserIcon />}
               text="Профиль"
               lg_hidden=""
             />
             <IconLink
               link="/"
-              icon={iconFavorite}
-              icon_alt="Favorite"
+              icon={<HeartIcon />}
               text="Избранное"
               lg_hidden=""
             />
             <IconLink
-              link="/"
-              icon={iconTrash}
-              icon_alt="Trash"
+              link="/cart"
+              icon={<ShoppingBagIcon />}
               text="Корзина"
               lg_hidden=""
             />

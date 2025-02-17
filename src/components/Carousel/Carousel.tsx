@@ -32,6 +32,7 @@ export default function Carousel() {
     return () => {
       if (slideIntervalRef.current) clearInterval(slideIntervalRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const scrollToSlide = (index: number) => {
