@@ -1,22 +1,10 @@
-import { Roboto, Inter } from "next/font/google";
-import { Label, Input, Fieldset, Field, Button } from "@headlessui/react";
-import Image from "next/image";
-import Link from "next/link";
-
-const roboto = Roboto({
-  weight: "700",
-  subsets: ["cyrillic"],
-});
-
-const inter = Inter ({
-  weight: "400",
-  subsets: ["cyrillic"],
-});
-
-const interWeight = Inter ({
-  weight: "700",
-  subsets: ["cyrillic"],
-});
+import { Fieldset } from "@headlessui/react";
+import { inter } from "@/app/fonts";
+import FormHeader from "../FormsComponents/FormHeader";
+import FormField from "../FormsComponents/FormField";
+import FormButton from "../FormsComponents/FormButton";
+import AlterAuth from "../FormsComponents/AlterAuth";
+import FormFooter from "../FormsComponents/FormFooter";
 
 const a = () => {console.log(5)} // Тестовая функция
 
@@ -24,55 +12,19 @@ export default function AuthForm() {
   return (
     <div className="flex flex-col w-[380px] p-6 gap-10 shadow-lg rounded-xl">
       <div className="flex flex-col gap-6">
-        <h2 className={`${roboto.className} text-2xl`}>Вход в аккаунт</h2>
+        <FormHeader text={"Вход в аккаунт"} />
         <form action={a} className="flex flex-col gap-6">
           <Fieldset className="flex flex-col gap-4">
-            <Field className="flex flex-col gap-[2px]">
-              <Label className={`${inter.className} text-sm text-gray-500`}>Ваш email или логин</Label>
-              <Input 
-                name="login"
-                type="text"
-                className="rounded py-2 px-3 text-gray-400  border-gray-400"
-                placeholder="ivanov@yandex.ru"
-              />
-            </Field>
-            <Field className="flex flex-col gap-[2px]">
-              <Label className={`${inter.className} text-sm text-gray-500`}>Пароль</Label>
-              <Input 
-                name="password"
-                type="password"
-                className="rounded py-2 px-3 text-gray-400 border-gray-400"
-                placeholder="*******"
-              />
-              <p className={`${inter.className} text-base text-right text-gray-500`}>Забыли пароль?</p>
-            </Field>
+            <FormField name={"login"} type={"text"} text={"Ваш email"} placeholder={"ivanov@yandex.ru"} />
+            <FormField name={"password"} type={"password"} text={"Пароль"} placeholder={"*******"}>
+              <p className={`${inter.className} font-normal text-base text-right text-gray-500`}>Забыли пароль?</p>
+            </FormField>
           </Fieldset>
-          <Button
-            type="submit"
-            className={`${interWeight.className} py-3 px-4 rounded-md bg-blue-800 hover:bg-blue-600 text-base text-center text-white`}
-          >
-            Войти
-          </Button>
+          <FormButton text={"Войти"} />
         </form>
-        <div className="flex flex-col gap-2 items-center">
-          <p className={`${inter.className} text-base text-gray-500`}>Войти с помощью</p>
-          <Image 
-            src={"/icons/vkLogo.svg"}
-            alt={"VK"}
-            width={32}
-            height={32}
-          />
-        </div>
+        <AlterAuth text={"Войти с помощью"} />
       </div>
-      <div className="gap-[2px]">
-        <p className={`${inter.className} text-sm text-gray-500`}>У вас ещё нет аккаунта?</p>
-        <Link
-          href={""}
-          className={`${interWeight.className} text-sm text-blue-600`}
-        >
-          Зарегистрироваться
-        </Link>
-      </div>
+      <FormFooter text={"У вас ещё нет аккаунта?"} link={""} />
     </div>
   );
 }

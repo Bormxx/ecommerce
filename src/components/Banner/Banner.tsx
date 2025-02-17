@@ -12,7 +12,7 @@ export default function Banner() {
           Заголовок баннера
         </h1>
         <h2
-          className={`${inter.className} font-notmal text-[14px] sm:text-[16px]`}
+          className={`${inter.className} font-normal text-[14px] sm:text-[16px]`}
         >
           Подзаголовок
         </h2>
