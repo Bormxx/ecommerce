@@ -1,10 +1,10 @@
 import Home from "@/components/Home/Home";
-import Main from "@/components/Main/Main";
+import MainSection from "@/components/MainSection/MainSection";
 
 export default function HomeContainer() {
   return (
     <Home>
-      <Main />
+      <MainSection />
     </Home>
   );
 }

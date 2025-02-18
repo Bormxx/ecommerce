@@ -3,6 +3,7 @@ import Link from "next/link";
 import image from "../../images/Product.jpg";
 import { inter, roboto } from "@/app/fonts";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 
 type CardInBasketProps = {
   price: number;
@@ -12,6 +13,8 @@ type CardInBasketProps = {
   quantity: number;
   minusQuantity: (id: string) => void;
   plusQuantity: (id: string) => void;
+  like: boolean;
+  clickLike: (id: string) => void;
 };
 
 export default function CardInBasket({
@@ -22,8 +25,12 @@ export default function CardInBasket({
   quantity,
   minusQuantity,
   plusQuantity,
+  like,
+  clickLike,
 }: CardInBasketProps) {
-  const formattedPrice = new Intl.NumberFormat("ru-RU").format(price);
+  const formattedPrice = new Intl.NumberFormat("ru-RU").format(
+    price * quantity,
+  );
   function clickMinusQuantity() {
     minusQuantity(id);
   }
@@ -80,8 +87,13 @@ export default function CardInBasket({
             <button
               type="button"
               className="flex justify-center p-2 text-blue-800"
+              onClick={() => clickLike(id)}
             >
-              <HeartIcon className="h-4 w-4" />
+              {like ? (
+                <HeartIconSolid className="h-4 w-4" />
+              ) : (
+                <HeartIcon className="h-4 w-4" />
+              )}
             </button>
           </div>
         </div>
