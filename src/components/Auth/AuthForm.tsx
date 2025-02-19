@@ -15,6 +15,7 @@ export default function AuthForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
     
   } = useForm<TAuthForm>({ resolver: zodResolver(authFormSchema), mode: "onChange" });
@@ -23,7 +24,12 @@ export default function AuthForm() {
     <div className="flex flex-col min-w-[380px] p-6 gap-10 shadow-lg rounded-xl bg-white">
       <div className="flex flex-col gap-6">
         <FormHeader text={"Вход в аккаунт"} />
-        <form onSubmit={handleSubmit((data) => {console.log(data)})} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit((data) => {
+            reset();
+            console.log(data);
+          })} 
+          className="flex flex-col gap-6"
+        >
           <Fieldset className="flex flex-col gap-4">
             <FormField text={"Ваш email"}>
               <Input 
