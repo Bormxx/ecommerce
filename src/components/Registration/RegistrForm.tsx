@@ -4,7 +4,7 @@ import FormField from "../FormsComponents/FormField";
 import FormButton from "../FormsComponents/FormButton";
 import AlterAuth from "../FormsComponents/AlterAuth";
 import FormFooter from "../FormsComponents/FormFooter";
-import { registrFormSchema, TRegistrForm } from "../../../types";
+import { formDataSchema, registrFormSchema, TRegistrForm } from "../../../types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/utils/cn";
@@ -16,14 +16,13 @@ export default function RegistrForm() {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    
   } = useForm<TRegistrForm>({ resolver: zodResolver(registrFormSchema), mode: "onChange" });
 
   return (
     <div className="flex flex-col min-w-[380px] p-6 gap-10 shadow-lg rounded-xl bg-white">
       <div className="flex flex-col gap-6">
         <FormHeader text={"Регистрация"} />
-        <form onSubmit={handleSubmit((data) => console.log(data))} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit((data) => console.log(formDataSchema.parse(data)))} className="flex flex-col gap-6">
           <Fieldset className="flex flex-col gap-4">
             <FormField text={"Имя"}>
               <Input 

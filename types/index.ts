@@ -22,6 +22,15 @@ export const registrFormSchema = z.object({
 
 export type TRegistrForm = z.infer<typeof registrFormSchema>
 
+export const formDataSchema = z.object({
+  name: z.string().min(2, 'Введите имя'),
+  surname: z.string().min(2, 'Введите фамилию'),
+  email: z.string().min(1, 'Введите email').email(),
+  password: z.string().min(6, 'Введите пароль'),
+})
+
+export type TFormData = z.infer<typeof formDataSchema>
+
 export interface Items {
   id: number;
   title: string;
