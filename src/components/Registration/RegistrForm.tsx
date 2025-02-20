@@ -4,13 +4,23 @@ import FormField from "../FormsComponents/FormField";
 import FormButton from "../FormsComponents/FormButton";
 import AlterAuth from "../FormsComponents/AlterAuth";
 import FormFooter from "../FormsComponents/FormFooter";
-import { formDataSchema, registrFormSchema, TRegistrForm } from "../../../types";
+import { formDataSchema, registrFormSchema, TRegistrForm, TFormData } from "../../../types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/utils/cn";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
+import { useEffect } from "react";
 
-  
+export async function signUp(form: TFormData ) {
+  fetch(`/api/users`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(form), 
+  });
+}
+
 export default function RegistrForm() {
   const {
     register,
@@ -19,13 +29,17 @@ export default function RegistrForm() {
     formState: { errors, isValid },
   } = useForm<TRegistrForm>({ resolver: zodResolver(registrFormSchema), mode: "onChange" });
 
+  useEffect(() => {
+    fetch('/api/users')
+  }, [])
+
   return (
     <div className="flex flex-col min-w-[380px] p-6 gap-10 shadow-lg rounded-xl bg-white">
       <div className="flex flex-col gap-6">
         <FormHeader text={"Регистрация"} />
         <form onSubmit={handleSubmit((data) => { 
+              signUp(formDataSchema.parse(data));
               reset();
-              console.log(formDataSchema.parse(data));
             })} 
             className="flex flex-col gap-6"
         >
