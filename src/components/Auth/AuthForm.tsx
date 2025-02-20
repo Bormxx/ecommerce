@@ -10,6 +10,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { authFormSchema, TAuthForm } from "../../../types";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
 import { cn } from "@/utils/cn";
+import { useEffect } from "react";
+
+export async function signIn(form: TAuthForm ) {
+  fetch(`/api/auth`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(form), 
+  });
+}
 
 export default function AuthForm() {
   const {
@@ -20,13 +31,18 @@ export default function AuthForm() {
     
   } = useForm<TAuthForm>({ resolver: zodResolver(authFormSchema), mode: "onChange" });
 
+  useEffect(() => {
+    fetch('/api/users')
+  }, [])
+
   return (
     <div className="flex flex-col min-w-[380px] p-6 gap-10 shadow-lg rounded-xl bg-white">
       <div className="flex flex-col gap-6">
         <FormHeader text={"Вход в аккаунт"} />
-        <form onSubmit={handleSubmit((data) => {
+        <form onSubmit={
+          handleSubmit((data) => {
+            signIn(data);
             reset();
-            console.log(data);
           })} 
           className="flex flex-col gap-6"
         >

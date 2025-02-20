@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../db/index";
 import { users } from "../../db/schema/schema";
 import { eq } from "drizzle-orm";
-import { hash } from 'bcrypt'
+import { hash } from 'bcrypt';
 
 export default async function usersTable(
   req: NextApiRequest,
