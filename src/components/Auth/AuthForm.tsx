@@ -10,25 +10,44 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { authFormSchema, TAuthForm } from "../../../types";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
 import { cn } from "@/utils/cn";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import MyModal from "../Dialog/Dialog";
 
 export async function signIn(form: TAuthForm ) {
-  fetch(`/api/auth`, {
+  const response = await fetch(`/api/auth`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(form), 
   });
+  const data = await response.json();
+  if (!data.ok) {
+    throw new Error(data.error)
+  }
+  return data;
 }
 
 export default function AuthForm() {
+  const [reqStatus, setReqStatus] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const mutation = useMutation({
+    mutationFn: ( form: TAuthForm ) => signIn(form),
+    onSuccess: () => {},
+    onError: (err) => {
+      setReqStatus(!reqStatus);
+      setErrorMessage(err.message);
+      console.log(err.message);
+    }
+  });
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
-    
+    formState: { errors, isValid },   
   } = useForm<TAuthForm>({ resolver: zodResolver(authFormSchema), mode: "onChange" });
 
   useEffect(() => {
@@ -36,42 +55,45 @@ export default function AuthForm() {
   }, [])
 
   return (
-    <div className="flex flex-col min-w-[380px] p-6 gap-10 shadow-lg rounded-xl bg-white">
-      <div className="flex flex-col gap-6">
-        <FormHeader text={"Вход в аккаунт"} />
-        <form onSubmit={
-          handleSubmit((data) => {
-            signIn(data);
-            reset();
-          })} 
-          className="flex flex-col gap-6"
-        >
-          <Fieldset className="flex flex-col gap-4">
-            <FormField text={"Ваш email"}>
-              <Input 
-                {...register("email")}
-                type={"text"}
-                className={cn(`${ errors.email ? "border-red-500" : "border-gray-400" } rounded py-2 px-3`)}
-                placeholder={"ivanov@yandex.ru"}
-              />
-              { errors.email && <ErrorMessage text={"Некорректный email"}/> }
-            </FormField>
-            <FormField text={"Пароль"}>
-              <Input 
-                {...register("password")}
-                type={"password"}
-                className={cn(`${ errors.password ? "border-red-500" : "border-gray-400" } rounded py-2 px-3`)}
-                placeholder={"*******"}
-              />
-              { errors.password && <ErrorMessage text={"Пароль не может быть меньше 6 символов"}/> }
-              <p className={`${inter.className} font-normal text-base text-right text-gray-500`}>Забыли пароль?</p>
-            </FormField>
-          </Fieldset>
-          <FormButton text={"Войти"} isValid={isValid} />
-        </form>
-        <AlterAuth text={"Войти с помощью"} />
+    <>
+      <div className="flex flex-col min-w-[380px] p-6 gap-10 shadow-lg rounded-xl bg-white">
+        <div className="flex flex-col gap-6">
+          <FormHeader>Вход в аккаунт</FormHeader>
+          <form onSubmit={
+            handleSubmit((data) => {
+              mutation.mutate(data);
+              reset();
+            })} 
+            className="flex flex-col gap-6"
+          >
+            <Fieldset className="flex flex-col gap-4">
+              <FormField text={"Ваш email"}>
+                <Input 
+                  {...register("email")}
+                  type={"text"}
+                  className={cn(`${ errors.email ? "border-red-500" : "border-gray-400" } rounded py-2 px-3`)}
+                  placeholder={"ivanov@yandex.ru"}
+                />
+                { errors.email && <ErrorMessage text={"Некорректный email"}/> }
+              </FormField>
+              <FormField text={"Пароль"}>
+                <Input 
+                  {...register("password")}
+                  type={"password"}
+                  className={cn(`${ errors.password ? "border-red-500" : "border-gray-400" } rounded py-2 px-3`)}
+                  placeholder={"*******"}
+                />
+                { errors.password && <ErrorMessage text={"Пароль не может быть меньше 6 символов"}/> }
+                <p className={`${inter.className} font-normal text-base text-right text-gray-500`}>Забыли пароль?</p>
+              </FormField>
+            </Fieldset>
+            <FormButton text={"Войти"} isValid={isValid} />
+          </form>
+          <AlterAuth text={"Войти с помощью"} />
+        </div>
+        <FormFooter headerText={"У вас ещё нет аккаунта?"} link={"/registration"} footerText={"Зарегистрироваться"} />
       </div>
-      <FormFooter headerText={"У вас ещё нет аккаунта?"} link={"/registration"} footerText={"Зарегистрироваться"} />
-    </div>
+      <MyModal isTrue={reqStatus} closeFn={setReqStatus} errorMessage={errorMessage}/>
+    </>
   );
 }

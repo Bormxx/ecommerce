@@ -9,8 +9,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/utils/cn";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import MyModal from "../Dialog/Dialog";
 
 export async function signUp(form: TFormData ) {
   const response = await fetch(`/api/users`, {
@@ -28,10 +29,17 @@ export async function signUp(form: TFormData ) {
 }
 
 export default function RegistrForm() {
+  const [reqStatus, setReqStatus] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const mutation = useMutation({
     mutationFn: ( form: TFormData ) => signUp(form),
     onSuccess: () => {},
-    onError: (err) => console.log(err.message)
+    onError: (err) => {
+      setReqStatus(!reqStatus);
+      setErrorMessage(err.message);
+      console.log(err.message);
+    }
   });
 
   const {
@@ -46,9 +54,10 @@ export default function RegistrForm() {
   }, [])
 
   return (
+    <>
     <div className="flex flex-col min-w-[380px] p-6 gap-10 shadow-lg rounded-xl bg-white">
       <div className="flex flex-col gap-6">
-        <FormHeader text={"Регистрация"} />
+        <FormHeader>Регистрация</FormHeader>
         <form onSubmit={handleSubmit((data) => { 
               mutation.mutate(formDataSchema.parse(data));
               reset();
@@ -108,5 +117,7 @@ export default function RegistrForm() {
       </div>
       <FormFooter headerText={"Уже зарегистрированы?"} link={"/auth"} footerText={"Войти в аккаунт"} />
     </div>
+    <MyModal isTrue={reqStatus} closeFn={setReqStatus} errorMessage={errorMessage}/>
+    </>
   );
 }

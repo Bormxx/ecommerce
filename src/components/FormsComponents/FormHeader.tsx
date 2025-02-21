@@ -1,9 +1,9 @@
 import { roboto } from "@/app/fonts"
 
-type FormHeaderProp = {
-  text: string
+type FormHeaderProps = {
+  children: string
 }
 
-export default function FormHeader( prop: FormHeaderProp ) {
-  return <h2 className={`${roboto.className} text-2xl`}>{prop.text}</h2>
+export default function FormHeader({ children }: FormHeaderProps) {
+  return <h2 className={`${roboto.className} text-2xl`}>{ children }</h2>
 }
