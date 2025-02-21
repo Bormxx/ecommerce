@@ -4,17 +4,24 @@ import { users } from "../../db/schema/schema";
 import { eq } from "drizzle-orm";
 import { compare } from 'bcrypt';
 import jwt from "jsonwebtoken";
+import { authFormSchema } from "../../../types";
 
 export default async function usersAuth(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { email, password } = req.body;
+    const inputs = authFormSchema.safeParse(req.body)
+    
+    if (!inputs.success) {
+      return res.status(400).json({ error: 'Некоректные данные'});
+    }
+
+    const { email, password } = inputs.data;
 
     try {
       const user = await db.query.users.findFirst({
-        where: eq(email, users.email)
+        where: eq(users.email, email)
       });
   
       if (!user) {

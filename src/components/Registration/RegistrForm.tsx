@@ -10,18 +10,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/utils/cn";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
 import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 export async function signUp(form: TFormData ) {
-  fetch(`/api/users`, {
+  const response = await fetch(`/api/users`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(form), 
   });
+  const data = await response.json();
+  if (!data.ok) {
+    throw new Error(data.error)
+  }
+  return data;
 }
 
 export default function RegistrForm() {
+  const mutation = useMutation({
+    mutationFn: ( form: TFormData ) => signUp(form),
+    onSuccess: () => {},
+    onError: (err) => console.log(err.message)
+  });
+
   const {
     register,
     handleSubmit,
@@ -38,7 +50,7 @@ export default function RegistrForm() {
       <div className="flex flex-col gap-6">
         <FormHeader text={"Регистрация"} />
         <form onSubmit={handleSubmit((data) => { 
-              signUp(formDataSchema.parse(data));
+              mutation.mutate(formDataSchema.parse(data));
               reset();
             })} 
             className="flex flex-col gap-6"
