@@ -1,22 +1,27 @@
 import { inter } from "@/app/fonts";
 import Link from "next/link";
-import Image from "next/image";
+import { ReactNode } from "react";
 
 interface IconLinkProps {
   link: string;
-  icon: string;
-  icon_alt: string;
+  icon: ReactNode;
   text: string;
   lg_hidden: string;
 }
 
-export default function IconLink({ link, icon, icon_alt, text, lg_hidden }: IconLinkProps) {
+export default function IconLink({
+  link,
+  icon,
+  text,
+  lg_hidden,
+}: IconLinkProps) {
   return (
     <Link href={link}>
       <div
         className={`flex h-full flex-col items-center justify-between ${lg_hidden}`}
       >
-        <Image src={icon} width={24} height={24} alt={icon_alt} />
+        <div className="h-4 w-4 md:h-6 md:w-6">{icon}</div>
+
         <span
           className={`${inter.className} text-[12px] font-normal leading-[16px] text-[#1F2937]`}
         >
@@ -26,4 +31,3 @@ export default function IconLink({ link, icon, icon_alt, text, lg_hidden }: Icon
     </Link>
   );
 }
-
