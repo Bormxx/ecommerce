@@ -1,4 +1,3 @@
-// MiniCard.tsx
 import Image, { StaticImageData } from "next/image";
 import { inter, roboto } from "@/app/fonts";
 import Link from "next/link";
@@ -18,7 +17,13 @@ const MiniCard = ({ title, price, img_url }: MiniCardProps) => {
   return (
     <div className="flex flex-col gap-2">
       <Link href="/" className="flex flex-col gap-2">
-        <Image src={img_url} alt="Product" width={172} height={172} />
+        <Image
+          src={img_url}
+          alt="Product"
+          width={172}
+          height={172}
+          className="w-40 md:w-[172px]"
+        />
         <h3 className={`${inter.className} text-[14px]`}>{title}</h3>
         <span
           className={`${roboto.className} text-xl font-bold text-[#10B981]`}

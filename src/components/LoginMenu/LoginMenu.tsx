@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function LoginMenu() {
-  const userName = "Kristina";
+  const userName = "";
 
   return (
     <>
