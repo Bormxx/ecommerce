@@ -14,6 +14,9 @@ export default {
         foreground: "var(--foreground)",
       },
     },
+    backgroundPosition: {
+      'custom-right': 'top 35% right 40%'
+    }
   },
   plugins: [Forms],
 } satisfies Config;

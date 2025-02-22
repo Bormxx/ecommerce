@@ -5,6 +5,7 @@ import { Items, Photos } from "../../types";
 interface ItemsList {
   request: Items[];
 }
+
 interface PhotosList {
   request: Photos[];
 }
