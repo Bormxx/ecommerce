@@ -13,6 +13,7 @@ import { cn } from "@/utils/cn";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
+import { type TUser, useUserStore } from "@/store/auth"; 
 
 export async function signIn(form: TAuthForm ) {
   const response = await fetch(`/api/auth`, {
@@ -23,7 +24,7 @@ export async function signIn(form: TAuthForm ) {
     body: JSON.stringify(form), 
   });
   const data = await response.json();
-  if (!data.ok) {
+  if (!response.ok) {
     throw new Error(data.error)
   }
   return data;
@@ -32,14 +33,18 @@ export async function signIn(form: TAuthForm ) {
 export default function AuthForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { userData, setIsAuthenticated, setUserData, isAuthenticated } = useUserStore();
 
   const mutation = useMutation({
     mutationFn: ( form: TAuthForm ) => signIn(form),
-    onSuccess: () => {},
+    onSuccess: (data: TUser) => {
+      setUserData(data);
+      setIsAuthenticated(true);
+      console.log(isAuthenticated, userData);
+    },
     onError: (err) => {
       setReqStatus(!reqStatus);
       setErrorMessage(err.message);
-      console.log(err.message);
     }
   });
 
