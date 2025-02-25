@@ -37,23 +37,25 @@ export default async function usersTable(
       await db.insert(users)
         .values({ ...data, password: await hash(password, 10) });
 
-      const newUser = await db.query.users.findFirst({
+      const addedUser = await db.query.users.findFirst({
         where: eq(users.email, data.email),
         columns: {
           password: false,
         }
       });
-      
-      if (!newUser) {
+
+      if (!addedUser) {
         throw new Error();
       }
 
-      const { id, ...response } = newUser;
-
-      const token = jwt.sign({ id: id }, 'omega-security-protection', { expiresIn: 120 });
+      const { id, ...userData } = addedUser;
       
-      res.setHeader('Set-Cookie', `authorization=Bearer ${token}; HttpOnly; Max-Age=20;`);
-      res.status(201).json(response);
+      const token = jwt.sign({id: id}, 'omega-security-protection', { expiresIn: 120 });
+      
+      res.setHeader('Set-Cookie', `authorization=Bearer ${token}; HttpOnly; Max-Age=180;`)
+      
+      res.status(201).json(userData);
+      
     } catch {
       res.status(500).json({ error: 'Ошибка добавления пользователя' });
     }

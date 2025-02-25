@@ -15,7 +15,7 @@ export default {
       },
     },
     backgroundPosition: {
-      'custom-right': 'top 35% right 40%'
+      'custom-right': 'right 40%'
     }
   },
   plugins: [Forms],

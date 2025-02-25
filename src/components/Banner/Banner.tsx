@@ -4,15 +4,13 @@ import { inter, roboto } from "@/app/fonts";
 
 export default function Banner() {
   return (
-    <div className="min-h-[120px] px-5 mt-[12px] flex rounded-[8px] bg-[linear-gradient(105.02deg,_#2563EB_38.18%,_#FFFFFF_118.65%)] py-2 sm:mt-[30px] sm:justify-evenly sm:p-[16px]">
+    <div className="mt-[12px] flex min-h-[120px] rounded-[8px] bg-[linear-gradient(105.02deg,_#2563EB_38.18%,_#FFFFFF_118.65%)] px-5 py-2 sm:mt-[30px] sm:justify-evenly sm:p-[16px]">
       <div className="text-[white]">
-        <h1
-          className={`${roboto.className} text-[20px] font-bold sm:text-[30px]`}
-        >
+        <h1 className={`${roboto.className} text-xl font-bold md:text-3xl`}>
           Заголовок баннера
         </h1>
         <h2
-          className={`${inter.className} font-normal text-[14px] sm:text-[16px]`}
+          className={`${inter.className} font-notmal text-sm md:text-base`}
         >
           Подзаголовок
         </h2>

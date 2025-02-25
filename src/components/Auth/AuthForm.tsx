@@ -13,7 +13,8 @@ import { cn } from "@/utils/cn";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
-import { type TUser, useUserStore } from "@/store/auth"; 
+import { useUserStore } from "@/store/auth";
+import { useRouter } from "next/router";
 
 export async function signIn(form: TAuthForm ) {
   const response = await fetch(`/api/auth`, {
@@ -33,14 +34,15 @@ export async function signIn(form: TAuthForm ) {
 export default function AuthForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { userData, setIsAuthenticated, setUserData, isAuthenticated } = useUserStore();
+  const { setIsAuthenticated, setUserData } = useUserStore();
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: ( form: TAuthForm ) => signIn(form),
-    onSuccess: (data: TUser) => {
-      setUserData(data);
+    onSuccess: (data) => {
       setIsAuthenticated(true);
-      console.log(isAuthenticated, userData);
+      setUserData(data);
+      router.replace('/');
     },
     onError: (err) => {
       setReqStatus(!reqStatus);

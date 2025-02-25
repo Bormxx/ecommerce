@@ -1,28 +1,40 @@
-import { create } from "zustand"
+import { create } from 'zustand';
 
-export type TUser = {
-  name: string,
-  surname: string,
-  email: string,
-  avatar: string,
+type TUser = {
+  name: string;
+  surname: string;
+  email: string;
+  avatar: string;
 }
 
 type TUserStore = {
-  isAuthenticated: boolean,
-  userData: TUser,
-  setIsAuthenticated: (isTrue: boolean) => void,
-  setUserData: (data: TUser) => void,
+  isAuthenticated: boolean;
+  name: string;
+  surname: string;
+  email: string;
+  avatar: string;
+  setIsAuthenticated: (isTrue: boolean) => void;
+  setUserData: (data: TUser) => void;
+  removeUserData: () => void;
 };
 
 export const useUserStore = create<TUserStore>(set => ({
-    isAuthenticated: false,
-    userData: {
+      isAuthenticated: false,
       name: '',
       surname: '',
       email: '',
       avatar: '',
-    },
-    setIsAuthenticated: isAuthenticated => set({isAuthenticated}),
-    setUserData: userData => set({userData}),
-  }),
-);
+      setIsAuthenticated: isTrue => set({ isAuthenticated: isTrue }),
+      setUserData: data => set({
+        name: data.name,
+        surname: data.surname,
+        email: data.email, 
+        avatar: data.avatar,
+      }),
+      removeUserData: () => set({
+        name: '',
+        surname: '',
+        email: '', 
+        avatar: '',
+      })
+}));

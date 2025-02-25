@@ -1,19 +1,13 @@
 import MainBackground from "@/components/FormsComponents/MainBackground";
+import Home from "@/components/Home/Home";
 import RegistrForm from "@/components/Registration/RegistrForm";
-import { ShoppingBagIcon } from "@heroicons/react/20/solid";
-import Link from "next/link";
 
-export default function Home() {
+export default function RegistrationPage() {
   return (
-    <div className="h-screen flex flex-col">
-      <div className="flex">
-        <ShoppingBagIcon className="size-16 text-blue-400"/>
-        <Link href={"/auth"} className="size-16 bg-slate-500">Auth</Link>
-        <Link href={"/registration"} className="size-16 bg-slate-500">Reg</Link>
-      </div>
+    <Home>
       <MainBackground>
         <RegistrForm />
       </MainBackground>
-    </div>
+    </Home>
   );
 }

@@ -5,8 +5,12 @@ import iconSearch16 from "../../images/Icons-search-16x16.svg";
 
 import LoginMenu from "../LoginMenu/LoginMenu";
 import { inter } from "@/app/fonts";
+import { useRouter } from "next/router";
 
-export default function Header() {
+export default function HeaderComponent() {
+  const router = useRouter();
+
+  const hiddenInCart = router.pathname === "/cart" ? "hidden" : "";
   return (
     <>
       <header className="hidden justify-between gap-[30px] lg:flex">
@@ -36,7 +40,9 @@ export default function Header() {
       </header>
 
       {/* Верхняя часть при маленьком экране */}
-      <div className="relative flex h-[36px] w-full lg:hidden">
+      <div
+        className={`relative ${hiddenInCart} flex h-[36px] w-full lg:hidden`}
+      >
         <input
           type="text"
           placeholder="Искать"
@@ -47,7 +53,7 @@ export default function Header() {
         </div>
       </div>
       {/* Нижняя часть при маленьком экране */}
-      <div className="absolute bottom-0 flex w-[calc(100%-15px)] items-center justify-center pb-[10px] pr-[10px] lg:hidden">
+      <div className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-center bg-white p-4 lg:hidden">
         <LoginMenu />
       </div>
     </>

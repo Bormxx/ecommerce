@@ -11,6 +11,7 @@ export default async function usersAuth(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  req.cookies.authorization
   if (req.method === "POST") {
     const inputs = authFormSchema.safeParse(req.body)
     
@@ -37,8 +38,10 @@ export default async function usersAuth(
 
       const token = jwt.sign({ id: user.id }, 'omega-security-protection', { expiresIn: 120 });
 
-      res.setHeader('Set-Cookie', `authorization=Bearer ${token}; HttpOnly; Max-Age=20;`);
-      res.status(200).json({ name: user.name, surname: user.surname, avatar: user.avatar, email: user.email });
+      res.setHeader('Set-Cookie', `authorization=Bearer ${token}; HttpOnly; Max-Age=180;`)
+      
+      res.status(200).json({name: user.name, surname: user.surname, avatar: user.avatar, email: user.email});
+      
     } catch {
       res.status(500).json({ error: 'Ошибка авторизации'});
     }
