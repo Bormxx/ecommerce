@@ -12,6 +12,8 @@ import ErrorMessage from "../FormsComponents/ErrorMessage";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
+import { useUserStore } from "@/store/auth";
+import { useRouter } from "next/router";
 
 export async function signUp(form: TFormData ) {
   const response = await fetch(`/api/users`, {
@@ -22,7 +24,7 @@ export async function signUp(form: TFormData ) {
     body: JSON.stringify(form), 
   });
   const data = await response.json();
-  if (!data.ok) {
+  if (!response.ok) {
     throw new Error(data.error)
   }
   return data;
@@ -31,10 +33,16 @@ export async function signUp(form: TFormData ) {
 export default function RegistrForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { setIsAuthenticated, setUserData } = useUserStore();
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: ( form: TFormData ) => signUp(form),
-    onSuccess: () => {},
+    onSuccess: (data) => {
+      setIsAuthenticated(true);
+      setUserData(data);
+      router.replace('/');
+    },
     onError: (err) => {
       setReqStatus(!reqStatus);
       setErrorMessage(err.message);

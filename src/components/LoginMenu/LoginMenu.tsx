@@ -17,7 +17,7 @@ export default function LoginMenu() {
         {!userName ? (
           <>
             <IconLink
-              link="/login"
+              link="/auth"
               icon={<UserIcon />}
               text="Войти"
               lg_hidden=""

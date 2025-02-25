@@ -7,7 +7,7 @@ type HomeProps = {
 
 export default function Home(props: HomeProps) {
   return (
-    <div className="mx-auto max-w-[1180px] p-4">
+    <div className="mx-auto max-w-[1180px] p-4 min-h-screen flex flex-col">
       <HeaderComponent />
       {props.children}
     </div>
