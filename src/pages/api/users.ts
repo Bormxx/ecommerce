@@ -4,6 +4,7 @@ import { users } from "../../db/schema/schema";
 import { eq } from "drizzle-orm";
 import { hash } from 'bcrypt';
 import { formDataSchema } from "../../../types";
+import jwt from "jsonwebtoken";
 
 export default async function usersTable(
   req: NextApiRequest,
@@ -33,15 +34,28 @@ export default async function usersTable(
         return res.status(400).json({ error: 'Пользователь с таким email уже существует'});
       }
   
-      const result = await db.insert(users)
-        .values({ ...data, password: await hash(password, 10) })
-        .returning({ 
-          id: users.id, 
-          name: users.name,
-          surname: users.surname, 
-          email: users.email
-        });
-      res.status(201).json(result);
+      await db.insert(users)
+        .values({ ...data, password: await hash(password, 10) });
+
+      const addedUser = await db.query.users.findFirst({
+        where: eq(users.email, data.email),
+        columns: {
+          password: false,
+        }
+      });
+
+      if (!addedUser) {
+        throw new Error();
+      }
+
+      const { id, ...userData } = addedUser;
+      
+      const token = jwt.sign({id: id}, 'omega-security-protection', { expiresIn: 120 });
+      
+      res.setHeader('Set-Cookie', `authorization=Bearer ${token}; HttpOnly; Max-Age=180;`)
+      
+      res.status(201).json(userData);
+      
     } catch {
       res.status(500).json({ error: 'Ошибка добавления пользователя' });
     }

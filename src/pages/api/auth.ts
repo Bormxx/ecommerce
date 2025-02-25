@@ -6,10 +6,12 @@ import { compare } from 'bcrypt';
 import jwt from "jsonwebtoken";
 import { authFormSchema } from "../../../types";
 
+
 export default async function usersAuth(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  req.cookies.authorization
   if (req.method === "POST") {
     const inputs = authFormSchema.safeParse(req.body)
     
@@ -21,7 +23,7 @@ export default async function usersAuth(
 
     try {
       const user = await db.query.users.findFirst({
-        where: eq(users.email, email)
+        where: eq(users.email, email),
       });
   
       if (!user) {
@@ -36,7 +38,10 @@ export default async function usersAuth(
 
       const token = jwt.sign({ id: user.id }, 'omega-security-protection', { expiresIn: 120 });
 
-      res.status(200).json({...user, token: token});
+      res.setHeader('Set-Cookie', `authorization=Bearer ${token}; HttpOnly; Max-Age=180;`)
+      
+      res.status(200).json({name: user.name, surname: user.surname, avatar: user.avatar, email: user.email});
+      
     } catch {
       res.status(500).json({ error: 'Ошибка авторизации'});
     }
