@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function LoginMenu() {
-  const userName = "";
+  const userName = true;
 
   return (
     <>
@@ -44,7 +44,7 @@ export default function LoginMenu() {
             />
 
             <IconLink
-              link="/"
+              link="/profile"
               icon={<UserIcon />}
               text="Профиль"
               lg_hidden=""
