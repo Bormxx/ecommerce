@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
 };
 module.exports = {
   images: {
-    domains: ["www.modi.ru", "encrypted-tbn0.gstatic.com", "ohapka63.ru"], // Добавьте домен, с которого вы хотите загружать изображения
+    domains: ["192.168.1.158"],
   },
 };
 

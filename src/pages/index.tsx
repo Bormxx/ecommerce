@@ -23,9 +23,9 @@ export default function HomeContainer({ items, photos }: TypeRequest) {
   );
 }
 export async function getStaticProps() {
-  const itemsRes = await fetch("http://192.168.1.158:3000/api/items");
+  const itemsRes = await fetch("http://localhost:3000/api/items");
   const items = await itemsRes.json();
-  const photosRes = await fetch("http://192.168.1.158:3000/api/photos");
+  const photosRes = await fetch("http://localhost:3000/api/photos");
   const photos = await photosRes.json();
   console.log("Fetched items:", items);
   console.log("Fetched items:", photos);

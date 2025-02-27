@@ -32,7 +32,6 @@ export default function Carousel() {
     return () => {
       if (slideIntervalRef.current) clearInterval(slideIntervalRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const scrollToSlide = (index: number) => {
@@ -43,7 +42,12 @@ export default function Carousel() {
     if (sliderRef.current) {
       const slideWidth =
         sliderRef.current.children[0].getBoundingClientRect().width;
-      sliderRef.current.scrollLeft = currentIndex * slideWidth;
+
+      // Сдвиг карусели по индексу
+      sliderRef.current.scrollTo({
+        left: currentIndex * slideWidth,
+        behavior: "smooth", // Для плавного сдвига
+      });
     }
   }, [currentIndex]);
 

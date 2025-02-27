@@ -20,7 +20,6 @@ export default function MiniBannerSection({ items, photos }: TypeRequest) {
       </div>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:flex">
         {items.request.map((item) => {
-          // Для каждого товара, проверяем, есть ли фото, и возвращаем JSX
           return photos.request.map((photo) => {
             if (item.id === photo.itemId) {
               return (
@@ -35,7 +34,7 @@ export default function MiniBannerSection({ items, photos }: TypeRequest) {
                   </p>
                   <Image
                     src={photo.photoLink}
-                    className="h-32 w-32 rounded-md bg-white object-cover"
+                    className="h-[80%] w-full rounded-md bg-white object-cover"
                     alt="продукт"
                     width={128}
                     height={128}

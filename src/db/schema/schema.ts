@@ -45,12 +45,7 @@ export const items = sqliteTable("items", {
   description: text("description").notNull(),
   availability: integer("availability", { mode: "boolean" }).notNull(),
 });
-// const im = {
-//   "title": "Какой-то товар",
-//   "price": "150",
-//   "description": "Вот такой вот товар",
-//   "availability": false,
-// };
+
 
 export const photos = sqliteTable("photos", {
   id: integer("photoId").primaryKey(),
