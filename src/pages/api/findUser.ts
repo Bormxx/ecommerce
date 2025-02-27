@@ -10,7 +10,7 @@ export default async function findUser (
 ) {
   const token = req.cookies.authorization;
   
-  const id = checkTokenValidity(token ?? undefined);
+  const id = checkTokenValidity(token);
 
   try {
 
