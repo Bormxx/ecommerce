@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type TUser = {
   name: string;
@@ -18,7 +19,9 @@ type TUserStore = {
   removeUserData: () => void;
 };
 
-export const useUserStore = create<TUserStore>(set => ({
+export const useUserStore = create<TUserStore>() (
+  persist(
+    set => ({
       isAuthenticated: false,
       name: '',
       surname: '',
@@ -37,4 +40,9 @@ export const useUserStore = create<TUserStore>(set => ({
         email: '', 
         avatar: '',
       })
-}));
+    }),
+    {
+      name: 'user-auth',
+    }
+  )
+);
