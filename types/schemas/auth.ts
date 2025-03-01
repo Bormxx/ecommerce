@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const authFormSchema = z.object({
   email: z.string().min(1, "Введите email").email(),
-  password: z.string().min(1, "Введите пароль"),
+  password: z.string().min(6, "Введите пароль"),
 });
 
 export type TAuthForm = z.infer<typeof authFormSchema>;
