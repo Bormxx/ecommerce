@@ -6,7 +6,7 @@ export const useAuth = () => {
   const { isAuthenticated, removeUserData, setIsAuthenticated } =
     useUserStore();
 
-  const { isError, data, isSuccess, isPending } = useQuery({
+  const { isError, isLoading } = useQuery({
     queryKey: [isAuthenticated],
     queryFn: () => checkAuth(isAuthenticated),
     enabled: isAuthenticated,
@@ -18,5 +18,5 @@ export const useAuth = () => {
     setIsAuthenticated(false);
   }
 
-  return { isError, data, isSuccess, isPending };
+  return { isError, isLoading };
 };

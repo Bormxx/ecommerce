@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/utils/cn";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
 import { useUserStore } from "@/store/auth";
@@ -52,10 +52,6 @@ export default function RegistrForm() {
     resolver: zodResolver(registrFormSchema),
     mode: "onChange",
   });
-
-  useEffect(() => {
-    fetch("/api/users");
-  }, []);
 
   return (
     <>
