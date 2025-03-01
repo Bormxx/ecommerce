@@ -1,7 +1,7 @@
-import Home from "@/components/HomeContainer/HomeContainer";
 import MainSection from "@/components/MainSection/MainSection";
 import { Items, Photos } from "../../types";
 import { useUserStore } from "@/store/auth";
+import HomeContainer from "@/components/HomeContainer/HomeContainer";
 
 interface ItemsList {
   request: Items[];
@@ -15,15 +15,15 @@ export interface TypeRequest {
   items: ItemsList | null;
   photos: PhotosList | null;
 }
-export default function HomeContainer({ items, photos }: TypeRequest) {
+export default function Home({ items, photos }: TypeRequest) {
   const { isAuthenticated } = useUserStore();
   console.log(items);
   console.log(photos);
   return (
-    <Home>
+    <HomeContainer>
       <MainSection items={items} photos={photos} />
       {isAuthenticated && <h1>Hellow</h1>}
-    </Home>
+    </HomeContainer>
   );
 }
 
