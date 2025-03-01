@@ -17,12 +17,12 @@ import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/router";
 
 export async function signIn(form: TAuthForm ) {
-  const response = await fetch(`/api/auth`, {
-    method: 'POST',
+  const response = await fetch(`http://localhost:3004/api/auth`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(form), 
+    body: JSON.stringify(form),
   });
   const data = await response.json();
   if (!response.ok) {
@@ -58,7 +58,7 @@ export default function AuthForm() {
   } = useForm<TAuthForm>({ resolver: zodResolver(authFormSchema), mode: "onChange" });
 
   useEffect(() => {
-    fetch('/api/users')
+    fetch("http://localhost:3004/api/users");
   }, [])
 
   return (
