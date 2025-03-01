@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from "react";
 import MiniCard from "../MiniCard/MiniCard";
 import product from "../../images/Product-172x172.jpg";
@@ -6,7 +5,7 @@ import product from "../../images/Product-172x172.jpg";
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const sliderRef = useRef<HTMLDivElement | null>(null);
-  const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  // const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const products = [
     { title: "Классные очки", price: 10000, img_url: product },
@@ -23,16 +22,15 @@ export default function Carousel() {
     { title: "Модная сумка", price: 12000, img_url: product },
   ];
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
-  };
+  // const nextSlide = () => {
+  //   setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
+  // };
 
   useEffect(() => {
-    slideIntervalRef.current = setInterval(nextSlide, 2000);
-
-    return () => {
-      if (slideIntervalRef.current) clearInterval(slideIntervalRef.current);
-    };
+    // slideIntervalRef.current = setInterval(nextSlide, 2000);
+    // return () => {
+    //   if (slideIntervalRef.current) clearInterval(slideIntervalRef.current);
+    // };
   }, []);
 
   const scrollToSlide = (index: number) => {
