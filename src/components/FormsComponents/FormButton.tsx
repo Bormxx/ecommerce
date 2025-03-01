@@ -2,15 +2,15 @@ import { inter } from "@/app/fonts";
 import { Button } from "@headlessui/react";
 
 type FormButtonProp = {
-  text: string,
-  isValid: boolean
-}
+  text: string;
+  isValid: boolean;
+};
 
-export default function FormButton( prop: FormButtonProp) {
+export default function FormButton(prop: FormButtonProp) {
   return (
     <Button
       type="submit"
-      className={`${inter.className} font-bold py-3 px-4 rounded-md bg-blue-800 hover:bg-blue-600 text-base text-center text-white disabled:bg-slate-400`}
+      className={`${inter.className} rounded-md bg-blue-800 px-4 py-3 text-center text-base font-bold text-white hover:bg-blue-600 disabled:bg-slate-400`}
       disabled={prop.isValid ? false : true}
     >
       {prop.text}

@@ -1,32 +1,22 @@
-import { useQuery } from '@tanstack/react-query';
-import { useUserStore } from '@/store/auth';
-
-const checkAuth = async ( isAuth: boolean ) => {
-
-  if (!isAuth) {
-    throw new Error('Пользователь не авторизирован');
-  }
-
-  const response = await fetch('/api/findUser');
-
-  if (!response.ok) {
-    throw new Error('Ошибка авторизации');
-  }
-
-  return response.json();
-};
+import { useQuery } from "@tanstack/react-query";
+import { useUserStore } from "@/store/auth";
+import { checkAuth } from "@/services/auth";
 
 export const useAuth = () => {
-  const {isAuthenticated} = useUserStore();
+  const { isAuthenticated, removeUserData, setIsAuthenticated } =
+    useUserStore();
 
-  const { isError, data, isSuccess } = useQuery(
-    { 
-      queryKey: [isAuthenticated],
-      queryFn: () => checkAuth(isAuthenticated),
-      enabled: isAuthenticated,
-      retry: false,
-    },
-  );
+  const { isError, data, isSuccess, isPending } = useQuery({
+    queryKey: [isAuthenticated],
+    queryFn: () => checkAuth(isAuthenticated),
+    enabled: isAuthenticated,
+    retry: false,
+  });
 
-  return { isError, data, isSuccess };
+  if (isError) {
+    removeUserData();
+    setIsAuthenticated(false);
+  }
+
+  return { isError, data, isSuccess, isPending };
 };

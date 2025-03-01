@@ -2,6 +2,8 @@ import Home from "@/components/Home/Home";
 import MainSection from "@/components/MainSection/MainSection";
 import { Items, Photos } from "../../types";
 import { useUserStore } from "@/store/auth";
+import { useAuth } from "@/hooks/useAuth";
+import { useProtectedRoute } from "@/hooks/useProtectedRoute";
 
 interface ItemsList {
   request: Items[];
@@ -16,13 +18,17 @@ export interface TypeRequest {
   photos: PhotosList | null;
 }
 export default function HomeContainer({ items, photos }: TypeRequest) {
-  const {isAuthenticated} = useUserStore();
+  const { isAuthenticated, name, surname, email } = useUserStore();
+  
+
+  useAuth();
+
   console.log(items);
   console.log(photos);
   return (
     <Home>
       <MainSection items={items} photos={photos} />
-      { isAuthenticated && <h1>Hellow</h1>}
+      {isAuthenticated ? <h1>{name}, {surname}</h1> : <h1>{email}</h1>}
     </Home>
   );
 }
