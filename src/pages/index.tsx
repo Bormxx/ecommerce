@@ -1,10 +1,12 @@
-import Home from "@/components/Home/Home";
+import Home from "@/components/HomeContainer/HomeContainer";
 import MainSection from "@/components/MainSection/MainSection";
 import { Items, Photos } from "../../types";
+import { useUserStore } from "@/store/auth";
 
 interface ItemsList {
   request: Items[];
 }
+
 interface PhotosList {
   request: Photos[];
 }
@@ -14,18 +16,21 @@ export interface TypeRequest {
   photos: PhotosList | null;
 }
 export default function HomeContainer({ items, photos }: TypeRequest) {
+  const { isAuthenticated } = useUserStore();
   console.log(items);
   console.log(photos);
   return (
     <Home>
       <MainSection items={items} photos={photos} />
+      {isAuthenticated && <h1>Hellow</h1>}
     </Home>
   );
 }
+
 export async function getStaticProps() {
-  const itemsRes = await fetch("http://localhost:3000/api/items");
+  const itemsRes = await fetch("http://localhost:3004/api/items");
   const items = await itemsRes.json();
-  const photosRes = await fetch("http://localhost:3000/api/photos");
+  const photosRes = await fetch("http://localhost:3004/api/photos");
   const photos = await photosRes.json();
   console.log("Fetched items:", items);
   console.log("Fetched items:", photos);

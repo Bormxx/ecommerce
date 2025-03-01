@@ -13,6 +13,12 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      boxShadow: {
+        custom: "0px 4px 8px 0px rgba(229, 231, 235, 1)",
+      },
+    },
+    backgroundPosition: {
+      "custom-right": "right 40%",
     },
   },
   plugins: [Forms],

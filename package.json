@@ -13,6 +13,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "@hookform/resolvers": "^4.1.0",
     "@libsql/client": "^0.14.0",
     "@planetscale/database": "^1.19.0",
     "@tailwindcss/forms": "^0.5.10",
@@ -23,6 +24,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.3",
+    "jsonwebtoken": "^9.0.2",
     "luxon": "^3.5.0",
     "next": "15.1.6",
     "react": "^19.0.0",
@@ -34,7 +36,9 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/bcrypt": "^5.0.2",
     "@types/better-sqlite3": "^7.6.12",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

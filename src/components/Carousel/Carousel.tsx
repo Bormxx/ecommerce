@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from "react";
 import MiniCard from "../MiniCard/MiniCard";
 import product from "../../images/Product-172x172.jpg";

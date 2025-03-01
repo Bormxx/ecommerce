@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 import HeaderComponent from "../HeaderComponent/HeaderComponent";
 
-type HomeProps = {
+type HomeContainerProps = {
   children: ReactNode;
 };
 
-export default function Home(props: HomeProps) {
+export default function HomeContainer(props: HomeContainerProps) {
   return (
-    <div className="mx-auto max-w-[1180px] p-4">
+    <div className="mx-auto flex min-h-screen max-w-[1180px] flex-col p-4">
       <HeaderComponent />
       {props.children}
     </div>
