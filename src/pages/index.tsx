@@ -28,9 +28,9 @@ export default function Home({ items, photos }: TypeRequest) {
 }
 
 export async function getStaticProps() {
-  const itemsRes = await fetch("http://localhost:3004/api/items");
+  const itemsRes = await fetch("http://localhost:3005/api/items");
   const items = await itemsRes.json();
-  const photosRes = await fetch("http://localhost:3004/api/photos");
+  const photosRes = await fetch("http://localhost:3005/api/photos");
   const photos = await photosRes.json();
   console.log("Fetched items:", items);
   console.log("Fetched items:", photos);

@@ -1,5 +1,5 @@
 import IconLink from "../IconLink/IconLink";
-import { inter } from "@/app/fonts";
+import { inter } from "@/utils/fonts";
 import {
   HeartIcon,
   HomeIcon,
@@ -7,10 +7,14 @@ import {
   ShoppingBagIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 export default function LoginMenu() {
   const userName = "";
-
+  const router = useRouter();
+  function clickRegistration() {
+    router.replace("/registration");
+  }
   return (
     <>
       <div className="flex w-full justify-between gap-[15px]">
@@ -23,6 +27,7 @@ export default function LoginMenu() {
               lg_hidden=""
             />
             <button
+              onClick={clickRegistration}
               className={`${inter.className} flex-grow rounded-[8px] bg-[#1E40AF] px-4 py-2 text-base font-bold text-white`}
             >
               Зарегистрироваться

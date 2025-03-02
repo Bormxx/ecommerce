@@ -58,7 +58,7 @@ export default function RegistrForm() {
   } = useForm<TRegistrForm>({ resolver: zodResolver(registrFormSchema), mode: "onChange" });
 
   useEffect(() => {
-    fetch("http://localhost:3004/api/users");
+    fetch("http://localhost:3005/api/users");
   }, [])
 
   return (

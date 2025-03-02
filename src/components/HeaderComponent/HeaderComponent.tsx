@@ -4,8 +4,9 @@ import iconsearch from "../../images/icons-search.svg";
 import iconSearch16 from "../../images/Icons-search-16x16.svg";
 
 import LoginMenu from "../LoginMenu/LoginMenu";
-import { inter } from "@/app/fonts";
+import { inter } from "@/utils/fonts";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function HeaderComponent() {
   const router = useRouter();
@@ -14,7 +15,10 @@ export default function HeaderComponent() {
   return (
     <>
       <header className="hidden justify-between gap-[30px] lg:flex">
-        <Image src={logo} width={131} height={40} alt="Quant" />
+        <Link href="/">
+          <Image src={logo} width={131} height={40} alt="Quant" />
+        </Link>
+
         <div className="flex flex-grow justify-between gap-[15px]">
           <button
             className={`${inter.className} rounded-[8px] bg-[#1E40AF] px-4 py-2 text-base font-bold text-white`}
