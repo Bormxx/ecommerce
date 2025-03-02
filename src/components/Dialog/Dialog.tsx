@@ -19,6 +19,7 @@ export default function MyModal(props: MyModalProps) {
         onClose={() => props.closeFn(!props.isTrue)}
       >
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50 backdrop-blur-sm">
+     
           <div className="flex min-h-full items-center justify-center">
             <DialogPanel
               transition
@@ -43,3 +44,4 @@ export default function MyModal(props: MyModalProps) {
     </>
   );
 }
+

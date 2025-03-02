@@ -7,29 +7,16 @@ import AlterAuth from "../FormsComponents/AlterAuth";
 import FormFooter from "../FormsComponents/FormFooter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authFormSchema, TAuthForm } from "../../../types";
+import { authFormSchema, TAuthForm } from "../../../types/schemas/auth";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
 import { cn } from "@/utils/cn";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
 import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/router";
+import { signIn } from "@/services/auth";
 
-export async function signIn(form: TAuthForm) {
-  const response = await fetch(`http://localhost:3004/api/auth`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(form),
-  });
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.error);
-  }
-  return data;
-}
 
 export default function AuthForm() {
   const [reqStatus, setReqStatus] = useState(false);
@@ -42,7 +29,9 @@ export default function AuthForm() {
     onSuccess: (data) => {
       setIsAuthenticated(true);
       setUserData(data);
-      router.replace("/");
+      reset();
+      const path = router.query.from;
+      router.replace(typeof path === "string" ? path : "/");
     },
     onError: (err) => {
       setReqStatus(!reqStatus);
@@ -60,10 +49,6 @@ export default function AuthForm() {
     mode: "onChange",
   });
 
-  useEffect(() => {
-    fetch("http://localhost:3005/api/users");
-  }, []);
-
   return (
     <>
       <div className="flex min-w-[380px] flex-col gap-10 rounded-xl bg-white p-6 shadow-lg">
@@ -72,7 +57,6 @@ export default function AuthForm() {
           <form
             onSubmit={handleSubmit((data) => {
               mutation.mutate(data);
-              reset();
             })}
             className="flex flex-col gap-6"
           >
