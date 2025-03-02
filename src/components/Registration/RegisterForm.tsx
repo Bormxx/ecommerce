@@ -6,8 +6,8 @@ import AlterAuth from "../FormsComponents/AlterAuth";
 import FormFooter from "../FormsComponents/FormFooter";
 import {
   formDataSchema,
-  registrFormSchema,
-  TRegistrForm,
+  registerFormSchema,
+  TRegisterForm,
   TFormData,
 } from "../../../types/schemas/auth";
 import { useForm } from "react-hook-form";
@@ -22,7 +22,7 @@ import { useRouter } from "next/router";
 import { signUp } from "@/services/auth";
 
 
-export default function RegistrForm() {
+export default function RegisterForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { setIsAuthenticated, setUserData } = useUserStore();
@@ -49,8 +49,8 @@ export default function RegistrForm() {
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm<TRegistrForm>({
-    resolver: zodResolver(registrFormSchema),
+  } = useForm<TRegisterForm>({
+    resolver: zodResolver(registerFormSchema),
     mode: "all",
   });
 

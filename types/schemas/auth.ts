@@ -7,7 +7,7 @@ export const authFormSchema = z.object({
 
 export type TAuthForm = z.infer<typeof authFormSchema>;
 
-export const registrFormSchema = z
+export const registerFormSchema = z
   .object({
     name: z.string().min(2, "Введите имя"),
     surname: z.string().min(2, "Введите фамилию"),
@@ -20,7 +20,7 @@ export const registrFormSchema = z
     path: ["passwordCompare"],
   });
 
-export type TRegistrForm = z.infer<typeof registrFormSchema>;
+export type TRegisterForm = z.infer<typeof registerFormSchema>;
 
 export const formDataSchema = z.object({
   name: z.string().min(2, "Введите имя"),
