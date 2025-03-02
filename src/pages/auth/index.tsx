@@ -1,13 +1,15 @@
 import AuthForm from "@/components/Auth/AuthForm";
 import MainBackground from "@/components/FormsComponents/MainBackground";
-import Home from "@/components/Home/Home";
+import { useProtectedAuthRoute } from "@/hooks/useProtectedAuthRoute";
+import HomeContainer from "../../components/HomeContainer/HomeContainer";
 
 export default function AuthPage() {
+  useProtectedAuthRoute();
   return (
-    <Home>
+    <HomeContainer>
       <MainBackground>
         <AuthForm />
       </MainBackground>
-    </Home>
+    </HomeContainer>
   );
 }
