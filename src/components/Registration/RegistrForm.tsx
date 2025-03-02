@@ -21,6 +21,7 @@ import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/router";
 import { signUp } from "@/services/auth";
 
+
 export default function RegistrForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -52,6 +53,7 @@ export default function RegistrForm() {
     resolver: zodResolver(registrFormSchema),
     mode: "onChange",
   });
+
 
   return (
     <>

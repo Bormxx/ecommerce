@@ -17,6 +17,7 @@ import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/router";
 import { signIn } from "@/services/auth";
 
+
 export default function AuthForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -47,10 +48,6 @@ export default function AuthForm() {
     resolver: zodResolver(authFormSchema),
     mode: "onChange",
   });
-
-  useEffect(() => {
-    fetch("/api/users");
-  }, []);
 
   return (
     <>
