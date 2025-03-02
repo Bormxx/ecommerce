@@ -51,7 +51,7 @@ export default function RegistrForm() {
     formState: { errors, isValid },
   } = useForm<TRegistrForm>({
     resolver: zodResolver(registrFormSchema),
-    mode: "onChange",
+    mode: "all",
   });
 
 

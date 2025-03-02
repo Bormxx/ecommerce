@@ -46,7 +46,7 @@ export default function AuthForm() {
     formState: { errors, isValid },
   } = useForm<TAuthForm>({
     resolver: zodResolver(authFormSchema),
-    mode: "onChange",
+    mode: "all",
   });
 
   return (
