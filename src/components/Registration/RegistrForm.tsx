@@ -12,7 +12,7 @@ import {
 } from "../../../types/schemas/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils/frontend/cn";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";

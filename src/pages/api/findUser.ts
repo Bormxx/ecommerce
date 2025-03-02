@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../db/index";
 import { users } from "../../db/schema/schema";
 import { eq } from "drizzle-orm";
-import { checkTokenValidity } from "@/utils/checkToken";
+import { checkTokenValidity } from "@/utils/backend/checkToken";
 
 export default async function findUser(
   req: NextApiRequest,
@@ -17,10 +17,7 @@ export default async function findUser(
       return res
         .status(403)
         .json({
-          error: "Пользователь не авторизирован",
-          m: id,
-          s: typeof id,
-          d: token,
+          access: 'denied'
         });
     }
 
@@ -33,18 +30,15 @@ export default async function findUser(
     });
 
     if (!user) {
-      return res.status(403).json({ error: "Ошибка email или пароля", m: id });
+      return res.status(403).json({access: 'denied'});
     }
 
-    res.status(200).json(user);
+    res.status(200).json({access: 'approved'});
   } catch {
     res
       .status(403)
       .json({
-        error: "Ошибка авторизации",
-        m: typeof id,
-        s: typeof id,
-        d: token,
+        access: 'denied'
       });
   }
 }
