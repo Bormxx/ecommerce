@@ -1,6 +1,6 @@
 import Image from "next/image";
 // import productImg from "../../images/Product.jpg";
-import { inter, roboto } from "@/app/fonts";
+import { inter, roboto } from "@/byaka/fonts";
 import { TypeRequest } from "@/pages";
 
 export default function MiniBannerSection({ items, photos }: TypeRequest) {

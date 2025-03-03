@@ -1,5 +1,5 @@
 import { Fieldset, Input } from "@headlessui/react";
-import { inter } from "@/app/fonts";
+import { inter } from "@/byaka/fonts";
 import FormHeader from "../FormsComponents/FormHeader";
 import FormField from "../FormsComponents/FormField";
 import FormButton from "../FormsComponents/FormButton";

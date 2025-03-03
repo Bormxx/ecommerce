@@ -4,7 +4,7 @@ import iconsearch from "../../images/icons-search.svg";
 import iconSearch16 from "../../images/Icons-search-16x16.svg";
 
 import LoginMenu from "../LoginMenu/LoginMenu";
-import { inter } from "@/app/fonts";
+import { inter } from "@/byaka/fonts";
 import { useRouter } from "next/router";
 
 export default function HeaderComponent() {

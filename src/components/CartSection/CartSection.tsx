@@ -1,5 +1,5 @@
 "use client";
-import { inter, roboto } from "@/app/fonts";
+import { inter, roboto } from "@/byaka/fonts";
 import CardInBasket from "@/components/CardInBasket/CardInBasket";
 import { useEffect, useState } from "react";
 

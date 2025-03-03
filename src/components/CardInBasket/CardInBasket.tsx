@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import image from "../../images/Product.jpg";
-import { inter, roboto } from "@/app/fonts";
+import { inter, roboto } from "@/byaka/fonts";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 

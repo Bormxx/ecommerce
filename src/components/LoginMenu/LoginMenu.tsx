@@ -1,5 +1,5 @@
 import IconLink from "../IconLink/IconLink";
-import { inter } from "@/app/fonts";
+import { inter } from "@/byaka/fonts";
 import {
   HeartIcon,
   HomeIcon,
