@@ -4,13 +4,13 @@ export const users = sqliteTable('users', {
 	id: integer('userId').notNull().primaryKey({ autoIncrement: true }),
   name: text('name').notNull(),
   surname: text('surname').notNull(),
-  avatar: text('avatar').notNull().default('/'),
+  avatar: text('avatar').notNull().default('images/avatar.png'),
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
 });
 
 export const favorites = sqliteTable("favorites", {
-  id: integer("favoriteId").notNull().primaryKey(),
+  id: integer("favoriteId").notNull().primaryKey({ autoIncrement: true }),
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
@@ -20,7 +20,7 @@ export const favorites = sqliteTable("favorites", {
 });
 
 export const cards = sqliteTable("cards", {
-  id: integer("cardId").notNull().primaryKey(),
+  id: integer("cardId").notNull().primaryKey({ autoIncrement: true }),
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
@@ -28,35 +28,31 @@ export const cards = sqliteTable("cards", {
 });
 
 export const basket = sqliteTable("basket", {
-  id: integer("basketId").notNull().primaryKey(),
-  userId: integer("userId")
-    .notNull()
-    .references(() => users.id),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
+  id: integer("basketId").notNull().primaryKey({ autoIncrement: true }),
+  userId: integer("userId").notNull().references(() => users.id),
+  itemId: integer("itemId").notNull().references(() => items.id),
   quantity: integer("quantity").notNull(),
 });
 
 export const items = sqliteTable("items", {
-  id: integer("itemId").primaryKey(),
+  id: integer("itemId").notNull().primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),
   price: integer("price").notNull(),
   description: text("description").notNull(),
   availability: integer("availability", { mode: "boolean" }).notNull(),
 });
 
-
 export const photos = sqliteTable("photos", {
-  id: integer("photoId").primaryKey(),
+  id: integer("photoId").notNull().primaryKey({ autoIncrement: true }),
   itemId: integer("itemId")
     .notNull()
     .references(() => items.id),
   photoLink: text("photoLink").notNull(),
+  isMainPhoto: integer("isMainPhoto", { mode: "boolean" }).notNull(),
 });
 
 export const references = sqliteTable("references", {
-  id: integer("referenceId").primaryKey(),
+  id: integer("referenceId").notNull().primaryKey({ autoIncrement: true }),
   itemId: integer("itemId")
     .notNull()
     .references(() => items.id),
@@ -64,7 +60,7 @@ export const references = sqliteTable("references", {
 });
 
 export const posts = sqliteTable("posts", {
-  id: integer("postId").notNull().primaryKey(),
+  id: integer("postId").notNull().primaryKey({ autoIncrement: true }),
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
@@ -76,7 +72,7 @@ export const posts = sqliteTable("posts", {
 });
 
 export const orders = sqliteTable("orders", {
-  id: integer("orderId").notNull().primaryKey(),
+  id: integer("orderId").notNull().primaryKey({ autoIncrement: true }),
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
@@ -87,7 +83,7 @@ export const orders = sqliteTable("orders", {
 });
 
 export const lists = sqliteTable("lists", {
-  id: integer("listId").notNull().primaryKey(),
+  id: integer("listId").notNull().primaryKey({ autoIncrement: true }),
   orderId: integer("orderId")
     .notNull()
     .references(() => orders.id),

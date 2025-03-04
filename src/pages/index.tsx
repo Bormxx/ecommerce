@@ -22,7 +22,6 @@ export default function Home({ items, photos }: TypeRequest) {
   const { isAuthenticated } = useUserStore();
 
   return (
-
     <HomeContainer>
       <ProtectedRoute protection={useProtectedRoute}>
         <MainSection items={items} photos={photos} />

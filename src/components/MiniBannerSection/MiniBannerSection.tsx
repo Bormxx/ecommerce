@@ -1,6 +1,6 @@
 import Image from "next/image";
 import productImg from "../../images/Product.jpg";
-import { inter, roboto } from "@/app/fonts";
+import { inter, roboto } from "@/appxxx/fonts";
 import { TypeRequest } from "@/pages";
 import Link from "next/link";
 

@@ -13,7 +13,7 @@ export default async function cardsTable(
   if (req.method === "POST") {
     const { userId, cardNumber } = req.body;
     const dateStamp = Date.now()
-    await db.insert(cards).values({ id:dateStamp, userId, cardNumber });
+    await db.insert(cards).values({ userId, cardNumber });
     if (res.status(200)) {
       const request = await db.select().from(cards);
       return res.status(200).json({ request });

@@ -1,4 +1,4 @@
-import { inter } from "@/app/fonts";
+import { inter } from "@/appxxx/fonts";
 
 type ErrorMessageProp = {
   text: string;

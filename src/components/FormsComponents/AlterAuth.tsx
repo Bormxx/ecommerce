@@ -1,4 +1,4 @@
-import { inter } from "@/app/fonts";
+import { inter } from "@/appxxx/fonts";
 import Image from "next/image";
 
 type AlterAuthProp = {

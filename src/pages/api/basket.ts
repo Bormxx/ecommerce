@@ -12,8 +12,7 @@ export default async function basketTable(
   }
   if (req.method === "POST") {
     const { userId, itemId, quantity } = req.body;
-    const dateStamp = Date.now()
-    await db.insert(basket).values({ id:dateStamp, userId, itemId, quantity });
+    await db.insert(basket).values({ userId, itemId, quantity });
     if (res.status(200)) {
       const request = await db.select().from(basket);
       return res.status(200).json({ request });

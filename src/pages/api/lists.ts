@@ -13,7 +13,7 @@ export default async function listsTable(
   if (req.method === "POST") {
     const { orderId, itemId, quantity } = req.body;
     const dateStamp = Date.now()
-    await db.insert(lists).values({ id:dateStamp, orderId, itemId, quantity });
+    await db.insert(lists).values({ orderId, itemId, quantity });
     if (res.status(200)) {
       const request = await db.select().from(lists);
       return res.status(200).json({ request });
