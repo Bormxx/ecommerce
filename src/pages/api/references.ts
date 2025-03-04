@@ -12,8 +12,7 @@ export default async function referencesTable(
   }
   if (req.method === "POST") {
     const { itemId, reference } = req.body;
-    const dateStamp = Date.now()
-    await db.insert(references).values({ id:dateStamp, itemId, reference });
+    await db.insert(references).values({ itemId, reference });
     if (res.status(200)) {
       const request = await db.select().from(references);
       return res.status(200).json({ request });

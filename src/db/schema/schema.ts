@@ -29,12 +29,8 @@ export const cards = sqliteTable("cards", {
 
 export const basket = sqliteTable("basket", {
   id: integer("basketId").notNull().primaryKey({ autoIncrement: true }),
-  userId: integer("userId")
-    .notNull()
-    .references(() => users.id),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
+  userId: integer("userId").notNull().references(() => users.id),
+  itemId: integer("itemId").notNull().references(() => items.id),
   quantity: integer("quantity").notNull(),
 });
 
@@ -48,10 +44,9 @@ export const items = sqliteTable("items", {
 
 export const photos = sqliteTable("photos", {
   id: integer("photoId").notNull().primaryKey({ autoIncrement: true }),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
+  itemId: integer("itemId").notNull().references(() => items.id),
   photoLink: text("photoLink").notNull(),
+  isMainPhoto: integer("isMainPhoto", { mode: "boolean" }).notNull(),
 });
 
 export const references = sqliteTable("references", {

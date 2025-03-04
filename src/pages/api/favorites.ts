@@ -12,8 +12,7 @@ export default async function favoriteTable(
   }
   if (req.method === "POST") {
     const { userId, itemId } = req.body;
-    const dateStamp = Date.now()
-    await db.insert(favorites).values({ id:dateStamp, userId, itemId });
+    await db.insert(favorites).values({ userId, itemId });
     if (res.status(200)) {
       const request = await db.select().from(favorites);
       return res.status(200).json({ request });

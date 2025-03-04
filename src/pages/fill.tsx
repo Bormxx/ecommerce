@@ -171,54 +171,36 @@ async function getRandomItem() {
   return items[result].id;
 }
 
+// Заполняем таблицу с фотками товаров
+
+const photosPerItem: number = 6;
+const photosUrlArray: string[] = [
+  '/images/glasses1.jpeg',
+  '/images/glasses2.jpeg',
+  '/images/glasses3.jpeg',
+];
+const photosUrl: string = 'api/photos';
+const photosValue: object[] = [];
+
+const getRandomPhoto = () => photosUrlArray[Math.floor(Math.random() * photosUrlArray.length)];
+async function fillingPhotos() {
+  const itemsRequest = await axios.get('api/items');
+  const itemsSize = itemsRequest.data.request.length;
+  for(let i = 0; i < itemsSize; i++) {
+    let flag = true;
+    for(let j = 0; j < photosPerItem; j++) {
+      photosValue.push({
+        itemId: i + 1,
+        photoLink: getRandomPhoto(),
+        isMainPhoto: flag,
+      });
+      flag = false;
+    }
+  }
+  filling(photosUrl, photosValue);
+}
 
 
-// Получаем случайного пользователяс с id > 0
-// Для корзины пользователи могут повторяться
-// function getRandomUser() {
-//   let result = Math.floor(Math.random() * usersValue.length);
-//   if (result === 0) {
-//     while (result === 0) {
-//       result = Math.floor(Math.random() * usersValue.length)
-//     };
-//   }
-//   return result;
-// }
-
-// // Получаем случайный товар, с условием что товар не повторяется в корзине и c id > 0
-// function getRandomItems(count: number, max: number) {
-//   const result: number[] = [];
-//   while (result.length < count) {
-//     let randomNumber: number = Math.floor(Math.random() * max);
-//     if (!result.includes(randomNumber)) {
-//       if(randomNumber === 0) {
-//         for(let i = 0; i < 1; i++) {
-//             randomNumber = Math.floor(Math.random() * max);
-//             if (randomNumber === 0) {i=0};
-//         }
-//       }
-//       result.push(randomNumber);
-//     }
-//   };
-//   return result;
-// }
-
-// // Функция заполнения таблицы данными
-// function fillingBasket() {
-//   const arr = getRandomItems(11, itemsValue.length - 1);
-  
-//   for (let i = 0; i < 11; i++) {
-//     basketValue.push({
-//       userId: getRandomUser(),
-//       itemId: arr[i],
-//       quantity: Math.floor(Math.random() * 4) + 1,
-//     });
-//   }
-//   return basketValue;
-// }
-
-// // Вызываем функцию заполнения таблицы данными
-// fillingBasket();
 
 const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
 const SLIDE_COUNT = 7;
@@ -264,15 +246,23 @@ export default function fill() {
           bg-blue-400 
           rounded-xl"
           onClick={() => {
-            // filling(basketUrl, basketValue)
             fillingBasket();
-            // getRandomUser()
-            // getRandomUser().then((res) => {
-            //   console.log(res.request);
-            //   res.request.map((item) => console.log(item.id))
-            // })
           }}
         >Заполнить таблицу корзин</button>
+      </div>
+      <div className="m-auto mt-10">
+        <button className="
+          px-5 
+          py-3 
+          text-xl 
+          text-white 
+          font-bold 
+          bg-blue-400 
+          rounded-xl"
+          onClick={() => {
+            fillingPhotos();
+          }}
+        >Заполнить таблицу фоток товаров</button>
       </div>
       <EmblaCarousel slides={SLIDES} options={OPTIONS} />
     </div>

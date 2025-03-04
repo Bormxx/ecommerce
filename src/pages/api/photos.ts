@@ -11,9 +11,8 @@ export default async function photosTable(
     res.status(200).json({ request });
   }
   if (req.method === "POST") {
-    const { itemId, photoLink } = req.body;
-    const dateStamp = Date.now()
-    await db.insert(photos).values({ id:dateStamp, itemId, photoLink });
+    const { itemId, photoLink, isMainPhoto } = req.body;
+    await db.insert(photos).values({ itemId, photoLink, isMainPhoto });
     if (res.status(200)) {
       const request = await db.select().from(photos);
       return res.status(200).json({ request });
