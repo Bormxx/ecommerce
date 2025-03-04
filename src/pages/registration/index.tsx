@@ -1,4 +1,4 @@
-import MainBackground from "@/components/FormsComponents/MainBackground";
+import MainBackground from "@/components/AuthFormsComponents/MainBackground";
 import RegisterForm from "@/components/Registration/RegisterForm";
 import { useProtectedAuthRoute } from "@/hooks/useProtectedAuthRoute";
 import HomeContainer from "../../components/HomeContainer/HomeContainer";
