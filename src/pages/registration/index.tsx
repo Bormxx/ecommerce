@@ -7,11 +7,9 @@ export default function RegistrationPage() {
   useProtectedAuthRoute();
   return (
     <HomeContainer>
-    <HomeContainer>
       <MainBackground>
         <RegistrForm />
       </MainBackground>
-    </HomeContainer>
     </HomeContainer>
   );
 }

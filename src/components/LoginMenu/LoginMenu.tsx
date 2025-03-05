@@ -1,5 +1,4 @@
 import IconLink from "../IconLink/IconLink";
-import { inter } from "@/utils/fonts";
 import {
   HeartIcon,
   HomeIcon,
@@ -8,6 +7,7 @@ import {
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import ButtonLong from "../ui-kit/ButtonLong";
 
 export default function LoginMenu() {
   const userName = "";
@@ -26,12 +26,11 @@ export default function LoginMenu() {
               text="Войти"
               lg_hidden=""
             />
-            <button
+            <ButtonLong
+              text="Зарегистрироваться"
               onClick={clickRegistration}
-              className={`${inter.className} flex-grow rounded-[8px] bg-[#1E40AF] px-4 py-2 text-base font-bold text-white`}
-            >
-              Зарегистрироваться
-            </button>
+              type="button"
+            />
           </>
         ) : (
           <>
@@ -39,13 +38,13 @@ export default function LoginMenu() {
               link="/"
               icon={<HomeIcon />}
               text="Главная"
-              lg_hidden="lg:hidden"
+              lg_hidden="md:hidden"
             />
             <IconLink
               link="/"
               icon={<QueueListIcon />}
               text="Товары"
-              lg_hidden="lg:hidden"
+              lg_hidden="md:hidden"
             />
 
             <IconLink

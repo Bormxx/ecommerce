@@ -7,11 +7,9 @@ export default function AuthPage() {
   useProtectedAuthRoute();
   return (
     <HomeContainer>
-    <HomeContainer>
       <MainBackground>
         <AuthForm />
       </MainBackground>
-    </HomeContainer>
     </HomeContainer>
   );
 }

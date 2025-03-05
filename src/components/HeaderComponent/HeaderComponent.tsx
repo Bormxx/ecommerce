@@ -14,7 +14,7 @@ export default function HeaderComponent() {
   const hiddenInCart = router.pathname === "/cart" ? "hidden" : "";
   return (
     <>
-      <header className="hidden justify-between gap-[30px] lg:flex">
+      <header className="hidden justify-between gap-[30px] md:flex">
         <Link href="/">
           <Image src={logo} width={131} height={40} alt="Quant" />
         </Link>
@@ -45,7 +45,7 @@ export default function HeaderComponent() {
 
       {/* Верхняя часть при маленьком экране */}
       <div
-        className={`relative ${hiddenInCart} flex h-[36px] w-full lg:hidden`}
+        className={`relative ${hiddenInCart} flex h-[36px] w-full md:hidden`}
       >
         <input
           type="text"
@@ -57,7 +57,7 @@ export default function HeaderComponent() {
         </div>
       </div>
       {/* Нижняя часть при маленьком экране */}
-      <div className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-center bg-white p-4 lg:hidden">
+      <div className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-center bg-white p-4 md:hidden">
         <LoginMenu />
       </div>
     </>
