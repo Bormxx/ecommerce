@@ -49,22 +49,20 @@ export const photos = sqliteTable("photos", {
   isMainPhoto: integer("isMainPhoto", { mode: "boolean" }).notNull(),
 });
 
-export const references = sqliteTable("references", {
-  id: integer("referenceId").notNull().primaryKey({ autoIncrement: true }),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
-  reference: text("reference").notNull(),
+export const characteristics = sqliteTable("characteristics", {
+  id: integer("characteristicId").notNull().primaryKey({ autoIncrement: true }),
+  itemId: integer("itemId").notNull().references(() => items.id),
+  frameMatherials: text("frameMatherials").notNull(),
+  linzeMatherials: text("linzeMatherials").notNull(),
+  linzeTypes: text("linzeTypes").notNull(),
+  linzeUVDefences: text("linzeUVDefences").notNull(),
+  linzeEffects: text("linzeEffects").notNull(),
 });
 
 export const posts = sqliteTable("posts", {
   id: integer("postId").notNull().primaryKey({ autoIncrement: true }),
-  userId: integer("userId")
-    .notNull()
-    .references(() => users.id),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
+  userId: integer("userId").notNull().references(() => users.id),
+  itemId: integer("itemId").notNull().references(() => items.id),
   rating: integer("rating").notNull(),
   post: text("post").notNull(),
 });
