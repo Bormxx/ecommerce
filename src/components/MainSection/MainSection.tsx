@@ -41,7 +41,7 @@ const itemsPhotos = {
 export default function MainSection({ items }: TypeRequest) {
   const limitedItems = items?.request.slice(0, 4) || [];
   return (
-    <div className="mb-28">
+    <div className="">
       <Banner />
       <Carousel />
       <MiniBannerSection

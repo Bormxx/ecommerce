@@ -1,4 +1,4 @@
-import { Fieldset, Input } from "@headlessui/react";
+import { Fieldset } from "@headlessui/react";
 import { inter } from "@/app/fonts";
 import FormHeader from "../AuthFormsComponents/FormHeader";
 import FormField from "../AuthFormsComponents/FormField";
@@ -8,15 +8,13 @@ import FormFooter from "../AuthFormsComponents/FormFooter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authFormSchema, TAuthForm } from "../../../types/schemas/auth";
-import ErrorMessage from "../AuthFormsComponents/ErrorMessage";
-import { cn } from "@/utils/frontend/cn";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
 import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/router";
 import { signIn } from "@/services/auth";
-
+import AuthInput from "../AuthFormsComponents/InputAuth";
 
 export default function AuthForm() {
   const [reqStatus, setReqStatus] = useState(false);
@@ -40,10 +38,10 @@ export default function AuthForm() {
   });
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    control,
+    formState: { isValid },
   } = useForm<TAuthForm>({
     resolver: zodResolver(authFormSchema),
     mode: "all",
@@ -62,30 +60,20 @@ export default function AuthForm() {
           >
             <Fieldset className="flex flex-col gap-4">
               <FormField text={"Ваш email"}>
-                <Input
-                  {...register("email")}
+                <AuthInput
+                  control={control}
+                  name="email"
+                  placeholder="ivanov@yandex.ru"
                   type={"text"}
-                  className={cn(
-                    `${errors.email ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
-                  )}
-                  placeholder={"ivanov@yandex.ru"}
                 />
-                {errors.email && <ErrorMessage text={"Некорректный email"} />}
               </FormField>
               <FormField text={"Пароль"}>
-                <Input
-                  {...register("password")}
+                <AuthInput
+                  control={control}
+                  name="password"
+                  placeholder="*******"
                   type={"password"}
-                  className={cn(
-                    `${errors.password ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
-                  )}
-                  placeholder={"*******"}
                 />
-                {errors.password && (
-                  <ErrorMessage
-                    text={"Пароль не может быть меньше 6 символов"}
-                  />
-                )}
                 <p
                   className={`${inter.className} text-right text-base font-normal text-gray-500`}
                 >

@@ -1,4 +1,4 @@
-import { Fieldset, Input } from "@headlessui/react";
+import { Fieldset } from "@headlessui/react";
 import FormHeader from "../AuthFormsComponents/FormHeader";
 import FormField from "../AuthFormsComponents/FormField";
 import FormButton from "../AuthFormsComponents/FormButton";
@@ -12,14 +12,14 @@ import {
 } from "../../../types/schemas/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@/utils/frontend/cn";
-import ErrorMessage from "../AuthFormsComponents/ErrorMessage";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
 import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/router";
 import { signUp } from "@/services/auth";
+import AuthInput
+  from "../AuthFormsComponents/InputAuth";
 
 
 export default function RegisterForm() {
@@ -45,15 +45,15 @@ export default function RegisterForm() {
   });
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    control,
+    trigger,
+    formState: { isValid },
   } = useForm<TRegisterForm>({
     resolver: zodResolver(registerFormSchema),
     mode: "all",
   });
-
 
   return (
     <>
@@ -68,69 +68,45 @@ export default function RegisterForm() {
           >
             <Fieldset className="flex flex-col gap-4">
               <FormField text={"Имя"}>
-                <Input
-                  {...register("name")}
+                <AuthInput
+                  control={control}
+                  name="name"
+                  placeholder="Ярополк"
                   type={"text"}
-                  className={cn(
-                    `${errors.name ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
-                  )}
-                  placeholder={"Ярополк"}
                 />
-                {errors.name && (
-                  <ErrorMessage text={"Поле должно быть длиннее 2 символов"} />
-                )}
               </FormField>
               <FormField text={"Фамилия"}>
-                <Input
-                  {...register("surname")}
+                <AuthInput
+                  control={control}
+                  name="surname"
+                  placeholder="Иванов"
                   type={"text"}
-                  className={cn(
-                    `${errors.surname ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
-                  )}
-                  placeholder={"Иванов"}
                 />
-                {errors.surname && (
-                  <ErrorMessage text={"Поле должно быть длиннее 2 символов"} />
-                )}
               </FormField>
               <FormField text={"Email"}>
-                <Input
-                  {...register("email")}
+                <AuthInput
+                  control={control}
+                  name="email"
+                  placeholder="ivanov@yandex.ru"
                   type={"text"}
-                  className={cn(
-                    `${errors.email ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
-                  )}
-                  placeholder={"ivanov@yandex.ru"}
                 />
-                {errors.email && <ErrorMessage text={"Некорректный email"} />}
               </FormField>
               <FormField text={"Придумайте пароль"}>
-                <Input
-                  {...register("password")}
+                <AuthInput
+                  onChange={() => trigger("passwordCompare")}
+                  control={control}
+                  name="password"
+                  placeholder="*******"
                   type={"password"}
-                  className={cn(
-                    `${errors.password ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
-                  )}
-                  placeholder={"*******"}
                 />
-                {errors.password && (
-                  <ErrorMessage
-                    text={"Пароль не может быть меньше 6 символов"}
-                  />
-                )}
               </FormField>
-              <FormField text={"Повторите пароль"}>
-                <Input
-                  {...register("passwordCompare")}
+              <FormField text={"Повторите пароль"}> 
+                <AuthInput
+                  control={control}
+                  name="passwordCompare"
+                  placeholder="*******"
                   type={"password"}
-                  className={cn(
-                    `${errors.passwordCompare ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
-                  )}
-                  placeholder={"*******"}
                 />
-                {errors.passwordCompare && (
-                  <ErrorMessage text={"Пароли не совпадают"} />
-                )}
               </FormField>
             </Fieldset>
             <FormButton text={"Зарегистрироваться"} isValid={isValid} />

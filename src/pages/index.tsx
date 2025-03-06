@@ -1,6 +1,5 @@
 import MainSection from "@/components/MainSection/MainSection";
 import { Items, Photos } from "../../types";
-import { useUserStore } from "@/store/auth";
 import HomeContainer from "../components/HomeContainer/HomeContainer";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import { useProtectedRoute } from "../hooks/useProtectedRoute";
@@ -19,14 +18,12 @@ export interface TypeRequest {
 }
 
 export default function Home({ items, photos }: TypeRequest) {
-  const { isAuthenticated } = useUserStore();
 
   return (
 
     <HomeContainer>
       <ProtectedRoute protection={useProtectedRoute}>
         <MainSection items={items} photos={photos} />
-        {isAuthenticated && <h1>Hellow</h1>}
       </ProtectedRoute>
     </HomeContainer>
   );
