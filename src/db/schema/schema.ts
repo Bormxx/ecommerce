@@ -25,6 +25,9 @@ export const cards = sqliteTable("cards", {
     .notNull()
     .references(() => users.id),
   cardNumber: integer("cardNumber").notNull(),
+  month: integer("month").notNull(),
+  year: integer("year").notNull(),
+  cvv: integer("cvv").notNull(),
 });
 
 export const basket = sqliteTable("basket", {
