@@ -8,21 +8,21 @@ export default function Profile() {
   return (
     <HomeContainer>
         <ProfileBackground>
-          <div className="flex min-h-screen bg-gray-100 p-6">
+          <div className="flex min-h-screen p-6">
           <Sidebar>
           </Sidebar> 
         {/* Main Content */}
         <main className="flex-1 p-6">
           {/* Profile Card */}
-          <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-between">
+          <div className="bg-white p-4 rounded-xl shadow-md flex items-center justify-between min-w-[580px]">
             <div className="flex items-center space-x-4">
-              <Image className="w-12 h-12 rounded-full" src={avatar} width={80} height={80} alt="Avatar" />
-              <div>
-                <h2 className="text-lg font-medium">Ярополк Иванов</h2>
-                <p className="text-gray-500">ivanov@yandex.ru</p>
+              <Image className="rounded-full" src={avatar} width={80} height={80} alt="Avatar" />
+              <div className="text-lg font-medium leading-6 text-[#1F2937] space-y-2">
+                <h2>Ярополк Иванов</h2>
+                <p>ivanov@yandex.ru</p>
               </div>
             </div>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg">Редактировать</button>
+            <button className="px-4 py-[7px] bg-white text-[#1E40AF] rounded-[6px] border border-[#1E40AF] font-bold text-[16px] leading-6">Редактировать</button>
           </div>
           
           {/* Settings */}
