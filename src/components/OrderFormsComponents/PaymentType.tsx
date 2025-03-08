@@ -12,7 +12,7 @@ export default function PaymentType({ control, name }: UseControllerProps<TOrder
   return (
     <Controller
       control={control}
-      defaultValue={ plans.length ? plans[0].id.toString() : 'cash'}
+      defaultValue={ plans?.length ? plans[0].id : null}
       name={name}
       render={({ field: {value, onChange, ...props} }) => {
         return (
@@ -24,7 +24,7 @@ export default function PaymentType({ control, name }: UseControllerProps<TOrder
             className="flex gap-2 flex-wrap"
           >
             {plans.map((plan) => (
-              <RadioPaymentField key={plan.id} id={plan.id.toString()} cardNumber={plan.cardNumber} />
+              <RadioPaymentField key={plan.id} id={plan.id} cardNumber={plan.cardNumber} />
             ))}
             <CardAddButton />
             <RadioPaymentField />

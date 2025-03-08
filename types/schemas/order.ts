@@ -2,7 +2,7 @@
 import { z } from 'zod'
 
 export const orderSchema = z.object({
-  payment: z.string(),
+  payment: z.number().nullable(),
   isCourier: z.boolean(),
   city: z.string().min(1, "Выберите город"),
   address: z.string().optional(),
