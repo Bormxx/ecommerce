@@ -2,7 +2,7 @@ import { inter } from "@/app/fonts";
 import { Field, Label, Radio } from "@headlessui/react";
 
 export type RadioPaymentFieldProps = {
-  id?: number;
+  id?: string;
   cardNumber?: string;
 };
 

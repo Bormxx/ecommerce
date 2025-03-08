@@ -3,7 +3,7 @@ import { z } from "zod";
 export const authFormSchema = z.object({
   email: z.string({
     required_error: "Поле обязательно",
-  }).min(1, "Введите email").email({message: "Некоректный email"}),
+  }).min(1, "Введите email").email({message: "Некорректный email"}),
   password: z.string({
     required_error: "Поле обязательно",
   }).min(6, "Введите пароль"),
