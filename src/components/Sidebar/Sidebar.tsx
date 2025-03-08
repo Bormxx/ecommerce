@@ -8,7 +8,7 @@ export default function Sidebar() {
 
   return (
     <aside className="min-w-[264px] pr-4 border-r-[1px]">
-        <ul className="text-gray-600">
+        <ul className="text-[#1F2937]">
           {menuItems.map(({ text, active }) => (
             <li
               key={text}
