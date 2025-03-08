@@ -6,7 +6,7 @@ type ProfileBackgroundProps = {
 
 export default function ProfileBackground( props: ProfileBackgroundProps ) {
   return (
-    <div className="bg-[url('/images/sport_meditation.svg')] bg-custom-right bg-no-repeat grow place-content-center place-items-center">
+    <div className="bg-[url('/images/sport_meditation.svg')] bg-no-repeat bg-bottom bg-[right_162px] grow">
       { props.children }
     </div>
   );
