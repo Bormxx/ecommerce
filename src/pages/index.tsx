@@ -1,9 +1,8 @@
 import MainSection from "@/components/MainSection/MainSection";
-import { Items, Photos } from "../types";
-import { useUserStore } from "@/store/auth";
+import { Items, Photos } from "../shared/types";
+import { useUserStore } from "@/shared/store/auth";
 import HomeContainer from "../components/HomeContainer/HomeContainer";
-// import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
-// import { useProtectedRoute } from "../hooks/useProtectedRoute";
+
 
 interface ItemsList {
   request: Items[];

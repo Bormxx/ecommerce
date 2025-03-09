@@ -7,15 +7,15 @@ import AlterAuth from "../FormsComponents/AlterAuth";
 import FormFooter from "../FormsComponents/FormFooter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authFormSchema, TAuthForm } from "../../types/schemas/auth";
+import { authFormSchema, TAuthForm } from "../../shared/types/schemas/auth";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
-import { cn } from "@/utils/frontend/cn";
+import { cn } from "@/shared/utils/frontend/cn";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
-import { useUserStore } from "@/store/auth";
+import { useUserStore } from "@/shared/store/auth";
 import { useRouter } from "next/router";
-import { signIn } from "@/services/auth";
+import { signIn } from "@/shared/services/auth";
 
 
 export default function AuthForm() {

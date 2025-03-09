@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import image from "../../images/Product.jpg";
 import { inter, roboto } from "@/styles/fonts";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
@@ -44,7 +43,12 @@ export default function CardInBasket({
     >
       <div className="flex gap-2">
         <Link href={`/${id}`}>
-          <Image src={image} alt={title} width={60} height={60} />
+          <Image
+            src={"/images/Product.jpg"}
+            alt={title}
+            width={60}
+            height={60}
+          />
         </Link>
         <div className="flex flex-grow flex-col justify-between">
           <Link href={`/${id}`}>

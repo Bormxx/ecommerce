@@ -9,17 +9,17 @@ import {
   registrFormSchema,
   TRegistrForm,
   TFormData,
-} from "../../types/schemas/auth";
+} from "../../shared/types/schemas/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@/utils/frontend/cn";
+import { cn } from "@/shared/utils/frontend/cn";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
-import { useUserStore } from "@/store/auth";
+import { useUserStore } from "@/shared/store/auth";
 import { useRouter } from "next/router";
-import { signUp } from "@/services/auth";
+import { signUp } from "@/shared/services/auth";
 
 
 export default function RegistrForm() {

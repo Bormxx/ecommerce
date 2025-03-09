@@ -1,8 +1,4 @@
 import Image from "next/image";
-import logo from "../../images/logo.svg";
-import iconsearch from "../../images/icons-search.svg";
-import iconSearch16 from "../../images/Icons-search-16x16.svg";
-
 import LoginMenu from "../LoginMenu/LoginMenu";
 import { inter } from "@/styles/fonts";
 import { useRouter } from "next/router";
@@ -16,7 +12,7 @@ export default function HeaderComponent() {
     <>
       <header className="hidden justify-between gap-[30px] md:flex">
         <Link href="/">
-          <Image src={logo} width={131} height={40} alt="Quant" />
+          <Image src={"/images/logo.svg"} width={131} height={40} alt="Quant" />
         </Link>
 
         <div className="flex flex-grow justify-between gap-[15px]">
@@ -34,7 +30,7 @@ export default function HeaderComponent() {
               type="submit"
               className="flex h-full w-[65px] items-center justify-center rounded-br-[8px] rounded-tr-[8px] border-2 border-[#1E40AF] bg-[#1E40AF]"
             >
-              <Image src={iconsearch} width={24} height={24} alt="Search" />
+              <Image src={"/images/icons-search.svg"} width={24} height={24} alt="Search" />
             </button>
           </form>
         </div>
@@ -53,7 +49,12 @@ export default function HeaderComponent() {
           className="flex-grow rounded-[8px] border-2 border-[#1E40AF] bg-white p-2.5 pl-[36px]"
         />
         <div className="absolute left-0 top-0 p-2.5">
-          <Image src={iconSearch16} width={16} height={16} alt="Search" />
+          <Image
+            src={"/images/Icons-search-16x16.svg"}
+            width={16}
+            height={16}
+            alt="Search"
+          />
         </div>
       </div>
       {/* Нижняя часть при маленьком экране */}

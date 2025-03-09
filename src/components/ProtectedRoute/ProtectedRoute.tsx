@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/shared/hooks/useAuth";
 import { useUserStore } from "@/store/auth";
 import { ReactNode } from "react";
 

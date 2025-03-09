@@ -1,5 +1,4 @@
 import Image from "next/image";
-import productImg from "../../images/Product.jpg";
 import { inter, roboto } from "@/styles/fonts";
 import { TypeRequest } from "@/pages";
 import Link from "next/link";
@@ -24,7 +23,8 @@ export default function MiniBannerSection({ items, photos }: TypeRequest) {
         {categories.map(category => {
           return (
             <Link
-              href={`/category/${category}`} key={category}
+              href={`/category/${category}`}
+              key={category}
               className="flex flex-col gap-2 rounded-2xl bg-[linear-gradient(105.02deg,_#2563EB_38.18%,_#FFFFFF_118.65%)] p-4 text-white"
             >
               <p
@@ -33,7 +33,7 @@ export default function MiniBannerSection({ items, photos }: TypeRequest) {
                 Dior
               </p>
               <Image
-                src={productImg}
+                src={"/images/Product.jpg"}
                 className="h-[80%] w-full rounded-md bg-white object-cover"
                 alt="продукт"
                 width={128}

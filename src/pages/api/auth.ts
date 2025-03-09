@@ -4,7 +4,7 @@ import { users } from "../../db/schema/schema";
 import { eq } from "drizzle-orm";
 import { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import { authFormSchema } from "../../types/schemas/auth";
+import { authFormSchema } from "../../shared/types/schemas/auth";
 
 export default async function usersAuth(
   req: NextApiRequest,

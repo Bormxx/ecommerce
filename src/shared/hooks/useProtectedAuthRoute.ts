@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/auth";
+import { useUserStore } from "@/shared/store/auth";
 import { useRouter } from "next/router";
 
 import { useEffect } from "react";

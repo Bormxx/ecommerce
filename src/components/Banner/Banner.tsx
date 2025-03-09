@@ -1,5 +1,4 @@
 import Image from "next/image";
-import product from "../../images/Product.jpg";
 import { inter, roboto } from "@/styles/fonts";
 
 export default function Banner() {
@@ -14,7 +13,7 @@ export default function Banner() {
         </h2>
       </div>
       <Image
-        src={product}
+        src={"/images/Product.jpg"}
         width={280}
         height={168}
         alt="product"

@@ -1,12 +1,7 @@
-import {
-  AdjustmentsHorizontalIcon,
-  ArrowLongLeftIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import {AdjustmentsHorizontalIcon, ArrowLongLeftIcon,XMarkIcon,} from "@heroicons/react/24/outline";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import Title from "../Title/Title";
 import MiniCard from "../MiniCard/MiniCard";
-import productImg from "../../images/Product-172x172.jpg";
 import { useState } from "react";
 import { inter, roboto } from "@/styles/fonts";
 import FilterComponent from "../FilterComponent/FilterComponent";
@@ -20,7 +15,7 @@ export default function CategoryPage() {
   const products = new Array(15).fill(null).map(() => ({
     title: `Очки`,
     price: 4990,
-    img_url: productImg,
+    img_url: "/images/Product-172x172.jpg",
   }));
 
   const [isOpenFilterClass, setIsOpenFilterClass] = useState("hidden");

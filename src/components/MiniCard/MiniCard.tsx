@@ -6,7 +6,7 @@ import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 interface MiniCardProps {
   title: string;
   price: number;
-  img_url: StaticImageData;
+  img_url: string;
 }
 
 const userName = "Kristina";
