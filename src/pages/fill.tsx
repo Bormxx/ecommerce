@@ -242,29 +242,30 @@ async function fillingPosts() {
   itemsRequest.data.request.map(async(item: any)=>{
     const postCount = Math.floor(Math.random() * usersRequest.data.request.length) + 1;
     for(let i = 0; i < postCount; i++) {
-    let userId = await getRandomUser();
-    // let itemId = await getRandomItem();
-    const itemId = item.id;
-    postsValue.map((item: any) => {
-      if (item.userId !== userId && item.itemId !== itemId) {
-        // Если в массиве postsValue нет отзыва с таким userId и itemId, то flag = true
-        flag = true;
-      } else if (item.userId === userId && item.itemId === itemId) {
-        // Если в массиве postsValue есть отзыв с таким userId и itemId, то flag = false
-        flag = false;
-      }
-    });
-    // Если flag = true, то добавляем в массив postsValue объект
-    if (flag === true || postsValue.length === 0) {
-      postsValue.push({
-        userId: userId,
-        itemId: itemId,
-        rating: ratings[Math.floor(Math.random() * ratings.length)],
-        post: postsArray[Math.floor(Math.random() * postsArray.length)],
+      let userId = await getRandomUser();
+      // let itemId = await getRandomItem();
+      const itemId = item.id;
+      postsValue.map((item: any) => {
+        if (item.userId !== userId && item.itemId !== itemId) {
+          // Если в массиве postsValue нет отзыва с таким userId и itemId, то flag = true
+          flag = true;
+        } else if (item.userId === userId && item.itemId === itemId) {
+          // Если в массиве postsValue есть отзыв с таким userId и itemId, то flag = false
+          flag = false;
+        }
       });
-    }
-    }
-  })
+      // Если flag = true, то добавляем в массив postsValue объект
+      if (flag === true || postsValue.length === 0) {
+        postsValue.push({
+          userId: userId,
+          itemId: itemId,
+          rating: ratings[Math.floor(Math.random() * ratings.length)],
+          post: postsArray[Math.floor(Math.random() * postsArray.length)],
+        });
+      }
+      }
+    } 
+  );
   console.log(postsValue);
   filling(postsUrl, postsValue);
 }

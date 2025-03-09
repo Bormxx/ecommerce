@@ -77,8 +77,9 @@ export const orders = sqliteTable("orders", {
     .references(() => users.id),
   comment: text("comment").notNull(),
   address: text("address").notNull(),
+  phone: integer("phone").notNull(),
   courier: integer("availability", { mode: "boolean" }).notNull(),
-  payCash: integer("availability", { mode: "boolean" }).notNull(),
+  payment: integer("payment",),
 });
 
 export const lists = sqliteTable("lists", {
