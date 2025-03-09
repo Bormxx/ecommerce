@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogPanel } from "@headlessui/react";
 import { Dispatch, SetStateAction } from "react";
 import FormHeader from "../FormsComponents/FormHeader";
-import { inter } from "@/utils/fonts";
+import { inter } from "@/styles/fonts";
 
 type MyModalProps = {
   isTrue: boolean;

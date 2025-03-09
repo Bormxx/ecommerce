@@ -1,6 +1,6 @@
 import Image from "next/image";
 import product from "../../images/Product.jpg";
-import { inter, roboto } from "@/utils/fonts";
+import { inter, roboto } from "@/styles/fonts";
 
 export default function Banner() {
   return (

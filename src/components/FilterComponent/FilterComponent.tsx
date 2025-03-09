@@ -1,4 +1,4 @@
-import { roboto } from "@/utils/fonts";
+import { roboto } from "@/styles/fonts";
 import { JSX } from "react";
 import ShadowSection from "../ui-kit/ShadowSection";
 type FilterComponentProps = {

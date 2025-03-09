@@ -1,5 +1,5 @@
 import MainSection from "@/components/MainSection/MainSection";
-import { Items, Photos } from "../../types";
+import { Items, Photos } from "../types";
 import { useUserStore } from "@/store/auth";
 import HomeContainer from "../components/HomeContainer/HomeContainer";
 // import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";

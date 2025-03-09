@@ -1,4 +1,4 @@
-import { inter } from "@/utils/fonts";
+import { inter } from "@/styles/fonts";
 
 type ButtonLongProps = {
   text: string;

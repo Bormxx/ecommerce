@@ -1,4 +1,4 @@
-import { TAuthForm, TFormData } from "../../types/schemas/auth";
+import { TAuthForm, TFormData } from "../types/schemas/auth";
 
 export const signUp = async (form: TFormData) => {
   const response = await fetch(`/api/users`, {

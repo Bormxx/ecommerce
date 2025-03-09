@@ -1,5 +1,5 @@
 import Image, { StaticImageData } from "next/image";
-import { inter, roboto } from "@/utils/fonts";
+import { inter, roboto } from "@/styles/fonts";
 import Link from "next/link";
 import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 

@@ -1,5 +1,5 @@
 import { Fieldset, Input } from "@headlessui/react";
-import { inter } from "@/utils/fonts";
+import { inter } from "@/styles/fonts";
 import FormHeader from "../FormsComponents/FormHeader";
 import FormField from "../FormsComponents/FormField";
 import FormButton from "../FormsComponents/FormButton";
@@ -7,9 +7,9 @@ import AlterAuth from "../FormsComponents/AlterAuth";
 import FormFooter from "../FormsComponents/FormFooter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authFormSchema, TAuthForm } from "../../../types/schemas/auth";
+import { authFormSchema, TAuthForm } from "../../types/schemas/auth";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils/frontend/cn";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";

@@ -1,4 +1,4 @@
-import { inter } from "@/utils/fonts";
+import { inter } from "@/styles/fonts";
 import { useState } from "react";
 
 export default function FilterPrice() {

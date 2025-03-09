@@ -1,4 +1,4 @@
-import { inter } from "@/utils/fonts";
+import { inter } from "@/styles/fonts";
 import { Label, Field } from "@headlessui/react";
 import { ReactNode } from "react";
 

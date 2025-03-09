@@ -8,7 +8,7 @@ import Title from "../Title/Title";
 import MiniCard from "../MiniCard/MiniCard";
 import productImg from "../../images/Product-172x172.jpg";
 import { useState } from "react";
-import { inter, roboto } from "@/utils/fonts";
+import { inter, roboto } from "@/styles/fonts";
 import FilterComponent from "../FilterComponent/FilterComponent";
 import FilterPrice from "../FilterComponent/FilterPrice";
 import FilterCheckbox from "../FilterComponent/FilterCheckbox";

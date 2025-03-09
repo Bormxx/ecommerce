@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { Items, Users } from "../../types"
+import { Items, Users } from "../types"
 
 export const useUsersStore = create<Users>((set) => ({
   id: Date.now(),

@@ -1,4 +1,4 @@
-import { inter } from "@/utils/fonts";
+import { inter } from "@/styles/fonts";
 import Link from "next/link";
 import { ReactNode } from "react";
 

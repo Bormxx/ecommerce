@@ -4,7 +4,7 @@ import iconsearch from "../../images/icons-search.svg";
 import iconSearch16 from "../../images/Icons-search-16x16.svg";
 
 import LoginMenu from "../LoginMenu/LoginMenu";
-import { inter } from "@/utils/fonts";
+import { inter } from "@/styles/fonts";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
