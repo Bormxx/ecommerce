@@ -1,5 +1,5 @@
 import { Fieldset, Input } from "@headlessui/react";
-import { inter } from "@/app/fonts";
+import { inter } from "@/utils/fonts";
 import FormHeader from "../FormsComponents/FormHeader";
 import FormField from "../FormsComponents/FormField";
 import FormButton from "../FormsComponents/FormButton";
@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { authFormSchema, TAuthForm } from "../../../types/schemas/auth";
 import ErrorMessage from "../FormsComponents/ErrorMessage";
 import { cn } from "@/utils/cn";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
 import { useUserStore } from "@/store/auth";

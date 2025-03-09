@@ -4,8 +4,9 @@ import iconsearch from "../../images/icons-search.svg";
 import iconSearch16 from "../../images/Icons-search-16x16.svg";
 
 import LoginMenu from "../LoginMenu/LoginMenu";
-import { inter } from "@/app/fonts";
+import { inter } from "@/utils/fonts";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function HeaderComponent() {
   const router = useRouter();
@@ -13,8 +14,11 @@ export default function HeaderComponent() {
   const hiddenInCart = router.pathname === "/cart" ? "hidden" : "";
   return (
     <>
-      <header className="hidden justify-between gap-[30px] lg:flex">
-        <Image src={logo} width={131} height={40} alt="Quant" />
+      <header className="hidden justify-between gap-[30px] md:flex">
+        <Link href="/">
+          <Image src={logo} width={131} height={40} alt="Quant" />
+        </Link>
+
         <div className="flex flex-grow justify-between gap-[15px]">
           <button
             className={`${inter.className} rounded-[8px] bg-[#1E40AF] px-4 py-2 text-base font-bold text-white`}
@@ -41,7 +45,7 @@ export default function HeaderComponent() {
 
       {/* Верхняя часть при маленьком экране */}
       <div
-        className={`relative ${hiddenInCart} flex h-[36px] w-full lg:hidden`}
+        className={`relative ${hiddenInCart} flex h-[36px] w-full md:hidden`}
       >
         <input
           type="text"
@@ -53,7 +57,7 @@ export default function HeaderComponent() {
         </div>
       </div>
       {/* Нижняя часть при маленьком экране */}
-      <div className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-center bg-white p-4 lg:hidden">
+      <div className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-center bg-white p-4 md:hidden">
         <LoginMenu />
       </div>
     </>

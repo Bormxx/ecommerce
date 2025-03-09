@@ -1,6 +1,6 @@
 import Image from "next/image";
 import product from "../../images/Product.jpg";
-import { inter, roboto } from "@/app/fonts";
+import { inter, roboto } from "@/utils/fonts";
 
 export default function Banner() {
   return (
@@ -9,9 +9,7 @@ export default function Banner() {
         <h1 className={`${roboto.className} text-xl font-bold md:text-3xl`}>
           Заголовок баннера
         </h1>
-        <h2
-          className={`${inter.className} font-notmal text-sm md:text-base`}
-        >
+        <h2 className={`${inter.className} font-notmal text-sm md:text-base`}>
           Подзаголовок
         </h2>
       </div>

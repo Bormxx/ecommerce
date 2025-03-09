@@ -1,8 +1,7 @@
 import MainBackground from "@/components/FormsComponents/MainBackground";
-import RegistrForm from "@/components/Registration/RegistrForm";
+import HomeContainer from "@/components/HomeContainer/HomeContainer";
+import RegistrForm from "@/components/registration/RegistrForm";
 import { useProtectedAuthRoute } from "@/hooks/useProtectedAuthRoute";
-import HomeContainer from "../../components/HomeContainer/HomeContainer";
-
 
 export default function RegistrationPage() {
   useProtectedAuthRoute();

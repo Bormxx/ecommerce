@@ -53,8 +53,6 @@ export default function RegistrForm() {
     resolver: zodResolver(registrFormSchema),
     mode: "onChange",
   });
-
-
   return (
     <>
       <div className="flex min-w-[380px] flex-col gap-10 rounded-xl bg-white p-6 shadow-lg">

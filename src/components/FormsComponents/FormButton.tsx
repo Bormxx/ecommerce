@@ -1,4 +1,4 @@
-import { inter } from "@/app/fonts";
+import { inter } from "@/utils/fonts";
 import { Button } from "@headlessui/react";
 
 type FormButtonProp = {
