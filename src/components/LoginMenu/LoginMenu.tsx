@@ -44,7 +44,7 @@ export default function LoginMenu() {
             />
 
             <IconLink
-              link="/"
+              link="/profile"
               icon={<UserIcon />}
               text="Профиль"
               lg_hidden=""
