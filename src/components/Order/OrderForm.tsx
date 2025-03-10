@@ -1,15 +1,15 @@
-import { inter } from "@/app/fonts";
 import DeliveryType from "../OrderFormsComponents/DeliveryType";
 import OrderFieldSet from "../OrderFormsComponents/OrderFieldset";
 import PaymentType from "../OrderFormsComponents/PaymentType";
 import { Button, Field, Input, Label, Textarea } from "@headlessui/react";
 import ComboboxCustom from "../OrderFormsComponents/ComboboxCustom";
-import { cn } from "@/utils/frontend/cn";
 import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { orderSchema, TOrderSchema } from "../../../types/schemas/order";
 import { useState } from "react";
+import { TOrderSchema, orderSchema } from "@/shared/types/schemas/order";
+import { cn } from "@/shared/utils/frontend/cn";
+import { inter } from "@/styles/fonts";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -23,7 +23,7 @@ export default function OrderForm() {
     formState: { errors },
   } = useForm<TOrderSchema>({
     resolver: zodResolver(orderSchema),
-    mode: 'all'
+    mode: "all",
   });
 
   const deliveryDate = DateTime.now()
@@ -50,12 +50,9 @@ export default function OrderForm() {
         className="flex gap-5"
       >
         <div className="flex max-w-[580px] flex-col gap-6">
-
-
           <OrderFieldSet header={"Способ оплаты"}>
             <PaymentType control={control} name={"payment"} />
           </OrderFieldSet>
-
 
           <OrderFieldSet header={"Способ доставки"} wider={true}>
             <DeliveryType
@@ -68,34 +65,36 @@ export default function OrderForm() {
                 {isCourier ? "Доставить по адресу:" : "Адрес пункта выдачи:"}
               </h2>
               <div className="flex gap-2">
-                <Field className={cn(
-                    isCourier ? "flex-col" : " items-center",
-                    "flex gap-1"
-                  )}>
+                <Field
+                  className={cn(
+                    isCourier ? "flex-col" : "items-center",
+                    "flex gap-1",
+                  )}
+                >
                   <ComboboxCustom
                     control={control}
                     name={"city"}
                     openFn={setCity}
                   />
-                  { errors.city && (
-                      <p
-                        className={cn(
-                          inter.className,
-                          "text-sm font-normal text-red-500",
-                        )}
-                      >
-                        {errors.city.message}
-                      </p>
-                    )}
+                  {errors.city && (
+                    <p
+                      className={cn(
+                        inter.className,
+                        "text-sm font-normal text-red-500",
+                      )}
+                    >
+                      {errors.city.message}
+                    </p>
+                  )}
                 </Field>
                 {isCourier ? (
-                  <Field className="flex flex-col gap-1 grow h-fit">
+                  <Field className="flex h-fit grow flex-col gap-1">
                     <Input
                       {...register("address")}
                       type="text"
                       placeholder="улица, дом, квартира"
                       className={cn(
-                        inter.className,                        
+                        inter.className,
                         "grow rounded-md border border-gray-400 text-base font-normal hover:border-blue-500",
                         errors.address ? "border-red-500" : "",
                       )}
@@ -149,7 +148,6 @@ export default function OrderForm() {
             </div>
           </OrderFieldSet>
 
-
           <OrderFieldSet header={"Получатель"}>
             <div className="flex justify-between">
               <div className="flex flex-col gap-2">
@@ -180,11 +178,11 @@ export default function OrderForm() {
                   placeholder="+7"
                   className={cn(
                     inter.className,
-                    "rounded  px-3 py-2 text-base font-normal hover:border-blue-500",
-                    errors.phone ? "border-red-500" : "border-gray-400"
+                    "rounded px-3 py-2 text-base font-normal hover:border-blue-500",
+                    errors.phone ? "border-red-500" : "border-gray-400",
                   )}
                 />
-                { errors.phone && (
+                {errors.phone && (
                   <p
                     className={cn(
                       inter.className,
@@ -212,13 +210,13 @@ export default function OrderForm() {
               />
             </Field>
           </OrderFieldSet>
-
-
         </div>
         <div className="h-fit min-w-[380px] rounded-xl px-4 py-5 shadow-lg">
-          <Button 
+          <Button
             onMouseOver={() => trigger()}
-            className="h-5 w-5 bg-slate-500" type="submit"></Button>
+            className="h-5 w-5 bg-slate-500"
+            type="submit"
+          ></Button>
         </div>
       </form>
     </section>

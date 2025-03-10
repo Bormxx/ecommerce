@@ -1,4 +1,4 @@
-import { inter } from "@/app/fonts";
+import { inter } from "@/styles/fonts";
 import { Button } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 

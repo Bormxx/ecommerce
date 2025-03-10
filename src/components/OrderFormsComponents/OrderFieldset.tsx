@@ -1,4 +1,4 @@
-import { roboto } from "@/app/fonts";
+import { roboto } from "@/styles/fonts";
 import { Fieldset } from "@headlessui/react";
 import { ReactNode } from "react";
 

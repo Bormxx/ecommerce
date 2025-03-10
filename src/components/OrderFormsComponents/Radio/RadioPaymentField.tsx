@@ -1,4 +1,4 @@
-import { inter } from "@/app/fonts";
+import { inter } from "@/styles/fonts";
 import { Field, Label, Radio } from "@headlessui/react";
 
 export type RadioPaymentFieldProps = {

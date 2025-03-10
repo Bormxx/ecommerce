@@ -1,8 +1,8 @@
-import { cn } from "@/utils/frontend/cn";
 import { Input, InputProps } from "@headlessui/react";
 import { FieldValues, useController, UseControllerProps } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
 import { ChangeEvent } from "react";
+import { cn } from "@/shared/utils/frontend/cn";
 
 type InputAuthProps<T extends FieldValues> = InputProps & UseControllerProps<T>;
 
