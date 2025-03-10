@@ -1,9 +1,9 @@
-import MainBackground from "@/components/AuthFormsComponents/MainBackground";
-import RegisterForm from "@/components/Registration/RegisterForm";
-import { useProtectedAuthRoute } from "@/hooks/useProtectedAuthRoute";
-import HomeContainer from "../../components/HomeContainer/HomeContainer";
-import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 
+import MainBackground from "@/components/AuthFormsComponents/MainBackground";
+import HomeContainer from "@/components/HomeContainer/HomeContainer";
+import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
+import RegisterForm from "@/components/Registration/RegisterForm";
+import { useProtectedAuthRoute } from "@/shared/hooks/useProtectedAuthRoute";
 
 export default function RegistrationPage() {
   useProtectedAuthRoute();

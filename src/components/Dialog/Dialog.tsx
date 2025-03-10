@@ -1,7 +1,8 @@
 import { Button, Dialog, DialogPanel } from "@headlessui/react";
 import { Dispatch, SetStateAction } from "react";
 import FormHeader from "../AuthFormsComponents/FormHeader";
-import { inter } from "@/app/fonts";
+import { inter } from "@/styles/fonts";
+
 
 type MyModalProps = {
   isTrue: boolean;
@@ -43,3 +44,4 @@ export default function MyModal(props: MyModalProps) {
     </>
   );
 }
+

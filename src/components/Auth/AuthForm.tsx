@@ -1,5 +1,4 @@
 import { Fieldset } from "@headlessui/react";
-import { inter } from "@/app/fonts";
 import FormHeader from "../AuthFormsComponents/FormHeader";
 import FormField from "../AuthFormsComponents/FormField";
 import FormButton from "../AuthFormsComponents/FormButton";
@@ -7,14 +6,15 @@ import AlterAuth from "../AuthFormsComponents/AlterAuth";
 import FormFooter from "../AuthFormsComponents/FormFooter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authFormSchema, TAuthForm } from "../../../types/schemas/auth";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
-import { useUserStore } from "@/store/auth";
+import { useUserStore } from "@/shared/store/auth";
 import { useRouter } from "next/router";
-import { signIn } from "@/services/auth";
 import AuthInput from "../AuthFormsComponents/InputAuth";
+import { inter } from "@/styles/fonts";
+import { authFormSchema, TAuthForm } from "@/shared/types/schemas/auth";
+import { signIn } from "@/shared/services/auth";
 
 export default function AuthForm() {
   const [reqStatus, setReqStatus] = useState(false);

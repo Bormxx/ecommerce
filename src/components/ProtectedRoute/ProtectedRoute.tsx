@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/shared/hooks/useAuth";
 import { ReactNode } from "react";
 
 type protectedRouteProps = {

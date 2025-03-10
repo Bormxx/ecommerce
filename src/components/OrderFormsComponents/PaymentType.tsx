@@ -2,9 +2,7 @@ import { RadioGroup } from "@headlessui/react";
 import CardAddButton from "./CardAddButton";
 import RadioPaymentField from "./Radio/RadioPaymentField";
 import { Controller, UseControllerProps } from "react-hook-form";
-import { TOrderSchema } from "../../../types/schemas/order";
-
-
+import { TOrderSchema } from "@/shared/types/schemas/order";
 
 export default function PaymentType({ control, name }: UseControllerProps<TOrderSchema>) {  
   const plans = [{id: 1, cardNumber: "44 44"}, {id: 2, cardNumber: "44 44"}, {id: 3, cardNumber: "44 44"}];

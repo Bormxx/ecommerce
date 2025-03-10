@@ -1,4 +1,4 @@
-import { inter } from "@/app/fonts";
+import { inter } from "@/styles/fonts";
 import { Button } from "@headlessui/react";
 import { FieldValues, UseFormTrigger } from "react-hook-form";
 

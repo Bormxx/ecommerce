@@ -1,8 +1,7 @@
 import MainSection from "@/components/MainSection/MainSection";
-import { Items, Photos } from "../../types";
+import { Items, Photos } from "../shared/types";
 import HomeContainer from "../components/HomeContainer/HomeContainer";
-import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
-import { useProtectedRoute } from "../hooks/useProtectedRoute";
+
 
 interface ItemsList {
   request: Items[];
@@ -20,11 +19,8 @@ export interface TypeRequest {
 export default function Home({ items, photos }: TypeRequest) {
 
   return (
-
     <HomeContainer>
-      <ProtectedRoute protection={useProtectedRoute}>
-        <MainSection items={items} photos={photos} />
-      </ProtectedRoute>
+      <MainSection items={items} photos={photos} />
     </HomeContainer>
   );
 }

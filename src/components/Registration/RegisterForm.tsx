@@ -4,23 +4,21 @@ import FormField from "../AuthFormsComponents/FormField";
 import FormButton from "../AuthFormsComponents/FormButton";
 import AlterAuth from "../AuthFormsComponents/AlterAuth";
 import FormFooter from "../AuthFormsComponents/FormFooter";
-import {
-  formDataSchema,
-  registerFormSchema,
-  TRegisterForm,
-  TFormData,
-} from "../../../types/schemas/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
-import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/router";
-import { signUp } from "@/services/auth";
-import AuthInput
-  from "../AuthFormsComponents/InputAuth";
-
+import AuthInput from "../AuthFormsComponents/InputAuth";
+import {
+  formDataSchema,
+  registerFormSchema,
+  TRegisterForm,
+  TFormData,
+} from "@/shared/types/schemas/auth";
+import { useUserStore } from "@/shared/store/auth";
+import { signUp } from "@/shared/services/auth";
 
 export default function RegisterForm() {
   const [reqStatus, setReqStatus] = useState(false);
@@ -100,7 +98,7 @@ export default function RegisterForm() {
                   type={"password"}
                 />
               </FormField>
-              <FormField text={"Повторите пароль"}> 
+              <FormField text={"Повторите пароль"}>
                 <AuthInput
                   control={control}
                   name="passwordCompare"
@@ -109,7 +107,11 @@ export default function RegisterForm() {
                 />
               </FormField>
             </Fieldset>
-            <FormButton text={"Зарегистрироваться"} isValid={isValid} trigger={trigger} />
+            <FormButton
+              text={"Зарегистрироваться"}
+              isValid={isValid}
+              trigger={trigger}
+            />
           </form>
           <AlterAuth text={"Регистрация с помощью"} />
         </div>
