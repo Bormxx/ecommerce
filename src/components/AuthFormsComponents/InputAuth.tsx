@@ -9,7 +9,7 @@ type InputAuthProps<T extends FieldValues> = InputProps & UseControllerProps<T>;
 export default function AuthInput<T extends FieldValues>(props: InputAuthProps<T> ) {
   const { name, control, disabled, defaultValue, onChange, ...inputProps} = props;
 
-  const { field, fieldState } = useController({name, control, disabled, defaultValue});
+  const { field, fieldState  } = useController({name, control, disabled, defaultValue});
 
   const fieldOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     field.onChange(e);
@@ -27,6 +27,7 @@ export default function AuthInput<T extends FieldValues>(props: InputAuthProps<T
         className={cn(
           `${fieldState.error ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
         )}
+        autoComplete="on"
       />
       {fieldState.error?.message && (
         <ErrorMessage text={fieldState.error?.message} />

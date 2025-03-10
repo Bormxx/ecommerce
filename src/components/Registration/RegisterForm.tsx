@@ -51,6 +51,7 @@ export default function RegisterForm() {
   } = useForm<TRegisterForm>({
     resolver: zodResolver(registerFormSchema),
     mode: "all",
+    defaultValues: { name: "", surname: "", email: "", password: "", passwordCompare: "" }
   });
 
   return (

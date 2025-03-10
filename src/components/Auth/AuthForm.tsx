@@ -45,6 +45,7 @@ export default function AuthForm() {
     formState: { isValid },
   } = useForm<TAuthForm>({
     resolver: zodResolver(authFormSchema),
+    defaultValues: ({ email: "", password: ""}),
     mode: "all",
   });
 

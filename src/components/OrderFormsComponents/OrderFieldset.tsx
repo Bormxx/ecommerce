@@ -10,7 +10,7 @@ type OrderFieldSetProps = {
 
 export default function OrderFieldSet({ children, header, wider }: OrderFieldSetProps) {
   return (
-    <Fieldset className={`${ wider ? "gap-6" : "gap-4"} flex flex-col rounded-xl px-4 py-5 shadow-lg`}>
+    <Fieldset className={`${ wider ? "gap-6" : "gap-4"} flex flex-col rounded-xl px-4 py-5 shadow-lg bg-white`}>
       <h1 className={`${roboto.className} text-xl font-bold`}>{header}</h1>
       {children}
     </Fieldset>

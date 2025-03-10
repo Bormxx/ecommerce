@@ -5,7 +5,7 @@ export const orderSchema = z.object({
   isCourier: z.boolean(),
   city: z.string().min(1, "Выберите город"),
   address: z.string().optional(),
-  phone: z.string(),
+  phone: z.string().min(1, "Введите номер телефона"),
   comment: z.string().optional(),
 }).superRefine(({ isCourier, address, phone }, ctx) => {
   if (isCourier && !address) {

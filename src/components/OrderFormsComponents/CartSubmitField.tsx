@@ -14,9 +14,9 @@ type CartSubmitFieldProps<T extends FieldValues> = {
 
 export default function CartSubmitField<T extends FieldValues>(props: CartSubmitFieldProps<T>) {
   return (
-    <div className="min-w-[300px] max-w-[380px] grow rounded-xl px-4 py-5 shadow-lg h-fit">
+    <div className="min-w-[320px] max-w-[380px] grow rounded-xl px-4 py-5 shadow-lg h-fit bg-white">
       <div className="hidden flex-col gap-4 md:flex">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-end">
           <p className={`${roboto.className} text-xl font-bold`}>
             { props.title }
           </p>
@@ -25,7 +25,7 @@ export default function CartSubmitField<T extends FieldValues>(props: CartSubmit
           </span>
         </div>
         {props.children}
-        <FormButton text="Оплатить заказ" isValid={props.isDisabled} trigger={props.trigger} />
+        <FormButton text="Оплатить заказ" isValid={props.isDisabled} trigger={props.trigger} isThin={true} />
       </div>
     </div>
   );

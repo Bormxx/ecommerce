@@ -1,8 +1,8 @@
 import { RadioGroup } from "@headlessui/react";
 import RadioDeliveryField from "./Radio/RadioDeliveryField";
 import { Controller, UseControllerProps } from "react-hook-form";
-import { TOrderSchema } from "../../../types/schemas/order";
 import { Dispatch, SetStateAction } from "react";
+import { TOrderSchema } from "@/shared/types/schemas/order";
 
 export default function DeliveryType({ control, name, openFn }: UseControllerProps<TOrderSchema> & { openFn: Dispatch<SetStateAction<boolean>> }) {
   

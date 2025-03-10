@@ -2,11 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../db/index";
 import { users } from "../../db/schema/schema";
 import { eq } from "drizzle-orm";
-<<<<<<< HEAD
-import { checkTokenValidity } from "@/utils/backend/checkToken";
-=======
 import { checkTokenValidity } from "@/shared/utils/backend/checkToken";
->>>>>>> dev
 
 export default async function findUser(
   req: NextApiRequest,

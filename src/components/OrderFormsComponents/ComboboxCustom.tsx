@@ -41,55 +41,67 @@ export default function ComboboxCustom({
       name={name}
       render={({ field: { value, onChange, ...props }, fieldState }) => {
         return (
-          <div className="border-none">
-            <Combobox
-              value={typeof value === "string" ? value : ""}
-              onChange={(val) => {
-                const currentCity = val ? val : "";
-                onChange(currentCity);
-                openFn(currentCity);
-              }}
-              onClose={() => setQuery("")}
-            >
-              <div className="group relative">
-                <ComboboxInput
-                  {...props}
-                  className={cn(
-                    inter.className,
-                    "w-[171px] rounded-md border px-3 py-[10px] text-sm font-normal",
-                    "group-hover:border-blue-600",
-                    fieldState.error ? "border-red-500" : "border-gray-400",
-                  )}
-                  displayValue={(city: string) => city}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Город"
-                />
-                <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5 group-hover:text-blue-800">
-                  <ChevronDownIcon className="size-6 transition ease-in-out group-data-[open]:rotate-180" />
-                </ComboboxButton>
-              </div>
+          <>
+            <div className="border-none">
+              <Combobox
+                value={typeof value === "string" ? value : ""}
+                onChange={(val) => {
+                  const currentCity = val ? val : "";
+                  onChange(currentCity);
+                  openFn(currentCity);
+                }}
+                onClose={() => setQuery("")}
+              >
+                <div className="group relative">
+                  <ComboboxInput
+                    {...props}
+                    className={cn(
+                      inter.className,
+                      "w-[171px] rounded-md border px-3 py-[10px] text-sm font-normal",
+                      "group-hover:border-blue-600",
+                      fieldState.error ? "border-red-500" : "border-gray-400",
+                    )}
+                    displayValue={(city: string) => city}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder="Город"
+                  />
+                  <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5 group-hover:text-blue-800">
+                    <ChevronDownIcon className="size-6 transition ease-in-out group-data-[open]:rotate-180" />
+                  </ComboboxButton>
+                </div>
 
-              <ComboboxOptions
-                anchor="bottom"
-                transition
+                <ComboboxOptions
+                  anchor="bottom"
+                  transition
+                  className={cn(
+                    "w-[var(--input-width)] rounded-md border border-gray-400 p-1 [--anchor-gap:var(--spacing-1)] empty:invisible",
+                    "mt-1 bg-white transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0",
+                  )}
+                >
+                  {filteredCities.map((city) => (
+                    <ComboboxOption
+                      key={city.id}
+                      value={city.name}
+                      className="group flex select-none items-center gap-2 bg-white px-3 py-1.5 hover:bg-blue-100/60"
+                    >
+                      <CheckIcon className="invisible size-4 group-data-[selected]:visible" />
+                      <div className="text-sm/6">{city.name}</div>
+                    </ComboboxOption>
+                  ))}
+                </ComboboxOptions>
+              </Combobox>
+            </div>
+            {fieldState.error?.message && (
+              <p
                 className={cn(
-                  "w-[var(--input-width)] rounded-md border border-gray-400 p-1 [--anchor-gap:var(--spacing-1)] empty:invisible",
-                  "mt-1 bg-white transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0",
+                  inter.className,
+                  "text-sm font-normal text-red-500",
                 )}
               >
-                {filteredCities.map((city) => (
-                  <ComboboxOption
-                    key={city.id}
-                    value={city.name}
-                    className="group flex select-none items-center gap-2 bg-white px-3 py-1.5 hover:bg-blue-100/60"
-                  >
-                    <CheckIcon className="invisible size-4 group-data-[selected]:visible" />
-                    <div className="text-sm/6">{city.name}</div>
-                  </ComboboxOption>
-                ))}
-              </ComboboxOptions>
-            </Combobox>
-          </div>
+                {fieldState.error?.message}
+              </p>
+            )}
+          </>
         );
       }}
     />

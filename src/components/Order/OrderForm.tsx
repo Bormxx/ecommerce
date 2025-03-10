@@ -12,6 +12,8 @@ import { cn } from "@/shared/utils/frontend/cn";
 import { inter } from "@/styles/fonts";
 import CartSubmitField from "../OrderFormsComponents/CartSubmitField";
 import CartSubmitDetails from "../OrderFormsComponents/CartDetails/CartSubmitDetails";
+import AddressSection from "../OrderFormsComponents/AddressSection";
+import DeliveryDate from "../OrderFormsComponents/DeliveryDate";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -49,105 +51,33 @@ export default function OrderForm() {
           }
           console.log(data);
         })}
-        className="flex gap-5 grow justify-center"
+        className="flex justify-center gap-5"
       >
         <div className="flex max-w-[580px] flex-col gap-6">
           <OrderFieldSet header={"Способ оплаты"}>
             <PaymentType control={control} name={"payment"} />
           </OrderFieldSet>
-
+          
           <OrderFieldSet header={"Способ доставки"} wider={true}>
             <DeliveryType
               control={control}
               name={"isCourier"}
               openFn={setIsCourier}
             />
-            <div className="flex flex-col gap-2">
-              <h2 className={`${inter.className} text-base font-normal`}>
-                {isCourier ? "Доставить по адресу:" : "Адрес пункта выдачи:"}
-              </h2>
-              <div className="flex gap-2">
-                <Field
-                  className={cn(
-                    isCourier ? "flex-col gap-1" : "items-center gap-3",
-                    "flex",
-                  )}
-                >
-                  <ComboboxCustom
-                    control={control}
-                    name={"city"}
-                    openFn={setCity}
-                  />
-                  {errors.city && (
-                    <p
-                      className={cn(
-                        inter.className,
-                        "text-sm font-normal text-red-500",
-                      )}
-                    >
-                      {errors.city.message}
-                    </p>
-                  )}
-                </Field>
-                {isCourier ? (
-                  <Field className="flex h-fit grow flex-col gap-1">
-                    <Input
-                      {...register("address")}
-                      type="text"
-                      placeholder="улица, дом, квартира"
-                      className={cn(
-                        inter.className,
-                        "grow rounded-md border text-base font-normal hover:border-blue-500",
-                        errors.address ? "border-red-500" : "border-gray-400",
-                      )}
-                    />
-                    <Label className="sr-only">Улица, дом, квартира</Label>
-                    {errors.address && (
-                      <p
-                        className={cn(
-                          inter.className,
-                          "text-sm font-normal text-red-500",
-                        )}
-                      >
-                        {errors.address.message}
-                      </p>
-                    )}
-                  </Field>
-                ) : city ? (
-                  <div className="flex flex-col">
-                    <p
-                      className={cn(
-                        inter.className,
-                        "grow text-base font-normal text-gray-600",
-                      )}
-                    >
-                      {storages[city]}
-                    </p>
-                    <p
-                      className={cn(
-                        inter.className,
-                        "text-sm font-normal text-gray-400",
-                      )}
-                    >
-                      Время работы: 10:00-22:00
-                    </p>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <p
-                className={cn(
-                  inter.className,
-                  "text-sm font-normal text-gray-400",
-                )}
-              >
-                Доставят
-              </p>
-              <p className={cn(inter.className, "text-sm font-normal")}>
-                {deliveryDate}
-              </p>
-            </div>
+            <AddressSection
+              isCourier={isCourier}
+              city={city}
+              storageAddress={storages[city]}
+              name={"address"}
+              control={control}
+            >
+              <ComboboxCustom
+                control={control}
+                name={"city"}
+                openFn={setCity}
+              />
+            </AddressSection>
+            <DeliveryDate deliveryDate={deliveryDate} />
           </OrderFieldSet>
 
           <OrderFieldSet header={"Получатель"}>
@@ -213,7 +143,12 @@ export default function OrderForm() {
             </Field>
           </OrderFieldSet>
         </div>
-        <CartSubmitField title={"Ваш заказ"} items={5} isDisabled={isValid} trigger={trigger}>
+        <CartSubmitField
+          title={"Ваш заказ"}
+          items={5}
+          isDisabled={isValid}
+          trigger={trigger}
+        >
           <CartSubmitDetails cost={`20 000`} />
         </CartSubmitField>
       </form>
