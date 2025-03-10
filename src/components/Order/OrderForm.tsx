@@ -11,6 +11,7 @@ import { TOrderSchema, orderSchema } from "@/shared/types/schemas/order";
 import { cn } from "@/shared/utils/frontend/cn";
 import { inter } from "@/styles/fonts";
 import CartSubmitField from "../OrderFormsComponents/CartSubmitField";
+import CartSubmitDetails from "../OrderFormsComponents/CartDetails/CartSubmitDetails";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -21,7 +22,7 @@ export default function OrderForm() {
     handleSubmit,
     control,
     trigger,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<TOrderSchema>({
     resolver: zodResolver(orderSchema),
     mode: "all",
@@ -39,7 +40,7 @@ export default function OrderForm() {
   };
 
   return (
-    <section className="py-10">
+    <section className="pt-10">
       <form
         onSubmit={handleSubmit((data) => {
           console.log(data);
@@ -212,7 +213,9 @@ export default function OrderForm() {
             </Field>
           </OrderFieldSet>
         </div>
-        <CartSubmitField />
+        <CartSubmitField title={"Ваш заказ"} items={5} isDisabled={isValid} trigger={trigger}>
+          <CartSubmitDetails cost={`20 000`} />
+        </CartSubmitField>
       </form>
     </section>
   );
