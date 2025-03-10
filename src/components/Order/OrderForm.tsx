@@ -1,7 +1,7 @@
 import DeliveryType from "../OrderFormsComponents/DeliveryType";
 import OrderFieldSet from "../OrderFormsComponents/OrderFieldset";
 import PaymentType from "../OrderFormsComponents/PaymentType";
-import { Button, Field, Input, Label, Textarea } from "@headlessui/react";
+import { Field, Input, Label, Textarea } from "@headlessui/react";
 import ComboboxCustom from "../OrderFormsComponents/ComboboxCustom";
 import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,7 @@ import { useState } from "react";
 import { TOrderSchema, orderSchema } from "@/shared/types/schemas/order";
 import { cn } from "@/shared/utils/frontend/cn";
 import { inter } from "@/styles/fonts";
+import CartSubmitField from "../OrderFormsComponents/CartSubmitField";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -38,7 +39,7 @@ export default function OrderForm() {
   };
 
   return (
-    <section className="mx-auto grow py-10">
+    <section className="py-10">
       <form
         onSubmit={handleSubmit((data) => {
           console.log(data);
@@ -47,7 +48,7 @@ export default function OrderForm() {
           }
           console.log(data);
         })}
-        className="flex gap-5"
+        className="flex gap-5 grow justify-center"
       >
         <div className="flex max-w-[580px] flex-col gap-6">
           <OrderFieldSet header={"Способ оплаты"}>
@@ -67,8 +68,8 @@ export default function OrderForm() {
               <div className="flex gap-2">
                 <Field
                   className={cn(
-                    isCourier ? "flex-col" : "items-center",
-                    "flex gap-1",
+                    isCourier ? "flex-col gap-1" : "items-center gap-3",
+                    "flex",
                   )}
                 >
                   <ComboboxCustom
@@ -95,8 +96,8 @@ export default function OrderForm() {
                       placeholder="улица, дом, квартира"
                       className={cn(
                         inter.className,
-                        "grow rounded-md border border-gray-400 text-base font-normal hover:border-blue-500",
-                        errors.address ? "border-red-500" : "",
+                        "grow rounded-md border text-base font-normal hover:border-blue-500",
+                        errors.address ? "border-red-500" : "border-gray-400",
                       )}
                     />
                     <Label className="sr-only">Улица, дом, квартира</Label>
@@ -211,13 +212,7 @@ export default function OrderForm() {
             </Field>
           </OrderFieldSet>
         </div>
-        <div className="h-fit min-w-[380px] rounded-xl px-4 py-5 shadow-lg">
-          <Button
-            onMouseOver={() => trigger()}
-            className="h-5 w-5 bg-slate-500"
-            type="submit"
-          ></Button>
-        </div>
+        <CartSubmitField />
       </form>
     </section>
   );

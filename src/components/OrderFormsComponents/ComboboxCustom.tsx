@@ -81,7 +81,7 @@ export default function ComboboxCustom({
                   <ComboboxOption
                     key={city.id}
                     value={city.name}
-                    className="group flex select-none items-center gap-2 bg-white px-3 py-1.5"
+                    className="group flex select-none items-center gap-2 bg-white px-3 py-1.5 hover:bg-blue-100/60"
                   >
                     <CheckIcon className="invisible size-4 group-data-[selected]:visible" />
                     <div className="text-sm/6">{city.name}</div>
