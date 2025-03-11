@@ -15,6 +15,7 @@ import AuthInput from "../AuthFormsComponents/InputAuth";
 import { inter } from "@/styles/fonts";
 import { authFormSchema, TAuthForm } from "@/shared/types/schemas/auth";
 import { signIn } from "@/shared/services/auth";
+import AuthModal from "../Dialog/Variants/AuthModal";
 
 export default function AuthForm() {
   const [reqStatus, setReqStatus] = useState(false);
@@ -45,7 +46,7 @@ export default function AuthForm() {
     formState: { isValid },
   } = useForm<TAuthForm>({
     resolver: zodResolver(authFormSchema),
-    defaultValues: ({ email: "", password: ""}),
+    defaultValues: { email: "", password: "" },
     mode: "all",
   });
 
@@ -83,7 +84,7 @@ export default function AuthForm() {
                 </p>
               </FormField>
             </Fieldset>
-            <FormButton text={"Войти"} isValid={isValid} trigger={trigger}/>
+            <FormButton text={"Войти"} isValid={isValid} trigger={trigger} />
           </form>
           <AlterAuth text={"Войти с помощью"} />
         </div>
@@ -93,11 +94,14 @@ export default function AuthForm() {
           footerText={"Зарегистрироваться"}
         />
       </div>
-      <MyModal
-        isTrue={reqStatus}
-        closeFn={setReqStatus}
-        errorMessage={errorMessage}
-      />
+      <MyModal isTrue={reqStatus} closeFn={setReqStatus}>
+        <FormHeader>Ошибка</FormHeader>
+        <AuthModal
+          isTrue={reqStatus}
+          errorMessage={errorMessage}
+          closeFn={setReqStatus}
+        />
+      </MyModal>
     </>
   );
 }

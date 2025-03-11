@@ -3,8 +3,13 @@ import CardAddButton from "./CardAddButton";
 import RadioPaymentField from "./Radio/RadioPaymentField";
 import { Controller, UseControllerProps } from "react-hook-form";
 import { TOrderSchema } from "@/shared/types/schemas/order";
+import { Dispatch, SetStateAction } from "react";
 
-export default function PaymentType({ control, name }: UseControllerProps<TOrderSchema>) {  
+type PaymentTypeProps = {
+  openFn: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function PaymentType({ control, name, openFn }: UseControllerProps<TOrderSchema> & PaymentTypeProps) {  
   const plans = [{id: 1, cardNumber: "44 44"}, {id: 2, cardNumber: "44 44"}, {id: 3, cardNumber: "44 44"}];
   
   return (
@@ -24,7 +29,7 @@ export default function PaymentType({ control, name }: UseControllerProps<TOrder
             {plans.map((plan) => (
               <RadioPaymentField key={plan.id} id={plan.id} cardNumber={plan.cardNumber} />
             ))}
-            <CardAddButton />
+            <CardAddButton openFn={openFn} />
             <RadioPaymentField />
           </RadioGroup>
         )

@@ -19,6 +19,7 @@ import {
 } from "@/shared/types/schemas/auth";
 import { useUserStore } from "@/shared/store/auth";
 import { signUp } from "@/shared/services/auth";
+import AuthModal from "../Dialog/Variants/AuthModal";
 
 export default function RegisterForm() {
   const [reqStatus, setReqStatus] = useState(false);
@@ -51,7 +52,13 @@ export default function RegisterForm() {
   } = useForm<TRegisterForm>({
     resolver: zodResolver(registerFormSchema),
     mode: "all",
-    defaultValues: { name: "", surname: "", email: "", password: "", passwordCompare: "" }
+    defaultValues: {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      passwordCompare: "",
+    },
   });
 
   return (
@@ -122,11 +129,14 @@ export default function RegisterForm() {
           footerText={"Войти в аккаунт"}
         />
       </div>
-      <MyModal
-        isTrue={reqStatus}
-        closeFn={setReqStatus}
-        errorMessage={errorMessage}
-      />
+      <MyModal isTrue={reqStatus} closeFn={setReqStatus}>
+        <FormHeader>Ошибка</FormHeader>
+        <AuthModal
+          isTrue={reqStatus}
+          errorMessage={errorMessage}
+          closeFn={setReqStatus}
+        />
+      </MyModal>
     </>
   );
 }
