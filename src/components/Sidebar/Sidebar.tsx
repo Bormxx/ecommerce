@@ -23,7 +23,7 @@ export default function Sidebar() {
               <li key={text} className="mb-2">
                 <Link
                   href={href}
-                  className={`block pl-4 pr-4 pb-2 pt-2 rounded-lg cursor-pointer hover:bg-[#F3F4F6] ${
+                  className={`block pl-4 pr-4 pb-2 pt-2 rounded-lg cursor-pointer transition-all duration-300 hover:bg-[#F3F4F6] ${
                     isActive ? "text-[#2563EB] font-medium" : ""
                   }`}
                 >

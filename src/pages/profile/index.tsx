@@ -30,7 +30,7 @@ export default function Profile({
 
   return (
     <HomeContainer>
-        <ProfileBackground>
+        <ProfileBackground imageUrl="/images/sport_meditation.svg">
           <div className="flex pt-10 h-[90vh]">
             <Sidebar/>
 

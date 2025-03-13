@@ -87,7 +87,7 @@ export default function CartSection() {
     } else {
       setContent(
         <form className="flex w-full flex-col gap-3 md:flex-row">
-          <div className="flex-grow">
+          <div className="flex-grow min-w-[580px]">
             {itemList.map((item) => (
               <CardInBasket
                 key={item.id}
@@ -158,7 +158,7 @@ export default function CartSection() {
   }, [itemList, total]);
 
   return (
-    <div className="">
+    <div className="pl-5">
       <div className="flex gap-4">
         <h1 className={`${roboto.className} text-2xl font-bold`}>Корзина</h1>
         <span

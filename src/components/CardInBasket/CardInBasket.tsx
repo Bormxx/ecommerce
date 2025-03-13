@@ -39,7 +39,7 @@ export default function CardInBasket({
   return (
     <div
       id={id}
-      className="flex flex-col border-b border-gray-200 py-3 md:rounded-xl md:p-4 md:shadow-md"
+      className="flex flex-col mt-4 border-b border-gray-200 py-3 bg-white md:rounded-xl md:p-4 md:shadow-md"
     >
       <div className="flex gap-2">
         <Link href={`/${id}`}>
