@@ -1,5 +1,4 @@
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
-import ProfileBackground from "@/components/ProfileComponents/ProfileBackground";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import CartSection from "@/components/CartSection/CartSection";
 

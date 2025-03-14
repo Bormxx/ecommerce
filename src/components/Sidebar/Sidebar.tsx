@@ -14,7 +14,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="min-w-[264px] pr-4 border-r-[1px]">
+    <aside className="min-w-[264px] pr-4 border-r-[1px] hidden md:block">
         <ul className="text-[#1F2937]">
           {menuItems.map(({ text, href }) => {
             const isActive = pathname === href;
