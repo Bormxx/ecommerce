@@ -2,6 +2,7 @@
 import { inter, roboto } from "@/styles/fonts";
 import CardInBasket from "@/components/CardInBasket/CardInBasket";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function CartSection() {
   const [total, setTotal] = useState(0);
@@ -107,47 +108,59 @@ export default function CartSection() {
               />
             ))}
           </div>
-          <div className="fixed min-w-[280px] bottom-[65px] left-0 flex w-full flex-col gap-2 bg-white p-4 shadow-lg md:static md:h-[165px] md:w-60 md:rounded-xl">
-            <div className="flex justify-between md:hidden">
-              <span className="text-xl font-bold text-green-500">
-                {formattedTotal} &#8381;
-              </span>
-              <span
-                className={`${inter.className} flex items-center text-sm text-slate-400`}
-              >
-                {getProductWord(quantity)}
-              </span>
-            </div>
-            <div className="hidden flex-col gap-4 md:flex">
-              <div className="flex justify-between">
-                <p className={`${roboto.className} text-xl font-bold`}>
-                  Ваша корзина
-                </p>
-                <span className={`${inter.className} text-xs text-slate-400`}>
+            <div>
+            <div className="fixed min-w-[280px] bottom-[65px] left-0 flex w-full flex-col gap-2 bg-white p-4 shadow-lg md:static md:h-[165px] md:w-60 md:rounded-xl">
+              <div className="flex justify-between md:hidden">
+                <span className="text-xl font-bold text-green-500">
+                  {formattedTotal} &#8381;
+                </span>
+                <span
+                  className={`${inter.className} flex items-center text-sm text-slate-400`}
+                >
                   {getProductWord(quantity)}
                 </span>
               </div>
-              <div className="mb-2 flex items-end justify-between">
-                <p className={`${inter.className} text-xs text-gray-500`}>
-                  Сумма заказа
-                </p>
-                <span
-                  className={`${roboto.className} text-3xl font-bold text-green-500`}
-                >
-                  {formattedTotal} &#8381;
-                </span>
+              <div className="hidden flex-col gap-4 md:flex">
+                <div className="flex justify-between">
+                  <p className={`${roboto.className} text-xl font-bold`}>
+                    Ваша корзина
+                  </p>
+                  <span className={`${inter.className} text-xs text-slate-400`}>
+                    {getProductWord(quantity)}
+                  </span>
+                </div>
+                <div className="mb-2 flex items-end justify-between">
+                  <p className={`${inter.className} text-xs text-gray-500`}>
+                    Сумма заказа
+                  </p>
+                  <span
+                    className={`${roboto.className} text-3xl font-bold text-green-500`}
+                  >
+                    {formattedTotal} &#8381;
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <button
-              type="submit"
-              className={`w-full rounded-lg bg-blue-800 p-2 font-bold ${
-                total === 0 ? "text-slate-400" : "text-white"
-              }`}
-              disabled={total === 0}
-            >
-              Оформить заказ
-            </button>
+              <button
+                type="submit"
+                className={`w-full rounded-lg bg-blue-800 p-2 font-bold ${
+                  total === 0 ? "text-slate-400" : "text-white"
+                }`}
+                disabled={total === 0}
+              >
+                Оформить заказ
+              </button>
+            </div>
+            <div className="mt-[47px]">
+              <Image
+                src="/images/chick-with-books.svg"
+                alt="Женщина с книгой"
+                width={288}
+                height={396}
+                priority
+                className="opacity-80"
+              />
+            </div>
           </div>
         </form>,
       );

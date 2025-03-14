@@ -6,12 +6,10 @@ import CartSection from "@/components/CartSection/CartSection";
 export default function Cart() {
   return (
     <HomeContainer>
-      <ProfileBackground imageUrl="/images/chick-with-books.svg">
         <div className="flex pt-10 h-[90vh]">
           <Sidebar/>
           <CartSection/>
         </div>
-      </ProfileBackground>
     </HomeContainer>
   );
 }
