@@ -87,7 +87,7 @@ export default function CartSection() {
     } else {
       setContent(
         <form className="flex w-full flex-col gap-3 md:flex-row">
-          <div className="flex-grow min-w-[580px]">
+          <div className="flex-grow min-w-[580px] mr-2">
             {itemList.map((item) => (
               <CardInBasket
                 key={item.id}
@@ -107,7 +107,7 @@ export default function CartSection() {
               />
             ))}
           </div>
-          <div className="fixed bottom-[65px] left-0 flex w-full flex-col gap-2 bg-white p-5 shadow-lg md:static md:h-[165px] md:w-72 md:rounded-xl">
+          <div className="fixed min-w-[280px] bottom-[65px] left-0 flex w-full flex-col gap-2 bg-white p-4 shadow-lg md:static md:h-[165px] md:w-60 md:rounded-xl">
             <div className="flex justify-between md:hidden">
               <span className="text-xl font-bold text-green-500">
                 {formattedTotal} &#8381;
