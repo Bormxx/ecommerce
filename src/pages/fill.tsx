@@ -2,7 +2,6 @@ import axios from "axios";
 import EmblaCarousel from "./carousel";
 import filling from "./filling"
 import { EmblaOptionsType } from "embla-carousel";
-import { number } from "zod";
 
 // Заполняем таблицу с пользователями
 const usersUrl = 'api/users'
@@ -226,7 +225,7 @@ async function fillingCharacteristics() {
 
 
 const postsUrl: string = "api/posts";
-const postsValue: object[] = [];
+let postsValue: any = [];
 const postsArray: string[] = [
   "Я купил эти очки и был очень доволен. Они очень удобные и стильные. Я бы рекомендовал их всем.",
   "Эти очки просто великолепны! Они очень удобные и обеспечивают отличное зрение. Я очень доволен своей покупкой.",
@@ -239,23 +238,24 @@ async function fillingPosts() {
   const itemsRequest = await axios.get("api/items");
   const usersRequest = await axios.get("api/users");
   let flag: boolean = true;
-  itemsRequest.data.request.map(async(item: any)=>{
-    const postCount = Math.floor(Math.random() * usersRequest.data.request.length) + 1;
-    for(let i = 0; i < postCount; i++) {
+  itemsRequest.data.request.map(async(item: any, i: number, row: any)=>{
+    const postCount =
+      Math.floor(Math.random() * usersRequest.data.request.length) + 1;
+    for (let i = 0; i < postCount; i++) {
       let userId = await getRandomUser();
-      // let itemId = await getRandomItem();
       const itemId = item.id;
-      postsValue.map((item: any) => {
-        if (item.userId !== userId && item.itemId !== itemId) {
-          // Если в массиве postsValue нет отзыва с таким userId и itemId, то flag = true
-          flag = true;
-        } else if (item.userId === userId && item.itemId === itemId) {
-          // Если в массиве postsValue есть отзыв с таким userId и itemId, то flag = false
-          flag = false;
-        }
-      });
-      // Если flag = true, то добавляем в массив postsValue объект
-      if (flag === true || postsValue.length === 0) {
+      // Проверка на дубликаты, чтобы пользователь не мог дважды оставлять пост к одному товару
+      for (let j = 0; j < postsValue.length; j++) {
+        if (
+          postsValue[j].userId === userId &&
+          postsValue[j].itemId === itemId
+        ) {
+          flag = false; // Если встретили дубликат, то флаг становится false и выходим из цикла
+          break;
+        } else flag = true; // Если не встретили дубликат, то флаг остается true
+      }
+      // Если флаг остается true, то добавляем объект в массив postsValue
+      if (flag === true) {
         postsValue.push({
           userId: userId,
           itemId: itemId,
@@ -263,11 +263,13 @@ async function fillingPosts() {
           post: postsArray[Math.floor(Math.random() * postsArray.length)],
         });
       }
-      }
-    } 
+    }
+    // Когда мы набили массив postsValue данными, запускаем функцию filling
+    if (i + 1 === row.length) {
+      filling(postsUrl, postsValue);
+    }
+  } 
   );
-  console.log(postsValue);
-  filling(postsUrl, postsValue);
 }
 
 

@@ -15,16 +15,15 @@ export default async function orderPlacing(
     })
     let totalQuantity = 0
     let finalPrice = 0
-    requestBasket.map(async (basket) => {
+    requestBasket.map(async (basket, i, row) => {
       totalQuantity = totalQuantity + basket.quantity
       const requestItem = await db.query.items.findFirst({
         where: (item, { eq }) => eq(item.id, Number(basket.itemId)),
       })
       finalPrice = finalPrice + (Number(requestItem?.price) * basket.quantity)
-      console.log(finalPrice)
+      if(i + 1 === row.length) {
+        return res.status(200).json({ totalQuantity, finalPrice, requestUser});
+      }
     })
-    console.log(finalPrice)
-    
-    return res.status(200).json({ totalQuantity, finalPrice, requestUser});
   }
 }
