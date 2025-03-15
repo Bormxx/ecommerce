@@ -2,6 +2,7 @@ import axios from "axios";
 import EmblaCarousel from "./carousel";
 import filling from "./filling"
 import { EmblaOptionsType } from "embla-carousel";
+import { TItems } from "../shared/types";
 
 // Заполняем таблицу с пользователями
 const usersUrl = 'api/users'
@@ -200,6 +201,15 @@ async function fillingPhotos() {
   filling(photosUrl, photosValue);
 }
 
+type Characteristics = {
+  itemId: number;
+  frameMatherials: string[];
+  linzeMatherials: string[];
+  linzeTypes: string[];
+  linzeUVDefences: string[];
+  linzeEffects: string[];
+};
+
 const characteristicsUrl: string = "api/characteristics";
 const frameMatherials: string[] = ['Титан', 'Пластик', 'Нержавеющая сталь']
 const linzeMatherials: string[] = ['Пластик', 'Стекло']
@@ -209,9 +219,9 @@ const linzeEffects: string[] = ['Без автозатемнения', 'С ав�
 const characteristicsValue: object[] = []
 async function fillingCharacteristics() {
   const itemsRequest = await axios.get("api/items");
-  itemsRequest.data.request.map((item: any) => {
+  itemsRequest.data.request.map((item: Characteristics) => {
     characteristicsValue.push({
-      itemId: item.id,
+      itemId: item.itemId,
       frameMatherials: frameMatherials[Math.floor(Math.random() * frameMatherials.length)],
       linzeMatherials: linzeMatherials[Math.floor(Math.random() * linzeMatherials.length)],
       linzeTypes: linzeTypes[Math.floor(Math.random() * linzeTypes.length)],
@@ -221,11 +231,16 @@ async function fillingCharacteristics() {
   filling(characteristicsUrl, characteristicsValue);
 }
 
-
+type TPostValue = {
+  userId: number;
+  itemId: number;
+  rating: number;
+  post: string;
+};
 
 
 const postsUrl: string = "api/posts";
-let postsValue: any = [];
+let postsValue: TPostValue[] = [];
 const postsArray: string[] = [
   "Я купил эти очки и был очень доволен. Они очень удобные и стильные. Я бы рекомендовал их всем.",
   "Эти очки просто великолепны! Они очень удобные и обеспечивают отличное зрение. Я очень доволен своей покупкой.",
@@ -238,7 +253,7 @@ async function fillingPosts() {
   const itemsRequest = await axios.get("api/items");
   const usersRequest = await axios.get("api/users");
   let flag: boolean = true;
-  itemsRequest.data.request.map(async(item: any, i: number, row: any)=>{
+  itemsRequest.data.request.map(async(item: TItems, i: number, row: TItems[])=>{
     const postCount =
       Math.floor(Math.random() * usersRequest.data.request.length) + 1;
     for (let i = 0; i < postCount; i++) {
