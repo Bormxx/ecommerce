@@ -35,22 +35,20 @@ export default async function usersAuth(
       }
 
       const token = jwt.sign({ id: user.id }, "omega-security-protection", {
-        expiresIn: 120,
+        expiresIn: 100000000,
       });
 
       res.setHeader(
         "Set-Cookie",
-        `authorization=Bearer ${token}; HttpOnly; Max-Age=180;`,
+        `authorization=Bearer ${token}; HttpOnly; Max-Age=10000000;`,
       );
 
-      res
-        .status(200)
-        .json({
-          name: user.name,
-          surname: user.surname,
-          avatar: user.avatar,
-          email: user.email,
-        });
+      res.status(200).json({
+        name: user.name,
+        surname: user.surname,
+        avatar: user.avatar,
+        email: user.email,
+      });
     } catch {
       res.status(500).json({ error: "Ошибка авторизации" });
     }
