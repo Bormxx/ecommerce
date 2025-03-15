@@ -15,4 +15,6 @@ export const useProtectedRoute = () => {
       });
     }
   }, [isAuthenticated, isHydrated, router]);
+
+  return isAuthenticated;
 };

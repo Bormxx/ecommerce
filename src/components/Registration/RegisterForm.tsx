@@ -9,22 +9,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
-import { useUserStore } from "@/shared/store/auth";
 import { useRouter } from "next/router";
 import AuthInput from "../AuthFormsComponents/InputAuth";
-import { inter } from "@/styles/fonts";
-import { authFormSchema, TAuthForm } from "@/shared/types/schemas/auth";
-import { signIn } from "@/shared/services/auth";
+import {
+  formDataSchema,
+  registerFormSchema,
+  TRegisterForm,
+  TFormData,
+} from "@/shared/types/schemas/auth";
+import { useUserStore } from "@/shared/store/auth";
+import { signUp } from "@/shared/services/auth";
 import AuthModal from "../Dialog/Variants/AuthModal";
 
-export default function AuthForm() {
+export default function RegisterForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { setIsAuthenticated, setUserData } = useUserStore();
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: (form: TAuthForm) => signIn(form),
+    mutationFn: (form: TFormData) => signUp(form),
     onSuccess: (data) => {
       setIsAuthenticated(true);
       setUserData(data);
@@ -35,6 +39,7 @@ export default function AuthForm() {
     onError: (err) => {
       setReqStatus(!reqStatus);
       setErrorMessage(err.message);
+      console.log(err.message);
     },
   });
 
@@ -42,26 +47,49 @@ export default function AuthForm() {
     handleSubmit,
     reset,
     control,
+    trigger,
     formState: { isValid },
-  } = useForm<TAuthForm>({
-    resolver: zodResolver(authFormSchema),
-    defaultValues: { email: "", password: "" },
+  } = useForm<TRegisterForm>({
+    resolver: zodResolver(registerFormSchema),
     mode: "all",
+    defaultValues: {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      passwordCompare: "",
+    },
   });
 
   return (
     <>
       <div className="flex min-w-[380px] flex-col gap-10 rounded-xl bg-white p-6 shadow-lg">
         <div className="flex flex-col gap-6">
-          <FormHeader>Вход в аккаунт</FormHeader>
+          <FormHeader>Регистрация</FormHeader>
           <form
             onSubmit={handleSubmit((data) => {
-              mutation.mutate(data);
+              mutation.mutate(formDataSchema.parse(data));
             })}
             className="flex flex-col gap-6"
           >
             <Fieldset className="flex flex-col gap-4">
-              <FormField text={"Ваш email"}>
+              <FormField text={"Имя"}>
+                <AuthInput
+                  control={control}
+                  name="name"
+                  placeholder="Ярополк"
+                  type={"text"}
+                />
+              </FormField>
+              <FormField text={"Фамилия"}>
+                <AuthInput
+                  control={control}
+                  name="surname"
+                  placeholder="Иванов"
+                  type={"text"}
+                />
+              </FormField>
+              <FormField text={"Email"}>
                 <AuthInput
                   control={control}
                   name="email"
@@ -69,28 +97,35 @@ export default function AuthForm() {
                   type={"text"}
                 />
               </FormField>
-              <FormField text={"Пароль"}>
+              <FormField text={"Придумайте пароль"}>
                 <AuthInput
+                  onChange={() => trigger("passwordCompare")}
                   control={control}
                   name="password"
                   placeholder="*******"
                   type={"password"}
                 />
-                <p
-                  className={`${inter.className} text-right text-base font-normal text-gray-500`}
-                >
-                  Забыли пароль?
-                </p>
+              </FormField>
+              <FormField text={"Повторите пароль"}>
+                <AuthInput
+                  control={control}
+                  name="passwordCompare"
+                  placeholder="*******"
+                  type={"password"}
+                />
               </FormField>
             </Fieldset>
-            <FormButton text={"Войти"} isValid={isValid} />
+            <FormButton
+              text={"Зарегистрироваться"}
+              isValid={isValid}
+            />
           </form>
-          <AlterAuth text={"Войти с помощью"} />
+          <AlterAuth text={"Регистрация с помощью"} />
         </div>
         <FormFooter
-          headerText={"У вас ещё нет аккаунта?"}
-          link={"/registration"}
-          footerText={"Зарегистрироваться"}
+          headerText={"Уже зарегистрированы?"}
+          link={"/auth"}
+          footerText={"Войти в аккаунт"}
         />
       </div>
       <MyModal isTrue={reqStatus} closeFn={setReqStatus}>

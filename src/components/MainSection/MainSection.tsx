@@ -41,6 +41,7 @@ const itemsPhotos = {
 export default function MainSection({ items }: TypeRequest) {
   const limitedItems = items?.request.slice(0, 4) || [];
   return (
+
     <div className="mx-5 mb-28 flex flex-col gap-3 md:mx-0 md:mb-0 md:w-full md:gap-6">
       <Banner />
       <Carousel />

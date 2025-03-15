@@ -1,6 +1,5 @@
 import MainSection from "@/components/MainSection/MainSection";
 import { Items, Photos } from "../shared/types";
-import { useUserStore } from "@/shared/store/auth";
 import HomeContainer from "../components/HomeContainer/HomeContainer";
 
 
@@ -18,12 +17,10 @@ export interface TypeRequest {
 }
 
 export default function Home({ items, photos }: TypeRequest) {
-  const { isAuthenticated } = useUserStore();
 
   return (
     <HomeContainer>
       <MainSection items={items} photos={photos} />
-      {isAuthenticated && <h1>Hellow</h1>}
     </HomeContainer>
   );
 }

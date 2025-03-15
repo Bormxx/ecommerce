@@ -12,4 +12,6 @@ export const useProtectedAuthRoute = () => {
       router.replace(typeof path === "string" ? path : "/");
     }
   }, [isAuthenticated, router]);
+
+  return !isAuthenticated;
 };
