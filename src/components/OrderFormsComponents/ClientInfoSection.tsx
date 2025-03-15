@@ -13,7 +13,6 @@ export default function ClientInfoSection({
   name,
 }: UseControllerProps<TOrderSchema>) {
   const [number, setNumber] = useState("");
-  const [a, b] = useState(0)
 
   return (
     <div className="flex justify-between">
@@ -33,10 +32,11 @@ export default function ClientInfoSection({
           type="tel"
           maxLength={18}
           onChange={(input) => {
-            b(input.target.selectionStart!);
-            setNumber(setPhoneNumber(modifyStringToNumbers(input)));
+            const d = input.target.selectionStart || 0;
+            setNumber(setPhoneNumber(modifyStringToNumbers(input)
+          ));
+            setTimeout(() => {input.target.setSelectionRange(d, d)}, 0)
           }}
-          onKeyUp={(e) => a < number.length ? e.currentTarget.setSelectionRange(a, a) : null}
         />
       </Field>
     </div>
