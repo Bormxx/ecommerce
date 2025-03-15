@@ -18,7 +18,7 @@ export default function Profile({
 }: ProfileProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ name, surname, email });
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  //const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   const handleSave = (updatedData: { name: string; surname: string; email: string }) => {
     setProfileData(updatedData);
