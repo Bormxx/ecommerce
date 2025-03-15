@@ -1,20 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../db";
-import { items } from "../../db/schema/schema";
+import { references } from "../../db/schema/schema";
 
-export default async function itemsTable(
+export default async function referencesTable(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "GET") {
-    const request = await db.select().from(items);
+    const request = await db.select().from(references);
     res.status(200).json({ request });
   }
   if (req.method === "POST") {
-    const { title, price, description, availability } = req.body;
-    await db.insert(items).values({title, price, description, availability });
+    const { itemId, reference } = req.body;
+    await db.insert(references).values({ itemId, reference });
     if (res.status(200)) {
-      const request = await db.select().from(items);
+      const request = await db.select().from(references);
       return res.status(200).json({ request });
     } else return res.status(500).json({ message: 'Ошибка базы данных' });
   }
