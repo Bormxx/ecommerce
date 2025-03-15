@@ -5,9 +5,10 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 export default function HeaderComponent() {
-  const router = useRouter();
+  const { pathname } = useRouter();
+  const hiddenRoutes = ["/cart", "/profile"];
 
-  const hiddenInCart = router.pathname === "/cart" ? "hidden" : "";
+  const hiddenInCart = hiddenRoutes.includes(pathname) ? "hidden" : "";
   return (
     <>
       <header className="hidden justify-between gap-[30px] md:flex">
