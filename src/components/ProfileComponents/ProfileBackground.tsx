@@ -1,13 +1,21 @@
 import { ReactNode } from "react";
 
 type ProfileBackgroundProps = {
-  children: ReactNode
+  children: ReactNode;
+  imageUrl?: string;
 }
 
-export default function ProfileBackground( props: ProfileBackgroundProps ) {
+export default function ProfileBackground({ children, imageUrl }: ProfileBackgroundProps ) {
+  const backgroundStyle = {
+    backgroundImage: `url(${imageUrl || "/images/sport_meditation.svg"})`,
+  };
+
   return (
-    <div className="bg-[url('/images/sport_meditation.svg')] bg-no-repeat bg-bottom bg-[right_162px] grow">
-      { props.children }
+    <div 
+      className="bg-no-repeat bg-bottom bg-[right_162px] grow"
+      style={backgroundStyle}
+    >
+      { children }
     </div>
   );
 }

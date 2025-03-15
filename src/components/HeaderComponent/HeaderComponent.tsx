@@ -6,9 +6,10 @@ import Link from "next/link";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function HeaderComponent() {
-  const router = useRouter();
+  const { pathname } = useRouter();
+  const hiddenRoutes = ["/cart", "/profile"];
 
-  const hiddenInCart = router.pathname === "/cart" ? "hidden" : "";
+  const hiddenInCart = hiddenRoutes.includes(pathname) ? "hidden" : "";
   return (
     <>
       <header className="shadow-custom hidden w-full bg-white p-3 md:flex">
