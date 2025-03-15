@@ -1,7 +1,10 @@
-import {AdjustmentsHorizontalIcon, ArrowLongLeftIcon,XMarkIcon,} from "@heroicons/react/24/outline";
+import {
+  AdjustmentsHorizontalIcon,
+  ArrowLongLeftIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import Title from "../Title/Title";
-import MiniCard from "../MiniCard/MiniCard";
 import { useState } from "react";
 import { inter, roboto } from "@/styles/fonts";
 import FilterComponent from "../FilterComponent/FilterComponent";
@@ -10,14 +13,9 @@ import FilterCheckbox from "../FilterComponent/FilterCheckbox";
 import FilterRadio from "../FilterComponent/FilterRadio";
 import FilterSwitch from "../FilterComponent/FilterSwitch";
 import ButtonLong from "../ui-kit/ButtonLong";
+import CatalogList from "../CatalogList/CatalogList";
 
 export default function CategoryPage() {
-  const products = new Array(15).fill(null).map(() => ({
-    title: `Очки`,
-    price: 4990,
-    img_url: "/images/Product-172x172.jpg",
-  }));
-
   const [isOpenFilterClass, setIsOpenFilterClass] = useState("hidden");
 
   function clickOpenFilter() {
@@ -65,7 +63,7 @@ export default function CategoryPage() {
             </div>
           </form>
         </div>
-        <main className="">
+        <main className="w-full">
           <div className="flex justify-between">
             <Title text="Очки Fendy" />
             <button
@@ -93,14 +91,7 @@ export default function CategoryPage() {
               </div>
             </div>
 
-            {products.map((product, index) => (
-              <MiniCard
-                key={index} // Используем index как ключ для списка
-                title={product.title}
-                price={product.price}
-                img_url={product.img_url}
-              />
-            ))}
+            <CatalogList variable="standart" />
           </div>
         </main>
       </div>
