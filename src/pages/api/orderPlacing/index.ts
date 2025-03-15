@@ -1,12 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../db";
+import { checkTokenValidity } from "@/utils/backend/checkToken";
 
 export default async function orderPlacing(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  const token = req.cookies.authorization;
+
+  const userId = checkTokenValidity(token);
+
+  try {
+    if (!userId) {
+      return res
+        .status(403)
+        .json({
+          access: 'denied'
+        });
+    }
+  } catch (error) {}
+
   if (req.method === "GET") { // Передаём id пользователя в запросе
-    const userId = req.query.id
     const requestUser = await db.query.users.findFirst({
       where: (user, { eq }) => eq(user.id, Number(userId)),
     })
