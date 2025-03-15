@@ -30,6 +30,7 @@ export default function TextAreaField({
               onChange={onChange}
               value={typeof(value) === "string" ? value : ""}
               rows={3}
+              maxLength={150}
             />
           </Field>
         );

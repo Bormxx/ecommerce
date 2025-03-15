@@ -118,7 +118,6 @@ export default function RegisterForm() {
             <FormButton
               text={"Зарегистрироваться"}
               isValid={isValid}
-              trigger={trigger}
             />
           </form>
           <AlterAuth text={"Регистрация с помощью"} />

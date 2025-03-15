@@ -16,7 +16,7 @@ export const orderSchema = z.object({
     });
   }
 
-  if (!/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/.test(phone)) {
+  if (!/^\+7\s\(\d{3}\)\s\d{3}(-\d{2}){2}$/.test(phone)) {
     ctx.addIssue({
       code: "custom",
       message: "Некорректный номер телефона",

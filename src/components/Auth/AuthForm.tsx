@@ -42,7 +42,6 @@ export default function AuthForm() {
     handleSubmit,
     reset,
     control,
-    trigger,
     formState: { isValid },
   } = useForm<TAuthForm>({
     resolver: zodResolver(authFormSchema),
@@ -84,7 +83,7 @@ export default function AuthForm() {
                 </p>
               </FormField>
             </Fieldset>
-            <FormButton text={"Войти"} isValid={isValid} trigger={trigger} />
+            <FormButton text={"Войти"} isValid={isValid} />
           </form>
           <AlterAuth text={"Войти с помощью"} />
         </div>

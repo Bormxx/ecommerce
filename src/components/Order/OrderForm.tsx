@@ -16,11 +16,18 @@ import ClientInfoSection from "../OrderFormsComponents/ClientInfoSection";
 import MyModal from "../Dialog/Dialog";
 import FormHeader from "../AuthFormsComponents/FormHeader";
 import CardDataModal from "../Dialog/Variants/CardDataModal";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Button } from "@headlessui/react";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
   const [city, setCity] = useState("Москва");
   const [isOpened, setIsOpened] = useState(false);
+
+  const [number, setNumber] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [cvv, setCvv] = useState("");
 
   const {
     handleSubmit,
@@ -58,7 +65,11 @@ export default function OrderForm() {
         >
           <div className="flex max-w-[580px] flex-col gap-6">
             <OrderFieldSet header={"Способ оплаты"}>
-              <PaymentType control={control} name={"payment"} openFn={setIsOpened}/>
+              <PaymentType
+                control={control}
+                name={"payment"}
+                openFn={setIsOpened}
+              />
             </OrderFieldSet>
 
             <OrderFieldSet header={"Способ доставки"} wider={true}>
@@ -99,8 +110,24 @@ export default function OrderForm() {
         </form>
       </section>
       <MyModal isTrue={isOpened} closeFn={setIsOpened}>
-        <FormHeader>Введите данные карты:</FormHeader>
-        <CardDataModal />
+        <div className="flex justify-between">
+          <FormHeader>Введите данные карты:</FormHeader>
+          <Button type="button" onClick={() => setIsOpened(!isOpened)}>
+            <XMarkIcon className="size-8 rounded-sm border-gray-500 text-gray-500 hover:border hover:text-gray-800" />
+          </Button>
+        </div>
+        <CardDataModal
+          states={{
+            number,
+            month,
+            year,
+            cvv,
+            setNumber,
+            setMonth,
+            setYear,
+            setCvv,
+          }}
+        />
       </MyModal>
     </>
   );

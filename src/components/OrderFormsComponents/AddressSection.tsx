@@ -37,6 +37,7 @@ export default function AddressSection({isCourier, children, name, control, city
               name={name}
               type="text"
               placeholder="улица, дом, квартира"
+              maxLength={50}
             />
             <Label className="sr-only">Улица, дом, квартира</Label>
           </Field>

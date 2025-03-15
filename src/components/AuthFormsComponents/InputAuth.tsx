@@ -4,10 +4,14 @@ import ErrorMessage from "./ErrorMessage";
 import { ChangeEvent } from "react";
 import { cn } from "@/shared/utils/frontend/cn";
 
-type InputAuthProps<T extends FieldValues> = InputProps & UseControllerProps<T>;
+type TErrorFont = {
+  errorFont?: string
+}
+
+type InputAuthProps<T extends FieldValues> = InputProps & UseControllerProps<T> & TErrorFont;
 
 export default function AuthInput<T extends FieldValues>(props: InputAuthProps<T> ) {
-  const { name, control, disabled, defaultValue, onChange, ...inputProps} = props;
+  const { name, control, disabled, defaultValue, onChange, errorFont="sm", ...inputProps} = props;
 
   const { field, fieldState  } = useController({name, control, disabled, defaultValue});
 
@@ -30,7 +34,7 @@ export default function AuthInput<T extends FieldValues>(props: InputAuthProps<T
         autoComplete="on"
       />
       {fieldState.error?.message && (
-        <ErrorMessage text={fieldState.error?.message} />
+        <ErrorMessage text={fieldState.error?.message} font={errorFont} />
       )}
     </>
   );
