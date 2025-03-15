@@ -12,8 +12,7 @@ export default async function itemsTable(
   }
   if (req.method === "POST") {
     const { title, price, description, availability } = req.body;
-    const dateStamp = Date.now()
-    await db.insert(items).values({id:dateStamp, title, price, description, availability });
+    await db.insert(items).values({title, price, description, availability });
     if (res.status(200)) {
       const request = await db.select().from(items);
       return res.status(200).json({ request });

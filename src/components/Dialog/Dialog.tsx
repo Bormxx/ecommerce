@@ -1,6 +1,7 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
+
 type MyModalProps = {
   isTrue: boolean;
   closeFn: Dispatch<SetStateAction<boolean>>;

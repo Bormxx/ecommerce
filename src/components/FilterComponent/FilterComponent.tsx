@@ -11,17 +11,13 @@ export default function FilterComponent({
   content,
 }: FilterComponentProps) {
   return (
-    <ShadowSection
-      content={
-        <div className="relative flex flex-col gap-3 p-4">
-          <h3
-            className={`${roboto.className} text-base font-bold text-gray-800`}
-          >
-            {title}
-          </h3>
-          {content}
-        </div>
-      }
-    />
+    <ShadowSection>
+      <div className="relative flex flex-col gap-3 p-4">
+        <h3 className={`${roboto.className} text-base font-bold text-gray-800`}>
+          {title}
+        </h3>
+        {content}
+      </div>
+    </ShadowSection>
   );
 }

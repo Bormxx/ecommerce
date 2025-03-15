@@ -17,12 +17,9 @@ export default function Profile({
   email = "ivanov@yandex.ru",
 }: ProfileProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [profileData, setProfileData] = useState({
-    name,
-    surname,
-    email,
-  });
-
+  const [profileData, setProfileData] = useState({ name, surname, email });
+  //const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
   const handleSave = (updatedData: { name: string; surname: string; email: string }) => {
     setProfileData(updatedData);
     setIsEditing(false);
@@ -30,9 +27,9 @@ export default function Profile({
 
   return (
     <HomeContainer>
-        <ProfileBackground>
+        <ProfileBackground imageUrl="/images/sport_meditation.svg">
           <div className="flex pt-10 h-[90vh]">
-            <Sidebar/>
+            <Sidebar />
 
             <main className="flex-1 pl-5">
 
