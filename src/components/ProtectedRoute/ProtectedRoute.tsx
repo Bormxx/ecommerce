@@ -1,5 +1,6 @@
 import { useAuth } from "@/shared/hooks/useAuth";
-import { useUserStore } from "@/store/auth";
+import { useUserStore } from "@/shared/store/auth";
+
 import { ReactNode } from "react";
 
 type protectedRouteProps = {

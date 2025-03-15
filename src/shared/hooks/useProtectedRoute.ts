@@ -1,7 +1,7 @@
-import { useUserStore } from "@/store/auth";
 import { useRouter } from "next/router";
 
 import { useEffect } from "react";
+import { useUserStore } from "../store/auth";
 
 export const useProtectedRoute = () => {
   const { isAuthenticated, isHydrated } = useUserStore();

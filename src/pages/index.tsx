@@ -22,10 +22,8 @@ export default function Home({ items, photos }: TypeRequest) {
 
   return (
     <HomeContainer>
-      {/* <ProtectedRoute protection={useProtectedRoute}> */}
       <MainSection items={items} photos={photos} />
       {isAuthenticated && <h1>Hellow</h1>}
-      {/* </ProtectedRoute> */}
     </HomeContainer>
   );
 }

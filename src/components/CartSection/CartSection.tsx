@@ -1,6 +1,6 @@
 "use client";
 import { inter, roboto } from "@/styles/fonts";
-import CardInBasket from "@/components/CardInBasket/CardInBasket";
+import CardInBasket from "@/components/MiniCard/CardInBasket";
 import { useEffect, useState } from "react";
 
 export default function CartSection() {
@@ -158,7 +158,7 @@ export default function CartSection() {
   }, [itemList, total]);
 
   return (
-    <div className="">
+    <div className="w-full md:pl-5">
       <div className="flex gap-4">
         <h1 className={`${roboto.className} text-2xl font-bold`}>Корзина</h1>
         <span

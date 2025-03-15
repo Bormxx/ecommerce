@@ -1,4 +1,4 @@
-import IconLink from "../IconLink/IconLink";
+import IconLink from "./IconLink";
 import {
   HeartIcon,
   HomeIcon,
@@ -8,9 +8,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import ButtonLong from "../ui-kit/ButtonLong";
+import { useUserStore } from "@/shared/store/auth";
 
 export default function LoginMenu() {
-  const userName = "";
+  const { isAuthenticated } = useUserStore();
+
   const router = useRouter();
   function clickRegistration() {
     router.replace("/registration");
@@ -18,7 +20,7 @@ export default function LoginMenu() {
   return (
     <>
       <div className="flex w-full justify-between gap-[15px]">
-        {!userName ? (
+        {!isAuthenticated ? (
           <>
             <IconLink
               link="/auth"

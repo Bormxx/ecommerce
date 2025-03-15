@@ -1,8 +1,8 @@
 import { TypeRequest } from "@/pages";
-import Banner from "../Banner/Banner";
+import Banner from "../Banners/Banner";
 import Carousel from "../Carousel/Carousel";
 import MiniBannerSection from "../MiniBannerSection/MiniBannerSection";
-// import MiniCard from "../MiniCard/MiniCard";
+import CatalogList from "../CatalogList/CatalogList";
 
 const itemsPhotos = {
   request: [
@@ -41,14 +41,14 @@ const itemsPhotos = {
 export default function MainSection({ items }: TypeRequest) {
   const limitedItems = items?.request.slice(0, 4) || [];
   return (
-    <div className="mb-28">
+    <div className="mx-5 mb-28 flex flex-col gap-3 md:mx-0 md:mb-0 md:w-full md:gap-6">
       <Banner />
       <Carousel />
       <MiniBannerSection
         items={{ request: limitedItems }}
         photos={itemsPhotos}
       />
-      <div className="flex">{/* <MiniCard /> */}</div>
+      <CatalogList variable='mini'/>
     </div>
   );
 }
