@@ -52,7 +52,7 @@ export default function OrderForm() {
 
   return (
     <>
-      <section className="pt-10">
+      <section>
         <form
           onSubmit={handleSubmit((data) => {
             console.log(data);

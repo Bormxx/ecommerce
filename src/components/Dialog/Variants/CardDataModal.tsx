@@ -3,11 +3,11 @@ import AuthInput from "@/components/AuthFormsComponents/InputAuth";
 import { cardSchema, TCardSchema } from "@/shared/types/schemas/card";
 import {
   modifyStringToNumbers,
-  separateCardNumber,
 } from "@/shared/utils/frontend/dataModifiers";
 import { inter } from "@/styles/fonts";
 import { Field, Fieldset, Label } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMask } from "@react-input/mask";
 import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 
@@ -25,6 +25,13 @@ type CardDataModalProps = {
 };
 
 export default function CardDataModal({ states }: CardDataModalProps) {
+  const cardNumberMask = useMask({
+      mask: "____ ____ ____ ____",
+      replacement: {
+        _: /\d/,
+      },
+    });
+
   const {
     handleSubmit,
     reset,
@@ -53,11 +60,12 @@ export default function CardDataModal({ states }: CardDataModalProps) {
             control={control}
             defaultValue={number}
             value={number}
+            mask={cardNumberMask}
             placeholder="0000 0000 0000 0000"
             type="tel"
             maxLength={19}
-            onChange={(input) => {
-              setNumber(separateCardNumber(modifyStringToNumbers(input)));
+            onChange={(e) => {
+              setNumber(e.target.value);
             }}
           />
         </Field>

@@ -1,6 +1,7 @@
 import MainSection from "@/components/MainSection/MainSection";
 import { Items, Photos } from "../shared/types";
 import HomeContainer from "../components/HomeContainer/HomeContainer";
+import { useAuth } from "@/shared/hooks/useAuth";
 
 
 interface ItemsList {
@@ -16,15 +17,6 @@ export interface TypeRequest {
   photos: PhotosList | null;
 }
 
-export default function Home({ items, photos }: TypeRequest) {
-
-  return (
-    <HomeContainer>
-      <MainSection items={items} photos={photos} />
-    </HomeContainer>
-  );
-}
-
 export async function getStaticProps() {
   const itemsRes = await fetch("http://127.0.0.1:3000/api/items");
   const items = await itemsRes.json();
@@ -33,4 +25,15 @@ export async function getStaticProps() {
   return {
     props: { items, photos },
   };
+}
+
+
+export default function Home({ items, photos }: TypeRequest) {
+  useAuth();
+
+  return (
+    <HomeContainer>
+      <MainSection items={items} photos={photos} />
+    </HomeContainer>
+  );
 }

@@ -52,7 +52,7 @@ export default function AuthForm() {
 
   return (
     <>
-      <div className="flex min-w-[380px] flex-col gap-10 rounded-xl bg-white p-6 shadow-lg">
+      <div className="flex min-w-[380px] flex-col gap-10 rounded-xl bg-white p-6 shadow-lg ">
         <div className="flex flex-col gap-6">
           <FormHeader>Вход в аккаунт</FormHeader>
           <form

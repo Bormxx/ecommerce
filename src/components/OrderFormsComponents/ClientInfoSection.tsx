@@ -5,15 +5,20 @@ import { UseControllerProps } from "react-hook-form";
 import { TOrderSchema } from "@/shared/types/schemas/order";
 import AuthInput from "../AuthFormsComponents/InputAuth";
 import ClientInfoPersonal from "./ClientInfoPersonal";
-import { useState } from "react";
-import { modifyStringToNumbers, setPhoneNumber } from "@/shared/utils/frontend/dataModifiers";
+import { useMask } from "@react-input/mask";
 
 export default function ClientInfoSection({
   control,
   name,
 }: UseControllerProps<TOrderSchema>) {
-  const [number, setNumber] = useState("");
 
+  const phoneNumberMask = useMask({
+    mask: "+7 (___) ___-__-__",
+    replacement: {
+      _: /\d/,
+    },
+  });
+  
   return (
     <div className="flex justify-between">
       <ClientInfoPersonal />
@@ -27,16 +32,10 @@ export default function ClientInfoSection({
           name={name}
           control={control}
           placeholder="+7"
-          defaultValue={number}
-          value={number}
+          defaultValue={''}
           type="tel"
           maxLength={18}
-          onChange={(input) => {
-            const d = input.target.selectionStart || 0;
-            setNumber(setPhoneNumber(modifyStringToNumbers(input)
-          ));
-            setTimeout(() => {input.target.setSelectionRange(d, d)}, 0)
-          }}
+          mask={phoneNumberMask}
         />
       </Field>
     </div>
