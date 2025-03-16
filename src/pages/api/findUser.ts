@@ -14,11 +14,9 @@ export default async function findUser(
 
   try {
     if (!id) {
-      return res
-        .status(403)
-        .json({
-          access: 'denied'
-        });
+      return res.status(403).json({
+        access: "denied",
+      });
     }
 
     const user = await db.query.users.findFirst({
@@ -30,15 +28,13 @@ export default async function findUser(
     });
 
     if (!user) {
-      return res.status(403).json({access: 'denied'});
+      return res.status(403).json({ access: "denied" });
     }
 
-    res.status(200).json({access: 'approved'});
+    res.status(200).json({ access: "approved" });
   } catch {
-    res
-      .status(403)
-      .json({
-        access: 'denied'
-      });
+    res.status(403).json({
+      access: "denied",
+    });
   }
 }

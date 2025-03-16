@@ -18,6 +18,8 @@ import FormHeader from "../AuthFormsComponents/FormHeader";
 import CardDataModal from "../Dialog/Variants/CardDataModal";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Button } from "@headlessui/react";
+import { useQuery } from "@tanstack/react-query";
+import { getCards } from "@/shared/services/card";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -28,6 +30,11 @@ export default function OrderForm() {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [cvv, setCvv] = useState("");
+
+  const { data, isPending } = useQuery({
+    queryKey: ['cards'],
+    queryFn: getCards
+  });
 
   const {
     handleSubmit,
@@ -69,6 +76,7 @@ export default function OrderForm() {
                 control={control}
                 name={"payment"}
                 openFn={setIsOpened}
+                cards={data}
               />
             </OrderFieldSet>
 

@@ -1,5 +1,6 @@
 import FormButton from "@/components/AuthFormsComponents/FormButton";
 import AuthInput from "@/components/AuthFormsComponents/InputAuth";
+import { addCard } from "@/shared/services/card";
 import { cardSchema, TCardSchema } from "@/shared/types/schemas/card";
 import {
   modifyStringToNumbers,
@@ -8,6 +9,7 @@ import { inter } from "@/styles/fonts";
 import { Field, Fieldset, Label } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMask } from "@react-input/mask";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 
@@ -25,6 +27,19 @@ type CardDataModalProps = {
 };
 
 export default function CardDataModal({ states }: CardDataModalProps) {
+  const queryClient = useQueryClient();
+
+  const addCardData = useMutation({
+    mutationFn: (cardData: TCardSchema) => addCard(cardData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cards'] });
+      // reset();
+    },
+    onError: error => {
+      console.error(error);
+    },
+  });
+
   const cardNumberMask = useMask({
       mask: "____ ____ ____ ____",
       replacement: {
@@ -47,7 +62,7 @@ export default function CardDataModal({ states }: CardDataModalProps) {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => console.log(data))}
+      onSubmit={handleSubmit((data) => addCardData.mutate(data))}
       className="flex max-w-sm flex-col gap-4"
     >
       <Fieldset className="grid grid-cols-3 gap-2">

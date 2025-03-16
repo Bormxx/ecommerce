@@ -4,13 +4,15 @@ import RadioPaymentField from "./Radio/RadioPaymentField";
 import { Controller, UseControllerProps } from "react-hook-form";
 import { TOrderSchema } from "@/shared/types/schemas/order";
 import { Dispatch, SetStateAction } from "react";
+import { TUserCardSchema } from "@/shared/types/schemas/card";
 
 type PaymentTypeProps = {
   openFn: Dispatch<SetStateAction<boolean>>;
+  cards: TUserCardSchema[] | undefined;
 }
 
-export default function PaymentType({ control, name, openFn }: UseControllerProps<TOrderSchema> & PaymentTypeProps) {  
-  const plans = [{id: 1, cardNumber: "44 44"}, {id: 2, cardNumber: "44 44"}, {id: 3, cardNumber: "44 44"}];
+export default function PaymentType({ control, name, openFn, cards }: UseControllerProps<TOrderSchema> & PaymentTypeProps) {
+  const plans = cards ?? [];
   
   return (
     <Controller
