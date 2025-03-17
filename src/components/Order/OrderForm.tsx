@@ -6,7 +6,7 @@ import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { TOrderSchema, orderSchema } from "@/shared/types/schemas/order";
+import { TOrderSchema, orderFormSchema, orderSchema } from "@/shared/types/schemas/order";
 import CartSubmitField from "../OrderFormsComponents/CartSubmitField";
 import CartSubmitDetails from "../OrderFormsComponents/CartDetails/CartSubmitDetails";
 import AddressSection from "../OrderFormsComponents/AddressSection";
@@ -14,12 +14,11 @@ import DeliveryDate from "../OrderFormsComponents/DeliveryDate";
 import TextAreaField from "../OrderFormsComponents/TextAreaField";
 import ClientInfoSection from "../OrderFormsComponents/ClientInfoSection";
 import MyModal from "../Dialog/Dialog";
-import FormHeader from "../AuthFormsComponents/FormHeader";
 import CardDataModal from "../Dialog/Variants/CardDataModal";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Button } from "@headlessui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getCards } from "@/shared/services/card";
+import { storages } from "@/shared/consts/conts";
+import { addOrder } from "@/shared/services/order";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -31,9 +30,11 @@ export default function OrderForm() {
   const [year, setYear] = useState("");
   const [cvv, setCvv] = useState("");
 
-  const { data, isPending } = useQuery({
-    queryKey: ['cards'],
-    queryFn: getCards
+  const [blockModal, setBlockModal] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ["cards"],
+    queryFn: getCards,
   });
 
   const {
@@ -51,26 +52,20 @@ export default function OrderForm() {
     .plus({ day: 2 })
     .toLocaleString(DateTime.DATE_FULL);
 
-  const storages: { [key: string]: string } = {
-    Москва: "ул. Колотушкина, д. 23, 1-ый этаж",
-    "Санкт-Петербург": "ул. Галины, д. 1",
-    Орел: "ул. Павлова, д. 10-б",
-  };
-
   return (
     <>
       <section>
         <form
           onSubmit={handleSubmit((data) => {
-            console.log(data);
             if (!data.isCourier && data.city) {
               data.address = storages[data.city];
             }
-            console.log(data);
+            data.address = "г. " + data.city + ", " + data.address;
+            addOrder(orderFormSchema.parse(data));
           })}
           className="flex justify-center gap-5"
         >
-          <div className="flex max-w-[580px] flex-col gap-6">
+          <div className="flex w-full max-w-[598px] flex-col gap-6">
             <OrderFieldSet header={"Способ оплаты"}>
               <PaymentType
                 control={control}
@@ -117,13 +112,7 @@ export default function OrderForm() {
           </CartSubmitField>
         </form>
       </section>
-      <MyModal isTrue={isOpened} closeFn={setIsOpened}>
-        <div className="flex justify-between">
-          <FormHeader>Введите данные карты:</FormHeader>
-          <Button type="button" onClick={() => setIsOpened(!isOpened)}>
-            <XMarkIcon className="size-8 rounded-sm border-gray-500 text-gray-500 hover:border hover:text-gray-800" />
-          </Button>
-        </div>
+      <MyModal isTrue={isOpened} closeFn={setIsOpened} isBlocked={blockModal}>
         <CardDataModal
           states={{
             number,
@@ -135,6 +124,9 @@ export default function OrderForm() {
             setYear,
             setCvv,
           }}
+          closeFn={setIsOpened}
+          isOpened={isOpened}
+          blockModalFunc={setBlockModal}
         />
       </MyModal>
     </>

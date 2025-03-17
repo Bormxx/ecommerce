@@ -75,11 +75,11 @@ export const orders = sqliteTable("orders", {
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
-  comment: text("comment").notNull(),
+  comment: text("comment"),
   address: text("address").notNull(),
-  phone: integer("phone").notNull(),
-  courier: integer("availability", { mode: "boolean" }).notNull(),
-  payment: integer("payment",),
+  phone: text("phone").notNull(),
+  isCourier: integer("availability", { mode: "boolean" }).notNull(),
+  payment: integer("payment"),
 });
 
 export const lists = sqliteTable("lists", {

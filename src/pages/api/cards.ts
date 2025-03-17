@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../db";
 import { cards } from "../../db/schema/schema";
-import { checkTokenValidity } from "@/utils/backend/checkToken";
 import { and, eq, sql } from "drizzle-orm";
+import { checkTokenValidity } from "@/shared/utils/backend/checkToken";
+import { cardSchema } from "@/shared/types/schemas/card";
 
 export default async function cardsTable(
   req: NextApiRequest,
@@ -19,7 +20,13 @@ export default async function cardsTable(
           access: "denied",
         });
       }
-      const userCards = await db.select({id: cards.id, cardNumber: sql<string>`CONCAT(SUBSTRING(${cards.cardNumber}, 16, 2), ' ', SUBSTRING(${cards.cardNumber}, 18, 2))` }).from(cards).where(eq(cards.userId, id));
+      const userCards = await db
+        .select({
+          id: cards.id,
+          cardNumber: sql<string>`CONCAT(SUBSTRING(${cards.cardNumber}, 16, 2), ' ', SUBSTRING(${cards.cardNumber}, 18, 2))`,
+        })
+        .from(cards)
+        .where(eq(cards.userId, id));
       res.status(200).json(userCards);
     } catch {
       res.status(403).json({
@@ -29,6 +36,12 @@ export default async function cardsTable(
   }
 
   if (req.method === "POST") {
+    const inputs = cardSchema.safeParse(req.body);
+
+    if (!inputs.success) {
+      return res.status(400).json({ error: "Некоректные данные" });
+    }
+
     const token = req.cookies.authorization;
 
     const id = checkTokenValidity(token);
@@ -40,14 +53,16 @@ export default async function cardsTable(
         });
       }
 
-      const { cardNumber, ...data } = req.body;
+      const { cardNumber, ...data } = inputs.data;
 
       const card = await db.query.cards.findFirst({
         where: and(eq(cards.cardNumber, cardNumber), eq(cards.userId, id)),
       });
 
       if (card) {
-        return res.status(403).json({ status: "failed" });
+        return res
+          .status(403)
+          .json({ error: "Карта с указанным номером уже добавлена" });
       }
 
       await db
@@ -57,7 +72,7 @@ export default async function cardsTable(
       return res.status(200).json({ status: "success" });
     } catch {
       res.status(403).json({
-        access: "denied",
+        error: "Unexpected error!",
       });
     }
   }

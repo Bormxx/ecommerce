@@ -17,7 +17,7 @@ export default function PaymentType({ control, name, openFn, cards }: UseControl
   return (
     <Controller
       control={control}
-      defaultValue={ plans?.length ? plans[0].id : null}
+      defaultValue={plans.length ? plans[0].id :null}
       name={name}
       render={({ field: {value, onChange, ...props} }) => {
         return (

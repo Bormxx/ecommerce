@@ -95,7 +95,6 @@ export default function AuthForm() {
         />
       </div>
       <MyModal isTrue={reqStatus} closeFn={setReqStatus}>
-        <FormHeader>Ошибка</FormHeader>
         <AuthModal
           isTrue={reqStatus}
           errorMessage={errorMessage}
