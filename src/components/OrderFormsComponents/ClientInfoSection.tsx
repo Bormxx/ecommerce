@@ -6,16 +6,31 @@ import { TOrderSchema } from "@/shared/types/schemas/order";
 import AuthInput from "../AuthFormsComponents/InputAuth";
 import ClientInfoPersonal from "./ClientInfoPersonal";
 import { useMask } from "@react-input/mask";
-
 export default function ClientInfoSection({
   control,
   name,
 }: UseControllerProps<TOrderSchema>) {
 
   const phoneNumberMask = useMask({
-    mask: "+7 (___) ___-__-__",
+    mask: "+_ (___) ___-__-__",
     replacement: {
       _: /\d/,
+    },
+    track: ({ inputType, value, data, selectionStart, selectionEnd }) => {
+      if (inputType === 'insert' && !/^7/.test(data) && selectionStart <= 1) {
+        return `7${data === "8" ? "" : data}`;
+      }
+  
+      if (inputType !== 'insert' && selectionStart <= 1 && selectionEnd < value.length) {
+        if (selectionEnd > 2) {
+          return '1';
+        }
+        if (selectionEnd === 2) {
+          return false;
+        }
+      }
+  
+      return data;
     },
   });
   

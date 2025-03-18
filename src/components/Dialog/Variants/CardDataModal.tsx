@@ -60,6 +60,7 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
       _: /\d/,
     },
   });
+  
 
   const {
     handleSubmit,

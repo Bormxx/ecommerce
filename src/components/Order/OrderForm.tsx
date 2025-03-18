@@ -6,7 +6,11 @@ import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { TOrderSchema, orderFormSchema, orderSchema } from "@/shared/types/schemas/order";
+import {
+  TOrderFormSchema,
+  TOrderSchema,
+  orderSchema,
+} from "@/shared/types/schemas/order";
 import CartSubmitField from "../OrderFormsComponents/CartSubmitField";
 import CartSubmitDetails from "../OrderFormsComponents/CartDetails/CartSubmitDetails";
 import AddressSection from "../OrderFormsComponents/AddressSection";
@@ -15,10 +19,14 @@ import TextAreaField from "../OrderFormsComponents/TextAreaField";
 import ClientInfoSection from "../OrderFormsComponents/ClientInfoSection";
 import MyModal from "../Dialog/Dialog";
 import CardDataModal from "../Dialog/Variants/CardDataModal";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCards } from "@/shared/services/card";
-import { storages } from "@/shared/consts/conts";
+import { storages } from "@/shared/consts/consts";
 import { addOrder } from "@/shared/services/order";
+import { modifyOrderData } from "@/shared/utils/frontend/dataModifiers";
+import { useRouter } from "next/router";
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
+import AuthModal from "../Dialog/Variants/AuthModal";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -30,11 +38,32 @@ export default function OrderForm() {
   const [year, setYear] = useState("");
   const [cvv, setCvv] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const [blockModal, setBlockModal] = useState(false);
+  const [blockButton, setBlockButton] = useState(true);
+
+  const router = useRouter();
 
   const { data } = useQuery({
     queryKey: ["cards"],
     queryFn: getCards,
+  });
+
+  const mutation = useMutation({
+    mutationFn: (form: TOrderFormSchema) => addOrder(form),
+    onSuccess: () => {
+      router.replace("/");
+    },
+    onError: (err) => {
+      setBlockModal(false);
+      setErrorMessage(err.message);
+      setBlockButton(true);
+    },
+    onMutate: () => {
+      setBlockModal(true);
+      setIsOpened(true);
+    },
   });
 
   const {
@@ -57,11 +86,8 @@ export default function OrderForm() {
       <section>
         <form
           onSubmit={handleSubmit((data) => {
-            if (!data.isCourier && data.city) {
-              data.address = storages[data.city];
-            }
-            data.address = "г. " + data.city + ", " + data.address;
-            addOrder(orderFormSchema.parse(data));
+            setBlockButton(false);
+            mutation.mutate(modifyOrderData(data));
           })}
           className="flex justify-center gap-5"
         >
@@ -105,7 +131,7 @@ export default function OrderForm() {
           <CartSubmitField
             title={"Ваш заказ"}
             items={5}
-            isDisabled={isValid}
+            isDisabled={isValid && blockButton}
             trigger={trigger}
           >
             <CartSubmitDetails cost={`20 000`} />
@@ -113,21 +139,31 @@ export default function OrderForm() {
         </form>
       </section>
       <MyModal isTrue={isOpened} closeFn={setIsOpened} isBlocked={blockModal}>
-        <CardDataModal
-          states={{
-            number,
-            month,
-            year,
-            cvv,
-            setNumber,
-            setMonth,
-            setYear,
-            setCvv,
-          }}
-          closeFn={setIsOpened}
-          isOpened={isOpened}
-          blockModalFunc={setBlockModal}
-        />
+        {mutation.isPending || mutation.isSuccess ? (
+          <LoadingIcon />
+        ) : mutation.isError ? (
+          <AuthModal
+            isTrue={isOpened}
+            errorMessage={errorMessage}
+            closeFn={setIsOpened}
+          />
+        ) : (
+          <CardDataModal
+            states={{
+              number,
+              month,
+              year,
+              cvv,
+              setNumber,
+              setMonth,
+              setYear,
+              setCvv,
+            }}
+            closeFn={setIsOpened}
+            isOpened={isOpened}
+            blockModalFunc={setBlockModal}
+          />
+        )}
       </MyModal>
     </>
   );
