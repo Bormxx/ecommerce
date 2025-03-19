@@ -5,7 +5,6 @@ import {
 } from "@heroicons/react/24/outline";
 import Breadcrumbs from "@/components/CategoryPage/Breadcrumbs/Breadcrumbs";
 import Title from "@/components/ui/Title/Title";
-import MiniCard from "@/components/cards/MiniCard/MiniCard";
 import { useState } from "react";
 import { inter, roboto } from "@/styles/fonts";
 import FilterComponent from "@/components/CategoryPage/FilterComponent/FilterComponent";
@@ -14,12 +13,13 @@ import FilterCheckbox from "@/components/CategoryPage/FilterComponent/FilterChec
 import FilterRadio from "@/components/CategoryPage/FilterComponent/FilterRadio";
 import FilterSwitch from "@/components/CategoryPage/FilterComponent/FilterSwitch";
 import ButtonLong from "@/components/ui/ButtonLong";
+import { ECProductCard } from "@/components/cards/product-card/ECProductCard";
 
 export default function CategoryPage() {
   const products = new Array(15).fill(null).map(() => ({
-    title: `Очки`,
+    name: `Очки`,
     price: 4990,
-    img_url: "/images/Product-172x172.jpg",
+    photo: "/images/Product-172x172.jpg",
   }));
 
   const [isOpenFilterClass, setIsOpenFilterClass] = useState("hidden");
@@ -98,12 +98,7 @@ export default function CategoryPage() {
             </div>
 
             {products.map((product, index) => (
-              <MiniCard
-                key={index} // Используем index как ключ для списка
-                title={product.title}
-                price={product.price}
-                img_url={product.img_url}
-              />
+              <ECProductCard key={index} product={product} />
             ))}
           </div>
         </main>

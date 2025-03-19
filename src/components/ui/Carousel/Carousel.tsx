@@ -1,38 +1,26 @@
 import { useEffect, useRef, useState } from "react";
-import MiniCard from "@/components/cards/MiniCard/MiniCard";
+import { ECProductCard } from "@/components/cards/product-card/ECProductCard";
 
 const product = "/images/Product-172x172.jpg";
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const sliderRef = useRef<HTMLDivElement | null>(null);
-  // const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const products = [
-    { title: "Классные очки", price: 10000, img_url: product },
-    { title: "Стильные часы", price: 5000, img_url: product },
-    { title: "Модный рюкзак", price: 15000, img_url: product },
-    { title: "Красивые наушники", price: 8000, img_url: product },
-    { title: "Классные очки", price: 2000, img_url: product },
-    { title: "Модная сумка", price: 12000, img_url: product },
-    { title: "Классные очки", price: 10000, img_url: product },
-    { title: "Стильные часы", price: 5000, img_url: product },
-    { title: "Модный рюкзак", price: 15000, img_url: product },
-    { title: "Красивые наушники", price: 8000, img_url: product },
-    { title: "Классные очки", price: 2000, img_url: product },
-    { title: "Модная сумка", price: 12000, img_url: product },
+    { name: "Классные очки", price: 10000, photo: product },
+    { name: "Стильные часы", price: 5000, photo: product },
+    { name: "Модный рюкзак", price: 15000, photo: product },
+    { name: "Красивые наушники", price: 8000, photo: product },
+    { name: "Классные очки", price: 2000, photo: product },
+    { name: "Модная сумка", price: 12000, photo: product },
+    { name: "Классные очки", price: 10000, photo: product },
+    { name: "Стильные часы", price: 5000, photo: product },
+    { name: "Модный рюкзак", price: 15000, photo: product },
+    { name: "Красивые наушники", price: 8000, photo: product },
+    { name: "Классные очки", price: 2000, photo: product },
+    { name: "Модная сумка", price: 12000, photo: product },
   ];
-
-  // const nextSlide = () => {
-  //   setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
-  // };
-
-  useEffect(() => {
-    // slideIntervalRef.current = setInterval(nextSlide, 2000);
-    // return () => {
-    //   if (slideIntervalRef.current) clearInterval(slideIntervalRef.current);
-    // };
-  }, []);
 
   const scrollToSlide = (index: number) => {
     setCurrentIndex(index);
@@ -63,11 +51,7 @@ export default function Carousel() {
           className="mx-3 h-auto w-44 flex-shrink-0"
           onClick={() => scrollToSlide(index)}
         >
-          <MiniCard
-            title={product.title}
-            price={product.price}
-            img_url="/images/Product.jpg"
-          />
+          <ECProductCard product={product} />
         </div>
       ))}
     </div>
