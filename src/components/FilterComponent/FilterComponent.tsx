@@ -1,6 +1,6 @@
 import { roboto } from "@/styles/fonts";
 import { JSX } from "react";
-import ShadowSection from "../ui-kit/ShadowSection";
+import ShadowSection from "@/components/ui/ShadowSection";
 type FilterComponentProps = {
   title: string;
   content: JSX.Element;

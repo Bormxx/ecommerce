@@ -9,7 +9,7 @@ import FilterPrice from "../FilterComponent/FilterPrice";
 import FilterCheckbox from "../FilterComponent/FilterCheckbox";
 import FilterRadio from "../FilterComponent/FilterRadio";
 import FilterSwitch from "../FilterComponent/FilterSwitch";
-import ButtonLong from "../ui-kit/ButtonLong";
+import ButtonLong from "@/components/ui/ButtonLong";
 
 export default function CategoryPage() {
   const products = new Array(15).fill(null).map(() => ({

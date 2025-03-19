@@ -1,5 +1,7 @@
 import { useState } from "react";
-import Image from "next/image";
+import { ECDropdownButton } from "@/components/ui/dropdown/ECDropdownButton";
+import { ECDropdownContent } from "@/components/ui/dropdown/ECDropdownContent";
+import { ECDropdownItem } from "@/components/ui/dropdown/ECDropdownItem";
 
 export default function CustomSelect() {
   const [selected, setSelected] = useState("Русский");
@@ -8,35 +10,23 @@ export default function CustomSelect() {
 
   return (
     <div className="relative w-[180px]">
-      <div
-        className="w-full px-[12px] py-[9px] border border-gray-400 rounded-[4px] text-[14px] font-normal leading-5 cursor-pointer bg-white flex items-center justify-between"
-        onClick={() => setOpen(!open)}
-      >
-        {selected}
-        <Image
-          src="icons/list_arrow.svg"
-          alt="Arrow"
-          width={16}
-          height={16}
-          className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-        />
-      </div>
+      <ECDropdownButton value={selected} open={open} onClick={() => setOpen(prev => !prev)} />
 
       {open && (
-        <ul className="absolute mt-1 w-full bg-white rounded-[8px] shadow-md z-10">
-          {options.map((option, index) => (
-            <li
-              key={index}
-              className="px-[12px] py-[9px] text-[14px] cursor-pointer hover:bg-[#F3F4F6]"
-              onClick={() => {
-                setSelected(option);
-                setOpen(false);
-              }}
-            >
-              {option}
-            </li>
-          ))}
-        </ul>
+        <ECDropdownContent>
+          <>
+            {options.map((option, index) => (
+              <ECDropdownItem
+                index={index}
+                option={option}
+                onClick={() => {
+                  setSelected(option);
+                  setOpen(false);
+                }}
+              />
+            ))}
+          </>
+        </ECDropdownContent>
       )}
     </div>
   );

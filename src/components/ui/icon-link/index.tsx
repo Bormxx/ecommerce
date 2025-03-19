@@ -1,0 +1,30 @@
+import { inter } from "@/styles/fonts";
+import Link from "next/link";
+import { ReactNode } from "react";
+
+type Props = {
+  href?: string;
+  icon: ReactNode;
+  text: string;
+  lg_hidden?: string;
+}
+
+export default function ECIconLink(props: Props) {
+  const {
+    href = "#",
+    icon,
+    text,
+    lg_hidden = "",
+  } = props
+
+  return (
+    <Link href={href}>
+      <div className={`flex h-full flex-col items-center justify-between ${lg_hidden}`} >
+        <div className="h-4 w-4 md:h-6 md:w-6">{icon}</div>
+        <span className={`${inter.className} text-[12px] font-normal leading-[16px] text-[#1F2937]`} >
+          {text}
+        </span>
+      </div>
+    </Link>
+  );
+}

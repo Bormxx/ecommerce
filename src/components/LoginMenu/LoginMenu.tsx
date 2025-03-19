@@ -7,7 +7,7 @@ import {
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import ButtonLong from "../ui-kit/ButtonLong";
+import ButtonLong from "@/components/ui/ButtonLong";
 
 export default function LoginMenu() {
   const userName = "";
