@@ -1,14 +1,18 @@
-import {AdjustmentsHorizontalIcon, ArrowLongLeftIcon,XMarkIcon,} from "@heroicons/react/24/outline";
-import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
-import Title from "../Title/Title";
-import MiniCard from "../MiniCard/MiniCard";
+import {
+  AdjustmentsHorizontalIcon,
+  ArrowLongLeftIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import Breadcrumbs from "@/components/CategoryPage/Breadcrumbs/Breadcrumbs";
+import Title from "@/components/ui/Title/Title";
+import MiniCard from "@/components/cards/MiniCard/MiniCard";
 import { useState } from "react";
 import { inter, roboto } from "@/styles/fonts";
-import FilterComponent from "../FilterComponent/FilterComponent";
-import FilterPrice from "../FilterComponent/FilterPrice";
-import FilterCheckbox from "../FilterComponent/FilterCheckbox";
-import FilterRadio from "../FilterComponent/FilterRadio";
-import FilterSwitch from "../FilterComponent/FilterSwitch";
+import FilterComponent from "@/components/CategoryPage/FilterComponent/FilterComponent";
+import FilterPrice from "@/components/CategoryPage/FilterComponent/FilterPrice";
+import FilterCheckbox from "@/components/CategoryPage/FilterComponent/FilterCheckbox";
+import FilterRadio from "@/components/CategoryPage/FilterComponent/FilterRadio";
+import FilterSwitch from "@/components/CategoryPage/FilterComponent/FilterSwitch";
 import ButtonLong from "@/components/ui/ButtonLong";
 
 export default function CategoryPage() {
@@ -77,7 +81,7 @@ export default function CategoryPage() {
             </button>
           </div>
 
-          <div className="md:shadow-custom relative my-4 flex flex-wrap justify-evenly gap-4 md:mt-11 md:rounded-xl md:bg-white md:p-6">
+          <div className="relative my-4 flex flex-wrap justify-evenly gap-4 md:mt-11 md:rounded-xl md:bg-white md:p-6 md:shadow-custom">
             <div className="absolute left-0 top-[-40px] hidden gap-2 md:flex">
               <div
                 className={`${inter.className} flex items-center rounded-[20px] border border-blue-800 px-3 py-[2px] text-xs text-blue-800`}

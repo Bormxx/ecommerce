@@ -1,8 +1,10 @@
 "use client";
 import { inter, roboto } from "@/styles/fonts";
-import CardInBasket from "@/components/CardInBasket/CardInBasket";
+import CardInBasket from "@/components/cards/CardInBasket/CardInBasket";
 import { useEffect, useState } from "react";
 import { ECSection } from "@/components/ui/section";
+
+// TODO: Полностью переделать компонент
 
 export default function CartSection() {
   const [total, setTotal] = useState(0);
@@ -109,7 +111,7 @@ export default function CartSection() {
             ))}
           </div>
           <ECSection
-            title={'Ваша корзина'}
+            title={"Ваша корзина"}
             rightContentTitle={<span>2 товара</span>}
           >
             <div className="mb-2 flex items-end justify-between">
@@ -119,8 +121,8 @@ export default function CartSection() {
               <span
                 className={`${roboto.className} text-3xl font-bold text-green-500`}
               >
-                  {formattedTotal} &#8381;
-                </span>
+                {formattedTotal} &#8381;
+              </span>
             </div>
             <button
               type="submit"

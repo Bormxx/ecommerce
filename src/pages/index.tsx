@@ -1,8 +1,7 @@
 import MainSection from "@/components/MainSection/MainSection";
 import { Items, Photos } from "../shared/types";
 import { useUserStore } from "@/shared/store/auth";
-import HomeContainer from "../components/HomeContainer/HomeContainer";
-
+import ECMainLayout from "@/components/layouts/main-layout";
 
 interface ItemsList {
   request: Items[];
@@ -21,12 +20,12 @@ export default function Home({ items, photos }: TypeRequest) {
   const { isAuthenticated } = useUserStore();
 
   return (
-    <HomeContainer>
+    <ECMainLayout>
       {/* <ProtectedRoute protection={useProtectedRoute}> */}
       <MainSection items={items} photos={photos} />
       {isAuthenticated && <h1>Hellow</h1>}
       {/* </ProtectedRoute> */}
-    </HomeContainer>
+    </ECMainLayout>
   );
 }
 

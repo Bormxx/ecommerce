@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LoginMenu from "../LoginMenu/LoginMenu";
+import LoginMenu from "@/components/header/LoginMenu/LoginMenu";
 import { inter } from "@/styles/fonts";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -30,7 +30,12 @@ export default function HeaderComponent() {
               type="submit"
               className="flex h-full w-[65px] items-center justify-center rounded-br-[8px] rounded-tr-[8px] border-2 border-[#1E40AF] bg-[#1E40AF]"
             >
-              <Image src={"/images/icons-search.svg"} width={24} height={24} alt="Search" />
+              <Image
+                src={"/images/icons-search.svg"}
+                width={24}
+                height={24}
+                alt="Search"
+              />
             </button>
           </form>
         </div>

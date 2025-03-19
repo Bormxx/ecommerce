@@ -1,26 +1,25 @@
 import { Fieldset, Input } from "@headlessui/react";
-import FormHeader from "../FormsComponents/FormHeader";
-import FormField from "../FormsComponents/FormField";
-import FormButton from "../FormsComponents/FormButton";
-import AlterAuth from "../FormsComponents/AlterAuth";
-import FormFooter from "../FormsComponents/FormFooter";
+import FormHeader from "@/components/ui/FormsComponents/FormHeader";
+import FormField from "@/components/ui/FormsComponents/FormField";
+import FormButton from "@/components/ui/FormsComponents/FormButton";
+import AlterAuth from "@/components/ui/FormsComponents/AlterAuth";
+import FormFooter from "@/components/ui/FormsComponents/FormFooter";
 import {
   formDataSchema,
   registrFormSchema,
-  TRegistrForm,
   TFormData,
-} from "../../shared/types/schemas/auth";
+  TRegistrForm,
+} from "../../../shared/types/schemas/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/shared/utils/frontend/cn";
-import ErrorMessage from "../FormsComponents/ErrorMessage";
+import ErrorMessage from "@/components/ui/FormsComponents/ErrorMessage";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import MyModal from "../Dialog/Dialog";
+import MyModal from "@/components/ui/Dialog/Dialog";
 import { useUserStore } from "@/shared/store/auth";
 import { useRouter } from "next/router";
 import { signUp } from "@/shared/services/auth";
-
 
 export default function RegistrForm() {
   const [reqStatus, setReqStatus] = useState(false);

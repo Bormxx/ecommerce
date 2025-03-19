@@ -1,4 +1,3 @@
-import IconLink from "../IconLink/IconLink";
 import {
   HeartIcon,
   HomeIcon,
@@ -8,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import ButtonLong from "@/components/ui/ButtonLong";
+import ECIconLink from "@/components/ui/icon-link";
 
 export default function LoginMenu() {
   const userName = "";
@@ -20,7 +20,7 @@ export default function LoginMenu() {
       <div className="flex w-full justify-between gap-[15px]">
         {!userName ? (
           <>
-            <IconLink
+            <ECIconLink
               link="/auth"
               icon={<UserIcon />}
               text="Войти"
@@ -34,32 +34,32 @@ export default function LoginMenu() {
           </>
         ) : (
           <>
-            <IconLink
+            <ECIconLink
               link="/"
               icon={<HomeIcon />}
               text="Главная"
               lg_hidden="md:hidden"
             />
-            <IconLink
+            <ECIconLink
               link="/"
               icon={<QueueListIcon />}
               text="Товары"
               lg_hidden="md:hidden"
             />
 
-            <IconLink
+            <ECIconLink
               link="/profile"
               icon={<UserIcon />}
               text="Профиль"
               lg_hidden=""
             />
-            <IconLink
+            <ECIconLink
               link="/"
               icon={<HeartIcon />}
               text="Избранное"
               lg_hidden=""
             />
-            <IconLink
+            <ECIconLink
               link="/cart"
               icon={<ShoppingBagIcon />}
               text="Корзина"

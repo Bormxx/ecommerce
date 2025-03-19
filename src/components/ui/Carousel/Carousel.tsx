@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from "react";
-import MiniCard from "../MiniCard/MiniCard";
+import { useEffect, useRef, useState } from "react";
+import MiniCard from "@/components/cards/MiniCard/MiniCard";
+
 const product = "/images/Product-172x172.jpg";
 
 export default function Carousel() {

@@ -1,8 +1,7 @@
 import { TypeRequest } from "@/pages";
-import Banner from "../Banner/Banner";
-import Carousel from "../Carousel/Carousel";
-import MiniBannerSection from "../MiniBannerSection/MiniBannerSection";
-// import MiniCard from "../MiniCard/MiniCard";
+import Banner from "@/components/banners/Banner/Banner";
+import Carousel from "@/components/ui/Carousel/Carousel";
+import MiniBannerSection from "@/components/banners/MiniBannerSection/MiniBannerSection";
 
 const itemsPhotos = {
   request: [

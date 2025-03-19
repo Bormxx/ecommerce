@@ -1,15 +1,15 @@
-import MainBackground from "@/components/FormsComponents/MainBackground";
-import HomeContainer from "@/components/HomeContainer/HomeContainer";
+import MainBackground from "@/components/ui/FormsComponents/MainBackground";
 import { useProtectedAuthRoute } from "@/shared/hooks/useProtectedAuthRoute";
-import RegistrForm from "../../components/Registration/RegistrForm";
+import RegistrForm from "@/components/forms/Registration/RegistrForm";
+import ECMainLayout from "@/components/layouts/main-layout";
 
 export default function RegistrationPage() {
   useProtectedAuthRoute();
   return (
-    <HomeContainer>
+    <ECMainLayout>
       <MainBackground>
         <RegistrForm />
       </MainBackground>
-    </HomeContainer>
+    </ECMainLayout>
   );
 }

@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
-import HeaderComponent from "../HeaderComponent/HeaderComponent";
+import HeaderComponent from "@/components/header/HeaderComponent/HeaderComponent";
 
-type HomeContainerProps = {
+type Props = {
   children: ReactNode;
 };
 
-export default function HomeContainer(props: HomeContainerProps) {
+export default function ECMainLayout(props: Props) {
   return (
     <div className="mx-auto flex min-h-screen max-w-[1180px] flex-col p-4">
       <HeaderComponent />

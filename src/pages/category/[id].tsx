@@ -1,11 +1,10 @@
 import CategoryPage from "@/components/CategoryPage/CategoryPage";
-import HomeContainer from "@/components/HomeContainer/HomeContainer";
+import ECMainLayout from "@/components/layouts/main-layout";
 
 export default function Fendy() {
-
   return (
-    <HomeContainer>
+    <ECMainLayout>
       <CategoryPage />
-    </HomeContainer>
+    </ECMainLayout>
   );
 }
