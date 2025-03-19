@@ -33,7 +33,7 @@ export default async function ordersTable(
       const { ...data } = inputs.data;
 
       await db.transaction(async (tx) => {
-        const [orderId] = await tx
+        const orderId = await tx
           .insert(orders)
           .values({ userId: id, ...data })
           .returning({ insertedId: orders.id });
@@ -46,11 +46,11 @@ export default async function ordersTable(
           .from(basket)
           .where(eq(basket.userId, id));
 
-        purchases.map(async (purchase) => {
+        await Promise.all(purchases.map(async (purchase) => {
           await tx
             .insert(lists)
-            .values({ orderId: orderId.insertedId, ...purchase });
-        });
+            .values({ orderId: orderId[0].insertedId, ...purchase });
+        }));
 
         await tx.delete(basket).where(eq(basket.userId, id));
       });
