@@ -36,7 +36,7 @@ export default function ProfileSection({
         <>
             {isEditing ? (
 
-                <div className="bg-white pt-6 pb-6 pl-4 pr-4 rounded-xl shadow-lg max-w-[580px]">
+                <div className="bg-white pt-6 pb-6 pl-4 pr-4 rounded-xl shadow-lg max-w-[720px] md:max-w-[580px]">
 
                     <div className="relative w-[100px] h-20">
                         <Image className="rounded-full" src={Avatar} width={80} height={80} alt="Avatar" />
@@ -102,16 +102,16 @@ export default function ProfileSection({
 
               ) : (
 
-                <div className="bg-white p-4 rounded-xl shadow-lg flex items-center justify-between max-w-[580px]">
-                    <div className="flex items-center space-x-4">
+                <div className="bg-white p-4 rounded-xl shadow-lg flex md:flex-row flex-col items-center justify-between max-w-[720px] md:max-w-[580px]">
+                    <div className="flex items-center space-x-4 mb-6 md:mb-0">
                         <Image className="rounded-full" src={Avatar} width={80} height={80} alt="Avatar" />
-                        <div className="text-lg font-medium leading-6 text-[#1F2937] space-y-2">
+                        <div className="md:text-lg font-medium leading-6 text-[#1F2937] space-y-2 text-sm">
                         <h2>{`${name} ${surname}`}</h2>
                             <p>{email}</p>
                         </div>
                     </div>
                     <button 
-                        className="px-[17px] py-[7px] bg-white text-[#1E40AF] rounded-[6px] border border-[#1E40AF] font-bold text-[16px] leading-6 transition-colors duration-200 hover:bg-[#1E40AF] hover:text-white"
+                        className="px-[97px] md:px-[17px] py-[7px] bg-white text-[#1E40AF] rounded-[6px] border border-[#1E40AF] font-bold text-sm md:text-[16px] md:leading-6 transition-colors duration-200 hover:bg-[#1E40AF] hover:text-white"
                         onClick={onEdit}
                         >Редактировать
                     </button>
