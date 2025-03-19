@@ -6,47 +6,48 @@ import {
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import ButtonLong from "@/components/ui/ButtonLong";
 import ECIconLink from "@/components/ui/icon-link";
+import ECButton from "@/components/ui/default-button";
 
-export default function LoginMenu() {
+export function ECHeaderMenu() {
   const userName = "";
   const router = useRouter();
-  function clickRegistration() {
-    router.replace("/registration");
-  }
+
+  const clickRegistration = () => router.replace("/registration");
+
   return (
     <>
       <div className="flex w-full justify-between gap-[15px]">
         {!userName ? (
           <>
             <ECIconLink
-              link="/auth"
+              href="/auth"
               icon={<UserIcon />}
               text="Войти"
               lg_hidden=""
             />
-            <ButtonLong
-              text="Зарегистрироваться"
-              onClick={clickRegistration}
+            <ECButton
               type="button"
-            />
+              variant="primary"
+              onClick={clickRegistration}
+            >
+              Зарегистрироваться
+            </ECButton>
           </>
         ) : (
           <>
             <ECIconLink
-              link="/"
+              href="/"
               icon={<HomeIcon />}
               text="Главная"
               lg_hidden="md:hidden"
             />
             <ECIconLink
-              link="/"
+              href="/category/1"
               icon={<QueueListIcon />}
               text="Товары"
               lg_hidden="md:hidden"
             />
-
             <ECIconLink
               link="/profile"
               icon={<UserIcon />}

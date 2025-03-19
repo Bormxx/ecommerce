@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import HeaderComponent from "@/components/header/HeaderComponent/HeaderComponent";
+import { ECHeader } from "@/components/header";
 
 type Props = {
   children: ReactNode;
@@ -8,7 +8,7 @@ type Props = {
 export default function ECMainLayout(props: Props) {
   return (
     <div className="mx-auto flex min-h-screen max-w-[1180px] flex-col p-4">
-      <HeaderComponent />
+      <ECHeader />
       {props.children}
     </div>
   );

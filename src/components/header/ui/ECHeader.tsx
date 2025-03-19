@@ -1,10 +1,11 @@
 import Image from "next/image";
-import LoginMenu from "@/components/header/LoginMenu/LoginMenu";
-import { inter } from "@/styles/fonts";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { ECSearchForm } from "@/components/forms/search-form";
+import ECButton from "@/components/ui/default-button";
+import { ECHeaderMenu } from "@/components/header/ui/ECHeaderMenu";
 
-export default function HeaderComponent() {
+export function ECHeader() {
   const router = useRouter();
 
   const hiddenInCart = router.pathname === "/cart" ? "hidden" : "";
@@ -16,31 +17,14 @@ export default function HeaderComponent() {
         </Link>
 
         <div className="flex flex-grow justify-between gap-[15px]">
-          <button
-            className={`${inter.className} rounded-[8px] bg-[#1E40AF] px-4 py-2 text-base font-bold text-white`}
-          >
-            Каталог
-          </button>
-          <form action="" className="flex flex-grow">
-            <input
-              type="text"
-              className="flex-grow rounded-bl-[8px] rounded-tl-[8px] border-2 border-[#1E40AF] bg-white p-2"
-            />
-            <button
-              type="submit"
-              className="flex h-full w-[65px] items-center justify-center rounded-br-[8px] rounded-tr-[8px] border-2 border-[#1E40AF] bg-[#1E40AF]"
-            >
-              <Image
-                src={"/images/icons-search.svg"}
-                width={24}
-                height={24}
-                alt="Search"
-              />
-            </button>
-          </form>
+          <ECButton type="button" variant="primary">
+            {" "}
+            Каталог{" "}
+          </ECButton>
+          <ECSearchForm />
         </div>
         <div>
-          <LoginMenu />
+          <ECHeaderMenu />
         </div>
       </header>
 
@@ -64,7 +48,7 @@ export default function HeaderComponent() {
       </div>
       {/* Нижняя часть при маленьком экране */}
       <div className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-center bg-white p-4 md:hidden">
-        <LoginMenu />
+        <ECHeaderMenu />
       </div>
     </>
   );
