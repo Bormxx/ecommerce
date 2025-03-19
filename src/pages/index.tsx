@@ -1,7 +1,7 @@
-import MainSection from "@/components/MainSection/MainSection";
 import { Items, Photos } from "../shared/types";
 import { useUserStore } from "@/shared/store/auth";
 import ECMainLayout from "@/components/layouts/main-layout";
+import { ECHome } from "@/components/home";
 
 interface ItemsList {
   request: Items[];
@@ -21,10 +21,7 @@ export default function Home({ items, photos }: TypeRequest) {
 
   return (
     <ECMainLayout>
-      {/* <ProtectedRoute protection={useProtectedRoute}> */}
-      <MainSection items={items} photos={photos} />
-      {isAuthenticated && <h1>Hellow</h1>}
-      {/* </ProtectedRoute> */}
+      <ECHome items={items} photos={photos} />
     </ECMainLayout>
   );
 }

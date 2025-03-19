@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { inter, roboto } from "@/styles/fonts";
 
-export default function Banner() {
+export function ECMainBanner() {
   return (
     <div className="mt-[12px] flex min-h-[120px] rounded-[8px] bg-[linear-gradient(105.02deg,_#2563EB_38.18%,_#FFFFFF_118.65%)] px-5 py-2 sm:mt-[30px] sm:justify-evenly sm:p-[16px]">
       <div className="text-[white]">

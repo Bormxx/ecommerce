@@ -1,14 +1,24 @@
 import Image from "next/image";
 import { inter, roboto } from "@/styles/fonts";
-import { TypeRequest } from "@/pages";
 import Link from "next/link";
 
+type ProductMock = {
+  name: string;
+  photo: string;
+  price: string;
+};
 
-export default function MiniBannerSection({ items, photos }: TypeRequest) {
-  if (!items || !items.request || !photos || !photos.request) {
-    return <div>Данные не загружены</div>;
-  }
-  const categories: string[]= ['1','2','3','4']
+type Props = {
+  products?: [ProductMock];
+};
+
+// TODO: Понять что отображать в списке (Товары, категории).
+
+export function ECMiniBanner(props: Props) {
+  const { products } = props;
+
+  const categories: string[] = ["1", "2", "3", "4"];
+
   return (
     <div className="mt-5 flex flex-col gap-4 lg:flex-row">
       <div className="min-w-44 flex-grow rounded-lg bg-[linear-gradient(105.02deg,_#2563EB_38.18%,_#FFFFFF_118.65%)] px-6 py-4 text-white">
@@ -20,7 +30,7 @@ export default function MiniBannerSection({ items, photos }: TypeRequest) {
         </h3>
       </div>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:flex">
-        {categories.map(category => {
+        {categories.map((category) => {
           return (
             <Link
               href={`/category/${category}`}
