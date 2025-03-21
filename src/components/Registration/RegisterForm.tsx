@@ -20,6 +20,8 @@ import {
 import { useUserStore } from "@/shared/store/auth";
 import { signUp } from "@/shared/services/auth";
 import AuthModal from "../Dialog/Variants/AuthModal";
+import Link from "next/link";
+import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
 
 export default function RegisterForm() {
   const [reqStatus, setReqStatus] = useState(false);
@@ -63,9 +65,15 @@ export default function RegisterForm() {
 
   return (
     <>
-      <div className="flex min-w-[380px] flex-col gap-10 rounded-xl bg-white p-6 shadow-lg">
-        <div className="flex flex-col gap-6">
+      <div className="flex h-screen w-full flex-col justify-between gap-6 p-6 min-[390px]:max-w-[380px] md:h-fit md:rounded-xl md:bg-white md:shadow-lg">
+        <Link
+          href={"/"}
+          className="flex w-fit gap-1 transition hover:text-black/50 md:pointer-events-none"
+        >
+          <ArrowLongLeftIcon className="size-6 self-center md:hidden" />
           <FormHeader>Регистрация</FormHeader>
+        </Link>
+        <div className="flex flex-col gap-6">
           <form
             onSubmit={handleSubmit((data) => {
               mutation.mutate(formDataSchema.parse(data));
@@ -115,10 +123,7 @@ export default function RegisterForm() {
                 />
               </FormField>
             </Fieldset>
-            <FormButton
-              text={"Зарегистрироваться"}
-              isValid={isValid}
-            />
+            <FormButton text={"Зарегистрироваться"} isValid={isValid} />
           </form>
           <AlterAuth text={"Регистрация с помощью"} />
         </div>

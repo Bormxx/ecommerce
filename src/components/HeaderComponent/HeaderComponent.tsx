@@ -11,7 +11,7 @@ export default function HeaderComponent() {
 
   const hiddenInCart = hiddenRoutes.includes(pathname) ? "hidden" : "";
   return (
-    <>
+    <div className={pathname === "/auth" || pathname === "/registration" ? "hidden md:block" : ""}>
       <header className="shadow-custom hidden w-full bg-white p-3 md:flex">
         <div className="m-auto flex max-w-[1180px] flex-grow justify-between gap-2 lg:gap-7">
           <Link href="/">
@@ -67,6 +67,6 @@ export default function HeaderComponent() {
       <div className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-center bg-white p-4 md:hidden">
         <LoginMenu />
       </div>
-    </>
+    </div>
   );
 }
