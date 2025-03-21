@@ -28,6 +28,7 @@ import { useRouter } from "next/router";
 import LoadingIcon from "../LoadingIcon/LoadingIcon";
 import AuthModal from "../Dialog/Variants/AuthModal";
 import { getBasketItems } from "@/shared/services/basket";
+import { cn } from "@/shared/utils/frontend/cn";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -86,8 +87,9 @@ export default function OrderForm() {
     .plus({ day: 2 })
     .toLocaleString(DateTime.DATE_FULL);
 
-    if (orderedItems.isSuccess && orderedItems.data?.totalQuantity < 1) {
-      return router.replace('/');
+    if (orderedItems.isError || (orderedItems.isSuccess && orderedItems.data?.totalQuantity < 1)) {
+      router.replace('/');
+      return null;
     }
 
     if (orderedItems.isLoading) {
@@ -107,9 +109,9 @@ export default function OrderForm() {
             setBlockButton(false);
             mutation.mutate(modifyOrderData(data));
           })}
-          className="flex justify-center gap-5"
+          className="flex justify-center sm:gap-5 flex-col lg:flex-row items-center lg:items-baseline sm:pt-5 md:pt-0"
         >
-          <div className="flex w-full max-w-[598px] flex-col gap-6">
+          <div className="flex w-full max-w-[598px] flex-col gap-6 p-5 sm:p-0">
             <OrderFieldSet header={"Способ оплаты"}>
               <PaymentType
                 control={control}
@@ -119,31 +121,39 @@ export default function OrderForm() {
               />
             </OrderFieldSet>
 
-            <OrderFieldSet header={"Способ доставки"} wider={true}>
-              <DeliveryType
-                control={control}
-                name={"isCourier"}
-                openFn={setIsCourier}
-              />
-              <AddressSection
-                isCourier={isCourier}
-                city={city}
-                storageAddress={storages[city]}
-                name={"address"}
-                control={control}
-              >
-                <ComboboxCustom
+            <OrderFieldSet header={"Способ доставки"} >
+              <div className={cn(
+                "flex flex-col gap-4 sm:gap-6 rounded-xl bg-white p-4 shadow-custom sm:rounded-none sm:bg-transparent sm:p-0 sm:shadow-none"
+              )}>
+                <DeliveryType
                   control={control}
-                  name={"city"}
-                  openFn={setCity}
+                  name={"isCourier"}
+                  openFn={setIsCourier}
                 />
-              </AddressSection>
-              <DeliveryDate deliveryDate={deliveryDate} />
+                <div className="flex flex-col-reverse sm:flex-col gap-4 sm:gap-6">
+                  <AddressSection
+                    isCourier={isCourier}
+                    city={city}
+                    storageAddress={storages[city]}
+                    name={"address"}
+                    control={control}
+                  >
+                    <ComboboxCustom
+                      control={control}
+                      name={"city"}
+                      openFn={setCity}
+                    />
+                  </AddressSection>
+                  <DeliveryDate deliveryDate={deliveryDate} />
+                </div>
+              </div>
             </OrderFieldSet>
 
             <OrderFieldSet header={"Получатель"}>
-              <ClientInfoSection control={control} name={"phone"} />
-              <TextAreaField name="comment" control={control} />
+              <div className="sm:gap-4 flex flex-col rounded-xl bg-white gap-4 p-4 shadow-custom sm:rounded-none sm:bg-transparent sm:p-0 sm:shadow-none">
+                <ClientInfoSection control={control} name={"phone"} />
+                <TextAreaField name="comment" control={control} />
+              </div>
             </OrderFieldSet>
           </div>
           <CartSubmitField

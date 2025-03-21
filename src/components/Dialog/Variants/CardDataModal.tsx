@@ -87,20 +87,20 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
   }
 
   return (
-    <div className="max-w-md p-6 flex-col flex gap-4 rounded-xl bg-white drop-shadow-xl">
+    <div className="max-w-md p-6 flex-col flex gap-2 sm:gap-4 rounded-xl bg-white drop-shadow-xl">
       <div className="flex justify-between">
-        <FormHeader>Введите данные карты:</FormHeader>
+        <FormHeader styles="sm:text-2xl text-xl">Введите данные карты:</FormHeader>
         <Button type="button" onClick={() => closeFn(!isOpened)}>
-          <XMarkIcon className="size-8 rounded-sm border-gray-500 text-gray-500 hover:border hover:text-gray-800" />
+          <XMarkIcon className="sm:size-8 size-6 rounded-sm border-gray-500 text-gray-500 hover:border hover:text-gray-800" />
         </Button>
       </div>
       <form
         onSubmit={handleSubmit((data) => addCardData.mutate(data))}
         className="flex max-w-sm flex-col gap-4"
       >
-        <Fieldset className="grid grid-cols-3 gap-2">
+        <Fieldset className="grid grid-cols-3 gap-1 sm:gap-2">
           <Field className={"col-span-3 flex flex-col"}>
-            <Label className={`${inter.className} text-base font-normal`}>
+            <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
               Номер карты
             </Label>
             <AuthInput
@@ -118,7 +118,7 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
             />
           </Field>
           <Field className={"flex flex-col"}>
-            <Label className={`${inter.className} text-base font-normal`}>
+            <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
               Месяц
             </Label>
             <AuthInput
@@ -137,7 +137,7 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
             />
           </Field>
           <Field className={"flex flex-col"}>
-            <Label className={`${inter.className} text-base font-normal`}>
+            <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
               Год
             </Label>
             <AuthInput
@@ -156,7 +156,7 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
             />
           </Field>
           <Field className={"flex flex-col"}>
-            <Label className={`${inter.className} text-base font-normal`}>
+            <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
               Код
             </Label>
             <AuthInput

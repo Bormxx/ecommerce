@@ -17,7 +17,7 @@ export default function TextAreaField({
         return (
           <Field>
             <Label
-              className={cn(inter.className, "mb-[2px] text-sm font-normal")}
+              className={cn(inter.className, "mb-[2px] text-sm font-normal text-gray-500 sm:text-black")}
             >
               Комментарий к заказу
             </Label>

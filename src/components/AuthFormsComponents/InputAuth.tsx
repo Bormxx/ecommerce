@@ -31,7 +31,7 @@ export default function AuthInput<T extends FieldValues>(props: InputAuthProps<T
         onChange={fieldOnChange}
         ref={props.mask}
         className={cn(
-          `${fieldState.error ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
+          `${fieldState.error ? "border-red-500" : "border-gray-400"} w-full rounded px-3 py-2 text-sm sm:text-base`,
           "hover:border-blue-600"
         )}
         autoComplete="on"

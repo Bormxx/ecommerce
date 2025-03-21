@@ -7,7 +7,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function HeaderComponent() {
   const { pathname } = useRouter();
-  const hiddenRoutes = ["/cart", "/profile"];
+  const hiddenRoutes = ["/cart", "/profile", "/order"];
 
   const hiddenInCart = hiddenRoutes.includes(pathname) ? "hidden" : "";
   return (

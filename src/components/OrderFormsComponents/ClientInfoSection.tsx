@@ -35,11 +35,11 @@ export default function ClientInfoSection({
   });
   
   return (
-    <div className="flex justify-between">
+    <div className="flex flex-col sm:flex-row justify-between gap-2">
       <ClientInfoPersonal />
-      <Field>
+      <Field className="">
         <Label
-          className={cn(inter.className, "mb-[2px] block text-xs font-normal")}
+          className={cn(inter.className, "mb-[2px] block text-xs font-normal text-gray-500 sm:text-black")}
         >
           Номер телефона
         </Label>

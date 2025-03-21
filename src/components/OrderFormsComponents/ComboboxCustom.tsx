@@ -42,7 +42,7 @@ export default function ComboboxCustom({
       render={({ field: { value, onChange, ...props }, fieldState }) => {
         return (
           <>
-            <div className="border-none">
+            <div className="border-none w-full">
               <Combobox
                 value={typeof value === "string" ? value : ""}
                 onChange={(val) => {
@@ -57,7 +57,7 @@ export default function ComboboxCustom({
                     {...props}
                     className={cn(
                       inter.className,
-                      "w-[171px] rounded-md border px-3 py-[10px] text-sm font-normal",
+                      "w-full sm:w-[171px] rounded border px-3 py-2 sm:py-[10px] text-sm font-normal",
                       "group-hover:border-blue-600",
                       fieldState.error ? "border-red-500" : "border-gray-400",
                     )}

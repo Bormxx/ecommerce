@@ -9,19 +9,19 @@ type CartSubmitDetailsProps = {
 
 export default function CartSubmitDetails({cost}: CartSubmitDetailsProps) {
   return (
-    <div className="hidden flex-col gap-4 md:flex">
+    <div className="flex-col sm:gap-4 gap-2 flex">
       <div className="flex justify-between">
         <DetailsParagraph>Сумма заказа</DetailsParagraph>
         <p className={cn(
           roboto.className,
-          "font-bold text-xl"
+          "font-bold text-base sm:text-xl"
         )}>{`${modifyPrice((cost).toString())} ₽`}</p>
       </div>
       <div className="flex justify-between">
         <DetailsParagraph>Стоимость доставки</DetailsParagraph>
         <p className={cn(
           roboto.className,
-          "font-bold text-xl text-emerald-500"
+          "font-bold text-base sm:text-xl text-emerald-500"
         )}>бесплатно</p>
       </div>
       <div className="border-b-[1px]" />
@@ -32,7 +32,7 @@ export default function CartSubmitDetails({cost}: CartSubmitDetailsProps) {
         )}>Итого</span>
         <p className={cn(
           roboto.className,
-          "font-bold text-2xl text-emerald-500"
+          "font-bold text-xl sm:text-2xl text-emerald-500"
         )}>{`${modifyPrice((cost).toString())} ₽`}</p>
       </div>
     </div>
