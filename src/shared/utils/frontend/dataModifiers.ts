@@ -18,3 +18,9 @@ export const modifyOrderData = (data: TOrderSchema) => {
   const address = "г. " + data.city + ", " + data.address;
   return orderFormSchema.parse({address, ...data});
 };
+
+
+export const modifyPrice = (price: string): string => {
+  if (price.length < 4) return price;
+  return modifyPrice(price.slice(0, price.length - 3)) + " " + price.slice(price.length - 3);
+}

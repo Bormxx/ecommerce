@@ -27,6 +27,7 @@ import { modifyOrderData } from "@/shared/utils/frontend/dataModifiers";
 import { useRouter } from "next/router";
 import LoadingIcon from "../LoadingIcon/LoadingIcon";
 import AuthModal from "../Dialog/Variants/AuthModal";
+import { getBasketItems } from "@/shared/services/basket";
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -50,6 +51,11 @@ export default function OrderForm() {
     queryFn: getCards,
   });
 
+  const orderedItems = useQuery({
+    queryKey: ["orderedItems"],
+    queryFn: getBasketItems,
+  });
+
   const mutation = useMutation({
     mutationFn: (form: TOrderFormSchema) => addOrder(form),
     onSuccess: () => {
@@ -69,7 +75,6 @@ export default function OrderForm() {
   const {
     handleSubmit,
     control,
-    trigger,
     formState: { isValid },
   } = useForm<TOrderSchema>({
     resolver: zodResolver(orderSchema),
@@ -80,6 +85,19 @@ export default function OrderForm() {
     .reconfigure({ locale: "ru" })
     .plus({ day: 2 })
     .toLocaleString(DateTime.DATE_FULL);
+
+    if (orderedItems.isSuccess && orderedItems.data?.totalQuantity < 1) {
+      return router.replace('/');
+    }
+
+    if (orderedItems.isLoading) {
+      return (
+        <div className="grow place-content-center place-items-center bg-slate-50">
+          <LoadingIcon />
+        </div>
+      );
+    }
+
 
   return (
     <>
@@ -130,11 +148,10 @@ export default function OrderForm() {
           </div>
           <CartSubmitField
             title={"Ваш заказ"}
-            items={5}
+            items={orderedItems.data?.totalQuantity ?? "0"}
             isDisabled={isValid && blockButton}
-            trigger={trigger}
           >
-            <CartSubmitDetails cost={`20 000`} />
+            <CartSubmitDetails cost={orderedItems.data?.finalPrice ?? "0"} />
           </CartSubmitField>
         </form>
       </section>

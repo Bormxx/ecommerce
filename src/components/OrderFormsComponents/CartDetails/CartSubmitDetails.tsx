@@ -1,6 +1,7 @@
 import { cn } from "@/shared/utils/frontend/cn";
 import DetailsParagraph from "./DetailsParagraph";
 import { inter, roboto } from "@/styles/fonts";
+import { modifyPrice } from "@/shared/utils/frontend/dataModifiers";
 
 type CartSubmitDetailsProps = {
   cost: string
@@ -14,7 +15,7 @@ export default function CartSubmitDetails({cost}: CartSubmitDetailsProps) {
         <p className={cn(
           roboto.className,
           "font-bold text-xl"
-        )}>{`${cost} ₽`}</p>
+        )}>{`${modifyPrice((cost).toString())} ₽`}</p>
       </div>
       <div className="flex justify-between">
         <DetailsParagraph>Стоимость доставки</DetailsParagraph>
@@ -32,7 +33,7 @@ export default function CartSubmitDetails({cost}: CartSubmitDetailsProps) {
         <p className={cn(
           roboto.className,
           "font-bold text-2xl text-emerald-500"
-        )}>{`${cost} ₽`}</p>
+        )}>{`${modifyPrice((cost).toString())} ₽`}</p>
       </div>
     </div>
   );
