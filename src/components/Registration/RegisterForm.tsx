@@ -22,10 +22,14 @@ import { signUp } from "@/shared/services/auth";
 import AuthModal from "../Dialog/Variants/AuthModal";
 import Link from "next/link";
 import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
 
 export default function RegisterForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [blockModal, setBlockModal] = useState(false);
+  const [blockButton, setBlockButton] = useState(true);
+
   const { setIsAuthenticated, setUserData } = useUserStore();
   const router = useRouter();
 
@@ -39,9 +43,13 @@ export default function RegisterForm() {
       router.replace(typeof path === "string" ? path : "/");
     },
     onError: (err) => {
-      setReqStatus(!reqStatus);
       setErrorMessage(err.message);
-      console.log(err.message);
+      setBlockModal(false);
+      setBlockButton(true);
+    },
+    onMutate: () => {
+      setBlockModal(true);
+      setReqStatus(true);
     },
   });
 
@@ -76,6 +84,7 @@ export default function RegisterForm() {
         <div className="flex flex-col gap-6">
           <form
             onSubmit={handleSubmit((data) => {
+              setBlockButton(false);
               mutation.mutate(formDataSchema.parse(data));
             })}
             className="flex flex-col gap-6"
@@ -123,7 +132,10 @@ export default function RegisterForm() {
                 />
               </FormField>
             </Fieldset>
-            <FormButton text={"Зарегистрироваться"} isValid={isValid} />
+            <FormButton
+              text={"Зарегистрироваться"}
+              isValid={isValid && blockButton}
+            />
           </form>
           <AlterAuth text={"Регистрация с помощью"} />
         </div>
@@ -133,13 +145,16 @@ export default function RegisterForm() {
           footerText={"Войти в аккаунт"}
         />
       </div>
-      <MyModal isTrue={reqStatus} closeFn={setReqStatus}>
-        <FormHeader>Ошибка</FormHeader>
-        <AuthModal
-          isTrue={reqStatus}
-          errorMessage={errorMessage}
-          closeFn={setReqStatus}
-        />
+      <MyModal isTrue={reqStatus} closeFn={setReqStatus} isBlocked={blockModal}>
+        {mutation.isPending || mutation.isSuccess ? (
+          <LoadingIcon />
+        ) : (
+          <AuthModal
+            isTrue={reqStatus}
+            errorMessage={errorMessage}
+            closeFn={setReqStatus}
+          />
+        )}
       </MyModal>
     </>
   );
