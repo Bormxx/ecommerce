@@ -32,3 +32,14 @@ export async function getStaticProps() {
     props: { photos },
   };
 }
+
+
+export default function Home({ items, photos }: TypeRequest) {
+  useAuth();
+
+  return (
+    <HomeContainer>
+      <MainSection items={items} photos={photos} />
+    </HomeContainer>
+  );
+}

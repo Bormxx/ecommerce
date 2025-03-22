@@ -16,11 +16,11 @@ type AddressSectionProps = {
 export default function AddressSection({isCourier, children, name, control, city, storageAddress}: AddressSectionProps) {
   
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className={`${inter.className} text-base font-normal`}>
+    <div className="flex flex-col gap-1 sm:gap-2">
+      <h2 className={`${inter.className} text-sm sm:text-base font-normal`}>
         {isCourier ? "Доставить по адресу:" : "Адрес пункта выдачи:"}
       </h2>
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
         <Field
           className={cn(
             isCourier ? "flex-col gap-1" : "items-center gap-3",
@@ -46,7 +46,7 @@ export default function AddressSection({isCourier, children, name, control, city
             <p
               className={cn(
                 inter.className,
-                "grow text-base font-normal text-gray-600",
+                "grow text-sm sm:text-base font-normal text-gray-600",
               )}
             >
               { storageAddress }

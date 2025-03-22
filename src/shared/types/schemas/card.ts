@@ -30,3 +30,10 @@ export const cardSchema = z.object({
 });
 
 export type TCardSchema = z.infer<typeof cardSchema>
+
+export const userCardSchema = z.object({
+  id: z.number(),
+  cardNumber: z.string(),
+});
+
+export type TUserCardSchema = z.infer<typeof userCardSchema>

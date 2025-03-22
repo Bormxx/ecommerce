@@ -24,10 +24,10 @@ export const cards = sqliteTable("cards", {
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
-  cardNumber: integer("cardNumber").notNull(),
-  month: integer("month").notNull(),
-  year: integer("year").notNull(),
-  cvv: integer("cvv").notNull(),
+  cardNumber: text("cardNumber").notNull(),
+  month: text("month").notNull(),
+  year: text("year").notNull(),
+  cvv: text("cvv").notNull(),
 });
 
 export const basket = sqliteTable("basket", {
@@ -75,11 +75,11 @@ export const orders = sqliteTable("orders", {
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
-  comment: text("comment").notNull(),
+  comment: text("comment"),
   address: text("address").notNull(),
-  phone: integer("phone").notNull(),
-  courier: integer("availability", { mode: "boolean" }).notNull(),
-  payment: integer("payment",),
+  phone: text("phone").notNull(),
+  isCourier: integer("availability", { mode: "boolean" }).notNull(),
+  payment: integer("payment"),
 });
 
 export const lists = sqliteTable("lists", {

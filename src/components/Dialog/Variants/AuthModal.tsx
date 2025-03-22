@@ -1,3 +1,4 @@
+import FormHeader from "@/components/AuthFormsComponents/FormHeader";
 import { inter } from "@/styles/fonts";
 import { Button } from "@headlessui/react";
 import { Dispatch, SetStateAction } from "react";
@@ -10,7 +11,8 @@ type AuthModalProps = {
 
 export default function AuthModal(props: AuthModalProps) {
   return (
-    <>
+    <div className="max-w-md p-6 flex-col flex gap-4 rounded-xl bg-white drop-shadow-xl">
+      <FormHeader>Ошибка</FormHeader>
       <p className={`${inter.className} text-base font-normal`}>
         {props.errorMessage}
       </p>
@@ -22,6 +24,6 @@ export default function AuthModal(props: AuthModalProps) {
           Закрыть
         </Button>
       </div>
-    </>
+    </div>
   );
 }
