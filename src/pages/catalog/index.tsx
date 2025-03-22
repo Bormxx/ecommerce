@@ -7,6 +7,7 @@ export interface TypeRequest {
   photos: Photos[] | null;
 }
 export default function catalog({ items, photos }: TypeRequest) {
+
   return (
     <HomeContainer>
       <CategoryPage items={items} photos={photos} />
