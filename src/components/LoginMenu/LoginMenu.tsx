@@ -11,7 +11,7 @@ import ButtonLong from "../ui-kit/ButtonLong";
 import { useUserStore } from "@/shared/store/auth";
 
 export default function LoginMenu() {
-  const { isAuthenticated } = useUserStore();
+  const { isAuthenticated, name } = useUserStore();
 
   const router = useRouter();
   function clickRegistration() {
@@ -52,7 +52,7 @@ export default function LoginMenu() {
             <IconLink
               link="/profile"
               icon={<UserIcon />}
-              text="Профиль"
+              text={name.length > 8 ? name.slice(0, 5) + "..." : name}
               lg_hidden=""
             />
             <IconLink

@@ -1,19 +1,17 @@
 import Image from "next/image";
 import { roboto } from "@/styles/fonts";
-import { TypeRequest } from "@/pages";
 import Link from "next/link";
 import MiniBanner from "../Banners/MiniBanner";
 
-export default function MiniBannerSection({ items, photos }: TypeRequest) {
-  if (!items || !items.request || !photos || !photos.request) {
-    return <div>Данные не загружены</div>;
-  }
-  const categories: string[] = ["Dior", "Boss", "Chanel", "Ray-Ban"];
+export default function MiniBannerSection() {
+  const categories: string[] = ["dior", "boss", "chanel", "ray-ban"];
   return (
     <div className="flex flex-col gap-4 lg:flex-row">
       <MiniBanner />
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:flex">
         {categories.map((category) => {
+          const capitalizedCategory =
+            category.charAt(0).toUpperCase() + category.slice(1); // Преобразование первой буквы в заглавную
           return (
             <Link
               href={`/category/${category}`}
@@ -23,7 +21,7 @@ export default function MiniBannerSection({ items, photos }: TypeRequest) {
               <p
                 className={`${roboto.className} text-xl font-bold md:text-2xl`}
               >
-                {category}
+                {capitalizedCategory}
               </p>
               <Image
                 src={"/images/Product.jpg"}

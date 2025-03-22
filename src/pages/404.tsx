@@ -1,6 +1,7 @@
 import Head from "next/head";
 import P404Background from "../components/FormsComponents/p404Background";
-import HomeContainer from "@/components/HomeContainer/HomeContainer";
+import HomeContainer from "../components/HomeContainer/HomeContainer";
+
 
 export default function p404() {
   return (

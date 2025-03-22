@@ -1,37 +1,41 @@
+import { Photos, TItems } from "@/shared/types";
 import MiniCard from "../MiniCard/MiniCard";
-const product = "/images/Product-with-shadow.png";
+// const product = "/images/Product-with-shadow.png";
 type CatalogListProps = {
   variable: string;
+  items: TItems[] | null;
+  photos: Photos[] | null;
 };
 
-export default function CatalogList({ variable }: CatalogListProps) {
-  const products = [
-    { title: "Классные очки", price: 10000, img_url: product },
-    { title: "Стильные часы", price: 5000, img_url: product },
-    { title: "Модный рюкзак", price: 15000, img_url: product },
-    { title: "Красивые наушники", price: 8000, img_url: product },
-    { title: "Классные очки", price: 2000, img_url: product },
-    { title: "Модная сумка", price: 12000, img_url: product },
-    { title: "Классные очки", price: 10000, img_url: product },
-    { title: "Стильные часы", price: 5000, img_url: product },
-    { title: "Модный рюкзак", price: 15000, img_url: product },
-    { title: "Красивые наушники", price: 8000, img_url: product },
-    { title: "Классные очки", price: 2000, img_url: product },
-    { title: "Модная сумка", price: 12000, img_url: product },
-  ];
+export default function CatalogList({
+  variable,
+  items,
+  photos,
+}: CatalogListProps) {
   return (
     <section
       className={`grid-list w-full gap-2 md:gap-5 ${variable === "horizontal" ? "flex flex-col" : "grid"}`}
     >
-      {products.map((product, index) => (
-        <MiniCard
-          key={index}
-          title={product.title}
-          price={product.price}
-          img_url={product.img_url}
-          variable={variable}
-        />
-      ))}
+      {items ? (
+        items.map((item, index) => {
+          const photo = photos
+            ? photos.find((photo) => photo.itemId === item.id)
+            : null;
+          const img_url = photo ? photo.photoLink : "";
+
+          return (
+            <MiniCard
+              key={index}
+              title={item.title}
+              price={item.price}
+              img_url={img_url}
+              variable={variable}
+            />
+          );
+        })
+      ) : (
+        <p>Товары не найдены</p>
+      )}
     </section>
   );
 }

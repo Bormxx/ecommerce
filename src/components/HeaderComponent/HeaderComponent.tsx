@@ -8,11 +8,16 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 export default function HeaderComponent() {
   const { pathname } = useRouter();
   const hiddenRoutes = ["/cart", "/profile", "/order"];
+  const router = useRouter();
 
   const hiddenInCart = hiddenRoutes.includes(pathname) ? "hidden" : "";
+  function routerToCatalog() {
+    router.replace("/catalog");
+  }
   return (
     <div className={pathname === "/auth" || pathname === "/registration" ? "hidden md:block" : ""}>
       <header className="shadow-custom hidden w-full bg-white p-3 md:flex">
+
         <div className="m-auto flex max-w-[1180px] flex-grow justify-between gap-2 lg:gap-7">
           <Link href="/">
             <Image
@@ -25,6 +30,7 @@ export default function HeaderComponent() {
 
           <div className="flex flex-grow justify-between gap-[15px]">
             <button
+              onClick={routerToCatalog}
               className={`${inter.className} rounded-[8px] bg-[#1E40AF] px-4 py-2 text-base font-bold text-white`}
             >
               Каталог
