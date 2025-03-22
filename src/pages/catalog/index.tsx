@@ -1,20 +1,18 @@
-import MainSection from "@/components/MainSection/MainSection";
-import HomeContainer from "../components/HomeContainer/HomeContainer";
+import CategoryPage from "@/components/CategoryPage/CategoryPage";
+import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import { Photos, TItems } from "@/shared/types";
 
 export interface TypeRequest {
   items: TItems[] | null;
   photos: Photos[] | null;
 }
-
-export default function Home({ items, photos }: TypeRequest) {
+export default function catalog({ items, photos }: TypeRequest) {
   return (
     <HomeContainer>
-      <MainSection items={items} photos={photos} />
+      <CategoryPage items={items} photos={photos} />
     </HomeContainer>
   );
 }
-
 export async function getStaticProps() {
   const itemsRes = await fetch("http://localhost:3000/api/items");
   const itemsReq = await itemsRes.json();

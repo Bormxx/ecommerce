@@ -22,7 +22,13 @@ const MiniCard = ({ title, price, img_url, variable }: MiniCardProps) => {
     >
       <Link
         href="/"
-        className={`${variable === "mini" ? "w-[172px] flex-col gap-2" : variable === "horizontal" ? "w-full flex-row items-center justify-between gap-4" : "flex-col gap-2"} flex`}
+        className={` ${
+          variable === "mini"
+            ? "w-[172px] flex-col gap-2"
+            : variable === "horizontal"
+              ? "w-full flex-row items-center justify-between gap-4"
+              : "flex-col gap-2"
+        } flex`}
       >
         <Image
           src={img_url}
@@ -31,7 +37,7 @@ const MiniCard = ({ title, price, img_url, variable }: MiniCardProps) => {
           height={
             variable === "mini" ? 172 : variable === "standart" ? 248 : 80
           }
-          className="object-contain"
+          className="w-full object-contain"
         />
         <h3
           className={`${inter.className} ${variable === "horizontal" ? "w-full grow text-base text-blue-600" : ""} text-sm`}

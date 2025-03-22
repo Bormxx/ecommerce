@@ -5,18 +5,22 @@ import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Title from "@/components/Title/Title";
 import { useProtectedRoute } from "@/shared/hooks/useProtectedRoute";
+import { Photos, TItems } from "@/shared/types";
 import { inter } from "@/styles/fonts";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-
-export default function favoritesPage() {
+export interface TypeRequest {
+  items: TItems[] | null;
+  photos: Photos[] | null;
+}
+export default function favoritesPage({ items, photos }: TypeRequest) {
   const [textActiveCardsLayout, setTextActiveCardsLayout] =
     useState("Карточки");
   const [textNoActiveCardsLayout, setTextNoActiveCardsLayout] =
     useState("Список");
   const [variableList, setVariableList] = useState("standart");
-  
+
   function handleClickCardsLayout() {
     if (textNoActiveCardsLayout === "Список") {
       setTextActiveCardsLayout("Список");
@@ -49,7 +53,7 @@ export default function favoritesPage() {
                 </MenuButton>
                 <MenuItems
                   anchor="bottom"
-                  className="shadow-custom flex flex-col rounded-lg bg-white"
+                  className="flex flex-col rounded-lg bg-white shadow-custom"
                 >
                   <MenuItem>
                     <button
@@ -64,11 +68,26 @@ export default function favoritesPage() {
             </div>
 
             <div className="mt-4 w-full rounded-lg bg-white">
-              <CatalogList variable={variableList} />
+              <CatalogList
+                variable={variableList}
+                items={items}
+                photos={photos}
+              />
             </div>
           </section>
         </section>
       </HomeContainer>
     </ProtectedRoute>
   );
+}
+export async function getStaticProps() {
+  const itemsRes = await fetch("http://localhost:3000/api/items");
+  const itemsReq = await itemsRes.json();
+  const items = itemsReq.request;
+  const photosRes = await fetch("http://localhost:3000/api/photos");
+  const photosReq = await photosRes.json();
+  const photos = photosReq.request;
+  return {
+    props: { items, photos },
+  };
 }
