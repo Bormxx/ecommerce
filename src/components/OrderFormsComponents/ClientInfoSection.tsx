@@ -35,7 +35,7 @@ export default function ClientInfoSection({
   });
   
   return (
-    <div className="flex flex-col sm:flex-row justify-between gap-2">
+    <div className="flex flex-col flex-position-row justify-between gap-2">
       <ClientInfoPersonal />
       <Field className="">
         <Label

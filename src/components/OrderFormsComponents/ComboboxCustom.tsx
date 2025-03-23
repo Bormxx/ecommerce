@@ -57,7 +57,7 @@ export default function ComboboxCustom({
                     {...props}
                     className={cn(
                       inter.className,
-                      "w-full sm:w-[171px] rounded border px-3 py-2 sm:py-[10px] text-sm font-normal",
+                      "w-full input-width rounded border px-3 py-2 sm:py-[10px] text-sm font-normal",
                       "group-hover:border-blue-600",
                       fieldState.error ? "border-red-500" : "border-gray-400",
                     )}
