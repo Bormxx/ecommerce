@@ -45,7 +45,7 @@ export default function Profile({
               {!isEditing && (
 
                 <div className="mt-4">
-                  <label className="block font-normal text-[14px] leading-5 text-[#6B7280]">Язык:</label>
+                  <label className="block font-normal text-[12px] leading-4 md:text-[14px] md:leading-5 text-[#6B7280]">Язык:</label>
                     
                   <CustomSelect/>
 

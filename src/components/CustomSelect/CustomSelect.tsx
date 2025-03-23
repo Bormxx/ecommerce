@@ -7,9 +7,9 @@ export default function CustomSelect() {
   const options = ["Русский", "English"];
 
   return (
-    <div className="relative w-[180px]">
+    <div className="relative md:w-[180px]">
       <div
-        className="w-full px-[12px] py-[9px] border border-gray-400 rounded-[4px] text-[14px] font-normal leading-5 cursor-pointer bg-white flex items-center justify-between"
+        className="w-full px-[10px] md:px-[12px] py-[7px] md:py-[9px] border border-gray-400 rounded-[4px] font-normal text-[12px] leading-4 md:text-[14px] md:leading-5 cursor-pointer bg-white flex items-center justify-between"
         onClick={() => setOpen(!open)}
       >
         {selected}
@@ -27,7 +27,7 @@ export default function CustomSelect() {
           {options.map((option, index) => (
             <li
               key={index}
-              className="px-[12px] py-[9px] text-[14px] cursor-pointer hover:bg-[#F3F4F6]"
+              className="px-[10px] md:px-[12px] py-[7px] md:py-[9px] text-[12px] md:text-[14px] cursor-pointer hover:bg-[#F3F4F6]"
               onClick={() => {
                 setSelected(option);
                 setOpen(false);

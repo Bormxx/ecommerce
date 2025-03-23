@@ -111,7 +111,7 @@ export default function ProfileSection({
                         </div>
                     </div>
                     <button 
-                        className="px-[97px] md:px-[17px] py-[7px] bg-white text-[#1E40AF] rounded-[6px] border border-[#1E40AF] font-bold text-sm md:text-[16px] md:leading-6 transition-colors duration-200 hover:bg-[#1E40AF] hover:text-white"
+                        className="flex justify-center w-full md:w-auto min-w-[303px] md:min-w-[157px] py-[7px] bg-white text-[#1E40AF] rounded-[6px] border border-[#1E40AF] font-bold text-sm md:text-[16px] md:leading-6 transition-colors duration-200 hover:bg-[#1E40AF] hover:text-white"
                         onClick={onEdit}
                         >Редактировать
                     </button>
