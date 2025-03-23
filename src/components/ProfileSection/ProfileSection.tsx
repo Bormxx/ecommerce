@@ -102,7 +102,7 @@ export default function ProfileSection({
 
               ) : (
 
-                <div className="bg-white p-4 rounded-xl shadow-lg flex md:flex-row flex-col items-center justify-between max-w-[720px] md:max-w-[580px]">
+                <div className="bg-white p-4 rounded-xl shadow-lg flex md:flex-row flex-col md:items-center items-start justify-between max-w-[720px] md:max-w-[580px]">
                     <div className="flex items-center space-x-4 mb-6 md:mb-0">
                         <Image className="rounded-full" src={Avatar} width={80} height={80} alt="Avatar" />
                         <div className="md:text-lg font-medium leading-6 text-[#1F2937] space-y-2 text-sm">
