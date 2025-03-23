@@ -28,7 +28,7 @@ export default function Profile({
   return (
     <HomeContainer>
         <ProfileBackground imageUrl="/images/sport_meditation.svg">
-          <div className="flex md:pt-10 h-[90vh]">
+          <div className="flex p-5 md:pt-10 h-[90vh]">
             <Sidebar />
 
             <main className="flex-1 pl-1 md:pl-5">
