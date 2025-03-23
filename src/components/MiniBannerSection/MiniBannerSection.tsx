@@ -1,26 +1,17 @@
 import Image from "next/image";
-import { inter, roboto } from "@/styles/fonts";
-import { TypeRequest } from "@/pages";
+import { roboto } from "@/styles/fonts";
 import Link from "next/link";
+import MiniBanner from "../Banners/MiniBanner";
 
-
-export default function MiniBannerSection({ items, photos }: TypeRequest) {
-  if (!items || !items.request || !photos || !photos.request) {
-    return <div>Данные не загружены</div>;
-  }
-  const categories: string[]= ['1','2','3','4']
+export default function MiniBannerSection() {
+  const categories: string[] = ["dior", "boss", "chanel", "ray-ban"];
   return (
-    <div className="mt-5 flex flex-col gap-4 lg:flex-row">
-      <div className="min-w-44 flex-grow rounded-lg bg-[linear-gradient(105.02deg,_#2563EB_38.18%,_#FFFFFF_118.65%)] px-6 py-4 text-white">
-        <h2 className={`${roboto.className} text-l font-bold md:text-2xl`}>
-          Заголовок баннера
-        </h2>
-        <h3 className={`${inter.className} text-sm md:text-base`}>
-          Подзаголовок
-        </h3>
-      </div>
+    <div className="flex flex-col gap-4 lg:flex-row">
+      <MiniBanner />
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:flex">
-        {categories.map(category => {
+        {categories.map((category) => {
+          const capitalizedCategory =
+            category.charAt(0).toUpperCase() + category.slice(1); // Преобразование первой буквы в заглавную
           return (
             <Link
               href={`/category/${category}`}
@@ -30,7 +21,7 @@ export default function MiniBannerSection({ items, photos }: TypeRequest) {
               <p
                 className={`${roboto.className} text-xl font-bold md:text-2xl`}
               >
-                Dior
+                {capitalizedCategory}
               </p>
               <Image
                 src={"/images/Product.jpg"}

@@ -1,9 +1,9 @@
 import { useAuth } from "@/shared/hooks/useAuth";
-import { useUserStore } from "@/store/auth";
 import { ReactNode } from "react";
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
 
 type protectedRouteProps = {
-  protection: () => void;
+  protection: () => boolean;
   children: ReactNode;
 };
 
@@ -12,15 +12,10 @@ export default function ProtectedRoute({
   children,
 }: protectedRouteProps) {
   const { isLoading } = useAuth();
-  const { isAuthenticated } = useUserStore();
-  protection();
+  const isOk = protection();
 
-  if (!isAuthenticated || isLoading) {
-    return (
-      <div className="grow place-content-center place-items-center">
-        <div className="h-12 w-12 animate-spin rounded-full border-8 border-blue-200 border-t-blue-500"></div>
-      </div>
-    );
+  if (!isOk || isLoading) {
+    return <LoadingIcon />
   }
 
   return children;

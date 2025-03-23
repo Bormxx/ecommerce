@@ -1,22 +1,79 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../db";
 import { cards } from "../../db/schema/schema";
+import { and, eq, sql } from "drizzle-orm";
+import { checkTokenValidity } from "@/shared/utils/backend/checkToken";
+import { cardSchema } from "@/shared/types/schemas/card";
 
 export default async function cardsTable(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "GET") {
-    const request = await db.select().from(cards);
-    res.status(200).json({ request });
+    const token = req.cookies.authorization;
+
+    const id = checkTokenValidity(token);
+
+    try {
+      if (!id) {
+        return res.status(403).json({
+          access: "denied",
+        });
+      }
+      const userCards = await db
+        .select({
+          id: cards.id,
+          cardNumber: sql<string>`CONCAT(SUBSTRING(${cards.cardNumber}, 16, 2), ' ', SUBSTRING(${cards.cardNumber}, 18, 2))`,
+        })
+        .from(cards)
+        .where(eq(cards.userId, id));
+      res.status(200).json(userCards);
+    } catch {
+      res.status(403).json({
+        access: "denied",
+      });
+    }
   }
+
   if (req.method === "POST") {
-    const { userId, cardNumber } = req.body;
-    const dateStamp = Date.now()
-    await db.insert(cards).values({ id:dateStamp, userId, cardNumber });
-    if (res.status(200)) {
-      const request = await db.select().from(cards);
-      return res.status(200).json({ request });
-    } else return res.status(500).json({ message: 'Ошибка базы данных' });
+    const inputs = cardSchema.safeParse(req.body);
+
+    if (!inputs.success) {
+      return res.status(400).json({ error: "Некоректные данные" });
+    }
+
+    const token = req.cookies.authorization;
+
+    const id = checkTokenValidity(token);
+
+    try {
+      if (!id) {
+        return res.status(403).json({
+          access: "denied",
+        });
+      }
+
+      const { cardNumber, ...data } = inputs.data;
+
+      const card = await db.query.cards.findFirst({
+        where: and(eq(cards.cardNumber, cardNumber), eq(cards.userId, id)),
+      });
+
+      if (card) {
+        return res
+          .status(403)
+          .json({ error: "Карта с указанным номером уже добавлена" });
+      }
+
+      await db
+        .insert(cards)
+        .values({ userId: id, cardNumber: cardNumber, ...data });
+
+      return res.status(200).json({ status: "success" });
+    } catch {
+      res.status(403).json({
+        error: "Unexpected error!",
+      });
+    }
   }
 }

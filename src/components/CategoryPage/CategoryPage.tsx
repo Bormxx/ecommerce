@@ -1,7 +1,10 @@
-import {AdjustmentsHorizontalIcon, ArrowLongLeftIcon,XMarkIcon,} from "@heroicons/react/24/outline";
+import {
+  AdjustmentsHorizontalIcon,
+  ArrowLongLeftIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import Title from "../Title/Title";
-import MiniCard from "../MiniCard/MiniCard";
 import { useState } from "react";
 import { inter, roboto } from "@/styles/fonts";
 import FilterComponent from "../FilterComponent/FilterComponent";
@@ -10,14 +13,22 @@ import FilterCheckbox from "../FilterComponent/FilterCheckbox";
 import FilterRadio from "../FilterComponent/FilterRadio";
 import FilterSwitch from "../FilterComponent/FilterSwitch";
 import ButtonLong from "../ui-kit/ButtonLong";
+import CatalogList from "../CatalogList/CatalogList";
+import { Photos, TItems } from "@/shared/types";
+import { useRouter } from "next/router";
+export interface TypeRequest {
+  items: TItems[] | null;
+  photos: Photos[] | null;
+}
 
-export default function CategoryPage() {
-  const products = new Array(15).fill(null).map(() => ({
-    title: `Очки`,
-    price: 4990,
-    img_url: "/images/Product-172x172.jpg",
-  }));
-
+export default function CategoryPage({ items, photos }: TypeRequest) {
+  const router = useRouter();
+  const { id } = router.query;
+  const categoryName = id
+    ? typeof id === "string"
+      ? "Очки " + id.charAt(0).toUpperCase() + id.slice(1)
+      : ""
+    : "Каталог";
   const [isOpenFilterClass, setIsOpenFilterClass] = useState("hidden");
 
   function clickOpenFilter() {
@@ -65,9 +76,9 @@ export default function CategoryPage() {
             </div>
           </form>
         </div>
-        <main className="">
+        <main className="w-full">
           <div className="flex justify-between">
-            <Title text="Очки Fendy" />
+            <Title text={categoryName} />
             <button
               type="button"
               onClick={clickOpenFilter}
@@ -77,7 +88,7 @@ export default function CategoryPage() {
             </button>
           </div>
 
-          <div className="md:shadow-custom relative my-4 flex flex-wrap justify-evenly gap-4 md:mt-11 md:rounded-xl md:bg-white md:p-6">
+          <div className="relative my-4 flex flex-wrap justify-evenly gap-4 md:mt-11 md:rounded-xl md:bg-white md:p-6 md:shadow-custom">
             <div className="absolute left-0 top-[-40px] hidden gap-2 md:flex">
               <div
                 className={`${inter.className} flex items-center rounded-[20px] border border-blue-800 px-3 py-[2px] text-xs text-blue-800`}
@@ -93,14 +104,7 @@ export default function CategoryPage() {
               </div>
             </div>
 
-            {products.map((product, index) => (
-              <MiniCard
-                key={index} // Используем index как ключ для списка
-                title={product.title}
-                price={product.price}
-                img_url={product.img_url}
-              />
-            ))}
+            <CatalogList variable="standart" items={items} photos={photos} />
           </div>
         </main>
       </div>

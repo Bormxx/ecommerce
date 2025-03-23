@@ -1,52 +1,68 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { inter, roboto } from "@/styles/fonts";
 import Link from "next/link";
 import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { useUserStore } from "@/shared/store/auth";
 
 interface MiniCardProps {
   title: string;
   price: number;
   img_url: string;
+  variable: string;
+  key: string | number;
 }
 
-const userName = "Kristina";
-
-const MiniCard = ({ title, price, img_url }: MiniCardProps) => {
+const MiniCard = ({ title, price, img_url, variable }: MiniCardProps) => {
+  const { isAuthenticated } = useUserStore();
   const formattedPrice = new Intl.NumberFormat("ru-RU").format(price);
 
   return (
-    <div className="flex">
-      <div className="flex flex-col gap-2 rounded-lg">
-        <Link href="/" className="flex flex-col gap-2">
-          <Image
-            src={img_url}
-            alt="Product"
-            width={172}
-            height={172}
-            className="w-40 md:w-[172px]"
-          />
-          <h3 className={`${inter.className} text-[14px]`}>{title}</h3>
-          <span
-            className={`${roboto.className} text-xl font-bold text-[#10B981]`}
+    <div
+      className={`flex ${variable === "horizontal" ? "flex-row" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"}`}
+    >
+      <Link
+        href="/"
+        className={` ${
+          variable === "mini"
+            ? "w-[172px] flex-col gap-2"
+            : variable === "horizontal"
+              ? "w-full flex-row items-center justify-between gap-4"
+              : "flex-col gap-2"
+        } flex`}
+      >
+        <Image
+          src={img_url}
+          alt="Product"
+          width={variable === "mini" ? 172 : variable === "standart" ? 248 : 80}
+          height={
+            variable === "mini" ? 172 : variable === "standart" ? 248 : 80
+          }
+          className="w-full object-contain"
+        />
+        <h3
+          className={`${inter.className} ${variable === "horizontal" ? "w-full grow text-base text-blue-600" : ""} text-sm`}
+        >
+          {title}
+        </h3>
+        <span
+          className={`${roboto.className} min-w-[30%] text-xl font-bold text-[#10B981]`}
+        >
+          {formattedPrice} &#8381;
+        </span>
+      </Link>
+      {isAuthenticated && (
+        <div className="flex items-center gap-1">
+          <button
+            className="flex h-10 w-[calc(100%-40px)] min-w-20 justify-center rounded-lg bg-blue-800 py-2 text-white"
+            type="button"
           >
-            {formattedPrice} &#8381;
-          </span>
-        </Link>
-
-        {userName && (
-          <div className="flex gap-1">
-            <button
-              className="flex w-[calc(100%-40px)] justify-center rounded-lg bg-blue-800 py-2 text-white"
-              type="button"
-            >
-              <ShoppingBagIcon width={24} height={24} />
-            </button>
-            <button type="button" className="h-6 w-6 p-2">
-              <HeartIcon width={24} height={24} />
-            </button>
-          </div>
-        )}
-      </div>
+            <ShoppingBagIcon width={24} height={24} />
+          </button>
+          <button type="button" className="h-6 w-6">
+            <HeartIcon width={24} height={24} />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

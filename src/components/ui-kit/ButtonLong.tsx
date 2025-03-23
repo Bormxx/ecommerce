@@ -1,7 +1,7 @@
 import { inter } from "@/styles/fonts";
 
 type ButtonLongProps = {
-  text: string;
+  text: string | React.ReactElement;
   onClick: () => void;
   type: "button" | "reset" | "submit" | undefined;
 };

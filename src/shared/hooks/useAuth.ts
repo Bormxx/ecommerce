@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useUserStore } from "@/store/auth";
 import { checkAuth } from "@/shared/services/auth";
+import { useUserStore } from "../store/auth";
 
 export const useAuth = () => {
   const { isAuthenticated, removeUserData, setIsAuthenticated } =

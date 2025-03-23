@@ -7,9 +7,11 @@ type HomeContainerProps = {
 
 export default function HomeContainer(props: HomeContainerProps) {
   return (
-    <div className="mx-auto flex min-h-screen max-w-[1180px] flex-col p-4">
+    <div className="flex min-h-screen flex-col">
       <HeaderComponent />
-      {props.children}
+      <div className="mx-auto flex w-full max-w-[1220px] grow flex-col bg-gray-50 md:mt-8 md:px-5">
+        {props.children}
+      </div>
     </div>
   );
 }

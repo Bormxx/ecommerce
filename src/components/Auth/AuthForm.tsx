@@ -1,26 +1,31 @@
-import { Fieldset, Input } from "@headlessui/react";
-import { inter } from "@/styles/fonts";
-import FormHeader from "../FormsComponents/FormHeader";
-import FormField from "../FormsComponents/FormField";
-import FormButton from "../FormsComponents/FormButton";
-import AlterAuth from "../FormsComponents/AlterAuth";
-import FormFooter from "../FormsComponents/FormFooter";
+import { Fieldset } from "@headlessui/react";
+import FormHeader from "../AuthFormsComponents/FormHeader";
+import FormField from "../AuthFormsComponents/FormField";
+import FormButton from "../AuthFormsComponents/FormButton";
+import AlterAuth from "../AuthFormsComponents/AlterAuth";
+import FormFooter from "../AuthFormsComponents/FormFooter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authFormSchema, TAuthForm } from "../../shared/types/schemas/auth";
-import ErrorMessage from "../FormsComponents/ErrorMessage";
-import { cn } from "@/shared/utils/frontend/cn";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
 import { useUserStore } from "@/shared/store/auth";
 import { useRouter } from "next/router";
+import AuthInput from "../AuthFormsComponents/InputAuth";
+import { inter } from "@/styles/fonts";
+import { authFormSchema, TAuthForm } from "@/shared/types/schemas/auth";
 import { signIn } from "@/shared/services/auth";
-
+import AuthModal from "../Dialog/Variants/AuthModal";
+import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
 
 export default function AuthForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [blockModal, setBlockModal] = useState(false);
+  const [blockButton, setBlockButton] = useState(true);
+
   const { setIsAuthenticated, setUserData } = useUserStore();
   const router = useRouter();
 
@@ -34,58 +39,61 @@ export default function AuthForm() {
       router.replace(typeof path === "string" ? path : "/");
     },
     onError: (err) => {
-      setReqStatus(!reqStatus);
       setErrorMessage(err.message);
+      setBlockModal(false);
+      setBlockButton(true);
+    },
+    onMutate: () => {
+      setBlockModal(true);
+      setReqStatus(true);
     },
   });
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    control,
+    formState: { isValid },
   } = useForm<TAuthForm>({
     resolver: zodResolver(authFormSchema),
-    mode: "onChange",
+    defaultValues: { email: "", password: "" },
+    mode: "all",
   });
 
   return (
     <>
-      <div className="flex min-w-[380px] flex-col gap-10 rounded-xl bg-white p-6 shadow-lg">
-        <div className="flex flex-col gap-6">
+      <div className="flex h-screen w-full flex-col justify-between gap-6 p-6 min-[390px]:max-w-[380px] md:h-fit md:rounded-xl md:bg-white md:shadow-lg">
+        <Link
+          href={"/"}
+          className="flex w-fit gap-1 transition hover:text-black/50 md:pointer-events-none"
+        >
+          <ArrowLongLeftIcon className="size-6 self-center md:hidden" />
           <FormHeader>Вход в аккаунт</FormHeader>
+        </Link>
+        <div className="flex flex-col gap-6">
           <form
             onSubmit={handleSubmit((data) => {
+              setBlockButton(false);
               mutation.mutate(data);
             })}
             className="flex flex-col gap-6"
           >
             <Fieldset className="flex flex-col gap-4">
               <FormField text={"Ваш email"}>
-                <Input
-                  {...register("email")}
+                <AuthInput
+                  control={control}
+                  name="email"
+                  placeholder="ivanov@yandex.ru"
                   type={"text"}
-                  className={cn(
-                    `${errors.email ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
-                  )}
-                  placeholder={"ivanov@yandex.ru"}
                 />
-                {errors.email && <ErrorMessage text={"Некорректный email"} />}
               </FormField>
               <FormField text={"Пароль"}>
-                <Input
-                  {...register("password")}
+                <AuthInput
+                  control={control}
+                  name="password"
+                  placeholder="*******"
                   type={"password"}
-                  className={cn(
-                    `${errors.password ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
-                  )}
-                  placeholder={"*******"}
                 />
-                {errors.password && (
-                  <ErrorMessage
-                    text={"Пароль не может быть меньше 6 символов"}
-                  />
-                )}
                 <p
                   className={`${inter.className} text-right text-base font-normal text-gray-500`}
                 >
@@ -93,7 +101,7 @@ export default function AuthForm() {
                 </p>
               </FormField>
             </Fieldset>
-            <FormButton text={"Войти"} isValid={isValid} />
+            <FormButton text={"Войти"} isValid={isValid && blockButton} />
           </form>
           <AlterAuth text={"Войти с помощью"} />
         </div>
@@ -103,11 +111,17 @@ export default function AuthForm() {
           footerText={"Зарегистрироваться"}
         />
       </div>
-      <MyModal
-        isTrue={reqStatus}
-        closeFn={setReqStatus}
-        errorMessage={errorMessage}
-      />
+      <MyModal isTrue={reqStatus} closeFn={setReqStatus} isBlocked={blockModal}>
+        {mutation.isPending || mutation.isSuccess ? (
+          <LoadingIcon />
+        ) : (
+          <AuthModal
+            isTrue={reqStatus}
+            errorMessage={errorMessage}
+            closeFn={setReqStatus}
+          />
+        )}
+      </MyModal>
     </>
   );
 }
