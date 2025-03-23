@@ -37,60 +37,62 @@ export default function ProfileSection({
             {isEditing ? (
 
                 <div className="bg-white pt-6 pb-6 pl-4 pr-4 rounded-xl shadow-lg max-w-[720px] md:max-w-[580px]">
-
-                    <div className="relative w-[100px] h-20">
-                        <Image className="rounded-full" src={Avatar} width={80} height={80} alt="Avatar" />
-                        <div className="absolute bottom-0 right-0 bg-[#1E40AF] p-2 rounded-full cursor-pointer">
-                            <Image src={CameraIcon} width={24} height={24} alt="Edit avatar" />
-                        </div>
-                    </div>  
+                    <div className="flex justify-center md:block">
+                        <div className="relative w-[100px] h-20">
+                            <Image className="rounded-full" src={Avatar} width={80} height={80} alt="Avatar" />
+                            <div className="absolute bottom-0 right-0 bg-[#1E40AF] p-2 rounded-full cursor-pointer">
+                                <Image src={CameraIcon} width={24} height={24} alt="Edit avatar" />
+                            </div>
+                        </div> 
+                    </div>
+                     
 
                     <div className="mt-4">
-                        <div className="flex gap-4">
+                        <div className="flex flex-col md:flex-row gap-4">
 
-                            <div className="w-1/2">
-                                <label className="block font-normal text-[14px] leading-5 text-[#6B7280]">Имя:</label>
+                            <div className="w-full md:w-1/2">
+                                <label className="block font-normal text-[12px] leading-4 md:text-[14px] md:leading-5 text-[#6B7280]">Имя:</label>
                                 <input
                                     type="text"
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-[7px] border border-[#9CA3AF] bg-[#F3F4F6] rounded-[4px] text-gray-800 focus:ring focus:ring-blue-300"
+                                    className="w-full px-3 py-[7px] font-normal text-[14px] leading-5 md:text-[16px] md:leading-6 border border-[#9CA3AF] bg-[#F3F4F6] rounded-[4px] text-gray-800 focus:ring focus:ring-blue-300"
                                 />
                             </div>
 
-                            <div className="w-1/2">
-                                <label className="block font-normal text-[14px] leading-5 text-[#6B7280]">Фамилия:</label>
+                            <div className="w-full md:w-1/2">
+                                <label className="block font-normal text-[12px] leading-4 md:text-[14px] md:leading-5 text-[#6B7280]">Фамилия:</label>
                                 <input
                                     type="text"
                                     name="surname"
                                     value={formData.surname}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-[7px] border border-[#9CA3AF] bg-[#F3F4F6] rounded-[4px] text-gray-800 focus:ring focus:ring-blue-300"
+                                    className="w-full px-3 py-[7px] font-normal text-[14px] leading-5 md:text-[16px] md:leading-6 border border-[#9CA3AF] bg-[#F3F4F6] rounded-[4px] text-gray-800 focus:ring focus:ring-blue-300"
                                 />
                             </div>
                         </div>
 
-                        <div className="mt-2">
-                            <label className="block font-normal text-[14px] leading-5 text-[#6B7280]">Email:</label>
+                        <div className="mt-4 md:mt-2 w-full md:max-w-[266px] md:w-[48.5%]">
+                            <label className="block font-normal text-[12px] leading-4 md:text-[14px] md:leading-5 text-[#6B7280]">Email:</label>
                             <input
                                 type="email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="w-full max-w-[258px] px-3 py-[7px] border border-[#9CA3AF] bg-[#F3F4F6] rounded-[4px] text-gray-800 focus:ring focus:ring-blue-300"
+                                className="w-full px-3 py-[7px] font-normal text-[14px] leading-5 md:text-[16px] md:leading-6 border border-[#9CA3AF] bg-[#F3F4F6] rounded-[4px] text-gray-800 focus:ring focus:ring-blue-300"
                             />
                         </div>
 
-                        <div className="flex justify-start gap-2 mt-6">
+                        <div className="flex flex-col md:flex-row justify-start gap-4 md:gap-2 mt-10 md:mt-6">
                             <button
-                                className="px-4 py-[7px] border border-[#1E40AF] text-[#1E40AF] rounded-md font-[700] text-[16px] leading-6 hover:bg-blue-50 transition"
+                                className="px-4 py-[7px] border border-[#1E40AF] text-[#1E40AF] rounded-md font-[700] text-[14px] leading-5 md:text-[16px] md:leading-6 hover:bg-blue-50 transition"
                                 onClick={onCancel}
                             >
                                 Отменить
                             </button>
                             <button
-                                className="px-4 py-[7px] bg-[#1E40AF] text-white rounded-md font-[700] text-[16px] leading-6 hover:bg-blue-700 transition"
+                                className="px-8 py-[7px] bg-[#1E40AF] text-white rounded-md font-[700] text-[14px] leading-5 md:text-[16px] md:leading-6 hover:bg-blue-700 transition"
                                 onClick={() => onSave(formData)}
                             >
                                 Сохранить
