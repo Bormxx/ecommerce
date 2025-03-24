@@ -35,12 +35,12 @@ export default async function usersAuth(
       }
 
       const token = jwt.sign({ id: user.id }, "omega-security-protection", {
-        expiresIn: 60,
+        expiresIn: 6000000,
       });
 
       res.setHeader(
         "Set-Cookie",
-        `authorization=Bearer ${token}; HttpOnly; Max-Age=60;`,
+        `authorization=Bearer ${token}; HttpOnly; Max-Age=6000000;`,
       );
 
       res.status(200).json({
