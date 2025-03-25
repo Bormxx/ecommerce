@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { compare } from "bcrypt";
 import { authFormSchema } from "../../shared/types/schemas/auth";
 import { createSession, generateSessionToken } from "../../shared/utils/backend/authSessions";
+import { hideEmail } from "@/shared/utils/backend/helpers";
 
 export default async function usersAuth(
   req: NextApiRequest,
@@ -46,7 +47,7 @@ export default async function usersAuth(
         name: user.name,
         surname: user.surname,
         avatar: user.avatar,
-        email: user.email,
+        email: hideEmail(user.email),
       });
     } catch {
       res.status(500).json({ error: "Ошибка авторизации" });

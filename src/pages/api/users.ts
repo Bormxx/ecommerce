@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { hash } from "bcrypt";
 import { formDataSchema } from "../../shared/types/schemas/auth";
 import { createSession, generateSessionToken } from "../../shared/utils/backend/authSessions";
+import { hideEmail } from "@/shared/utils/backend/helpers";
 
 export default async function usersTable(
   req: NextApiRequest,
@@ -50,14 +51,14 @@ export default async function usersTable(
         throw new Error();
       }
 
-      const { id, ...userData } = addedUser;
+      const { id, email, ...userData } = addedUser;
 
       const token = generateSessionToken();
       await createSession(token, id);
 
       res.setHeader("Set-Cookie", `session=${token}; HttpOnly; Max-Age=60000;`);
 
-      res.status(201).json(userData);
+      res.status(201).json({email: hideEmail(email), ...userData});
     } catch {
       res.status(500).json({ error: "Ошибка добавления пользователя" });
     }
