@@ -4,7 +4,7 @@ import { users } from "../../db/schema/schema";
 import { eq } from "drizzle-orm";
 import { hash } from "bcrypt";
 import { formDataSchema } from "../../shared/types/schemas/auth";
-import jwt from "jsonwebtoken";
+import { createSession, generateSessionToken } from "../../shared/utils/backend/authSessions";
 
 export default async function usersTable(
   req: NextApiRequest,
@@ -52,14 +52,10 @@ export default async function usersTable(
 
       const { id, ...userData } = addedUser;
 
-      const token = jwt.sign({ id: id }, "omega-security-protection", {
-        expiresIn: 120,
-      });
+      const token = generateSessionToken();
+      await createSession(token, id);
 
-      res.setHeader(
-        "Set-Cookie",
-        `authorization=Bearer ${token}; HttpOnly; Max-Age=180;`,
-      );
+      res.setHeader("Set-Cookie", `session=${token}; HttpOnly; Max-Age=60000;`);
 
       res.status(201).json(userData);
     } catch {
