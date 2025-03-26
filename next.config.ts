@@ -7,7 +7,15 @@ const nextConfig: NextConfig = {
 
 module.exports = {
   images: {
-    domains: ["192.168.1.158"],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '3000',
+        pathname: '/images/**',
+        search: '',
+      },
+    ],
   },
 };
 
