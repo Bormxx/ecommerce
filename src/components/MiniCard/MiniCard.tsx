@@ -5,9 +5,9 @@ import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useUserStore } from "@/shared/store/auth";
 
 interface MiniCardProps {
-  title: string;
-  price: number;
-  img_url: string;
+  title: any;
+  price: any;
+  img_url: any;
   variable: string;
   key: string | number;
 }
