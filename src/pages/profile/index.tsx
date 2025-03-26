@@ -28,10 +28,11 @@ export default function Profile({
   return (
     <HomeContainer>
         <ProfileBackground imageUrl="/images/sport_meditation.svg">
-          <div className="flex pt-10 h-[90vh]">
+          <div className="flex p-5 md:pt-10 h-[90vh]">
             <Sidebar />
 
-            <main className="flex-1 pl-5">
+            <main className="flex-1 pl-1 md:pl-5">
+              <h1 className="block md:hidden mb-4 font-bold text-[24px] leading-8 text-[#1F2937]">Мой профиль</h1>
 
               <ProfileSection
                 {...profileData}
@@ -44,7 +45,7 @@ export default function Profile({
               {!isEditing && (
 
                 <div className="mt-4">
-                  <label className="block font-normal text-[14px] leading-5 text-[#6B7280]">Язык:</label>
+                  <label className="block font-normal text-[12px] leading-4 md:text-[14px] md:leading-5 text-[#6B7280]">Язык:</label>
                     
                   <CustomSelect/>
 
@@ -54,7 +55,9 @@ export default function Profile({
                       id="emailNotify"
                       className="w-[16px] h-[16px] rounded-full border border-[#9CA3AF] cursor-pointer bg-[#F9FAFB]" 
                     />
-                    <label htmlFor="emailNotify" className="text-[#1F2937] font-normal text-[14px] leading-5">Уведомлять об изменении статуса заказов по email</label>
+                    <label htmlFor="emailNotify" className="text-[#1F2937] font-normal text-[12px] leading-4 md:text-[14px] md:leading-5">
+                      Уведомлять об изменении статуса заказов по email
+                    </label>
                   </div>
                     
                   <div className="mt-4 flex items-center">
@@ -71,7 +74,8 @@ export default function Profile({
 
                     <label 
                       htmlFor="darkModeToggle"
-                      className="ml-2 text-[#1F2937] font-normal text-[14px] leading-5">Ночная тема
+                      className="ml-2 text-[#1F2937] font-normal text-[12px] leading-4 md:text-[14px] md:leading-5">
+                        Ночная тема
                     </label>
                       
                   </div>
