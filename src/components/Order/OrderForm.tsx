@@ -76,6 +76,7 @@ export default function OrderForm() {
   const {
     handleSubmit,
     control,
+    trigger,
     formState: { isValid },
   } = useForm<TOrderSchema>({
     resolver: zodResolver(orderSchema),
@@ -157,6 +158,7 @@ export default function OrderForm() {
             </OrderFieldSet>
           </div>
           <CartSubmitField
+            trigger={trigger}
             title={"Ваш заказ"}
             items={orderedItems.data?.totalQuantity ?? "0"}
             isDisabled={isValid && blockButton}

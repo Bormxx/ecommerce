@@ -101,7 +101,7 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
         <Fieldset className="grid grid-cols-3 gap-1 sm:gap-2">
           <Field className={"col-span-3 flex flex-col"}>
             <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
-              Номер карты
+              Номер карты*
             </Label>
             <AuthInput
               name={"cardNumber"}
@@ -119,7 +119,7 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
           </Field>
           <Field className={"flex flex-col"}>
             <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
-              Месяц
+              Месяц*
             </Label>
             <AuthInput
               name={"month"}
@@ -138,7 +138,7 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
           </Field>
           <Field className={"flex flex-col"}>
             <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
-              Год
+              Год*
             </Label>
             <AuthInput
               name={"year"}
@@ -157,7 +157,7 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
           </Field>
           <Field className={"flex flex-col"}>
             <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
-              Код
+              Код*
             </Label>
             <AuthInput
               name={"cvv"}

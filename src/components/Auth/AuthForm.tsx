@@ -79,7 +79,7 @@ export default function AuthForm() {
             className="flex flex-col gap-6"
           >
             <Fieldset className="flex flex-col gap-4">
-              <FormField text={"Ваш email"}>
+              <FormField text={"Ваш email*"}>
                 <AuthInput
                   control={control}
                   name="email"
@@ -87,7 +87,7 @@ export default function AuthForm() {
                   type={"text"}
                 />
               </FormField>
-              <FormField text={"Пароль"}>
+              <FormField text={"Пароль*"}>
                 <AuthInput
                   control={control}
                   name="password"

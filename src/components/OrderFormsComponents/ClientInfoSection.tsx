@@ -41,7 +41,7 @@ export default function ClientInfoSection({
         <Label
           className={cn(inter.className, "mb-[2px] block text-xs font-normal text-gray-500 sm:text-black")}
         >
-          Номер телефона
+          Номер телефона*
         </Label>
         <AuthInput
           name={name}
