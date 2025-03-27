@@ -2,12 +2,15 @@ import { getProductWord } from "@/shared/utils/frontend/cartHelpers";
 import { inter, roboto } from "@/styles/fonts";
 import { ReactNode } from "react";
 import FormButton from "../AuthFormsComponents/FormButton";
+import { TOrderSchema } from "@/shared/types/schemas/order";
+import { UseFormTrigger } from "react-hook-form";
 
 type CartSubmitFieldProps = {
   title: string;
   items: number;
   isDisabled: boolean;
   children: ReactNode;
+  trigger: UseFormTrigger<TOrderSchema>;
 };
 
 export default function CartSubmitField(props: CartSubmitFieldProps) {
@@ -26,6 +29,7 @@ export default function CartSubmitField(props: CartSubmitFieldProps) {
         </div>
         {props.children}
         <FormButton
+          trigger={props.trigger}
           text="Оплатить заказ"
           isValid={props.isDisabled}
           isThin={true}
