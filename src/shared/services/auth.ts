@@ -13,7 +13,7 @@ export const signUp = async (form: TFormData) => {
     throw new Error(data.error);
   }
   return data;
-}
+};
 
 export const signIn = async (form: TAuthForm) => {
   const response = await fetch(`/api/auth`, {
@@ -28,7 +28,7 @@ export const signIn = async (form: TAuthForm) => {
     throw new Error(data.error);
   }
   return data;
-}
+};
 
 export const checkAuth = async (isAuth: boolean) => {
   if (!isAuth) {
@@ -42,4 +42,31 @@ export const checkAuth = async (isAuth: boolean) => {
   }
 
   return response.json();
+};
+
+export const yandexOauth = async (
+  code: string | string[],
+  state: string | string[],
+) => {
+  const response = await fetch("/api/oauth/callback", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ code: code, state: state }),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error);
+  }
+  return data;
+};
+
+export const getYandexUrl = async () => {
+  const response = await fetch("/api/oauth/yandex");
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error);
+  }
+  return data.url;
 };

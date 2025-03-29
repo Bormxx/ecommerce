@@ -12,7 +12,6 @@ export function generateSessionToken(): string {
   const bytes = new Uint8Array(20);
   crypto.getRandomValues(bytes);
   const token = encodeBase32LowerCaseNoPadding(bytes);
-  console.log(token);
   return "Bearer " + token;
 }
 
@@ -27,13 +26,12 @@ export async function createSession(
     expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
   };
   await db.insert(sessionTable).values(session);
-  console.log(session);
   return session;
 }
 
 export async function validateSessionToken(
   token: string,
-): Promise<SessionValidationResult> {
+) {
   if (!token || !token.startsWith("Bearer ")) {
     return { session: null, user: null };
   }
@@ -42,7 +40,7 @@ export async function validateSessionToken(
 
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const result = await db
-    .select({ user: users, session: sessionTable })
+    .select({ user: {id: users.id}, session: sessionTable })
     .from(sessionTable)
     .innerJoin(users, eq(sessionTable.userId, users.id))
     .where(eq(sessionTable.id, sessionId));
@@ -63,7 +61,7 @@ export async function validateSessionToken(
       })
       .where(eq(sessionTable.id, session.id));
   }
-  return { session, user };
+  return { session: true, user };
 }
 
 export async function invalidateSession(sessionId: string): Promise<void> {

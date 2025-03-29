@@ -6,7 +6,7 @@ import AlterAuth from "../AuthFormsComponents/AlterAuth";
 import FormFooter from "../AuthFormsComponents/FormFooter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import MyModal from "../Dialog/Dialog";
 import { useUserStore } from "@/shared/store/auth";
@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import AuthInput from "../AuthFormsComponents/InputAuth";
 import { inter } from "@/styles/fonts";
 import { authFormSchema, TAuthForm } from "@/shared/types/schemas/auth";
-import { signIn } from "@/shared/services/auth";
+import { signIn, yandexOauth } from "@/shared/services/auth";
 import AuthModal from "../Dialog/Variants/AuthModal";
 import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -25,6 +25,8 @@ export default function AuthForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [blockModal, setBlockModal] = useState(false);
   const [blockButton, setBlockButton] = useState(true);
+
+  const hasSentRequest = useRef(false);
 
   const { setIsAuthenticated, setUserData } = useUserStore();
   const router = useRouter();
@@ -49,6 +51,30 @@ export default function AuthForm() {
     },
   });
 
+  
+
+  const { code, state } = router.query;
+
+  const oauth = useMutation({
+    mutationKey: ['oauth', code, state],
+    mutationFn: (form: {code: string | string[], state: string | string[]}) => yandexOauth(form.code, form.state),
+    onSuccess: (data) => {
+      setIsAuthenticated(true);
+      setUserData(data);
+      const path = router.query.from;
+      router.replace(typeof path === "string" ? path : "/");
+    },
+    onError: (err) => {
+      setErrorMessage(err.message);
+      setBlockModal(false);
+      setBlockButton(true);
+    },
+    onMutate: () => {
+      setBlockModal(true);
+      setReqStatus(true);
+    },
+  });
+
   const {
     handleSubmit,
     reset,
@@ -59,6 +85,13 @@ export default function AuthForm() {
     defaultValues: { email: "", password: "" },
     mode: "all",
   });
+  
+  useEffect(() => {
+    if( !hasSentRequest.current && code && state ) {
+      hasSentRequest.current = true;
+      oauth.mutate({code, state});
+    }
+  }, [code, oauth, state])
 
   return (
     <>
@@ -112,7 +145,7 @@ export default function AuthForm() {
         />
       </div>
       <MyModal isTrue={reqStatus} closeFn={setReqStatus} isBlocked={blockModal}>
-        {mutation.isPending || mutation.isSuccess ? (
+        {blockModal ? (
           <LoadingIcon />
         ) : (
           <AuthModal

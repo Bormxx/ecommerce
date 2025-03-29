@@ -1,8 +1,7 @@
-import { VK } from "arctic";
-import { generateState } from "arctic";
+import { Yandex } from "arctic";
 
-export const vk = new VK(clientId, clientSecret, redirectURI);
-
-const state = generateState();
-
-const url = await vk.createAuthorizationURL(state, ["email"]);
+export const yandex = new Yandex(
+  process.env.YANDEX_CLIENT_ID ?? "",
+  process.env.YANDEX_CLIENT_SECRET ?? "",
+  "",
+);
