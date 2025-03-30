@@ -9,10 +9,11 @@ interface MiniCardProps {
   price: any;
   img_url: any;
   variable: string;
+  productDetail: string;
   key: string | number;
 }
 
-const MiniCard = ({ title, price, img_url, variable }: MiniCardProps) => {
+const MiniCard = ({ title, price, img_url, variable, productDetail }: MiniCardProps) => {
   const { isAuthenticated } = useUserStore();
   const formattedPrice = new Intl.NumberFormat("ru-RU").format(price);
 
@@ -21,7 +22,7 @@ const MiniCard = ({ title, price, img_url, variable }: MiniCardProps) => {
       className={`flex ${variable === "horizontal" ? "flex-row" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"}`}
     >
       <Link
-        href="/"
+        href={productDetail != undefined ? `/product/${productDetail}` : "/"}
         className={`${variable === "mini" ? "w-[172px] flex-col gap-2" : variable === "horizontal" ? "w-full flex-row items-center justify-between gap-4" : "flex-col gap-2"} flex`}
       >
         <Image

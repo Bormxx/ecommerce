@@ -1,5 +1,5 @@
 import MiniCard from "../MiniCard/MiniCard";
-const product = "/images/Product-with-shadow.png";
+const product = "/images/Product-172x172.jpg";
 type CatalogListProps = {
   variable: string;
 };
@@ -30,6 +30,7 @@ export default function CatalogList({ variable }: CatalogListProps) {
           price={product.price}
           img_url={product.img_url}
           variable={variable}
+          productDetail={`products/${index}`}
         />
       ))}
     </section>

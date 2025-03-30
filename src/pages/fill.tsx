@@ -6,7 +6,7 @@ import { TItems } from "../shared/types";
 import MiniCard from "../components/MiniCard/MiniCard";
 import { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getItemsCarousel, getPhotosForItemCarousel } from "../shared/services/carousel";
+import { getItemsCarousel } from "../shared/services/carousel";
 
 // Заполняем таблицу с пользователями
 const usersUrl = 'api/users'
@@ -290,41 +290,28 @@ async function fillingPosts() {
   } 
   );
 }
-export const county: number = 7
+export const county: number = 7 + 1
 export default function fill() {
   const items = useQuery({
     queryKey: ["getItemsCarousel"],
     queryFn: getItemsCarousel,
   });
-  let photoUrl: string = "http://127.0.0.1:3000/images/Product-172x172.jpg";
-  // getPhotosForItemCarousel(5).then((photos) => {
-  //   photos.requestPhoto.map((el) => {
-  //     if (el.itemId === 5 && el.isMainPhoto === true) {
-  //       // photoUrl = el.photoLink;
-  //       photoUrl = el.photoLink;
-  //       console.log(`http://127.0.0.1:3000${photoUrl}`);
-  //     }
-  //   });
-  //   // console.log(photos)
-  // });
-
   const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
   const SLIDE_COUNT = county;
   // const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const SLIDE: ReactNode[] = [];
   items.data?.data.map((items: any, i: number) => {
     if (i + 1 < SLIDE_COUNT) {
-      let urlImg: string = `http://127.0.0.1:3000${items.requestPhoto[i]?.photoLink}`;
       SLIDE.push(
         <MiniCard
           key={items.requestItem.id}
           title={items.requestItem.title}
           price={items.requestItem.price}
-          img_url={photoUrl}
+          img_url={items.requestPhoto[i - i].photoLink}
           variable="standart"
+          productDetail={`/products/${items.requestItem.id}`}
         />,
       );
-      console.log(items.requestPhoto[i]?.photoLink);
     }
   });
 
