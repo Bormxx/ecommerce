@@ -9,7 +9,7 @@ export default function DetailsParagraph({ children }: CartSubmitDetailsProps) {
   return (
     <span className={cn(
       inter.className,
-      "font-normal text-base text-gray-500"
+      "font-normal text-sm sm:text-base text-gray-400 sm:text-gray-500"
     )}>{children}</span>
   );
 }

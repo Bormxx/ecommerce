@@ -8,7 +8,7 @@ type ErrorMessageProp = {
 
 export default function ErrorMessage(prop: ErrorMessageProp) {
   return (
-    <p className={cn(inter.className, `text-${prop.font} font-normal text-red-500`)}>
+    <p className={cn(inter.className, `text-xs sm:text-${prop.font} font-normal text-red-500`)}>
       {prop.text}
     </p>
   );

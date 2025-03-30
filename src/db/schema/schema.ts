@@ -1,3 +1,4 @@
+import { InferSelectModel } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable('users', {
@@ -7,6 +8,16 @@ export const users = sqliteTable('users', {
   avatar: text('avatar').notNull().default('images/avatar.png'),
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
+});
+
+export const sessionTable = sqliteTable("session", {
+	id: text("id").primaryKey(),
+	userId: integer("user_id")
+		.notNull()
+		.references(() => users.id),
+  expiresAt: integer("expires_at", {
+    mode: "timestamp"
+  }).notNull()
 });
 
 export const favorites = sqliteTable("favorites", {
@@ -24,10 +35,10 @@ export const cards = sqliteTable("cards", {
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
-  cardNumber: integer("cardNumber").notNull(),
-  month: integer("month").notNull(),
-  year: integer("year").notNull(),
-  cvv: integer("cvv").notNull(),
+  cardNumber: text("cardNumber").notNull(),
+  month: text("month").notNull(),
+  year: text("year").notNull(),
+  cvv: text("cvv").notNull(),
 });
 
 export const basket = sqliteTable("basket", {
@@ -75,11 +86,11 @@ export const orders = sqliteTable("orders", {
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
-  comment: text("comment").notNull(),
+  comment: text("comment"),
   address: text("address").notNull(),
-  phone: integer("phone").notNull(),
-  courier: integer("availability", { mode: "boolean" }).notNull(),
-  payment: integer("payment",),
+  phone: text("phone").notNull(),
+  isCourier: integer("availability", { mode: "boolean" }).notNull(),
+  payment: integer("payment"),
 });
 
 export const lists = sqliteTable("lists", {
@@ -92,3 +103,7 @@ export const lists = sqliteTable("lists", {
     .references(() => items.id),
   quantity: integer("quantity").notNull(),
 });
+
+
+export type User = InferSelectModel<typeof users>;
+export type Session = InferSelectModel<typeof sessionTable>;

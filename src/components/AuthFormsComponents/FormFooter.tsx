@@ -9,7 +9,7 @@ type FormFooterProps = {
 
 export default function FormFooter(props: FormFooterProps) {
   return (
-    <div className="gap-[2px]">
+    <div className="gap-[2px] md:mt-4">
       <p className={`${inter.className} text-sm font-normal text-gray-500`}>
         {props.headerText}
       </p>

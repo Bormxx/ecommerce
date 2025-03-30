@@ -7,8 +7,8 @@ type DeliveryDateProps = {
 
 export default function DeliveryDate({deliveryDate}: DeliveryDateProps) {
   return (
-    <div className="flex gap-2">
-      <p className={cn(inter.className, "text-sm font-normal text-gray-400")}>
+    <div className="flex flex-col sm:flex-row sm:gap-2">
+      <p className={cn(inter.className, "text-xs sm:text-sm font-normal text-gray-400")}>
         Доставят
       </p>
       <p className={cn(inter.className, "text-sm font-normal")}>
