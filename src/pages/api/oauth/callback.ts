@@ -56,7 +56,6 @@ export default async function wow(req: NextApiRequest, res: NextApiResponse) {
             name: user.first_name ?? "anonym",
             surname: user.last_name ?? "anonym",
             email: user.default_email,
-            password: "wow",
           })
           .returning({
             id: users.id,
