@@ -206,7 +206,7 @@ async function fillingPhotos() {
 }
 
 type Characteristics = {
-  itemId: number;
+  id: number;
   frameMatherials: string[];
   linzeMatherials: string[];
   linzeTypes: string[];
@@ -225,7 +225,7 @@ async function fillingCharacteristics() {
   const itemsRequest = await axios.get("api/items");
   itemsRequest.data.request.map((item: Characteristics) => {
     characteristicsValue.push({
-      itemId: item.itemId,
+      itemId: item.id,
       frameMatherials: frameMatherials[Math.floor(Math.random() * frameMatherials.length)],
       linzeMatherials: linzeMatherials[Math.floor(Math.random() * linzeMatherials.length)],
       linzeTypes: linzeTypes[Math.floor(Math.random() * linzeTypes.length)],
