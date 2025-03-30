@@ -21,8 +21,16 @@ body {
 }
 
 .embla {
-  --slide-height: 19rem;
-  --slide-spacing: 1rem;
+  /* max-width: 48rem; */
+  /* margin: auto; */
+  /* --slide-height: 19rem; */
+  /* --slide-spacing: 1rem; */
+  --slide-size: 20%;
+}
+.carousel1 {
+  --slide-size: 16.7%;
+}
+.carousel2 {
   --slide-size: 33%;
   max-width: 48rem;
   margin: auto;

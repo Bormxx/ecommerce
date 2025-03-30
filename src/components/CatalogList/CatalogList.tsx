@@ -1,6 +1,6 @@
 import { Photos, TItems } from "@/shared/types";
 import MiniCard from "../MiniCard/MiniCard";
-// const product = "/images/Product-with-shadow.png";
+
 type CatalogListProps = {
   variable: string;
   items: TItems[] | null;
@@ -30,6 +30,7 @@ export default function CatalogList({
               price={item.price}
               img_url={img_url}
               variable={variable}
+              productDetail={`products/${index}`}
             />
           );
         })
