@@ -1,3 +1,5 @@
+import { storages } from "@/shared/consts/consts";
+import { orderFormSchema, TOrderSchema } from "@/shared/types/schemas/order";
 import { ChangeEvent } from "react";
 
 export const modifyStringToNumbers = (e: ChangeEvent<HTMLInputElement>) => {
@@ -9,36 +11,16 @@ export const modifyStringToNumbers = (e: ChangeEvent<HTMLInputElement>) => {
   }
 };
 
-export const separateCardNumber = (number: string) => {
-  const chunks = number.match(/\d{1,4}/g);
-
-  if (chunks) {
-    return chunks.join(' ');
+export const modifyOrderData = (data: TOrderSchema) => {
+  if (!data.isCourier && data.city) {
+    data.address = storages[data.city];
   }
+  const address = "г. " + data.city + ", " + data.address;
+  return orderFormSchema.parse({address, ...data});
+};
 
-  return number;
-}
 
-export const setPhoneNumber = (phone: string, position:number=0):string => {
-  if (!phone) return "";
-  if (position === 11) return "";
-  if (position === 0) return "+7" + setPhoneNumber(phone.slice(1), position+1);
-
-  let sep = "";
-  switch(position) {
-    case(1):
-      sep += " (";
-      break;
-    case(4):
-      sep += ") ";
-      break;
-    case(7):
-      sep += "-";
-      break;
-    case(9):
-      sep += "-";
-      break;
-  }
-
-  return sep + phone[0] + setPhoneNumber(phone.slice(1), position+1);
+export const modifyPrice = (price: string): string => {
+  if (price.length < 4) return price;
+  return modifyPrice(price.slice(0, price.length - 3)) + " " + price.slice(price.length - 3);
 }

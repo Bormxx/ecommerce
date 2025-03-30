@@ -1,13 +1,14 @@
 import CategoryPage from "@/components/CategoryPage/CategoryPage";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import { Photos, TItems } from "@/shared/types";
+import { useAuth } from "../../shared/hooks/useAuth";
 
 export interface TypeRequest {
   items: TItems[] | null;
   photos: Photos[] | null;
 }
 export default function catalog({ items, photos }: TypeRequest) {
-
+  useAuth();
   return (
     <HomeContainer>
       <CategoryPage items={items} photos={photos} />

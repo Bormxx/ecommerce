@@ -25,6 +25,7 @@ export default function HeaderComponent() {
     mode: "all",
   });
 
+
   const hiddenInCart = hiddenRoutes.includes(pathname) ? "hidden" : "";
   function routerToCatalog() {
     router.replace("/catalog");

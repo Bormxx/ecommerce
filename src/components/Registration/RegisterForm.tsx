@@ -20,10 +20,16 @@ import {
 import { useUserStore } from "@/shared/store/auth";
 import { signUp } from "@/shared/services/auth";
 import AuthModal from "../Dialog/Variants/AuthModal";
+import Link from "next/link";
+import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
 
 export default function RegisterForm() {
   const [reqStatus, setReqStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [blockModal, setBlockModal] = useState(false);
+  const [blockButton, setBlockButton] = useState(true);
+
   const { setIsAuthenticated, setUserData } = useUserStore();
   const router = useRouter();
 
@@ -37,9 +43,13 @@ export default function RegisterForm() {
       router.replace(typeof path === "string" ? path : "/");
     },
     onError: (err) => {
-      setReqStatus(!reqStatus);
       setErrorMessage(err.message);
-      console.log(err.message);
+      setBlockModal(false);
+      setBlockButton(true);
+    },
+    onMutate: () => {
+      setBlockModal(true);
+      setReqStatus(true);
     },
   });
 
@@ -63,17 +73,24 @@ export default function RegisterForm() {
 
   return (
     <>
-      <div className="flex min-w-[380px] flex-col gap-10 rounded-xl bg-white p-6 shadow-lg">
-        <div className="flex flex-col gap-6">
+      <div className="flex h-screen w-full flex-col justify-between gap-6 p-6 min-[390px]:max-w-[380px] md:h-fit md:rounded-xl md:bg-white md:shadow-lg">
+        <Link
+          href={"/"}
+          className="flex w-fit gap-1 transition hover:text-black/50 md:pointer-events-none"
+        >
+          <ArrowLongLeftIcon className="size-6 self-center md:hidden" />
           <FormHeader>Регистрация</FormHeader>
+        </Link>
+        <div className="flex flex-col gap-6">
           <form
             onSubmit={handleSubmit((data) => {
+              setBlockButton(false);
               mutation.mutate(formDataSchema.parse(data));
             })}
             className="flex flex-col gap-6"
           >
             <Fieldset className="flex flex-col gap-4">
-              <FormField text={"Имя"}>
+              <FormField text={"Имя*"}>
                 <AuthInput
                   control={control}
                   name="name"
@@ -81,7 +98,7 @@ export default function RegisterForm() {
                   type={"text"}
                 />
               </FormField>
-              <FormField text={"Фамилия"}>
+              <FormField text={"Фамилия*"}>
                 <AuthInput
                   control={control}
                   name="surname"
@@ -89,7 +106,7 @@ export default function RegisterForm() {
                   type={"text"}
                 />
               </FormField>
-              <FormField text={"Email"}>
+              <FormField text={"Email*"}>
                 <AuthInput
                   control={control}
                   name="email"
@@ -97,7 +114,7 @@ export default function RegisterForm() {
                   type={"text"}
                 />
               </FormField>
-              <FormField text={"Придумайте пароль"}>
+              <FormField text={"Придумайте пароль*"}>
                 <AuthInput
                   onChange={() => trigger("passwordCompare")}
                   control={control}
@@ -106,7 +123,7 @@ export default function RegisterForm() {
                   type={"password"}
                 />
               </FormField>
-              <FormField text={"Повторите пароль"}>
+              <FormField text={"Повторите пароль*"}>
                 <AuthInput
                   control={control}
                   name="passwordCompare"
@@ -117,7 +134,7 @@ export default function RegisterForm() {
             </Fieldset>
             <FormButton
               text={"Зарегистрироваться"}
-              isValid={isValid}
+              isValid={isValid && blockButton}
             />
           </form>
           <AlterAuth text={"Регистрация с помощью"} />
@@ -128,13 +145,16 @@ export default function RegisterForm() {
           footerText={"Войти в аккаунт"}
         />
       </div>
-      <MyModal isTrue={reqStatus} closeFn={setReqStatus}>
-        <FormHeader>Ошибка</FormHeader>
-        <AuthModal
-          isTrue={reqStatus}
-          errorMessage={errorMessage}
-          closeFn={setReqStatus}
-        />
+      <MyModal isTrue={reqStatus} closeFn={setReqStatus} isBlocked={blockModal}>
+        {mutation.isPending || mutation.isSuccess ? (
+          <LoadingIcon />
+        ) : (
+          <AuthModal
+            isTrue={reqStatus}
+            errorMessage={errorMessage}
+            closeFn={setReqStatus}
+          />
+        )}
       </MyModal>
     </>
   );

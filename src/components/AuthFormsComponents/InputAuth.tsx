@@ -1,11 +1,12 @@
 import { Input, InputProps } from "@headlessui/react";
 import { FieldValues, useController, UseControllerProps } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
-import { ChangeEvent } from "react";
+import { ChangeEvent, RefObject} from "react";
 import { cn } from "@/shared/utils/frontend/cn";
 
 type TErrorFont = {
   errorFont?: string
+  mask?: RefObject<HTMLInputElement>
 }
 
 type InputAuthProps<T extends FieldValues> = InputProps & UseControllerProps<T> & TErrorFont;
@@ -28,8 +29,10 @@ export default function AuthInput<T extends FieldValues>(props: InputAuthProps<T
       <Input
         {...field}{...inputProps}
         onChange={fieldOnChange}
+        ref={props.mask}
         className={cn(
-          `${fieldState.error ? "border-red-500" : "border-gray-400"} rounded px-3 py-2`,
+          `${fieldState.error ? "border-red-500" : "border-gray-400"} w-full rounded px-3 py-2 text-sm sm:text-base`,
+          "hover:border-blue-600"
         )}
         autoComplete="on"
       />

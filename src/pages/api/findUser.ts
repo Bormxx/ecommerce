@@ -1,44 +1,30 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../db/index";
-import { users } from "../../db/schema/schema";
-import { eq } from "drizzle-orm";
-import { checkTokenValidity } from "@/shared/utils/backend/checkToken";
+import { resetCookies, validateSessionToken } from "../../shared/utils/backend/authSessions";
 
 export default async function findUser(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const token = req.cookies.authorization;
+  const token = req.cookies.session;
 
-  const id = checkTokenValidity(token);
+  if (!token) {
+    return resetCookies(res);
+  }
 
   try {
-    if (!id) {
-      return res
-        .status(403)
-        .json({
-          access: 'denied'
-        });
+    const { session, user } = await validateSessionToken(token);
+
+    if (!user || !session) {
+      return resetCookies(res);
     }
 
-    const user = await db.query.users.findFirst({
-      where: eq(users.id, id!),
-      columns: {
-        password: false,
-        id: false,
-      },
-    });
+    res.setHeader(
+      "Set-Cookie",
+      `session=${token}; HttpOnly; Max-Age=60000;`,
+    );
 
-    if (!user) {
-      return res.status(403).json({access: 'denied'});
-    }
-
-    res.status(200).json({access: 'approved'});
+    res.status(200).json({ access: "approved" });
   } catch {
-    res
-      .status(403)
-      .json({
-        access: 'denied'
-      });
+    return resetCookies(res);
   }
 }

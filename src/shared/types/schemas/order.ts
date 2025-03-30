@@ -26,3 +26,13 @@ export const orderSchema = z.object({
 });
 
 export type TOrderSchema = z.infer<typeof orderSchema>
+
+export const orderFormSchema = z.object({
+  payment: z.number().nullable(),
+  isCourier: z.boolean(),
+  address: z.string(),
+  phone: z.string(),
+  comment: z.string().optional(),
+});
+
+export type TOrderFormSchema = z.infer<typeof orderFormSchema>
