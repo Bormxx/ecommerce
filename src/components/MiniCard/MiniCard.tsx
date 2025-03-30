@@ -3,6 +3,7 @@ import { inter, roboto } from "@/styles/fonts";
 import Link from "next/link";
 import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useUserStore } from "@/shared/store/auth";
+// import { useState } from "react";
 
 interface MiniCardProps {
   title: any;
@@ -14,7 +15,10 @@ interface MiniCardProps {
 
 const MiniCard = ({ title, price, img_url, variable }: MiniCardProps) => {
   const { isAuthenticated } = useUserStore();
+  // const [isLiked, setIsLiked] = useState(false);
   const formattedPrice = new Intl.NumberFormat("ru-RU").format(price);
+  function handleLikeClick() {}
+  function addToCart() {}
 
   return (
     <div
@@ -55,10 +59,11 @@ const MiniCard = ({ title, price, img_url, variable }: MiniCardProps) => {
           <button
             className="flex h-10 w-[calc(100%-40px)] min-w-20 justify-center rounded-lg bg-blue-800 py-2 text-white"
             type="button"
+            onClick={addToCart}
           >
             <ShoppingBagIcon width={24} height={24} />
           </button>
-          <button type="button" className="h-6 w-6">
+          <button type="button" className="h-6 w-6" onClick={handleLikeClick}>
             <HeartIcon width={24} height={24} />
           </button>
         </div>
