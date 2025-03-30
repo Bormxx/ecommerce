@@ -15,6 +15,7 @@ export default async function searchProducts(
     try {
       const items = await db.query.items.findMany({
         where: (item, { like }) => like(item.title, `%${query}%`),
+        limit: 5,
       });
 
       return res.status(200).json(items);
