@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../db";
 import { basket, lists, orders } from "../../db/schema/schema";
 import { orderFormSchema } from "@/shared/types/schemas/order";
-import { checkTokenValidity } from "@/shared/utils/backend/checkToken";
 import { eq } from "drizzle-orm";
+import { validateSessionToken } from "@/shared/utils/backend/authSessions";
 
 export default async function ordersTable(
   req: NextApiRequest,
@@ -20,22 +20,29 @@ export default async function ordersTable(
       return res.status(400).json({ error: "Некоректные данные" });
     }
 
-    const token = req.cookies.authorization;
+    const token = req.cookies.session;
 
-    const id = checkTokenValidity(token);
+    if (!token) {
+      return res.status(403).json({
+        access: "denied",
+      });
+    }
 
     try {
-      if (!id) {
+      const { session, user } = await validateSessionToken(token);
+
+      if (!user || !session) {
         return res.status(403).json({
           access: "denied",
         });
       }
+
       const { ...data } = inputs.data;
 
       await db.transaction(async (tx) => {
         const orderId = await tx
           .insert(orders)
-          .values({ userId: id, ...data })
+          .values({ userId: user.id, ...data })
           .returning({ insertedId: orders.id });
 
         const purchases = await tx
@@ -44,15 +51,17 @@ export default async function ordersTable(
             quantity: basket.quantity,
           })
           .from(basket)
-          .where(eq(basket.userId, id));
+          .where(eq(basket.userId, user.id));
 
-        await Promise.all(purchases.map(async (purchase) => {
-          await tx
-            .insert(lists)
-            .values({ orderId: orderId[0].insertedId, ...purchase });
-        }));
+        await Promise.all(
+          purchases.map(async (purchase) => {
+            await tx
+              .insert(lists)
+              .values({ orderId: orderId[0].insertedId, ...purchase });
+          }),
+        );
 
-        await tx.delete(basket).where(eq(basket.userId, id));
+        await tx.delete(basket).where(eq(basket.userId, user.id));
       });
 
       return res.status(200).json({ status: "success" });

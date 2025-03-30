@@ -90,7 +90,7 @@ export default function RegisterForm() {
             className="flex flex-col gap-6"
           >
             <Fieldset className="flex flex-col gap-4">
-              <FormField text={"Имя"}>
+              <FormField text={"Имя*"}>
                 <AuthInput
                   control={control}
                   name="name"
@@ -98,7 +98,7 @@ export default function RegisterForm() {
                   type={"text"}
                 />
               </FormField>
-              <FormField text={"Фамилия"}>
+              <FormField text={"Фамилия*"}>
                 <AuthInput
                   control={control}
                   name="surname"
@@ -106,7 +106,7 @@ export default function RegisterForm() {
                   type={"text"}
                 />
               </FormField>
-              <FormField text={"Email"}>
+              <FormField text={"Email*"}>
                 <AuthInput
                   control={control}
                   name="email"
@@ -114,7 +114,7 @@ export default function RegisterForm() {
                   type={"text"}
                 />
               </FormField>
-              <FormField text={"Придумайте пароль"}>
+              <FormField text={"Придумайте пароль*"}>
                 <AuthInput
                   onChange={() => trigger("passwordCompare")}
                   control={control}
@@ -123,7 +123,7 @@ export default function RegisterForm() {
                   type={"password"}
                 />
               </FormField>
-              <FormField text={"Повторите пароль"}>
+              <FormField text={"Повторите пароль*"}>
                 <AuthInput
                   control={control}
                   name="passwordCompare"

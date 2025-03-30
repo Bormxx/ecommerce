@@ -6,7 +6,7 @@ export default function ClientInfoPersonal() {
   const {name, surname, email} = useUserStore();
 
   return (
-    <div className="flex sm:flex-col gap-2 justify-between sm:justify-normal">
+    <div className="flex flex-position-col gap-2 justify-between justify-content-normal">
       <p className={cn(inter.className, "text-sm sm:text-base font-normal")}>
         {name + " " + surname}
       </p>

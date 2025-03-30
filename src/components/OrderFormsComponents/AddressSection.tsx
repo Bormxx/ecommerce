@@ -20,7 +20,7 @@ export default function AddressSection({isCourier, children, name, control, city
       <h2 className={`${inter.className} text-sm sm:text-base font-normal`}>
         {isCourier ? "Доставить по адресу:" : "Адрес пункта выдачи:"}
       </h2>
-      <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
+      <div className="flex flex-col flex-position-row gap-1 sm:gap-2">
         <Field
           className={cn(
             isCourier ? "flex-col gap-1" : "items-center gap-3",
