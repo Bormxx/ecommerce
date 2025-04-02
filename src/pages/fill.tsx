@@ -292,28 +292,28 @@ async function fillingPosts() {
 }
 export const county: number = 7 + 1
 export default function fill() {
-  const items = useQuery({
-    queryKey: ["getItemsCarousel"],
-    queryFn: getItemsCarousel,
-  });
-  const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
-  const SLIDE_COUNT = county;
-  // const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-  const SLIDE: ReactNode[] = [];
-  items.data?.data.map((items: any, i: number) => {
-    if (i + 1 < SLIDE_COUNT) {
-      SLIDE.push(
-        <MiniCard
-          key={items.requestItem.id}
-          title={items.requestItem.title}
-          price={items.requestItem.price}
-          img_url={items.requestPhoto[i - i].photoLink}
-          variable="standart"
-          productDetail={`/products/${items.requestItem.id}`}
-        />,
-      );
-    }
-  });
+  // const items = useQuery({
+  //   queryKey: ["getItemsCarousel"],
+  //   queryFn: getItemsCarousel,
+  // });
+  // const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
+  // const SLIDE_COUNT = county;
+  // // const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+  // const SLIDE: ReactNode[] = [];
+  // items.data?.data.map((items: any, i: number) => {
+  //   if (i + 1 < SLIDE_COUNT) {
+  //     SLIDE.push(
+  //       <MiniCard
+  //         key={items.requestItem.id}
+  //         title={items.requestItem.title}
+  //         price={items.requestItem.price}
+  //         img_url={items.requestPhoto[i - i].photoLink}
+  //         variable="standart"
+  //         productDetail={`/products/${items.requestItem.id}`}
+  //       />,
+  //     );
+  //   }
+  // });
 
   return (
     <div className="grid">
@@ -400,7 +400,7 @@ export default function fill() {
           }}
         >Заполнить таблицу отзывов</button>
       </div>
-      <EmblaCarousel slides={SLIDE} options={OPTIONS} />
+      {/* <EmblaCarousel slides={SLIDE} options={OPTIONS} /> */}
     </div>
   )
 }
