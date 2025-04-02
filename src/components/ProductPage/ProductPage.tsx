@@ -22,9 +22,9 @@ import {
       : "Каталог";
 
     return (
-      <>
-        <Breadcrumbs />
-        <div className="relative my-4 flex flex-wrap justify-evenly gap-4 md:rounded-xl md:bg-white md:p-6 md:shadow-custom">
+      <div className="mx-auto max-w-[980px]">
+        <Breadcrumbs className="md:pb-5 md:pt-0"/>
+        <div className="relative flex flex-wrap justify-center gap-4 mb-8 md:rounded-xl md:bg-white md:p-6 md:shadow-custom">
           <div className="gap-5 md:flex md:justify-center">
 
           <div>
@@ -38,11 +38,51 @@ import {
             />
           </div>
           <div className="flex justify-center gap-2 mt-4">
-                <button className="w-[97px] h-[96px] bg-gray-200 rounded-lg"></button>
-                <button className="w-[97px] h-[96px] bg-gray-200 rounded-lg"></button>
-                <button className="w-[97px] h-[96px] bg-gray-200 rounded-lg"></button>
-                <button className="w-[97px] h-[96px] bg-gray-200 rounded-lg"></button>
-              </div>
+            <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
+              <Image 
+                src="/images/product_for_dev.png" 
+                alt="Очки классные" 
+                width={97} 
+                height={96} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+
+            <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
+              <Image 
+                src="/images/product_for_dev.png" 
+                alt="Очки классные" 
+                width={97} 
+                height={96} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+
+            <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
+              <Image 
+                src="/images/product_for_dev.png" 
+                alt="Очки классные" 
+                width={97} 
+                height={96} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+
+            <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
+              <Image 
+                src="/images/product_for_dev.png" 
+                alt="Очки классные" 
+                width={97} 
+                height={96} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+
+
+
+          </div>
+
+
           </div>
 
             <main className="w-full max-w-[456px]">
@@ -99,38 +139,38 @@ import {
                 <p className="font-normal text-[16px] leading-6 text-[#6B7280] self-end">Есть в наличии</p>
               </div>
 
-              <p className="mt-4">
-                Описание
-              </p>
+              <p className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">Описание</p>
 
-              <p className="mt-4 text-gray-600">
+              <p className="mt-4 font-normal text-[14px] leading-5 text-[#6B7280]">
                 Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </p>
 
-              <h2 className="mt-6 text-lg font-bold">О товаре</h2>
-              <div className="mt-2 bg-gray-100 p-4 rounded-lg">
+              <h2 className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">О товаре</h2>
+
+
+              <div className="mt-[14px]">
                 <div className="flex justify-between border-b pb-2">
-                  <span className="text-gray-600">Характеристика</span>
-                  <span className="font-bold">Значение</span>
+                  <span className="font-normal text-[12px] leading-4 text-[#6B7280]">Характеристика</span>
+                  <span className="font-normal text-[16px] leading-6 text-[#1F2937]">Значение</span>
                 </div>
                 <div className="flex justify-between border-b py-2">
-                  <span className="text-gray-600">Характеристика</span>
-                  <span className="font-bold">Значение</span>
+                  <span className="font-normal text-[12px] leading-4 text-[#6B7280]">Характеристика</span>
+                  <span className="font-normal text-[16px] leading-6 text-[#1F2937]">Значение</span>
                 </div>
                 <div className="flex justify-between border-b py-2">
-                  <span className="text-gray-600">Характеристика</span>
-                  <span className="font-bold">Значение</span>
+                  <span className="font-normal text-[12px] leading-4 text-[#6B7280]">Характеристика</span>
+                  <span className="font-normal text-[16px] leading-6 text-[#1F2937]">Значение</span>
                 </div>
                 <div className="flex justify-between pt-2">
-                  <span className="text-gray-600">Характеристика</span>
-                  <span className="font-bold">Значение</span>
+                  <span className="font-normal text-[12px] leading-4 text-[#6B7280]">Характеристика</span>
+                  <span className="font-normal text-[16px] leading-6 text-[#1F2937]">Значение</span>
                 </div>
               </div>
     
             </main>
           </div>
         </div>
-      </>
+      </div>
     );
   }
   

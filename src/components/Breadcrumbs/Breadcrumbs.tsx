@@ -2,7 +2,7 @@ import { inter } from "@/styles/fonts";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const Breadcrumbs = () => {
+const Breadcrumbs = ({ className }: { className?: string }) => {
   const router = useRouter();
   const { id } = router.query;
   const categoryName = id
@@ -13,7 +13,7 @@ const Breadcrumbs = () => {
   return (
     <nav>
       <div
-        className={`${inter.className} py-3 text-sm text-gray-500 md:py-8 md:text-base`}
+        className={`${inter.className} ${className} py-3 text-sm text-gray-500 md:py-8 md:text-base`}
       >
         <Link href="/" className="hover:text-blue-800">
           Главная страница
