@@ -18,9 +18,9 @@ type CartFormProps = {
 };
 export default function CartForm({ itemList, setItemList, total, quantity }: CartFormProps) {
   const router = useRouter();
-  function submitCart() {
-    router.replace("/order");
-  }
+  // function submitCart() {
+  //   router.replace("/order");
+  // }
   const deleteCard = (id: string) => {
     setItemList((prevList: Item[]) =>
       prevList.filter((item) => item.id !== id),
@@ -127,7 +127,7 @@ export default function CartForm({ itemList, setItemList, total, quantity }: Car
               total === 0 ? "text-slate-400" : "text-white"
             }`}
             disabled={total === 0}
-            onClick={submitCart}
+            onClick={()=>router.replace("/order")}
           >
             Оформить заказ
           </button>

@@ -25,7 +25,7 @@ export default async function usersAuth(
         where: eq(users.email, email),
       });
 
-      if (!user) {
+      if (!user || !user.password) {
         return res.status(400).json({ error: "Ошибка email или пароля" });
       }
 
