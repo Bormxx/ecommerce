@@ -18,9 +18,7 @@ type CartFormProps = {
 };
 export default function CartForm({ itemList, setItemList, total, quantity }: CartFormProps) {
   const router = useRouter();
-  // function submitCart() {
-  //   router.replace("/order");
-  // }
+
   const deleteCard = (id: string) => {
     setItemList((prevList: Item[]) =>
       prevList.filter((item) => item.id !== id),
@@ -67,7 +65,7 @@ export default function CartForm({ itemList, setItemList, total, quantity }: Car
     }
   }
   return (
-    <form className="flex w-full flex-col gap-3 md:flex-row">
+    <div className="flex w-full flex-col gap-3 md:flex-row">
       <div className="mr-2 min-w-[580px] flex-grow">
         {itemList.map((item) => (
           <CardInBasket
@@ -122,12 +120,12 @@ export default function CartForm({ itemList, setItemList, total, quantity }: Car
           </div>
 
           <button
-            type="submit"
+            type="button"
             className={`w-full rounded-lg bg-blue-800 p-2 font-bold ${
               total === 0 ? "text-slate-400" : "text-white"
             }`}
             disabled={total === 0}
-            onClick={()=>router.replace("/order")}
+            onClick={()=>router.push("/order")}
           >
             Оформить заказ
           </button>
@@ -143,6 +141,6 @@ export default function CartForm({ itemList, setItemList, total, quantity }: Car
           />
         </div>
       </div>
-    </form>
+    </div>
   );
 }
