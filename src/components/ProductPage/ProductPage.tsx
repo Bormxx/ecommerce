@@ -1,6 +1,3 @@
-import {
-    AdjustmentsHorizontalIcon,
-  } from "@heroicons/react/24/outline";
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
   import { useState } from "react";
   import { inter, roboto } from "@/styles/fonts";
@@ -15,6 +12,7 @@ import {
   export default function ProductPage({ items, photos }: TypeRequest) {
     const router = useRouter();
     const { id } = router.query;
+    console.log(' id ', id);
     const categoryName = id
       ? typeof id === "string"
         ? "Очки " + id.charAt(0).toUpperCase() + id.slice(1)
@@ -27,63 +25,59 @@ import {
         <div className="relative flex flex-wrap justify-center gap-4 mb-8 md:rounded-xl md:bg-white md:p-6 md:shadow-custom">
           <div className="gap-5 md:flex md:justify-center">
 
-          <div>
-          <div className="w-[456px] h-[460px] bg-white rounded-lg overflow-hidden flex items-center justify-center">
-            <Image 
-              src="/images/product_for_dev.png" 
-              alt="Очки классные" 
-              width={456} 
-              height={460} 
-              className="w-full h-full object-cover" 
-            />
-          </div>
-          <div className="flex justify-center gap-2 mt-4">
-            <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
-              <Image 
-                src="/images/product_for_dev.png" 
-                alt="Очки классные" 
-                width={97} 
-                height={96} 
-                className="w-full h-full object-cover" 
-              />
+            <div>
+              <div className="w-[456px] h-[460px] bg-white rounded-lg overflow-hidden flex items-center justify-center">
+                <Image 
+                  src="/images/product_for_dev.png" 
+                  alt="Очки классные" 
+                  width={456} 
+                  height={460} 
+                  className="w-full h-full object-cover" 
+                />
+              </div>
+
+              <div className="flex justify-center gap-2 mt-4">
+                <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
+                  <Image 
+                    src="/images/product_for_dev.png" 
+                    alt="Очки классные" 
+                    width={97} 
+                    height={96} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+
+                <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
+                  <Image 
+                    src="/images/product_for_dev.png" 
+                    alt="Очки классные" 
+                    width={97} 
+                    height={96} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+
+                <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
+                  <Image 
+                    src="/images/product_for_dev.png" 
+                    alt="Очки классные" 
+                    width={97} 
+                    height={96} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+
+                <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
+                  <Image 
+                    src="/images/product_for_dev.png" 
+                    alt="Очки классные" 
+                    width={97} 
+                    height={96} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+              </div>
             </div>
-
-            <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
-              <Image 
-                src="/images/product_for_dev.png" 
-                alt="Очки классные" 
-                width={97} 
-                height={96} 
-                className="w-full h-full object-cover" 
-              />
-            </div>
-
-            <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
-              <Image 
-                src="/images/product_for_dev.png" 
-                alt="Очки классные" 
-                width={97} 
-                height={96} 
-                className="w-full h-full object-cover" 
-              />
-            </div>
-
-            <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
-              <Image 
-                src="/images/product_for_dev.png" 
-                alt="Очки классные" 
-                width={97} 
-                height={96} 
-                className="w-full h-full object-cover" 
-              />
-            </div>
-
-
-
-          </div>
-
-
-          </div>
 
             <main className="w-full max-w-[456px]">
               <div className="flex justify-between">
