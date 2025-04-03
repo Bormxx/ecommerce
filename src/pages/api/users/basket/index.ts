@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../db";
-import { basket } from "../../db/schema/schema";
+import { db } from "../../../../db";
+import { basket } from "../../../../db/schema/schema";
 import { validateSessionToken } from "@/shared/utils/backend/authSessions";
 import { and, eq } from "drizzle-orm";
 

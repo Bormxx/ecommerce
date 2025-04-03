@@ -1,5 +1,5 @@
 export const getBasketItems = async () => {
-  const response = await fetch('api/basket');
+  const response = await fetch('api/users/basket');
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data.error);
@@ -8,7 +8,7 @@ export const getBasketItems = async () => {
 }
 
 export const addItemToCart = async (itemId: number) => {
-  const response = await fetch(`/api/basket`, {
+  const response = await fetch('api/users/basket', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export const addItemToCart = async (itemId: number) => {
 };
 
 export const removeItemsFromCart = async (itemId: number) => {
-  const response = await fetch(`/api/basket`, {
+  const response = await fetch('api/users/basket', {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export const removeItemsFromCart = async (itemId: number) => {
 };
 
 export const addItemQuantityToCart = async (itemId: number, addQuantity: number) => {
-  const response = await fetch(`/api/basket`, {
+  const response = await fetch('api/users/basket', {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
