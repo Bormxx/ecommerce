@@ -2,20 +2,26 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../db";
 import { cards } from "../../db/schema/schema";
 import { and, eq, sql } from "drizzle-orm";
-import { checkTokenValidity } from "@/shared/utils/backend/checkToken";
 import { cardSchema } from "@/shared/types/schemas/card";
+import { validateSessionToken } from "@/shared/utils/backend/authSessions";
 
 export default async function cardsTable(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "GET") {
-    const token = req.cookies.authorization;
+    const token = req.cookies.session;
 
-    const id = checkTokenValidity(token);
+    if (!token) {
+      return res.status(403).json({
+        access: "denied",
+      });
+    }
 
     try {
-      if (!id) {
+      const { session, user } = await validateSessionToken(token);
+
+      if (!user || !session) {
         return res.status(403).json({
           access: "denied",
         });
@@ -26,7 +32,7 @@ export default async function cardsTable(
           cardNumber: sql<string>`CONCAT(SUBSTRING(${cards.cardNumber}, 16, 2), ' ', SUBSTRING(${cards.cardNumber}, 18, 2))`,
         })
         .from(cards)
-        .where(eq(cards.userId, id));
+        .where(eq(cards.userId, user.id));
       res.status(200).json(userCards);
     } catch {
       res.status(403).json({
@@ -42,12 +48,18 @@ export default async function cardsTable(
       return res.status(400).json({ error: "Некоректные данные" });
     }
 
-    const token = req.cookies.authorization;
+    const token = req.cookies.session;
 
-    const id = checkTokenValidity(token);
+    if (!token) {
+      return res.status(403).json({
+        access: "denied",
+      });
+    }
 
     try {
-      if (!id) {
+      const { session, user } = await validateSessionToken(token);
+
+      if (!user || !session) {
         return res.status(403).json({
           access: "denied",
         });
@@ -56,7 +68,7 @@ export default async function cardsTable(
       const { cardNumber, ...data } = inputs.data;
 
       const card = await db.query.cards.findFirst({
-        where: and(eq(cards.cardNumber, cardNumber), eq(cards.userId, id)),
+        where: and(eq(cards.cardNumber, cardNumber), eq(cards.userId, user.id)),
       });
 
       if (card) {
@@ -67,7 +79,7 @@ export default async function cardsTable(
 
       await db
         .insert(cards)
-        .values({ userId: id, cardNumber: cardNumber, ...data });
+        .values({ userId: user.id, cardNumber: cardNumber, ...data });
 
       return res.status(200).json({ status: "success" });
     } catch {

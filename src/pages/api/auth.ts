@@ -3,8 +3,9 @@ import { db } from "../../db/index";
 import { users } from "../../db/schema/schema";
 import { eq } from "drizzle-orm";
 import { compare } from "bcrypt";
-import jwt from "jsonwebtoken";
 import { authFormSchema } from "../../shared/types/schemas/auth";
+import { createSession, generateSessionToken } from "../../shared/utils/backend/authSessions";
+import { hideEmail } from "@/shared/utils/backend/helpers";
 
 export default async function usersAuth(
   req: NextApiRequest,
@@ -24,7 +25,7 @@ export default async function usersAuth(
         where: eq(users.email, email),
       });
 
-      if (!user) {
+      if (!user || !user.password) {
         return res.status(400).json({ error: "Ошибка email или пароля" });
       }
 
@@ -34,20 +35,19 @@ export default async function usersAuth(
         return res.status(400).json({ error: "Ошибка email или пароля" });
       }
 
-      const token = jwt.sign({ id: user.id }, "omega-security-protection", {
-        expiresIn: 60,
-      });
+      const token = generateSessionToken();
+      await createSession(token, user.id);
 
       res.setHeader(
         "Set-Cookie",
-        `authorization=Bearer ${token}; HttpOnly; Max-Age=60;`,
+        `session=${token}; HttpOnly; Max-Age=60000;`,
       );
 
       res.status(200).json({
         name: user.name,
         surname: user.surname,
         avatar: user.avatar,
-        email: user.email,
+        email: hideEmail(user.email),
       });
     } catch {
       res.status(500).json({ error: "Ошибка авторизации" });
