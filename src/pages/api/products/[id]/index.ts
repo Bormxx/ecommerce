@@ -35,7 +35,6 @@ export default async function detailsTable(
       return Math.round(value * multiplier) / multiplier
     }
     const roundRating: number = round(averageRating(postRating), 1)
-    console.log(roundRating)
     res.status(200).json({ requestItem, requestCharacteristics, roundRating, requestPhoto });
   }
 }
