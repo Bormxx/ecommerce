@@ -2,13 +2,46 @@ import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import ProductPage from "@/components/ProductPage/ProductPage";
 import { GetStaticProps, GetStaticPaths } from "next";
 
-export default function Product({ product, characteristics, roundRating, quantityRatings, photos }: { 
-  product: any, 
-  characteristics: any[], 
-  roundRating: any[], 
-  quantityRatings: any[], 
-  photos: any[] 
-}) {
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  availability: boolean;
+};
+
+type Characteristic = {
+  id: number;
+  itemId: number;
+  frameMatherials: string;
+  linzeMatherials: string;
+  linzeTypes: string;
+  linzeUVDefences: string;
+  linzeEffects: string;
+};
+
+type Photo = {
+  id: number;
+  itemId: number;
+  photoLink: string;
+  isMainPhoto: boolean;
+};
+
+type ProductPageProps = {
+  product: Product;
+  characteristics: Characteristic[];
+  roundRating: number;
+  quantityRatings: number;
+  photos: Photo[];
+};
+
+export default function Product({ 
+  product, 
+  characteristics, 
+  roundRating, 
+  quantityRatings, 
+  photos 
+}: ProductPageProps) {
   return (
     <HomeContainer>
       <ProductPage 
@@ -25,7 +58,7 @@ export default function Product({ product, characteristics, roundRating, quantit
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetch("http://localhost:3000/api/products");
   const data = await res.json();
-  const products = data.request;
+  const products: Product[] = data.request;
 
   if (!Array.isArray(products)) {
     throw new Error("Expected an array but got: " + JSON.stringify(products));
@@ -39,15 +72,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<ProductPageProps> = async ({ params }) => {
   const res = await fetch(`http://localhost:3000/api/products/${params?.id}`);
   const data = await res.json();
-  
-  console.log("API Response:", data);
 
   return { 
     props: { 
-      product: data.requestItem || {}, 
+      product: data.requestItem || null, 
       characteristics: data.requestCharacteristics || [],
       roundRating: data.roundRating || 0.0,
       quantityRatings: data.quantityRatings || 0,

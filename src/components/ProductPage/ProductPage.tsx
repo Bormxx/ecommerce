@@ -1,14 +1,48 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
   import Image from 'next/image';
   import { useRouter } from "next/router";
+  import { useState } from "react";
 
-  export default function ProductPage({ product, characteristics, roundRating, quantityRatings, photos }: { 
-    product: any; 
-    characteristics: any[]; 
-    roundRating: any[]; 
-    quantityRatings: any[]; 
-    photos: any[]; 
-  }) {
+  type Product = {
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    availability: boolean;
+  };
+  
+  type Characteristic = {
+    id: number;
+    itemId: number;
+    frameMatherials: string;
+    linzeMatherials: string;
+    linzeTypes: string;
+    linzeUVDefences: string;
+    linzeEffects: string;
+  };
+  
+  type Photo = {
+    id: number;
+    itemId: number;
+    photoLink: string;
+    isMainPhoto: boolean;
+  };
+  
+  type ProductPageProps = {
+    product: Product;
+    characteristics: Characteristic[];
+    roundRating: number;
+    quantityRatings: number;
+    photos: Photo[];
+  };
+
+  export default function ProductPage({
+    product,
+    characteristics,
+    roundRating,
+    quantityRatings,
+    photos,
+  }: ProductPageProps) {
     const router = useRouter();
     const { id } = router.query;
   
@@ -19,22 +53,27 @@
     console.log("QuantityRatings:", quantityRatings);
     console.log("Photos:", photos);
 
+    const defaultMainPhoto = photos.find(p => p.isMainPhoto)?.photoLink || "/images/product_for_dev.png";
+    const [mainPhotoLink, setMainPhotoLink] = useState<string>(defaultMainPhoto);
+    const nonMainPhotos = photos.filter(photo => !photo.isMainPhoto).slice(0, 4);
     const availabilityProduct = product.availability ? "Есть в наличии" : "Нет в наличии";
+    const characteristicsList = characteristics[0]
+    ? {
+        "Материал оправы": characteristics[0].frameMatherials,
+        "Линзы": characteristics[0].linzeEffects,
+        "Материал линз": characteristics[0].linzeMatherials,
+        "Тип линз": characteristics[0].linzeTypes,
+        "Наличие УФ фильтра": characteristics[0].linzeUVDefences,
+      }
+    : {};
 
-    let characteristicsList = {
-      "Материал оправы": characteristics[0].frameMatherials,
-      "Линзы": characteristics[0].linzeEffects,
-      "Материал линз": characteristics[0].linzeMatherials,
-      "Тип линз": characteristics[0].linzeTypes,
-      "Наличие УФ фильтра": characteristics[0].linzeUVDefences
-    }
-
-  
     const categoryName = id
       ? typeof id === "string"
         ? "Очки " + id.charAt(0).toUpperCase() + id.slice(1)
         : ""
       : "Каталог";
+
+      console.log("categoryName:", categoryName);
 
     return (
       <div className="mx-auto max-w-[980px]">
@@ -45,8 +84,8 @@
             <div>
               <div className="w-[456px] h-[460px] bg-white rounded-lg overflow-hidden flex items-center justify-center">
                 <Image 
-                  src="/images/product_for_dev.png" 
-                  alt="Очки классные" 
+                  src={mainPhotoLink}
+                  alt="Основная фотография очков" 
                   width={456} 
                   height={460} 
                   className="w-full h-full object-cover" 
@@ -54,45 +93,21 @@
               </div>
 
               <div className="flex justify-center gap-2 mt-4">
-                <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
-                  <Image 
-                    src="/images/product_for_dev.png" 
-                    alt="Очки классные" 
-                    width={97} 
-                    height={96} 
-                    className="w-full h-full object-cover" 
-                  />
-                </div>
-
-                <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
-                  <Image 
-                    src="/images/product_for_dev.png" 
-                    alt="Очки классные" 
-                    width={97} 
-                    height={96} 
-                    className="w-full h-full object-cover" 
-                  />
-                </div>
-
-                <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
-                  <Image 
-                    src="/images/product_for_dev.png" 
-                    alt="Очки классные" 
-                    width={97} 
-                    height={96} 
-                    className="w-full h-full object-cover" 
-                  />
-                </div>
-
-                <div className="w-[97px] h-[96px] bg-gray-200 rounded-lg">
-                  <Image 
-                    src="/images/product_for_dev.png" 
-                    alt="Очки классные" 
-                    width={97} 
-                    height={96} 
-                    className="w-full h-full object-cover" 
-                  />
-                </div>
+                {nonMainPhotos.map((photo) => (
+                  <div
+                    key={photo.id}
+                    className="w-[97px] h-[96px] bg-gray-200 rounded-lg hover:cursor-pointer"
+                    onClick={() => setMainPhotoLink(photo.photoLink)}
+                  >
+                    <Image
+                      src={photo.photoLink}
+                      alt="Другие фотографии очков"
+                      width={97}
+                      height={96}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -164,7 +179,7 @@
                   <div
                     key={key}
                     className={`flex justify-between ${
-                      index === array.length - 1 ? 'pt-2' : 'border-b py-2'
+                      index === array.length - 1 ? 'pt-2' : index === 0 ? 'border-b pb-2': 'border-b py-2'
                     }`}
                   >
                     <span className="font-normal text-[12px] leading-4 text-[#6B7280]">{key}</span>
