@@ -1,18 +1,34 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
-  import { useState } from "react";
   import { inter, roboto } from "@/styles/fonts";
   import Image from 'next/image';
-  import { Photos, TItems } from "@/shared/types";
   import { useRouter } from "next/router";
-  export interface TypeRequest {
-    items: TItems[] | null;
-    photos: Photos[] | null;
-  }
-  
-  export default function ProductPage({ items, photos }: TypeRequest) {
+
+  export default function ProductPage({ product, characteristics, posts, photos }: { 
+    product: any; 
+    characteristics: any[]; 
+    posts: any[]; 
+    photos: any[]; 
+  }) {
     const router = useRouter();
     const { id } = router.query;
-    console.log(' id ', id);
+  
+    console.log("Product ID:", id);
+    console.log("Product Data:", product);
+    console.log("Characteristics:", characteristics[0]);
+    console.log("Posts:", posts);
+    console.log("Photos:", photos);
+
+    const availabilityProduct = product.availability ? "Есть в наличии" : "Нет в наличии";
+
+    let characteristicsList = {
+      "Материал оправы": characteristics[0].frameMatherials,
+      "Линзы": characteristics[0].linzeEffects,
+      "Материал линз": characteristics[0].linzeMatherials,
+      "Тип линз": characteristics[0].linzeTypes,
+      "Наличие УФ фильтра": characteristics[0].linzeUVDefences
+    }
+
+  
     const categoryName = id
       ? typeof id === "string"
         ? "Очки " + id.charAt(0).toUpperCase() + id.slice(1)
@@ -81,7 +97,7 @@
 
             <main className="w-full max-w-[456px]">
               <div className="flex justify-between">
-                <h1 className="font-bold text-[30px] leading-9 text-[#1F2937]">{categoryName}</h1> 
+                <h1 className="font-bold text-[30px] leading-9 text-[#1F2937]">{product.title}</h1> 
 
                 <div className="flex flex-col items-center justify-center gap-1">
                   <div className="flex items-center gap-2">
@@ -102,7 +118,7 @@
               </div>
              
               
-              <div className="text-[#10B981] font-bold text-[30px] leading-9">10 000 ₽</div>
+              <div className="text-[#10B981] font-bold text-[30px] leading-9">{product.price} ₽</div>
 
 
               <div className="mt-4 flex justify-between gap-4">
@@ -130,35 +146,30 @@
                   </button>
                 </div>
 
-                <p className="font-normal text-[16px] leading-6 text-[#6B7280] self-end">Есть в наличии</p>
+                <p className="font-normal text-[16px] leading-6 text-[#6B7280] self-end">{availabilityProduct}</p>
               </div>
 
               <p className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">Описание</p>
 
               <p className="mt-4 font-normal text-[14px] leading-5 text-[#6B7280]">
-                Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                {product.description}
               </p>
 
               <h2 className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">О товаре</h2>
 
 
               <div className="mt-[14px]">
-                <div className="flex justify-between border-b pb-2">
-                  <span className="font-normal text-[12px] leading-4 text-[#6B7280]">Характеристика</span>
-                  <span className="font-normal text-[16px] leading-6 text-[#1F2937]">Значение</span>
-                </div>
-                <div className="flex justify-between border-b py-2">
-                  <span className="font-normal text-[12px] leading-4 text-[#6B7280]">Характеристика</span>
-                  <span className="font-normal text-[16px] leading-6 text-[#1F2937]">Значение</span>
-                </div>
-                <div className="flex justify-between border-b py-2">
-                  <span className="font-normal text-[12px] leading-4 text-[#6B7280]">Характеристика</span>
-                  <span className="font-normal text-[16px] leading-6 text-[#1F2937]">Значение</span>
-                </div>
-                <div className="flex justify-between pt-2">
-                  <span className="font-normal text-[12px] leading-4 text-[#6B7280]">Характеристика</span>
-                  <span className="font-normal text-[16px] leading-6 text-[#1F2937]">Значение</span>
-                </div>
+                {Object.entries(characteristicsList).map(([key, value], index, array) => (
+                  <div
+                    key={key}
+                    className={`flex justify-between ${
+                      index === array.length - 1 ? 'pt-2' : 'border-b py-2'
+                    }`}
+                  >
+                    <span className="font-normal text-[12px] leading-4 text-[#6B7280]">{key}</span>
+                    <span className="font-normal text-[16px] leading-6 text-[#1F2937]">{value}</span>
+                  </div>
+                ))}
               </div>
     
             </main>
