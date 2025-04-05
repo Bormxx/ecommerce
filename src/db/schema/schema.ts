@@ -83,9 +83,7 @@ export const posts = sqliteTable("posts", {
 
 export const orders = sqliteTable("orders", {
   id: integer("orderId").notNull().primaryKey({ autoIncrement: true }),
-  userId: integer("userId")
-    .notNull()
-    .references(() => users.id),
+  userId: integer("userId").notNull().references(() => users.id),
   comment: text("comment"),
   address: text("address").notNull(),
   phone: text("phone").notNull(),
@@ -95,12 +93,8 @@ export const orders = sqliteTable("orders", {
 
 export const lists = sqliteTable("lists", {
   id: integer("listId").notNull().primaryKey({ autoIncrement: true }),
-  orderId: integer("orderId")
-    .notNull()
-    .references(() => orders.id),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
+  orderId: integer("orderId").notNull().references(() => orders.id),
+  itemId: integer("itemId").notNull().references(() => items.id),
   quantity: integer("quantity").notNull(),
 });
 
