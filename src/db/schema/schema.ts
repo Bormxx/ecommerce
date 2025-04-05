@@ -1,16 +1,27 @@
+import { InferSelectModel } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable('users', {
 	id: integer('userId').notNull().primaryKey({ autoIncrement: true }),
   name: text('name').notNull(),
   surname: text('surname').notNull(),
-  avatar: text('avatar').notNull().default('/'),
+  avatar: text('avatar').notNull().default('images/avatar.png'),
   email: text('email').notNull().unique(),
-  password: text('password').notNull(),
+  password: text('password'),
+});
+
+export const sessionTable = sqliteTable("session", {
+	id: text("id").primaryKey(),
+	userId: integer("user_id")
+		.notNull()
+		.references(() => users.id),
+  expiresAt: integer("expires_at", {
+    mode: "timestamp"
+  }).notNull()
 });
 
 export const favorites = sqliteTable("favorites", {
-  id: integer("favoriteId").notNull().primaryKey(),
+  id: integer("favoriteId").notNull().primaryKey({ autoIncrement: true }),
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
@@ -20,79 +31,70 @@ export const favorites = sqliteTable("favorites", {
 });
 
 export const cards = sqliteTable("cards", {
-  id: integer("cardId").notNull().primaryKey(),
+  id: integer("cardId").notNull().primaryKey({ autoIncrement: true }),
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
-  cardNumber: integer("cardNumber").notNull(),
+  cardNumber: text("cardNumber").notNull(),
+  month: text("month").notNull(),
+  year: text("year").notNull(),
+  cvv: text("cvv").notNull(),
 });
 
 export const basket = sqliteTable("basket", {
-  id: integer("basketId").notNull().primaryKey(),
-  userId: integer("userId")
-    .notNull()
-    .references(() => users.id),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
+  id: integer("basketId").notNull().primaryKey({ autoIncrement: true }),
+  userId: integer("userId").notNull().references(() => users.id),
+  itemId: integer("itemId").notNull().references(() => items.id),
   quantity: integer("quantity").notNull(),
 });
 
 export const items = sqliteTable("items", {
-  id: integer("itemId").primaryKey(),
+  id: integer("itemId").notNull().primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),
   price: integer("price").notNull(),
   description: text("description").notNull(),
   availability: integer("availability", { mode: "boolean" }).notNull(),
 });
-// const im = {
-//   "title": "Какой-то товар",
-//   "price": "150",
-//   "description": "Вот такой вот товар",
-//   "availability": false,
-// };
 
 export const photos = sqliteTable("photos", {
-  id: integer("photoId").primaryKey(),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
+  id: integer("photoId").notNull().primaryKey({ autoIncrement: true }),
+  itemId: integer("itemId").notNull().references(() => items.id),
   photoLink: text("photoLink").notNull(),
+  isMainPhoto: integer("isMainPhoto", { mode: "boolean" }).notNull(),
 });
 
-export const references = sqliteTable("references", {
-  id: integer("referenceId").primaryKey(),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
-  reference: text("reference").notNull(),
+export const characteristics = sqliteTable("characteristics", {
+  id: integer("characteristicId").notNull().primaryKey({ autoIncrement: true }),
+  itemId: integer("itemId").notNull().references(() => items.id),
+  frameMatherials: text("frameMatherials").notNull(),
+  linzeMatherials: text("linzeMatherials").notNull(),
+  linzeTypes: text("linzeTypes").notNull(),
+  linzeUVDefences: text("linzeUVDefences").notNull(),
+  linzeEffects: text("linzeEffects").notNull(),
 });
 
 export const posts = sqliteTable("posts", {
-  id: integer("postId").notNull().primaryKey(),
-  userId: integer("userId")
-    .notNull()
-    .references(() => users.id),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
+  id: integer("postId").notNull().primaryKey({ autoIncrement: true }),
+  userId: integer("userId").notNull().references(() => users.id),
+  itemId: integer("itemId").notNull().references(() => items.id),
   rating: integer("rating").notNull(),
   post: text("post").notNull(),
 });
 
 export const orders = sqliteTable("orders", {
-  id: integer("orderId").notNull().primaryKey(),
+  id: integer("orderId").notNull().primaryKey({ autoIncrement: true }),
   userId: integer("userId")
     .notNull()
     .references(() => users.id),
-  comment: text("comment").notNull(),
+  comment: text("comment"),
   address: text("address").notNull(),
-  courier: integer("availability", { mode: "boolean" }).notNull(),
-  payCash: integer("availability", { mode: "boolean" }).notNull(),
+  phone: text("phone").notNull(),
+  isCourier: integer("availability", { mode: "boolean" }).notNull(),
+  payment: integer("payment"),
 });
 
 export const lists = sqliteTable("lists", {
-  id: integer("listId").notNull().primaryKey(),
+  id: integer("listId").notNull().primaryKey({ autoIncrement: true }),
   orderId: integer("orderId")
     .notNull()
     .references(() => orders.id),
@@ -101,3 +103,7 @@ export const lists = sqliteTable("lists", {
     .references(() => items.id),
   quantity: integer("quantity").notNull(),
 });
+
+
+export type User = InferSelectModel<typeof users>;
+export type Session = InferSelectModel<typeof sessionTable>;

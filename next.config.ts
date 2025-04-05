@@ -4,10 +4,20 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
 };
+
 module.exports = {
   images: {
-    domains: ["www.modi.ru", "encrypted-tbn0.gstatic.com", "ohapka63.ru"], // Добавьте домен, с которого вы хотите загружать изображения
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '3000',
+        pathname: '/images/**',
+        search: '',
+      },
+    ],
   },
 };
 
 export default nextConfig;
+
