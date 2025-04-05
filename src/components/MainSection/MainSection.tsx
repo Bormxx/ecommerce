@@ -15,23 +15,23 @@ type MainSectionProps = {
 };
 export const county: number = 7 + 1;
 export default function MainSection({ items, photos }: MainSectionProps) {
-  const itemz = useQuery({
+  const prod = useQuery({
     queryKey: ["getItemsCarousel"],
     queryFn: getItemsCarousel,
   });
   const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
   const SLIDE_COUNT = county;
   const SLIDE: ReactNode[] = [];
-  itemz.data?.data.map((itemz: any, i: number) => {
+  prod.data?.data.map((prod: any, i: number) => {
     if (i + 1 < SLIDE_COUNT) {
       SLIDE.push(
         <MiniCard
-          key={itemz.requestItem.id}
-          title={itemz.requestItem.title}
-          price={itemz.requestItem.price}
-          img_url={itemz.requestPhoto[i - i].photoLink}
+          key={prod.requestItem.id}
+          title={prod.requestItem.title}
+          price={prod.requestItem.price}
+          img_url={prod.requestPhoto[i - i].photoLink}
           variable="standart"
-          productDetail={`/${itemz.requestItem.id}`}
+          productDetail={`/${prod.requestItem.id}`}
         />,
       );
     }

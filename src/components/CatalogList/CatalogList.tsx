@@ -30,7 +30,7 @@ export default function CatalogList({
               price={item.price}
               img_url={img_url}
               variable={variable}
-              productDetail={`products/${index}`}
+              productDetail={`/${index}`}
             />
           );
         })
