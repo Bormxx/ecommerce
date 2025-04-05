@@ -1,6 +1,5 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
   import Image from 'next/image';
-  import { useRouter } from "next/router";
   import { useState } from "react";
 
   type Product = {
@@ -43,15 +42,12 @@
     quantityRatings,
     photos,
   }: ProductPageProps) {
-    const router = useRouter();
-    const { id } = router.query;
-  
-    console.log("Product ID:", id);
-    console.log("Product Data:", product);
-    console.log("Characteristics:", characteristics[0]);
-    console.log("RoundRating:", roundRating);
-    console.log("QuantityRatings:", quantityRatings);
-    console.log("Photos:", photos);
+
+    //console.log("Product Data:", product);
+    //console.log("Characteristics:", characteristics[0]);
+    //console.log("RoundRating:", roundRating);
+    //console.log("QuantityRatings:", quantityRatings);
+    //console.log("Photos:", photos);
 
     const defaultMainPhoto = photos.find(p => p.isMainPhoto)?.photoLink || "/images/product_for_dev.png";
     const [mainPhotoLink, setMainPhotoLink] = useState<string>(defaultMainPhoto);
@@ -66,14 +62,6 @@
         "Наличие УФ фильтра": characteristics[0].linzeUVDefences,
       }
     : {};
-
-    const categoryName = id
-      ? typeof id === "string"
-        ? "Очки " + id.charAt(0).toUpperCase() + id.slice(1)
-        : ""
-      : "Каталог";
-
-      console.log("categoryName:", categoryName);
 
     return (
       <div className="mx-auto max-w-[980px]">
@@ -133,9 +121,7 @@
                 <span className="mt-1 font-normal text-[14px] leading-5 text-[#6B7280]">{quantityRatings} оценок</span>
               </div>
              
-              
               <div className="text-[#10B981] font-bold text-[30px] leading-9">{product.price} ₽</div>
-
 
               <div className="mt-4 flex justify-between gap-4">
 
@@ -166,13 +152,10 @@
               </div>
 
               <p className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">Описание</p>
-
               <p className="mt-4 font-normal text-[14px] leading-5 text-[#6B7280]">
                 {product.description}
               </p>
-
               <h2 className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">О товаре</h2>
-
 
               <div className="mt-[14px]">
                 {Object.entries(characteristicsList).map(([key, value], index, array) => (
