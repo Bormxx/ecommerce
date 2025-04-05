@@ -20,6 +20,7 @@ export default async function detailsTable(
       where: (post, { eq }) => eq(post.itemId, Number(itemId)),
     })
     const postRating: number[] = []
+    const quantityRatings = requestPosts.length
     requestPosts.map(post => {
       postRating.push(post.rating)
     })
@@ -35,6 +36,6 @@ export default async function detailsTable(
       return Math.round(value * multiplier) / multiplier
     }
     const roundRating: number = round(averageRating(postRating), 1)
-    res.status(200).json({ requestItem, requestCharacteristics, roundRating, requestPhoto });
+    res.status(200).json({ requestItem, requestCharacteristics, roundRating, quantityRatings, requestPhoto });
   }
 }
