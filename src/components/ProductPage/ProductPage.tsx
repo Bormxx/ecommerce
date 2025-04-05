@@ -1,12 +1,12 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
-  import { inter, roboto } from "@/styles/fonts";
   import Image from 'next/image';
   import { useRouter } from "next/router";
 
-  export default function ProductPage({ product, characteristics, posts, photos }: { 
+  export default function ProductPage({ product, characteristics, roundRating, quantityRatings, photos }: { 
     product: any; 
     characteristics: any[]; 
-    posts: any[]; 
+    roundRating: any[]; 
+    quantityRatings: any[]; 
     photos: any[]; 
   }) {
     const router = useRouter();
@@ -15,7 +15,8 @@
     console.log("Product ID:", id);
     console.log("Product Data:", product);
     console.log("Characteristics:", characteristics[0]);
-    console.log("Posts:", posts);
+    console.log("RoundRating:", roundRating);
+    console.log("QuantityRatings:", quantityRatings);
     console.log("Photos:", photos);
 
     const availabilityProduct = product.availability ? "Есть в наличии" : "Нет в наличии";
@@ -108,13 +109,13 @@
                       width={32} 
                       height={32} 
                     />
-                    <span className="font-bold text-[30px] leading-9 text-[#1F2937]">4.0</span>
+                    <span className="font-bold text-[30px] leading-9 text-[#1F2937]">{roundRating}</span>
                   </div>
                 </div>
               
               </div>
               <div className="flex justify-end">
-                <span className="mt-1 font-normal text-[14px] leading-5 text-[#6B7280]">125 оценок</span>
+                <span className="mt-1 font-normal text-[14px] leading-5 text-[#6B7280]">{quantityRatings} оценок</span>
               </div>
              
               

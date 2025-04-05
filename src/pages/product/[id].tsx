@@ -2,10 +2,11 @@ import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import ProductPage from "@/components/ProductPage/ProductPage";
 import { GetStaticProps, GetStaticPaths } from "next";
 
-export default function Product({ product, characteristics, posts, photos }: { 
+export default function Product({ product, characteristics, roundRating, quantityRatings, photos }: { 
   product: any, 
   characteristics: any[], 
-  posts: any[], 
+  roundRating: any[], 
+  quantityRatings: any[], 
   photos: any[] 
 }) {
   return (
@@ -13,7 +14,8 @@ export default function Product({ product, characteristics, posts, photos }: {
       <ProductPage 
         product={product} 
         characteristics={characteristics} 
-        posts={posts} 
+        roundRating={roundRating}
+        quantityRatings={quantityRatings} 
         photos={photos} 
       />
     </HomeContainer>
@@ -41,14 +43,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const res = await fetch(`http://localhost:3000/api/products/${params?.id}`);
   const data = await res.json();
   
-  console.log("API Response:", data.requestItem);
+  console.log("API Response:", data);
 
   return { 
     props: { 
-      product: data.requestItem, 
-      characteristics: data.requestCharacteristics,
-      posts: data.requestPosts,
-      photos: data.requestPhoto 
+      product: data.requestItem || {}, 
+      characteristics: data.requestCharacteristics || [],
+      roundRating: data.roundRating || 0.0,
+      quantityRatings: data.quantityRatings || 0,
+      photos: data.requestPhoto || []
     } 
   };
 };
