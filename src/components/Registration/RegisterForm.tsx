@@ -1,27 +1,27 @@
-import { Fieldset } from "@headlessui/react";
-import FormHeader from "../AuthFormsComponents/FormHeader";
-import FormField from "../AuthFormsComponents/FormField";
-import FormButton from "../AuthFormsComponents/FormButton";
-import AlterAuth from "../AuthFormsComponents/AlterAuth";
-import FormFooter from "../AuthFormsComponents/FormFooter";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import MyModal from "../Dialog/Dialog";
-import { useRouter } from "next/router";
-import AuthInput from "../AuthFormsComponents/InputAuth";
+import { signUp } from "@/shared/api/auth";
+import { useUserStore } from "@/shared/store/auth";
 import {
   formDataSchema,
   registerFormSchema,
-  TRegisterForm,
   TFormData,
+  TRegisterForm,
 } from "@/shared/types/schemas/auth";
-import { useUserStore } from "@/shared/store/auth";
-import { signUp } from "@/shared/services/auth";
-import AuthModal from "../Dialog/Variants/AuthModal";
-import Link from "next/link";
+import { Fieldset } from "@headlessui/react";
 import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import AlterAuth from "../AuthFormsComponents/AlterAuth";
+import FormButton from "../AuthFormsComponents/FormButton";
+import FormField from "../AuthFormsComponents/FormField";
+import FormFooter from "../AuthFormsComponents/FormFooter";
+import FormHeader from "../AuthFormsComponents/FormHeader";
+import AuthInput from "../AuthFormsComponents/InputAuth";
+import MyModal from "../Dialog/Dialog";
+import AuthModal from "../Dialog/Variants/AuthModal";
 import LoadingIcon from "../LoadingIcon/LoadingIcon";
 
 export default function RegisterForm() {

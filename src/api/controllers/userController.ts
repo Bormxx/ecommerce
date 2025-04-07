@@ -28,16 +28,17 @@ export async function createUserHandler(
   res: NextApiResponse,
 ) {
   try {
-    const { userId, token } = await createUser(data);
+    const { user, token } = await createUser(data);
     res.setHeader(
       "Set-Cookie",
       `session=${token}; HttpOnly; Max-Age=60; Path=/`,
-    ); 
-    res.status(201).json({ userId });
+    );
+    res.status(201).json({ ...user });
   } catch (error) {
     if (
       error instanceof Error &&
-      error.message === "Пользователь с таким адресом электронной почты уже существует"
+      error.message ===
+        "Пользователь с таким адресом электронной почты уже существует"
     ) {
       res.status(400).json({ error: error.message });
     } else {

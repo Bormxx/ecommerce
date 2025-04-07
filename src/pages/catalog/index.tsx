@@ -15,11 +15,14 @@ export default function catalog({ items, photos }: TypeRequest) {
     </HomeContainer>
   );
 }
+
+// TODO: Избавиться от getStaticProps
+
 export async function getStaticProps() {
-  const itemsRes = await fetch("http://localhost:3000/api/items");
+  const itemsRes = await fetch("http://localhost:3000/api/old/items");
   const itemsReq = await itemsRes.json();
   const items = itemsReq.request;
-  const photosRes = await fetch("http://localhost:3000/api/photos");
+  const photosRes = await fetch("http://localhost:3000/api/old/photos");
   const photosReq = await photosRes.json();
   const photos = photosReq.request;
   return {

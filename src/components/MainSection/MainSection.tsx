@@ -1,16 +1,18 @@
-import Banner from "../Banners/Banner";
-import MiniBannerSection from "../MiniBannerSection/MiniBannerSection";
-import CatalogList from "../CatalogList/CatalogList";
-import { Photos, TItems } from "@/shared/types";
+import { Photos } from "@/shared/types";
 import { EmblaOptionsType } from "embla-carousel";
+import Banner from "../Banners/Banner";
+import CatalogList from "../CatalogList/CatalogList";
+import MiniBannerSection from "../MiniBannerSection/MiniBannerSection";
 
 import { useQuery } from "@tanstack/react-query";
-import MiniCard from "../MiniCard/MiniCard";
 import { ReactNode } from "react";
-import { getItemsCarousel } from "../../shared/services/carousel";
 import EmblaCarousel from "../../pages/carousel";
+import { getItemsCarousel } from "../../shared/api/carousel";
+import { Product } from "../../shared/types/product";
+import MiniCard from "../MiniCard/MiniCard";
+
 type MainSectionProps = {
-  items: TItems[] | null;
+  items: Product[] | undefined;
   photos: Photos[] | null;
 };
 export const county: number = 7 + 1;
@@ -22,7 +24,7 @@ export default function MainSection({ items, photos }: MainSectionProps) {
   const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
   const SLIDE_COUNT = county;
   const SLIDE: ReactNode[] = [];
-  prod.data?.data.map((prod: any, i: number) => {
+  prod.data?.data.map((prod: { requestItem: { id: string; title: string; price: number }; requestPhoto: { photoLink: string }[] }, i: number) => {
     if (i + 1 < SLIDE_COUNT) {
       SLIDE.push(
         <MiniCard

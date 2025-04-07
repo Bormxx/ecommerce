@@ -1,5 +1,5 @@
+import { checkAuth } from "@/shared/api/auth";
 import { useQuery } from "@tanstack/react-query";
-import { checkAuth } from "@/shared/services/auth";
 import { useUserStore } from "../store/auth";
 
 export const useAuth = () => {
