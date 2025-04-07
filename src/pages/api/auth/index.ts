@@ -1,11 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../db/index";
-import { users } from "../../db/schema/schema";
-import { eq } from "drizzle-orm";
-import { compare } from "bcrypt";
-import { authFormSchema } from "../../shared/types/schemas/auth";
-import { createSession, generateSessionToken } from "../../shared/utils/backend/authSessions";
 import { hideEmail } from "@/shared/utils/backend/helpers";
+import { compare } from "bcrypt";
+import { eq } from "drizzle-orm";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { users } from "../../../api/models/user";
+import { db } from "../../../db";
+import { authFormSchema } from "../../../shared/types/schemas/auth";
+import {
+  createSession,
+  generateSessionToken,
+} from "../../../shared/utils/backend/authSessions";
 
 export default async function usersAuth(
   req: NextApiRequest,
@@ -38,10 +41,7 @@ export default async function usersAuth(
       const token = generateSessionToken();
       await createSession(token, user.id);
 
-      res.setHeader(
-        "Set-Cookie",
-        `session=${token}; HttpOnly; Max-Age=60000;`,
-      );
+      res.setHeader("Set-Cookie", `session=${token}; HttpOnly; Max-Age=60000;`);
 
       res.status(200).json({
         name: user.name,

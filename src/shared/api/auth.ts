@@ -35,7 +35,7 @@ export const checkAuth = async (isAuth: boolean) => {
     throw new Error("Пользователь не авторизирован");
   }
 
-  const response = await fetch("/api/findUser");
+  const response = await fetch("/api/old/findUser");
 
   if (!response.ok) {
     throw new Error("Ошибка авторизации");

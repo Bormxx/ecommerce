@@ -1,4 +1,4 @@
-import { getYandexUrl } from "@/shared/services/auth";
+import { getYandexUrl } from "@/shared/api/auth";
 import { inter } from "@/styles/fonts";
 import { useRouter } from "next/router";
 

@@ -27,14 +27,16 @@ export async function createUser(userData: {
   email: string;
   password: string;
   avatar?: string;
-}): Promise<{ userId: number; token: string }> {
+}): Promise<{ user: Omit<User, "password">; token: string }> {
   return db.transaction(async (tx) => {
     const existingUser = await tx.query.users.findFirst({
       where: (user, { eq }) => eq(user.email, userData.email),
     });
 
     if (existingUser) {
-      throw new Error("Пользователь с таким адресом электронной почты уже существует");
+      throw new Error(
+        "Пользователь с таким адресом электронной почты уже существует",
+      );
     }
 
     const hashedPassword = await hash(userData.password, 10);
@@ -48,12 +50,18 @@ export async function createUser(userData: {
         password: hashedPassword,
         avatar: userData.avatar || "images/avatar.png",
       })
-      .returning({ id: users.id });
+      .returning({
+        id: users.id,
+        name: users.name,
+        surname: users.surname,
+        email: users.email,
+        avatar: users.avatar,
+      });
 
     const token = generateSessionToken();
     await createSession(token, newUser.id);
 
-    return { userId: newUser.id, token };
+    return { user: newUser, token };
   });
 }
 

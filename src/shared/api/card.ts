@@ -1,7 +1,7 @@
 import { TCardSchema } from "../types/schemas/card";
 
 export const getCards = async () => {
-  const response = await fetch('api/cards');
+  const response = await fetch('api/old/cards');
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data.error);
@@ -10,7 +10,7 @@ export const getCards = async () => {
 }
 
 export const addCard = async (form: TCardSchema) => {
-  const response = await fetch(`/api/cards`, {
+  const response = await fetch(`/api/old/cards`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
