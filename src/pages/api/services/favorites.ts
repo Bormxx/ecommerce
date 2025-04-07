@@ -16,6 +16,6 @@ export default async function favoriteTable(
     if (res.status(200)) {
       const request = await db.select().from(favorites);
       return res.status(200).json({ request });
-    } else return res.status(500).json({ message: 'Ошибка базы данных' });
+    } else return res.status(500).json({ message: "Ошибка базы данных" });
   }
 }

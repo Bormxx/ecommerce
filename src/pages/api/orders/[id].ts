@@ -2,6 +2,8 @@ import { getOrderByIdHandler } from "@/api/controllers/orderController";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withAuth } from "../../../api/utils/withAuth";
 
+// TODO: Мб рефакторинг
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,

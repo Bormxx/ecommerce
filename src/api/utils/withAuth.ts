@@ -1,9 +1,5 @@
-import { sessions } from "@/api/models/user";
 import { validateSessionToken } from "@/shared/utils/backend/authSessions";
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { eq } from "drizzle-orm";
-import { db } from "../../db";
 
 export async function withAuth(
   req: NextApiRequest,
@@ -37,6 +33,7 @@ export async function withAuth(
     return user.id;
   } catch (error) {
     if (!res.headersSent) {
+      console.log("[LOG] Ошибка аутентификации:", error);
       res.status(500).json({ error: "Internal server error" });
     }
     throw error;

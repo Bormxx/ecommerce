@@ -4,6 +4,8 @@ import {
 } from "@/api/controllers/productController";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+// TODO: Мб рефакторинг
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,

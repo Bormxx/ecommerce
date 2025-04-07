@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { resetCookies, validateSessionToken } from "../../shared/utils/backend/authSessions";
+import {
+  resetCookies,
+  validateSessionToken,
+} from "../../../shared/utils/backend/authSessions";
 
 export default async function findUser(
   req: NextApiRequest,
@@ -18,10 +21,7 @@ export default async function findUser(
       return resetCookies(res);
     }
 
-    res.setHeader(
-      "Set-Cookie",
-      `session=${token}; HttpOnly; Max-Age=60000;`,
-    );
+    res.setHeader("Set-Cookie", `session=${token}; HttpOnly; Max-Age=60000;`);
 
     res.status(200).json({ access: "approved" });
   } catch {

@@ -16,6 +16,6 @@ export default async function listsTable(
     if (res.status(200)) {
       const request = await db.select().from(lists);
       return res.status(200).json({ request });
-    } else return res.status(500).json({ message: 'Ошибка базы данных' });
+    } else return res.status(500).json({ message: "Ошибка базы данных" });
   }
 }
