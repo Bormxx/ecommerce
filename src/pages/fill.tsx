@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TItems } from "../shared/types";
+import { Product } from "../shared/types";
 import filling from "./filling";
 
 // Заполняем таблицу с пользователями
@@ -44,7 +44,7 @@ const usersValue = [
 ];
 
 // Заполняем таблицу с товарами
-const itemsUrl = "api/items";
+const itemsUrl = "api/products";
 const itemDescriptionText =
   "Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 const itemsValue = [
@@ -165,7 +165,7 @@ async function getRandomUser() {
 }
 
 async function getRandomItem() {
-  const response = await axios.get("api/items");
+  const response = await axios.get("api/products");
   const items = response.data.request;
   let result = Math.floor(Math.random() * items.length);
   return items[result].id;
@@ -179,13 +179,13 @@ const photosUrlArray: string[] = [
   "/images/glasses2.jpeg",
   "/images/glasses3.jpeg",
 ];
-const photosUrl: string = "api/photos";
+const photosUrl: string = "api/old/photos";
 const photosValue: object[] = [];
 
 const getRandomPhoto = () =>
   photosUrlArray[Math.floor(Math.random() * photosUrlArray.length)];
 async function fillingPhotos() {
-  const itemsRequest = await axios.get("api/items");
+  const itemsRequest = await axios.get("api/products");
   const itemsSize = itemsRequest.data.request.length;
   for (let i = 0; i < itemsSize; i++) {
     let flag = true;
@@ -210,7 +210,7 @@ type Characteristics = {
   linzeEffects: string[];
 };
 
-const characteristicsUrl: string = "api/characteristics";
+const characteristicsUrl: string = "api/old/characteristics";
 const frameMatherials: string[] = ["Титан", "Пластик", "Нержавеющая сталь"];
 const linzeMatherials: string[] = ["Пластик", "Стекло"];
 const linzeTypes: string[] = ["Без диоптрий", "С диоптриями", "Солнцезащиные"];
@@ -218,7 +218,7 @@ const linzeUVDefences: string[] = ["Без УФ-фильтра", "С УФ-фил
 const linzeEffects: string[] = ["Без автозатемнения", "С автозатемнением"];
 const characteristicsValue: object[] = [];
 async function fillingCharacteristics() {
-  const itemsRequest = await axios.get("api/items");
+  const itemsRequest = await axios.get("api/products");
   itemsRequest.data.request.map((item: Characteristics) => {
     characteristicsValue.push({
       itemId: item.id,
@@ -243,7 +243,7 @@ type TPostValue = {
   post: string;
 };
 
-const postsUrl: string = "api/posts";
+const postsUrl: string = "api/old/posts";
 let postsValue: TPostValue[] = [];
 const postsArray: string[] = [
   "Я купил эти очки и был очень доволен. Они очень удобные и стильные. Я бы рекомендовал их всем.",
@@ -254,11 +254,11 @@ const postsArray: string[] = [
 ];
 const ratings: number[] = [1, 2, 3, 4, 5];
 async function fillingPosts() {
-  const itemsRequest = await axios.get("api/items");
+  const itemsRequest = await axios.get("api/products");
   const usersRequest = await axios.get("api/users");
   let flag: boolean = true;
   itemsRequest.data.request.map(
-    async (item: TItems, i: number, row: TItems[]) => {
+    async (item: Product, i: number, row: Product[]) => {
       const postCount =
         Math.floor(Math.random() * usersRequest.data.request.length) + 1;
       for (let i = 0; i < postCount; i++) {

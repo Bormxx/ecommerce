@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import EmblaCarousel from "../../pages/carousel";
 import { getItemsCarousel } from "../../shared/api/carousel";
-import { Product } from "../../shared/types/product";
+import { Product } from "../../shared/types/";
 import MiniCard from "../MiniCard/MiniCard";
 
 type MainSectionProps = {
@@ -24,20 +24,28 @@ export default function MainSection({ items, photos }: MainSectionProps) {
   const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
   const SLIDE_COUNT = county;
   const SLIDE: ReactNode[] = [];
-  prod.data?.data.map((prod: { requestItem: { id: string; title: string; price: number }; requestPhoto: { photoLink: string }[] }, i: number) => {
-    if (i + 1 < SLIDE_COUNT) {
-      SLIDE.push(
-        <MiniCard
-          key={prod.requestItem.id}
-          title={prod.requestItem.title}
-          price={prod.requestItem.price}
-          img_url={prod.requestPhoto[i - i].photoLink}
-          variable="standart"
-          productDetail={`/${prod.requestItem.id}`}
-        />,
-      );
-    }
-  });
+  prod.data?.data.map(
+    (
+      prod: {
+        requestItem: { id: string; title: string; price: number };
+        requestPhoto: { photoLink: string }[];
+      },
+      i: number,
+    ) => {
+      if (i + 1 < SLIDE_COUNT) {
+        SLIDE.push(
+          <MiniCard
+            key={prod.requestItem.id}
+            title={prod.requestItem.title}
+            price={prod.requestItem.price}
+            img_url="/images/glasses2.jpeg"
+            variable="standart"
+            productDetail={`/${prod.requestItem.id}`}
+          />,
+        );
+      }
+    },
+  );
   return (
     <div className="mx-5 mb-28 flex flex-col gap-3 md:mx-0 md:mb-0 md:w-full md:gap-6">
       <Banner />

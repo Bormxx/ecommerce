@@ -1,10 +1,10 @@
-export type TItems = {
+export type Product = {
   id: number;
   title: string;
   price: number;
   description: string;
   availability: boolean;
-}
+};
 
 export interface Users {
   id: number;
