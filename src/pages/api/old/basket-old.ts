@@ -1,7 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../db";
-import { basket } from "../../db/schema/schema";
 import { validateSessionToken } from "@/shared/utils/backend/authSessions";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { db } from "../../../db";
+import { basket } from "../../../db/schema/schema";
 
 export default async function basketTable(
   req: NextApiRequest,

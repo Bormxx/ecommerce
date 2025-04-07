@@ -8,6 +8,8 @@ import {
 } from "@/api/services/userService";
 import { NextApiResponse } from "next";
 
+// TODO: Добавить обработку ошибок для остальных методов
+
 // Получение всех пользователей (Для теста)
 export async function getAllUsersHandler(res: NextApiResponse) {
   const users = await getAllUsers();

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../db";
-import { posts } from "../../db/schema/schema";
+import { db } from "../../../db";
+import { posts } from "../../../db/schema/schema";
 
 export default async function postsTable(
   req: NextApiRequest,
@@ -16,6 +16,6 @@ export default async function postsTable(
     if (res.status(200)) {
       const request = await db.select().from(posts);
       return res.status(200).json({ request });
-    } else return res.status(500).json({ message: 'Ошибка базы данных' });
+    } else return res.status(500).json({ message: "Ошибка базы данных" });
   }
 }

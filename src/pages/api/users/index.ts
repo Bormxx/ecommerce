@@ -4,6 +4,8 @@ import {
 } from "@/api/controllers/userController";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+// TODO: Мб рефакторинг
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -19,7 +21,9 @@ export default async function handler(
     try {
       const { name, surname, email, password, avatar } = req.body;
       if (!name || !surname || !email) {
-        return res.status(400).json({ error: "Некорректные данные пользователя" });
+        return res
+          .status(400)
+          .json({ error: "Некорректные данные пользователя" });
       }
       await createUserHandler({ name, surname, email, password, avatar }, res);
     } catch (error) {

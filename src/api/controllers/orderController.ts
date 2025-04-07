@@ -5,6 +5,8 @@ import {
 } from "@/api/services/orderService";
 import { NextApiResponse } from "next";
 
+// TODO: Добавить обработку ошибок для остальных методов
+
 // Получение всех заказов пользователя
 export async function getOrdersHandler(userId: number, res: NextApiResponse) {
   const orders = await getUserOrders(userId);

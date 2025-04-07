@@ -1,9 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../db";
-import { basket, lists, orders } from "../../db/schema/schema";
 import { orderFormSchema } from "@/shared/types/schemas/order";
-import { eq } from "drizzle-orm";
 import { validateSessionToken } from "@/shared/utils/backend/authSessions";
+import { eq } from "drizzle-orm";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { db } from "../../../db";
+import { basket, lists, orders } from "../../../db/schema/schema";
 
 export default async function ordersTable(
   req: NextApiRequest,

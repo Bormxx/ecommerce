@@ -5,6 +5,8 @@ import {
 } from "@/api/services/productService";
 import { NextApiResponse } from "next";
 
+// TODO: Добавить обработку ошибок для остальных методов
+
 // Получение всех товаров
 export async function getAllItemsHandler(res: NextApiResponse) {
   const items = await getAllItems();
