@@ -1,23 +1,23 @@
+import { Photos, Product } from "@/shared/types";
+import { inter, roboto } from "@/styles/fonts";
 import {
   AdjustmentsHorizontalIcon,
   ArrowLongLeftIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
-import Title from "../Title/Title";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import { inter, roboto } from "@/styles/fonts";
+import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
+import CatalogList from "../CatalogList/CatalogList";
+import FilterCheckbox from "../FilterComponent/FilterCheckbox";
 import FilterComponent from "../FilterComponent/FilterComponent";
 import FilterPrice from "../FilterComponent/FilterPrice";
-import FilterCheckbox from "../FilterComponent/FilterCheckbox";
 import FilterRadio from "../FilterComponent/FilterRadio";
 import FilterSwitch from "../FilterComponent/FilterSwitch";
+import Title from "../Title/Title";
 import ButtonLong from "../ui-kit/ButtonLong";
-import CatalogList from "../CatalogList/CatalogList";
-import { Photos, TItems } from "@/shared/types";
-import { useRouter } from "next/router";
 export interface TypeRequest {
-  items: TItems[] | null;
+  items: Product[] | null;
   photos: Photos[] | null;
 }
 
