@@ -1,3 +1,5 @@
+// NEW
+
 export type Product = {
   id: number;
   title: string;
@@ -5,6 +7,104 @@ export type Product = {
   description: string;
   availability: boolean;
 };
+
+export interface Photo {
+  id: number;
+  itemId: number;
+  photoLink: string;
+  isMainPhoto: boolean;
+}
+
+export type Characteristic = {
+  id: number;
+  itemId: number;
+  frameMatherials: string;
+  linzeMatherials: string;
+  linzeTypes: string;
+  linzeUVDefences: string;
+  linzeEffects: string;
+};
+
+export type Post = {
+  itemId: number;
+  id: number;
+  userId: number;
+  rating: number;
+  post: string;
+};
+
+export type ProductInfo = {
+  item: Product;
+  photos: Photo[];
+  characteristics: Characteristic[];
+  posts: Post[];
+  averageRating: number;
+  postsCount: number;
+};
+
+// Товары
+
+export type Order = {
+  id: number;
+  userId: number;
+  address: string;
+  payment: number | null;
+  isCourier: boolean;
+  phone: string;
+  comment: string | null;
+};
+
+export type OrderItem = {
+  id: number;
+  orderId: number;
+  itemId: number;
+  quantity: number;
+};
+
+export type OrderInfo = {
+  order: Order;
+  items: OrderItem[];
+};
+
+// Корзина
+
+export type Basket = {
+  items: BasketItem[];
+  totalQuantity: number;
+  totalPrice: number;
+};
+
+export type BasketItem = {
+  id: number;
+  userId: number;
+  itemId: number;
+  quantity: number;
+  item: Product;
+};
+
+// USER BLOCK
+
+export type UserCards = {
+  id: number;
+  userId: number;
+  cardNumber: string;
+  month: string;
+  year: string;
+  cvv: string;
+};
+
+// На первое время
+export type UpdateUserSchema = {
+  name?: string;
+  surname?: string;
+  email?: string;
+  password?: string;
+  avatar?: string;
+};
+
+// -------------------
+
+// OLD
 
 export interface Users {
   id: number;
@@ -32,45 +132,15 @@ export interface Cards {
   cardNumber: string;
 }
 
-export interface Basket {
-  id: number;
-  userId: number;
-  itemId: number;
-  quantity: number;
-}
-
 export interface Photos {
   id: number;
   itemId: number;
   photoLink: string;
 }
 
+
 export interface References {
   id: number;
   itemId: number;
   reference: string;
-}
-
-export interface Basket {
-  id: number;
-  userId: number;
-  itemId: number;
-  rating: number;
-  post: string;
-}
-
-export interface Orders {
-  id: number;
-  userId: number;
-  comment: string;
-  address: string;
-  courier: boolean;
-  payCash: boolean;
-}
-
-export interface Orders {
-  id: number;
-  orderId: number;
-  itemId: number;
-  quantity: number;
 }

@@ -1,5 +1,7 @@
 import { TCardSchema } from "../types/schemas/card";
 
+// TODO: Удалить эти старые запросы - новые запросы в ./user.ts
+
 export const getCards = async () => {
   const response = await fetch('api/old/cards');
   const data = await response.json();
