@@ -5,7 +5,9 @@ import {
 } from "@/api/services/productService";
 import { NextApiResponse } from "next";
 
+// TODO: Добавить запросы на получение характеристик товара, параметров, категории и тд. Потребуется для фильтра (Возможно определить в другую группу)
 // TODO: Добавить обработку ошибок для остальных методов
+// TODO: Добавить валидацию данных (опционально пока, не в приоритете)
 
 // Получение всех товаров
 export async function getAllItemsHandler(res: NextApiResponse) {

@@ -8,7 +8,9 @@ import {
 } from "@/api/services/userService";
 import { NextApiResponse } from "next";
 
+// TODO: Запрос на получение избраных товаров юзера (Возможно определить в другую группу)
 // TODO: Добавить обработку ошибок для остальных методов
+// TODO: Добавить валидацию данных (опционально пока, не в приоритете)
 
 // Получение всех пользователей (Для теста)
 export async function getAllUsersHandler(res: NextApiResponse) {

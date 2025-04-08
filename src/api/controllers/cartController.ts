@@ -6,6 +6,8 @@ import {
 import { NextApiResponse } from "next";
 
 // TODO: Добавить обработку ошибок для остальных методов
+// TODO: Добавить валидацию данных (опционально пока, не в приоритете)
+
 
 // Добавить товар в корзину
 export async function addItemToCartHandler(
