@@ -1,5 +1,3 @@
-import { getBasketItems } from "@/shared/api/basket";
-import { getCards } from "@/shared/api/card";
 import { addOrder } from "@/shared/api/order";
 import { storages } from "@/shared/consts/consts";
 import {
@@ -15,6 +13,7 @@ import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useBasket } from "../../shared/hooks/queries/useBasket";
 import MyModal from "../Dialog/Dialog";
 import AuthModal from "../Dialog/Variants/AuthModal";
 import CardDataModal from "../Dialog/Variants/CardDataModal";
@@ -29,6 +28,7 @@ import DeliveryType from "../OrderFormsComponents/DeliveryType";
 import OrderFieldSet from "../OrderFormsComponents/OrderFieldset";
 import PaymentType from "../OrderFormsComponents/PaymentType";
 import TextAreaField from "../OrderFormsComponents/TextAreaField";
+import { getCards } from '../../shared/api/card';
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -52,10 +52,7 @@ export default function OrderForm() {
     queryFn: getCards,
   });
 
-  const orderedItems = useQuery({
-    queryKey: ["orderedItems"],
-    queryFn: getBasketItems,
-  });
+  const { basket, isPendingBasket, isErrorBasket } = useBasket();
 
   const mutation = useMutation({
     mutationFn: (form: TOrderFormSchema) => addOrder(form),
@@ -88,15 +85,12 @@ export default function OrderForm() {
     .plus({ day: 2 })
     .toLocaleString(DateTime.DATE_FULL);
 
-  if (
-    orderedItems.isError ||
-    (orderedItems.isSuccess && orderedItems.data?.totalQuantity < 1)
-  ) {
+  if (isErrorBasket || (basket && basket?.totalQuantity < 1)) {
     router.replace("/");
     return null;
   }
 
-  if (orderedItems.isLoading) {
+  if (isPendingBasket) {
     return (
       <div className="grow place-content-center place-items-center bg-slate-50">
         <LoadingIcon />
@@ -164,10 +158,10 @@ export default function OrderForm() {
           <CartSubmitField
             trigger={trigger}
             title={"Ваш заказ"}
-            items={orderedItems.data?.totalQuantity ?? "0"}
+            items={basket?.totalQuantity ?? 0}
             isDisabled={isValid && blockButton}
           >
-            <CartSubmitDetails cost={orderedItems.data?.finalPrice ?? "0"} />
+            <CartSubmitDetails cost={`${basket?.totalPrice ?? 0}`} />
           </CartSubmitField>
         </form>
       </section>

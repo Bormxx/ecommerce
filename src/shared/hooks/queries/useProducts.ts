@@ -14,7 +14,7 @@ export const useProducts = () => {
   });
 
   return {
-    products: products || [],
+    products,
     isPendingProducts,
     isErrorProducts,
     errorProducts,
