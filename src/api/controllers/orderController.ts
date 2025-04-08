@@ -5,7 +5,9 @@ import {
 } from "@/api/services/orderService";
 import { NextApiResponse } from "next";
 
+// TODO: Добавить запрос на получение списка товара в заказе с подробной инфой или см. задачу ниже (v2)
 // TODO: Добавить обработку ошибок для остальных методов
+// TODO: Добавить валидацию данных (опционально пока, не в приоритете)
 
 // Получение всех заказов пользователя
 export async function getOrdersHandler(userId: number, res: NextApiResponse) {
@@ -29,6 +31,7 @@ export async function createOrderHandler(
   res.status(200).json({ orderId });
 }
 
+// TODO: v2 Изменить ответ с сервера, где будет более подробный вывод списка товаров
 // Получение заказа по ID
 export async function getOrderByIdHandler(
   userId: number,
