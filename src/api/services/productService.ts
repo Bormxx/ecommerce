@@ -3,6 +3,7 @@ import {
   characteristics,
   Item,
   items,
+  ItemWithMainPhoto,
   Photo,
   photos,
   Post,
@@ -13,9 +14,19 @@ import { round } from "../utils/round";
 
 // TODO: Реализовать метод для фильтров, для карусели, для полуения постов, но поудмать для чего отдельный запрос
 
+// TODO: Все работатает хорошо, но можно привести к более приятному виду ответ
 // Получение всех товаров
-export async function getAllItems(): Promise<Item[]> {
-  return db.select().from(items);
+export async function getAllItems(): Promise<ItemWithMainPhoto[]> {
+  const allItems = await db.query.items.findMany({
+    with: {
+      photos: {
+        where: (photo, { eq }) => eq(photo.isMainPhoto, true),
+        limit: 1,
+      },
+    },
+  });
+
+  return allItems;
 }
 
 // Получение товара по ID
