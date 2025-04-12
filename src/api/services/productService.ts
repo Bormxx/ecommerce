@@ -19,10 +19,7 @@ import { round } from "../utils/round";
 export async function getAllItems(): Promise<ItemWithMainPhoto[]> {
   const allItems = await db.query.items.findMany({
     with: {
-      photos: {
-        where: (photo, { eq }) => eq(photo.isMainPhoto, true),
-        limit: 1,
-      },
+      photos: true,
     },
   });
 

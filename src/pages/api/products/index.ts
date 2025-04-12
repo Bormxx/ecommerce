@@ -11,12 +11,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "GET") {
-    try {
-      await getAllItemsHandler(res);
-    } catch (error) {
-      console.error("[LOG] Ошибка получения товаров:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
+    await getAllItemsHandler(res);
   } else if (req.method === "POST") {
     try {
       const {
