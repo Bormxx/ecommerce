@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../../db";
-import { posts } from "../../../../db/schema/schema";
+import { db } from "../../../../api/db";
+import { posts } from "../../../../api/models/product";
 import { validateSessionToken } from "../../../../shared/utils/backend/authSessions";
 
 // TODO: Вроде как доп. поэтому можно вырезать пока

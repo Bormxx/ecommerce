@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../db";
-import { items } from "../../../db/schema/schema";
+import { db } from "../../../api/db";
+import { items } from "../../../api/models/product";
 
 export default async function itemsTable(
   req: NextApiRequest,

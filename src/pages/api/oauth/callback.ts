@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { users } from "@/db/schema/schema";
+import { db } from "../../../api/db";
+import { users } from "../../../api/models/user";
 import {
   createSession,
   generateSessionToken,

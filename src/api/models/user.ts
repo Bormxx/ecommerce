@@ -1,5 +1,6 @@
 import { InferSelectModel } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { items } from "./product";
 
 // Пользователи
 export const users = sqliteTable("users", {
@@ -36,6 +37,16 @@ export const cards = sqliteTable("cards", {
   month: text("month").notNull(),
   year: text("year").notNull(),
   cvv: text("cvv").notNull(),
+});
+
+export const favorites = sqliteTable("favorites", {
+  id: integer("favoriteId").notNull().primaryKey({ autoIncrement: true }),
+  userId: integer("userId")
+    .notNull()
+    .references(() => users.id),
+  itemId: integer("itemId")
+    .notNull()
+    .references(() => items.id),
 });
 
 export type Card = InferSelectModel<typeof cards>;
