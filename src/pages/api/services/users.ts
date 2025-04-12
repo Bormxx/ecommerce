@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../db/index";
-import { users } from "../../db/schema/schema";
+import { db } from "../../../db/index";
+import { users } from "../../../db/schema/schema";
 import { eq } from "drizzle-orm";
 import { hash } from 'bcrypt';
-import { formDataSchema } from "../../../types";
-import jwt from "jsonwebtoken";
+import { formDataSchema } from "../../../shared/types/schemas/auth";
+import jwt from 'jsonwebtoken';
 
 export default async function usersTable(
   req: NextApiRequest,

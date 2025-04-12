@@ -42,7 +42,7 @@ export default async function ordersTable(
       await db.transaction(async (tx) => {
         const orderId = await tx
           .insert(orders)
-          .values({ userId: user.id, ...data })
+          .values({ userId: user.id, ...data, orderDate: Date.now() })
           .returning({ insertedId: orders.id });
 
         const purchases = await tx

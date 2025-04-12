@@ -290,31 +290,21 @@ async function fillingPosts() {
   } 
   );
 }
+
+type TOrdersValue = {
+  userId: number;
+  comment: string;
+  address: string;
+  phone: string;
+  isCourier: boolean;
+  payment: string;
+}
+
+const ordersUrl: string = "api/services/orders";
+
+
 export const county: number = 7 + 1
 export default function fill() {
-  // const items = useQuery({
-  //   queryKey: ["getItemsCarousel"],
-  //   queryFn: getItemsCarousel,
-  // });
-  // const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
-  // const SLIDE_COUNT = county;
-  // // const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-  // const SLIDE: ReactNode[] = [];
-  // items.data?.data.map((items: any, i: number) => {
-  //   if (i + 1 < SLIDE_COUNT) {
-  //     SLIDE.push(
-  //       <MiniCard
-  //         key={items.requestItem.id}
-  //         title={items.requestItem.title}
-  //         price={items.requestItem.price}
-  //         img_url={items.requestPhoto[i - i].photoLink}
-  //         variable="standart"
-  //         productDetail={`/products/${items.requestItem.id}`}
-  //       />,
-  //     );
-  //   }
-  // });
-
   return (
     <div className="grid">
       <div className="m-auto mt-10">
@@ -400,7 +390,20 @@ export default function fill() {
           }}
         >Заполнить таблицу отзывов</button>
       </div>
-      {/* <EmblaCarousel slides={SLIDE} options={OPTIONS} /> */}
+      <div className="m-auto mt-10">
+        <button className="
+          px-5 
+          py-3 
+          text-xl 
+          text-white 
+          font-bold 
+          bg-blue-400 
+          rounded-xl"
+          onClick={() => {
+            console.log("Пока нет никаких данных");
+          }}
+        >Заполнить таблицу истории заказов</button>
+      </div>
     </div>
   )
 }

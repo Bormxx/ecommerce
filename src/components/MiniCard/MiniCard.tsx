@@ -26,7 +26,7 @@ const MiniCard = ({ title, price, img_url, variable, productDetail }: MiniCardPr
       className={`flex ${variable === "horizontal" ? "flex-row" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"}`}
     >
       <Link
-        href={productDetail != undefined ? `/products/${productDetail}` : "/"}
+        href={productDetail != undefined ? `products${productDetail}` : "/"}
         className={`${variable === "mini" ? "w-[172px] flex-col gap-2" : variable === "horizontal" ? "w-full flex-row items-center justify-between gap-4" : "flex-col gap-2"} flex`}
 
       >
