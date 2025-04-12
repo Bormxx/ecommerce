@@ -2,8 +2,8 @@ import { cardSchema } from "@/shared/types/schemas/card";
 import { validateSessionToken } from "@/shared/utils/backend/authSessions";
 import { and, eq, sql } from "drizzle-orm";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../db";
-import { cards } from "../../../db/schema/schema";
+import { db } from "../../../api/db";
+import { cards } from "../../../api/models/user";
 
 export default async function cardsTable(
   req: NextApiRequest,

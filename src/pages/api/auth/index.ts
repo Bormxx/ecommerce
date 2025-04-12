@@ -3,7 +3,7 @@ import { compare } from "bcrypt";
 import { eq } from "drizzle-orm";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { users } from "../../../api/models/user";
-import { db } from "../../../db";
+import { db } from "../../../api/db";
 import { authFormSchema } from "../../../shared/types/schemas/auth";
 import {
   createSession,

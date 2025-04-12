@@ -1,7 +1,7 @@
 import { and } from "drizzle-orm";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../db";
-import { photos } from "../../../db/schema/schema";
+import { db } from "../../../api/db";
+import { photos } from "../../../api/models/product";
 import { county } from "../../fill";
 
 // TODO: Переписать на контроллеры и сервисы. Аналогично с products/[id].ts

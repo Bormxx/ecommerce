@@ -2,7 +2,7 @@ import { basket } from "@/api/models/cart";
 import { lists, Order, OrderItem, orders } from "@/api/models/order";
 
 import { eq } from "drizzle-orm";
-import { db } from "../../db";
+import { db } from "../../api/db";
 
 // Получение всех заказов пользователя
 export async function getUserOrders(userId: number): Promise<Order[]> {

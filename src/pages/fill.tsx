@@ -261,7 +261,7 @@ async function fillingPosts() {
   itemsRequest.data.items.map(
     async (item: Product, i: number, row: Product[]) => {
       const postCount =
-        Math.floor(Math.random() * usersRequest.data.request.length) + 1;
+        Math.floor(Math.random() * usersRequest.data.users.length) + 1;
       for (let i = 0; i < postCount; i++) {
         let userId = await getRandomUser();
         const itemId = item.id;
