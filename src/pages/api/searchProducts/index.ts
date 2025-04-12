@@ -1,6 +1,8 @@
 import { db } from "@/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+// TODO: Переписать на контроллеры и сервисы
+
 export default async function searchProducts(
   req: NextApiRequest,
   res: NextApiResponse,

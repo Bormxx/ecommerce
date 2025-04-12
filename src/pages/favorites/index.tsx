@@ -5,13 +5,13 @@ import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Title from "@/components/Title/Title";
 import { useProtectedRoute } from "@/shared/hooks/useProtectedRoute";
-import { Photos, TItems } from "@/shared/types";
+import { Photos, Product } from "@/shared/types";
 import { inter } from "@/styles/fonts";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 export interface TypeRequest {
-  items: TItems[] | null;
+  items: Product[] | null;
   photos: Photos[] | null;
 }
 export default function favoritesPage({ items, photos }: TypeRequest) {
@@ -80,11 +80,14 @@ export default function favoritesPage({ items, photos }: TypeRequest) {
     </ProtectedRoute>
   );
 }
+
+// TODO: Избавиться от getStaticProps
+
 export async function getStaticProps() {
-  const itemsRes = await fetch("http://localhost:3000/api/items");
+  const itemsRes = await fetch("http://localhost:3000/api/old/items");
   const itemsReq = await itemsRes.json();
   const items = itemsReq.request;
-  const photosRes = await fetch("http://localhost:3000/api/photos");
+  const photosRes = await fetch("http://localhost:3000/api/old/photos");
   const photosReq = await photosRes.json();
   const photos = photosReq.request;
   return {

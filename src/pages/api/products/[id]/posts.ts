@@ -2,7 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../../db";
 import { posts } from "../../../../db/schema/schema";
 import { validateSessionToken } from "../../../../shared/utils/backend/authSessions";
-import { eq } from "drizzle-orm";
+
+// TODO: Вроде как доп. поэтому можно вырезать пока
+// TODO: Переписать на контроллеры и сервисы. Аналогично с products/[id].ts
 
 export default async function detailsTable(
   req: NextApiRequest,

@@ -1,52 +1,41 @@
+import {
+  createOrderHandler,
+  getOrdersHandler,
+} from "@/api/controllers/orderController";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../db";
-import { posts } from "../../../db/schema/schema";
-import { validateSessionToken } from "../../../shared/utils/backend/authSessions";
-import { eq } from "drizzle-orm";
+import { withAuth } from "../../../api/utils/withAuth";
 
-export default async function detailsTable(
+// TODO: Мб рефакторинг
+
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "GET") {
-    const token = req.cookies.session;
-
-    if (!token) {
-      return res.status(403).json({
-        access: "denied",
-      });
-    }
-
     try {
-      const { session, user } = await validateSessionToken(token);
-      if (!user || !session) {
-        return res.status(403).json({access: "denied"});
-      }
-      const existingOrders = await db.query.orders.findMany({
-        where: (order, {eq})=>eq(order.userId, user.id)
-      })
-      res.status(200).json({ existingOrders, message: 'Этот раздел бэка пока не готов' });
+      const userId = await withAuth(req, res);
+      await getOrdersHandler(userId, res);
     } catch (error) {
-      res.status(500).json({ access: "denied" });
+      console.error("[LOG] Ошибка получения заказов:", error);
     }
-  }
-  if (req.method === "POST") {
-    const token = req.cookies.session;
-
-    if (!token) {
-      return res.status(403).json({
-        access: "denied",
-      });
-    }
+  } else if (req.method === "POST") {
     try {
-      const { session, user } = await validateSessionToken(token);
-      
-      if (!user || !session) {
-        return res.status(403).json({access: "denied"});
+      const userId = await withAuth(req, res);
+      const { comment, address, phone, isCourier, payment } = req.body;
+
+      if (!address || !phone || typeof isCourier !== "boolean") {
+        return res.status(400).json({ error: "Некорректные данные заказа" });
       }
-      return res.json({message: 'Пока не готово'});
+
+      await createOrderHandler(
+        userId,
+        { comment, address, phone, isCourier, payment },
+        res,
+      );
     } catch (error) {
-      res.status(500).json({ access: "denied" });
+      console.error("[LOG] Ошибка создания заказа:", error);
     }
+  } else {
+    res.status(405).json({ error: "Method Not Allowed" });
   }
 }
