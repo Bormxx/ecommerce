@@ -164,15 +164,16 @@ async function fillingBasket() {
 
 async function getRandomUser() {
   const response = await axios.get("api/users");
-  const users = response.data.request;
-  let result = Math.floor(Math.random() * users.length);
+  console.log(response.data.users);
+  const users: Users[] = response.data.users;
+  const result = Math.floor(Math.random() * users.length);
   return users[result].id;
 }
 
 async function getRandomItem() {
   const response = await axios.get("api/products");
-  const items = response.data.request;
-  let result = Math.floor(Math.random() * items.length);
+  const items: Product[] = response.data.items;
+  const result = Math.floor(Math.random() * items.length);
   return items[result].id;
 }
 
@@ -191,7 +192,7 @@ const getRandomPhoto = () =>
   photosUrlArray[Math.floor(Math.random() * photosUrlArray.length)];
 async function fillingPhotos() {
   const itemsRequest = await axios.get("api/products");
-  const itemsSize = itemsRequest.data.request.length;
+  const itemsSize = itemsRequest.data.items.length;
   for (let i = 0; i < itemsSize; i++) {
     let flag = true;
     for (let j = 0; j < photosPerItem; j++) {
@@ -263,7 +264,7 @@ async function fillingPosts() {
   const itemsRequest = await axios.get("api/services/items");
   const usersRequest = await axios.get("api/services/users");
   let flag: boolean = true;
-  itemsRequest.data.request.map(
+  itemsRequest.data.items.map(
     async (item: Product, i: number, row: Product[]) => {
       const postCount =
         Math.floor(Math.random() * usersRequest.data.request.length) + 1;

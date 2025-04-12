@@ -20,16 +20,6 @@ export async function withAuth(
       throw new Error("Invalid session");
     }
 
-    // const dbSession = await db
-    //   .select()
-    //   .from(sessions)
-    //   .where(eq(sessions.id, token))
-    //   .get();
-    // if (!dbSession || dbSession.expiresAt.getTime() < Date.now()) {
-    //   res.status(401).json({ error: "Session expired" });
-    //   throw new Error("Session expired");
-    // }
-
     return user.id;
   } catch (error) {
     if (!res.headersSent) {
