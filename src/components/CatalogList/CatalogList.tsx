@@ -1,5 +1,5 @@
 import { Photos } from "@/shared/types";
-import { Product } from "../../shared/types/product";
+import { Product } from "../../shared/types/";
 import MiniCard from "../MiniCard/MiniCard";
 
 type CatalogListProps = {

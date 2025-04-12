@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Product } from "../shared/types";
+import { Product, Users } from "../shared/types";
 import filling from "./filling";
 
 // Заполняем таблицу с пользователями
@@ -159,15 +159,16 @@ async function fillingBasket() {
 
 async function getRandomUser() {
   const response = await axios.get("api/users");
-  const users = response.data.request;
-  let result = Math.floor(Math.random() * users.length);
+  console.log(response.data.users);
+  const users: Users[] = response.data.users;
+  const result = Math.floor(Math.random() * users.length);
   return users[result].id;
 }
 
 async function getRandomItem() {
   const response = await axios.get("api/products");
-  const items = response.data.request;
-  let result = Math.floor(Math.random() * items.length);
+  const items: Product[] = response.data.items;
+  const result = Math.floor(Math.random() * items.length);
   return items[result].id;
 }
 
@@ -186,7 +187,7 @@ const getRandomPhoto = () =>
   photosUrlArray[Math.floor(Math.random() * photosUrlArray.length)];
 async function fillingPhotos() {
   const itemsRequest = await axios.get("api/products");
-  const itemsSize = itemsRequest.data.request.length;
+  const itemsSize = itemsRequest.data.items.length;
   for (let i = 0; i < itemsSize; i++) {
     let flag = true;
     for (let j = 0; j < photosPerItem; j++) {
@@ -219,7 +220,7 @@ const linzeEffects: string[] = ["Без автозатемнения", "С ав�
 const characteristicsValue: object[] = [];
 async function fillingCharacteristics() {
   const itemsRequest = await axios.get("api/products");
-  itemsRequest.data.request.map((item: Characteristics) => {
+  itemsRequest.data.items.map((item: Characteristics) => {
     characteristicsValue.push({
       itemId: item.id,
       frameMatherials:
@@ -257,7 +258,7 @@ async function fillingPosts() {
   const itemsRequest = await axios.get("api/products");
   const usersRequest = await axios.get("api/users");
   let flag: boolean = true;
-  itemsRequest.data.request.map(
+  itemsRequest.data.items.map(
     async (item: Product, i: number, row: Product[]) => {
       const postCount =
         Math.floor(Math.random() * usersRequest.data.request.length) + 1;
@@ -293,29 +294,6 @@ async function fillingPosts() {
 }
 export const county: number = 7 + 1;
 export default function fill() {
-  // const items = useQuery({
-  //   queryKey: ["getItemsCarousel"],
-  //   queryFn: getItemsCarousel,
-  // });
-  // const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
-  // const SLIDE_COUNT = county;
-  // // const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-  // const SLIDE: ReactNode[] = [];
-  // items.data?.data.map((items: any, i: number) => {
-  //   if (i + 1 < SLIDE_COUNT) {
-  //     SLIDE.push(
-  //       <MiniCard
-  //         key={items.requestItem.id}
-  //         title={items.requestItem.title}
-  //         price={items.requestItem.price}
-  //         img_url={items.requestPhoto[i - i].photoLink}
-  //         variable="standart"
-  //         productDetail={`/products/${items.requestItem.id}`}
-  //       />,
-  //     );
-  //   }
-  // });
-
   return (
     <div className="grid">
       <div className="m-auto mt-10">
