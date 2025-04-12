@@ -6,6 +6,7 @@ export type Product = {
   price: number;
   description: string;
   availability: boolean;
+  photos?: Photo[];
 };
 
 export interface Photo {
