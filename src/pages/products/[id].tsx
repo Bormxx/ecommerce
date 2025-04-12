@@ -58,7 +58,7 @@ export default function Product({
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetch("http://localhost:3000/api/products");
   const data = await res.json();
-  const products: Product[] = data.request;
+  const products: Product[] = data.items;
 
   if (!Array.isArray(products)) {
     throw new Error("Expected an array but got: " + JSON.stringify(products));
@@ -75,14 +75,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<ProductPageProps> = async ({ params }) => {
   const res = await fetch(`http://localhost:3000/api/products/${params?.id}`);
   const data = await res.json();
-
-  return { 
-    props: { 
-      product: data.requestItem || null, 
-      characteristics: data.requestCharacteristics || [],
-      roundRating: data.roundRating || 0.0,
-      quantityRatings: data.quantityRatings || 0,
-      photos: data.requestPhoto || []
-    } 
+  
+  return {
+    props: {
+      product: data.item || null,
+      characteristics: data.characteristics || [],
+      roundRating: data.averageRating || 0.0,
+      quantityRatings: data.postsCount || 0,
+      photos: data.photos || [],
+    },
   };
 };

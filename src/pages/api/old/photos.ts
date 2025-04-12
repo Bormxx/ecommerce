@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../db";
-import { photos } from "../../../db/schema/schema";
+import { db } from "../../../api/db";
+import { photos } from "../../../api/models/product";
 
 export default async function photosTable(
   req: NextApiRequest,

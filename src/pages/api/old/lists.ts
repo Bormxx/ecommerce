@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../db";
-import { lists } from "../../../db/schema/schema";
+import { db } from "../../../api/db";
+import { lists } from "../../../api/models/order";
 
 export default async function listsTable(
   req: NextApiRequest,

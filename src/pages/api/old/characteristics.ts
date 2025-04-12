@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../db";
-import { characteristics } from "../../../db/schema/schema";
+import { db } from "../../../api/db";
+import { characteristics } from "../../../api/models/product";
 
 export default async function referencesTable(
   req: NextApiRequest,
