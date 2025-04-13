@@ -1,30 +1,51 @@
 import { z } from "zod";
 
 export const authFormSchema = z.object({
-  email: z.string({
-    required_error: "Поле обязательно",
-  }).min(1, "Введите email").email({message: "Некорректный email"}),
-  password: z.string({
-    required_error: "Поле обязательно",
-  }).min(6, "Введите пароль"),
+  email: z
+    .string({
+      required_error: "Поле обязательно",
+    })
+    .min(1, "Введите email")
+    .email({ message: "Некорректный email" }),
+  password: z
+    .string({
+      required_error: "Поле обязательно",
+    })
+    .min(6, "Введите пароль"),
 });
 
 export type TAuthForm = z.infer<typeof authFormSchema>;
 
 export const registerFormSchema = z
   .object({
-    name: z.string({
-      required_error: "Поле обязательно",
-    }).min(1, "Введите имя").default(''),
-    surname: z.string({
-      required_error: "Поле обязательно",
-    }).min(1, "Введите фамилию").default(''),
-    email: z.string({
-      required_error: "Поле обязательно",
-    }).min(1, "Введите email").email({message: "Некоректный email"}).default(''),
-    password: z.string({
-      required_error: "Поле обязательно",
-    }).min(6, "Пароль меньше 6 символов").default(''),
+    name: z
+      .string({
+        required_error: "Поле обязательно",
+      })
+      .min(1, "Введите имя")
+      .default(""),
+    surname: z
+      .string({
+        required_error: "Поле обязательно",
+      })
+      .min(1, "Введите фамилию")
+      .default(""),
+    email: z
+      .string({
+        required_error: "Поле обязательно",
+      })
+      .min(1, "Введите email")
+      .email({ message: "Некоректный email" })
+      .default(""),
+    password: z
+      .string({
+        required_error: "Поле обязательно",
+      })
+      .min(1, "Поле обязательно")
+      .regex(/[0-9a-zA-Z!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g, {
+        message: "Недопустимые символы",
+      })
+      .default(""),
     passwordCompare: z.string({
       required_error: "Поле обязательно",
     }),
@@ -32,6 +53,47 @@ export const registerFormSchema = z
   .refine((data) => data.password === data.passwordCompare, {
     message: "Пароли не совпадают",
     path: ["passwordCompare"],
+  })
+  .superRefine(({ password }, ctx) => {
+    if (password.length < 6) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Пароль меньше 6 символов",
+        path: ["password"],
+      });
+    }
+
+    if (!/[a-z]/.test(password)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Добавьте строчные буквы",
+        path: ["password"],
+      });
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Добавьте заглавные буквы",
+        path: ["password"],
+      });
+    }
+
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Добавьте символы",
+        path: ["password"],
+      });
+    }
+
+    if (!/\d/.test(password)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Добавьте цифры",
+        path: ["password"],
+      });
+    }
   });
 
 export type TRegisterForm = z.infer<typeof registerFormSchema>;
