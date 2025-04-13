@@ -18,7 +18,7 @@ export default function ClientInfoSection({
     },
     track: ({ inputType, value, data, selectionStart, selectionEnd }) => {
       if (inputType === 'insert' && !/^7/.test(data) && selectionStart <= 1) {
-        return `7${data === "8" ? "" : data}`;
+        return data.startsWith('+7') ? data.replace("+", "") : `7${data === "8" ? "" : data}`;
       }
   
       if (inputType !== 'insert' && selectionStart <= 1 && selectionEnd < value.length) {
