@@ -1,6 +1,7 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
   import Image from 'next/image';
   import { useState } from "react";
+  import { getRatingsWord } from "@/shared/utils/frontend/cartHelpers";
 
   type Product = {
     id: number;
@@ -53,6 +54,8 @@
     const [mainPhotoLink, setMainPhotoLink] = useState<string>(defaultMainPhoto);
     const nonMainPhotos = photos.filter(photo => !photo.isMainPhoto).slice(0, 4);
     const availabilityProduct = product.availability ? "Есть в наличии" : "Нет в наличии";
+    const ratingsWord = getRatingsWord(quantityRatings);
+
     const characteristicsList = characteristics[0]
     ? {
         "Материал оправы": characteristics[0].frameMatherials,
@@ -118,7 +121,7 @@
               
               </div>
               <div className="flex justify-end">
-                <span className="mt-1 font-normal text-[14px] leading-5 text-[#6B7280]">{quantityRatings} оценок</span>
+                <span className="mt-1 font-normal text-[14px] leading-5 text-[#6B7280]">{ratingsWord}</span>
               </div>
              
               <div className="text-[#10B981] font-bold text-[30px] leading-9">{product.price} ₽</div>
