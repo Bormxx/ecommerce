@@ -14,7 +14,7 @@ interface ProfileProps {
 export default function Profile({
   name = "Ярополк",
   surname = "Иванов",
-  email = "ivanov@yandex.ru",
+  email = "",
 }: ProfileProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ name, surname, email });
