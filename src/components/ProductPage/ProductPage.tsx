@@ -44,12 +44,6 @@
     photos,
   }: ProductPageProps) {
 
-    //console.log("Product Data:", product);
-    //console.log("Characteristics:", characteristics[0]);
-    //console.log("RoundRating:", roundRating);
-    //console.log("QuantityRatings:", quantityRatings);
-    //console.log("Photos:", photos);
-
     const defaultMainPhoto = photos.find(p => p.isMainPhoto)?.photoLink || "/images/product_for_dev.png";
     const [mainPhotoLink, setMainPhotoLink] = useState<string>(defaultMainPhoto);
     const nonMainPhotos = photos.filter(photo => !photo.isMainPhoto).slice(0, 4);
