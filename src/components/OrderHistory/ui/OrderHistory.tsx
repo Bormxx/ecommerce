@@ -1,8 +1,10 @@
 import { roboto } from "@/styles/fonts";
-import { initialStateMock } from "../mock-data";
+import { useOrders } from "../../../shared/hooks/queries/useOrders";
 import { OrderCard } from "./OrderCard";
 
 export function OrderHistory() {
+  const { orders } = useOrders();
+
   return (
     <div className="flex flex-col p-5">
       <h1 className={`${roboto.className} text-2xl font-bold`}>
@@ -11,9 +13,15 @@ export function OrderHistory() {
       {/*Список*/}
       <div className="flex flex-col gap-4">
         {/*Карточки*/}
-        {initialStateMock.map((order) => (
-          <OrderCard key={order.id} order={order} />
-        ))}
+        {orders ? (
+          orders.map((order) => <OrderCard key={order.id} order={order} />)
+        ) : (
+          <div className="flex min-h-[200px] items-center justify-center rounded-xl bg-gray-100 p-4 shadow-lg">
+            <p className="text-base font-normal text-gray-500">
+              Заказов пока нет
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

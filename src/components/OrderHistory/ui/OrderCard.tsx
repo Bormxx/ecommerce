@@ -1,10 +1,10 @@
 import { inter, roboto } from "@/styles/fonts";
 import { useState } from "react";
-import { OrderMock } from "../mock-data";
+import { Order } from "../../../shared/types";
 import { OrderProductCard } from "./OrderProductCard";
 
 type Props = {
-  order: OrderMock;
+  order: Order;
 };
 
 export function OrderCard(props: Props) {
@@ -25,7 +25,8 @@ export function OrderCard(props: Props) {
             <p
               className={`${roboto.className} text-xl font-bold text-gray-800`}
             >
-              {`от ${order.date}`}
+              {/* TODO: Отдавать с бека */}
+              {`от 1 февраля 2025`}
             </p>
             <p
               className={`${inter.className} text-base font-normal text-gray-800`}
@@ -38,22 +39,23 @@ export function OrderCard(props: Props) {
             <p
               className={`${inter.className} text-base font-bold text-emerald-500`}
             >
-              {order.status}
+              {/* TODO: Отдавать с бека */}
+              Получен
             </p>
             <p
               className={`${inter.className} text-small font-normal text-gray-500`}
             >
-              {order.isCorier ? "доставка" : "в пункте выдачи"}
+              {order.isCourier ? "доставка" : "в пункте выдачи"}
             </p>
           </div>
         </div>
         {/*Цена*/}
         <div className="mb-4 flex flex-col items-end gap-2">
           <p className={`${roboto.className} text-2xl font-bold text-gray-800`}>
-            {`${order.price} ₽`}
+            {`${order.totalPrice} ₽`}
           </p>
           <p className={`${inter.className} text-xs font-normal text-gray-500`}>
-            {order.paymentMethod}
+            {order.payment ? "Оплачено картой" : "Наличными"}
           </p>
         </div>
       </div>
@@ -66,7 +68,7 @@ export function OrderCard(props: Props) {
         <div className="flex flex-col">
           {order.items.map((item, index) => (
             <>
-              <OrderProductCard key={index} product={item} />
+              <OrderProductCard key={index} product={item.item} quantity={item.quantity}/>
               <div className="my-4 border-b border-gray-400"></div>
             </>
           ))}
