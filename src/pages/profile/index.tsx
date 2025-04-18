@@ -5,6 +5,8 @@ import Sidebar from "@/components/Sidebar/Sidebar";
 import ProfileSection from "@/components/ProfileSection/ProfileSection";
 import CustomSelect from "@/components/CustomSelect/CustomSelect";
 import { useUserStore } from "@/shared/store/auth";
+import { useMutation } from '@tanstack/react-query';
+import { updateUser } from "@/shared/api/user";
 
 export default function Profile() {
   
@@ -17,10 +19,27 @@ export default function Profile() {
   const [profileData, setProfileData] = useState({ name, surname, email });
   //const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const handleSave = (updatedData: { name: string; surname: string; email: string }) => {
+  const mutation = useMutation({
+    mutationFn: updateUser,
+    onSuccess: (_, variables) => {
+      useUserStore.getState().setUserData({
+        name: variables.name ?? "",
+        surname: variables.surname ?? "",
+        email: variables.email ?? "",
+        avatar: "",
+      });
+  
+      setIsEditing(false);
+      console.log('Профиль успешно обновлён');
+    },
+    onError: (error) => {
+      console.error('Ошибка при обновлении профиля:', error);
+    },
+  });
 
-    
+  const handleSave = (updatedData: { name: string; surname: string; email: string }) => {
     setProfileData(updatedData);
+    mutation.mutate(updatedData);
     setIsEditing(false);
   };
 
@@ -82,6 +101,12 @@ export default function Profile() {
                     </label>
                       
                   </div>
+
+                    <button
+                      className="w-full max-w-[720px] md:max-w-[580px] mt-4 px-8 py-[7px] bg-[#FFFFFF] text-[#1E40AF] border border-[#1E40AF] rounded-md font-[700] text-[14px] leading-5 md:text-[16px] md:leading-6 hover:bg-[#1E40AF] hover:text-white transition">
+                        Выйти из аккаунта
+                    </button>
+
                 </div>
               )}
             </main>
