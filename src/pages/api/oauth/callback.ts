@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { users } from "@/db/schema/schema";
+import { db } from "../../../api/db";
+import { users } from "../../../api/models/user";
 import {
   createSession,
   generateSessionToken,
@@ -73,7 +73,7 @@ export default async function wow(req: NextApiRequest, res: NextApiResponse) {
 
       res.setHeader("Set-Cookie", [
         `session=${token}; HttpOnly; Max-Age=60000; Path=/api;`,
-        `yandex_oauth_state=; HttpOnly; Max-Age=0; Path=/;`,
+        `yandex_oauth_state=; HttpOnly; Max-Age=0; Path=/api; SameSite=Lax;`,
       ]);
 
       res.status(200).json({

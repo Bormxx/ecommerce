@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import MiniCard from "../MiniCard/MiniCard";
-const product = "/images/Product-with-shadow.png";
+const product = "/images/Product-172x172.jpg";
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -68,6 +68,7 @@ export default function Carousel() {
             price={product.price}
             img_url={product.img_url}
             variable="mini"
+            productDetail="/images/Product-172x172.jpg"
           />
         </div>
       ))}

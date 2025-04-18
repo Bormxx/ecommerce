@@ -1,21 +1,46 @@
+import {
+  createItemHandler,
+  getAllItemsHandler,
+} from "@/api/controllers/productController";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../db";
-import { items } from "../../../db/schema/schema";
 
-export default async function itemsTable(
+// TODO: Мб рефакторинг
+
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "GET") {
-    const request = await db.select().from(items);
-    res.status(200).json({ request });
-  }
-  if (req.method === "POST") {
-    const { title, price, description, availability } = req.body;
-    await db.insert(items).values({title, price, description, availability });
-    if (res.status(200)) {
-      const request = await db.select().from(items);
-      return res.status(200).json({ request });
-    } else return res.status(500).json({ message: 'Ошибка базы данных' });
+    await getAllItemsHandler(res);
+  } else if (req.method === "POST") {
+    try {
+      const {
+        title,
+        price,
+        description,
+        availability,
+        photos,
+        characteristics,
+      } = req.body;
+
+      if (
+        !title ||
+        typeof price !== "number" ||
+        !description ||
+        typeof availability !== "boolean"
+      ) {
+        return res.status(400).json({ error: "Некорректные даные товара" });
+      }
+
+      await createItemHandler(
+        { title, price, description, availability, photos, characteristics },
+        res,
+      );
+    } catch (error) {
+      console.error("[LOG] Ошибка создания товара:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  } else {
+    res.status(405).json({ error: "Method Not Allowed" });
   }
 }

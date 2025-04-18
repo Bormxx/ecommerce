@@ -1,9 +1,9 @@
 import CategoryPage from "@/components/CategoryPage/CategoryPage";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
-import { Photos, TItems } from "@/shared/types";
+import { Photos, Product } from "@/shared/types";
 import { useAuth } from "../../shared/hooks/useAuth";
 export interface TypeRequest {
-  items: TItems[] | null;
+  items: Product[] | null;
   photos: Photos[] | null;
 }
 export default function category({ items, photos }: TypeRequest) {
@@ -31,11 +31,14 @@ export async function getStaticPaths() {
     fallback: false, // Если путь не найден, показываем 404
   };
 }
+
+// TODO: Избавиться от getStaticProps
+
 export async function getStaticProps() {
-  const itemsRes = await fetch("http://localhost:3000/api/items");
+  const itemsRes = await fetch("http://localhost:3000/api/old/items");
   const itemsReq = await itemsRes.json();
   const items = itemsReq.request;
-  const photosRes = await fetch("http://localhost:3000/api/photos");
+  const photosRes = await fetch("http://localhost:3000/api/old/photos");
   const photosReq = await photosRes.json();
   const photos = photosReq.request;
   return {

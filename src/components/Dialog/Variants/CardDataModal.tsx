@@ -2,7 +2,7 @@ import FormButton from "@/components/AuthFormsComponents/FormButton";
 import FormHeader from "@/components/AuthFormsComponents/FormHeader";
 import AuthInput from "@/components/AuthFormsComponents/InputAuth";
 import LoadingIcon from "@/components/LoadingIcon/LoadingIcon";
-import { addCard } from "@/shared/services/card";
+import { addCard } from "@/shared/api/card";
 import { cardSchema, TCardSchema } from "@/shared/types/schemas/card";
 import { modifyStringToNumbers } from "@/shared/utils/frontend/dataModifiers";
 import { inter } from "@/styles/fonts";
@@ -31,7 +31,12 @@ type CardDataModalProps = {
   blockModalFunc: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function CardDataModal({ states, closeFn, isOpened, blockModalFunc }: CardDataModalProps) {
+export default function CardDataModal({
+  states,
+  closeFn,
+  isOpened,
+  blockModalFunc,
+}: CardDataModalProps) {
   const queryClient = useQueryClient();
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -60,7 +65,6 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
       _: /\d/,
     },
   });
-  
 
   const {
     handleSubmit,
@@ -83,15 +87,23 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
   }
 
   if (addCardData.isError) {
-    return <AuthModal isTrue={isOpened} errorMessage={errorMessage} closeFn={closeFn} />
+    return (
+      <AuthModal
+        isTrue={isOpened}
+        errorMessage={errorMessage}
+        closeFn={closeFn}
+      />
+    );
   }
 
   return (
-    <div className="max-w-md p-6 flex-col flex gap-2 sm:gap-4 rounded-xl bg-white drop-shadow-xl">
+    <div className="flex max-w-md flex-col gap-2 rounded-xl bg-white p-6 drop-shadow-xl sm:gap-4">
       <div className="flex justify-between">
-        <FormHeader styles="sm:text-2xl text-xl">Введите данные карты:</FormHeader>
+        <FormHeader styles="sm:text-2xl text-xl">
+          Введите данные карты:
+        </FormHeader>
         <Button type="button" onClick={() => closeFn(!isOpened)}>
-          <XMarkIcon className="sm:size-8 size-6 rounded-sm border-gray-500 text-gray-500 hover:border hover:text-gray-800" />
+          <XMarkIcon className="size-6 rounded-sm border-gray-500 text-gray-500 hover:border hover:text-gray-800 sm:size-8" />
         </Button>
       </div>
       <form
@@ -100,7 +112,9 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
       >
         <Fieldset className="grid grid-cols-3 gap-1 sm:gap-2">
           <Field className={"col-span-3 flex flex-col"}>
-            <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
+            <Label
+              className={`${inter.className} text-sm font-normal sm:text-base`}
+            >
               Номер карты*
             </Label>
             <AuthInput
@@ -118,7 +132,9 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
             />
           </Field>
           <Field className={"flex flex-col"}>
-            <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
+            <Label
+              className={`${inter.className} text-sm font-normal sm:text-base`}
+            >
               Месяц*
             </Label>
             <AuthInput
@@ -137,7 +153,9 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
             />
           </Field>
           <Field className={"flex flex-col"}>
-            <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
+            <Label
+              className={`${inter.className} text-sm font-normal sm:text-base`}
+            >
               Год*
             </Label>
             <AuthInput
@@ -156,7 +174,9 @@ export default function CardDataModal({ states, closeFn, isOpened, blockModalFun
             />
           </Field>
           <Field className={"flex flex-col"}>
-            <Label className={`${inter.className} text-sm sm:text-base font-normal`}>
+            <Label
+              className={`${inter.className} text-sm font-normal sm:text-base`}
+            >
               Код*
             </Label>
             <AuthInput

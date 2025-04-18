@@ -1,9 +1,10 @@
-import { Photos, TItems } from "@/shared/types";
+import { Photos } from "@/shared/types";
+import { Product } from "../../shared/types/";
 import MiniCard from "../MiniCard/MiniCard";
 
 type CatalogListProps = {
   variable: string;
-  items: TItems[] | null;
+  items: Product[] | undefined;
   photos: Photos[] | null;
 };
 
@@ -30,7 +31,7 @@ export default function CatalogList({
               price={item.price}
               img_url={img_url}
               variable={variable}
-              productDetail={`products/${index}`}
+              productDetail={`/${index}`}
             />
           );
         })
