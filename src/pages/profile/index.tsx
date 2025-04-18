@@ -13,25 +13,13 @@ export default function Profile() {
   const email = useUserStore((state) => state.email);
   const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
-
-  //const userData = {name: "Ярополк", surname: "Иванов", email: ""};
-
-  //const user = useUserStore((state) => state);
-  //const isAuthenticated = useUserStore((state) => state.isAuthenticated);
-
-  //console.log('user ', user);
-  //console.log('isAuthenticated ', isAuthenticated);
-
-  //const name = user.name;//userData.name;
-  //const surname = user.surname;//userData.surname;
-  //const email = user.email;//userData.email;
-
-
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ name, surname, email });
   //const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleSave = (updatedData: { name: string; surname: string; email: string }) => {
+
+    
     setProfileData(updatedData);
     setIsEditing(false);
   };
@@ -39,8 +27,6 @@ export default function Profile() {
   useEffect(() => {
     setProfileData({ name, surname, email });
   }, [name, surname, email]);
-
-
 
   return (
     <HomeContainer>
