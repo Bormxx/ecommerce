@@ -1,11 +1,8 @@
 import axios from "axios";
-import { TItems } from "../shared/types";
-import MiniCard from "../components/MiniCard/MiniCard";
-import { ReactNode } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getItemsCarousel } from "../shared/services/carousel";
-import { db } from "../db";
-import { users } from "../db/schema/schema";
+import { db } from "../api/db";
+import { users } from "../api/models/user";
+import filling from "./filling";
+import { Product, Users } from "../shared/types";
 
 
 // Заполняем таблицу с пользователями
