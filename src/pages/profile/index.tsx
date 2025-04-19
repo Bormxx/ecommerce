@@ -7,6 +7,8 @@ import CustomSelect from "@/components/CustomSelect/CustomSelect";
 import { useUserStore } from "@/shared/store/auth";
 import { useMutation } from '@tanstack/react-query';
 import { updateUser } from "@/shared/api/user";
+import { useRouter } from 'next/router';
+import { logOut } from "@/shared/api/auth";
 
 export default function Profile() {
   
@@ -18,6 +20,20 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ name, surname, email });
   //const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.error("Ошибка при выходе:", error);
+    } finally {
+      useUserStore.getState().removeUserData();
+      useUserStore.getState().setIsAuthenticated(false);
+      router.push("/");
+    }
+  };
 
   const mutation = useMutation({
     mutationFn: updateUser,
@@ -103,6 +119,7 @@ export default function Profile() {
                   </div>
 
                     <button
+                      onClick={handleLogout}
                       className="w-full max-w-[720px] md:max-w-[580px] mt-4 px-8 py-[7px] bg-[#FFFFFF] text-[#1E40AF] border border-[#1E40AF] rounded-md font-[700] text-[14px] leading-5 md:text-[16px] md:leading-6 hover:bg-[#1E40AF] hover:text-white transition">
                         Выйти из аккаунта
                     </button>
