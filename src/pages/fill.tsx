@@ -7,9 +7,12 @@ import MiniCard from "../components/MiniCard/MiniCard";
 import { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getItemsCarousel } from "../shared/services/carousel";
+import { db } from "../db";
+import { users } from "../db/schema/schema";
+
 
 // Заполняем таблицу с пользователями
-const usersUrl = 'api/users'
+const usersUrl = 'api/services/users'
 const usersValue = [
   {
     name: "Иван",
@@ -50,7 +53,7 @@ const usersValue = [
 ];
 
 // Заполняем таблицу с товарами
-const itemsUrl = 'api/items'
+const itemsUrl = 'api/services/items'
 const itemDescriptionText = "Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 const itemsValue = [
   {
@@ -131,7 +134,7 @@ const itemsValue = [
 // Берём данные из таблицы товаров и генерируем корзины с рандомными значениями товаров
 // Берём данные из таблицы пользователей и генерируем корзины с рандомными значениями товаров
 
-const basketUrl: string = 'api/basket'
+const basketUrl: string = 'api/services/basket'
 const basketValue: object[] = []
 const basketSize: number = 11; // Размер массива с корзинами
 const maxItemsInBasket: number = 4; // Максимальное количество одного товара в корзине
@@ -184,7 +187,7 @@ const photosUrlArray: string[] = [
   '/images/glasses2.jpeg',
   '/images/glasses3.jpeg',
 ];
-const photosUrl: string = 'api/photos';
+const photosUrl: string = 'api/services/photos';
 const photosValue: object[] = [];
 
 const getRandomPhoto = () => photosUrlArray[Math.floor(Math.random() * photosUrlArray.length)];
@@ -222,7 +225,7 @@ const linzeUVDefences: string[] = ['Без УФ-фильтра', 'С УФ-фил
 const linzeEffects: string[] = ['Без автозатемнения', 'С автозатемнением']
 const characteristicsValue: object[] = []
 async function fillingCharacteristics() {
-  const itemsRequest = await axios.get("api/items");
+  const itemsRequest = await axios.get("api/services/items");
   itemsRequest.data.request.map((item: Characteristics) => {
     characteristicsValue.push({
       itemId: item.id,
@@ -243,7 +246,7 @@ type TPostValue = {
 };
 
 
-const postsUrl: string = "api/posts";
+const postsUrl: string = "api/services/posts";
 let postsValue: TPostValue[] = [];
 const postsArray: string[] = [
   "Я купил эти очки и был очень доволен. Они очень удобные и стильные. Я бы рекомендовал их всем.",
@@ -254,8 +257,8 @@ const postsArray: string[] = [
 ];
 const ratings: number[] = [1, 2, 3, 4, 5];
 async function fillingPosts() {
-  const itemsRequest = await axios.get("api/items");
-  const usersRequest = await axios.get("api/users");
+  const itemsRequest = await axios.get("api/services/items");
+  const usersRequest = await axios.get("api/services/users");
   let flag: boolean = true;
   itemsRequest.data.request.map(async(item: TItems, i: number, row: TItems[])=>{
     const postCount =
@@ -301,6 +304,11 @@ type TOrdersValue = {
 }
 
 const ordersUrl: string = "api/services/orders";
+
+async function getU() {
+  const result = await db.select().from(users).all();
+  console.log(result);
+}
 
 
 export const county: number = 7 + 1
@@ -401,6 +409,7 @@ export default function fill() {
           rounded-xl"
           onClick={() => {
             console.log("Пока нет никаких данных");
+            getU();
           }}
         >Заполнить таблицу истории заказов</button>
       </div>
