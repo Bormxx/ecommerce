@@ -41,7 +41,7 @@ export default async function usersAuth(
       const token = generateSessionToken();
       await createSession(token, user.id);
 
-      res.setHeader("Set-Cookie", `session=${token}; HttpOnly; Max-Age=60000;`);
+      res.setHeader("Set-Cookie", `session=${token}; HttpOnly; Max-Age=60000; Path=/api; SameSite=Lax;`);
 
       res.status(200).json({
         name: user.name,
