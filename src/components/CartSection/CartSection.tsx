@@ -1,72 +1,80 @@
 import { inter, roboto } from "@/styles/fonts";
 
-import { useEffect, useState } from "react";
-import CartForm from "./CartForm";
+//----------TEST-------------
+
+// import { useEffect, useState } from "react";
+// import CartForm from "./CartForm";
 
 export default function CartSection() {
-  const [total, setTotal] = useState(0);
 
-  const [content, setContent] = useState<React.ReactNode>(null);
-  const [itemList, setItemList] = useState([
-    {
-      id: "1000",
-      price: 2000,
-      title: "Очки",
-      quantity: 1,
-      like: false,
-    },
-    {
-      id: "1001",
-      price: 5000,
-      title: "Рюкзак",
-      quantity: 2,
-      like: true,
-    },
-  ]);
+  //---------TEST-------------
 
-  const [quantity, setQuantity] = useState(0);
+  // const [total, setTotal] = useState(0);
 
-  function getProductWord(quantity: number) {
-    const lastDigit = quantity % 10;
-    const lastTwoDigits = quantity % 100;
+  // const [content, setContent] = useState<React.ReactNode>(null);
+  // const [itemList, setItemList] = useState([
+  //   {
+  //     id: "1000",
+  //     price: 2000,
+  //     title: "Очки",
+  //     quantity: 1,
+  //     like: false,
+  //   },
+  //   {
+  //     id: "1001",
+  //     price: 5000,
+  //     title: "Рюкзак",
+  //     quantity: 2,
+  //     like: true,
+  //   },
+  // ]);
 
-    if (lastDigit === 1 && lastTwoDigits !== 11) {
-      return `${quantity} товар`;
-    } else if (
-      (lastDigit === 2 || lastDigit === 3 || lastDigit === 4) &&
-      (lastTwoDigits < 12 || lastTwoDigits > 14)
-    ) {
-      return `${quantity} товара`;
-    } else {
-      return `${quantity} товаров`;
-    }
-  }
+  // const [quantity, setQuantity] = useState(0);
+  
+  //----------TEST-------------
 
-  function updateTotal() {
-    let summ = 0;
-    itemList.map((item) => {
-      summ += item.price * item.quantity;
-    });
-    return summ;
-  }
+  // function getProductWord(quantity: number) {
+  //   const lastDigit = quantity % 10;
+  //   const lastTwoDigits = quantity % 100;
 
-  useEffect(() => {
-    if (itemList.length === 0) {
-      setContent(<p className="text-lg">Ваша корзина пуста</p>);
-    } else {
-      setContent(
-        <CartForm
-          itemList={itemList}
-          setItemList={setItemList}
-          total={total}
-          quantity={quantity}
-        />,
-      );
-    }
-    setTotal(updateTotal);
-    setQuantity(itemList.length);
-    console.log(itemList);
-  }, [itemList, total]);
+  //   if (lastDigit === 1 && lastTwoDigits !== 11) {
+  //     return `${quantity} товар`;
+  //   } else if (
+  //     (lastDigit === 2 || lastDigit === 3 || lastDigit === 4) &&
+  //     (lastTwoDigits < 12 || lastTwoDigits > 14)
+  //   ) {
+  //     return `${quantity} товара`;
+  //   } else {
+  //     return `${quantity} товаров`;
+  //   }
+  // }
+
+
+  // function updateTotal() {
+  //   let summ = 0;
+  //   itemList.map((item) => {
+  //     summ += item.price * item.quantity;
+  //   });
+  //   return summ;
+  // }
+
+
+  // useEffect(() => {
+  //   if (itemList.length === 0) {
+  //     setContent(<p className="text-lg">Ваша корзина пуста</p>);
+  //   } else {
+  //     setContent(
+  //       <CartForm
+  //         itemList={itemList}
+  //         setItemList={setItemList}
+  //         total={total}
+  //         quantity={quantity}
+  //       />,
+  //     );
+  //   }
+  //   setTotal(updateTotal);
+  //   setQuantity(itemList.length);
+  // }, [itemList, total, quantity, updateTotal]);
 
   return (
     <div className="w-full md:pl-5">
@@ -75,10 +83,10 @@ export default function CartSection() {
         <span
           className={`${inter.className} flex items-center text-sm text-slate-400 md:hidden`}
         >
-          {getProductWord(quantity)}
+          {/* {getProductWord(quantity)} */}
         </span>
       </div>
-      {content}
+      {/* {content} */}
     </div>
   );
 }

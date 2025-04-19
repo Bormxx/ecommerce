@@ -7,7 +7,7 @@ export interface TypeRequest {
   items: Product[] | null;
   photos: Photos[] | null;
 }
-export default function catalog({ items, photos }: TypeRequest) {
+export default function Catalog({ items, photos }: TypeRequest) {
   useAuth();
   return (
     <HomeContainer>

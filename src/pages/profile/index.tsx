@@ -13,8 +13,6 @@ export default function Profile() {
   const name = useUserStore((state) => state.name);
   const surname = useUserStore((state) => state.surname);
   const email = useUserStore((state) => state.email);
-  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
-
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ name, surname, email });
   //const [isSidebarOpen, setIsSidebarOpen] = useState(false);

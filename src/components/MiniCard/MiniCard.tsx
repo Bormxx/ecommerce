@@ -6,9 +6,9 @@ import { useUserStore } from "@/shared/store/auth";
 // import { useState } from "react";
 
 interface MiniCardProps {
-  title: any;
-  price: any;
-  img_url: any;
+  title: string;
+  price: number;
+  img_url: string;
   variable: string;
   productDetail: string;
   key: string | number;
