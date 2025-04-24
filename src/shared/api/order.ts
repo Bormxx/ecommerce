@@ -1,4 +1,4 @@
-import { Order, OrderInfo } from "../types";
+import { Order } from "../types";
 import { TOrderFormSchema } from "../types/schemas/order";
 
 // Запрос на получение всех заказов юзера
@@ -12,9 +12,8 @@ export const getOrdersUser = async (): Promise<Order[]> => {
 };
 
 // Запрос на получение конкретного заказа юзера
-// TODO: на стороне бека изменить ответ либо сделать доп запрос на получение нормального списка товаров в заказе
-export const getOrderById = async (idOrder: number): Promise<OrderInfo> => {
-  const response = await fetch(`api/orders/${idOrder}`);
+export const getOrderById = async (idOrder: number): Promise<Order> => {
+  const response = await fetch(`/api/orders/${idOrder}`);
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data.error);

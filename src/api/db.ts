@@ -1,16 +1,21 @@
+// src/api/db.ts
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
-
 import { basket, favorites } from "@/api/models/cart";
-import { lists, orders } from "@/api/models/order";
+import {
+  lists,
+  orders,
+  ordersRelations,
+  listsRelations,
+} from "@/api/models/order";
 import {
   characteristics,
-  characteristicsRelations,
   items,
-  itemsRelations,
   photos,
-  photosRelations,
   posts,
+  itemsRelations,
+  photosRelations,
+  characteristicsRelations,
   postsRelations,
 } from "@/api/models/product";
 import { cards, sessions, users } from "@/api/models/user";
@@ -31,6 +36,8 @@ const schema = {
   photosRelations,
   characteristicsRelations,
   postsRelations,
+  ordersRelations,
+  listsRelations,
 };
 
 const baza = new Database("dev.db");

@@ -1,7 +1,8 @@
-import { InferSelectModel } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { items } from "./product";
 import { users } from "./user";
+import { Item } from "./product";
 
 // Заказы
 export const orders = sqliteTable("orders", {
@@ -31,3 +32,29 @@ export const lists = sqliteTable("lists", {
 });
 
 export type OrderItem = InferSelectModel<typeof lists>;
+
+// Связи
+export const ordersRelations = relations(orders, ({ many }) => ({
+  lists: many(lists), // Один заказ → много элементов заказа
+}));
+
+export const listsRelations = relations(lists, ({ one }) => ({
+  order: one(orders, {
+    fields: [lists.orderId],
+    references: [orders.id],
+  }), // Один элемент заказа → один заказ
+  item: one(items, {
+    fields: [lists.itemId],
+    references: [items.id],
+  }), // Один элемент заказа → один товар
+}));
+
+// Новый тип для заказа с товарами, фото и характеристиками
+export interface OrderWithItems extends Order {
+  items: Array<{
+    item: Item; // Данные о товаре
+    quantity: number; // Количество
+  }>;
+  totalQuantity: number; // Общее количество товаров
+  totalPrice: number; // Общая стоимость
+}
