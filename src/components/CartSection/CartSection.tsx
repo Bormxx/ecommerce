@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { inter, roboto } from "@/styles/fonts";
 
 import { useEffect, useState } from "react";

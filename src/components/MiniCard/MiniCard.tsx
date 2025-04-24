@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import { inter, roboto } from "@/styles/fonts";
 import Link from "next/link";
@@ -14,7 +15,13 @@ interface MiniCardProps {
   key: string | number;
 }
 
-const MiniCard = ({ title, price, img_url, variable, productDetail }: MiniCardProps) => {
+const MiniCard = ({
+  title,
+  price,
+  img_url,
+  variable,
+  productDetail,
+}: MiniCardProps) => {
   const { isAuthenticated } = useUserStore();
   // const [isLiked, setIsLiked] = useState(false);
   const formattedPrice = new Intl.NumberFormat("ru-RU").format(price);
@@ -26,9 +33,8 @@ const MiniCard = ({ title, price, img_url, variable, productDetail }: MiniCardPr
       className={`flex ${variable === "horizontal" ? "flex-row" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"}`}
     >
       <Link
-        href={productDetail != undefined ? `/products/${productDetail}` : "/"}
+        href={productDetail != undefined ? `/products${productDetail}` : "/"}
         className={`${variable === "mini" ? "w-[172px] flex-col gap-2" : variable === "horizontal" ? "w-full flex-row items-center justify-between gap-4" : "flex-col gap-2"} flex`}
-
       >
         <Image
           src={img_url}
