@@ -3,27 +3,17 @@ import { inter, roboto } from "@/styles/fonts";
 
 import { useEffect, useState } from "react";
 import CartForm from "./CartForm";
-
-export default function CartSection() {
+import { BasketItem } from "@/shared/types";
+type CartSectionProps = {
+  itemsInBasketFromApi: BasketItem[];
+};
+export default function CartSection({
+  itemsInBasketFromApi,
+}: CartSectionProps) {
   const [total, setTotal] = useState(0);
 
   const [content, setContent] = useState<React.ReactNode>(null);
-  const [itemList, setItemList] = useState([
-    {
-      id: "1000",
-      price: 2000,
-      title: "Очки",
-      quantity: 1,
-      like: false,
-    },
-    {
-      id: "1001",
-      price: 5000,
-      title: "Рюкзак",
-      quantity: 2,
-      like: true,
-    },
-  ]);
+  const [itemList, setItemList] = useState(itemsInBasketFromApi);
 
   const [quantity, setQuantity] = useState(0);
 
@@ -46,7 +36,7 @@ export default function CartSection() {
   function updateTotal() {
     let summ = 0;
     itemList.map((item) => {
-      summ += item.price * item.quantity;
+      summ += item.item.price * item.quantity;
     });
     return summ;
   }
@@ -66,7 +56,6 @@ export default function CartSection() {
     }
     setTotal(updateTotal);
     setQuantity(itemList.length);
-    console.log(itemList);
   }, [itemList, total]);
 
   return (
