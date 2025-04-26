@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { Items, Users } from "../types"
+import { Product, Users } from "../types"
 
 export const useUsersStore = create<Users>((set) => ({
   id: Date.now(),
@@ -15,7 +15,7 @@ export const useUsersStore = create<Users>((set) => ({
   setPassword: (password: string) => set({ password }),
 }))
 
-export const useItemsStore = create<Items>((set) => ({
+export const useItemsStore = create<Product>((set) => ({
   id: Date.now(),
   title: '',
   price: 0,

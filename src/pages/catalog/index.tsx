@@ -5,7 +5,7 @@ import { Photos, Product } from "@/shared/types";
 import { useAuth } from "../../shared/hooks/useAuth";
 
 export interface TypeRequest {
-  items: Product[] | null;
+  items: Product[] | undefined;
   photos: Photos[] | null;
 }
 export default function catalog({ items, photos }: TypeRequest) {
