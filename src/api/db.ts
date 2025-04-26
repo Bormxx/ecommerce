@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 
-import { basket, favorites } from "@/api/models/cart";
+import { basket } from "@/api/models/cart";
 import { lists, orders } from "@/api/models/order";
 import {
   characteristics,
@@ -12,6 +12,7 @@ import {
   photosRelations,
   posts,
   postsRelations,
+  favorites,
 } from "@/api/models/product";
 import { cards, sessions, users } from "@/api/models/user";
 
