@@ -1,4 +1,4 @@
-import { Photos } from "@/shared/types";
+import { BasketItem, Photos } from "@/shared/types";
 import { EmblaOptionsType } from "embla-carousel";
 import Banner from "../Banners/Banner";
 import CatalogList from "../CatalogList/CatalogList";
@@ -14,9 +14,14 @@ import MiniCard from "../MiniCard/MiniCard";
 type MainSectionProps = {
   items: Product[] | undefined;
   photos: Photos[] | null;
+  productsInBasket: BasketItem[];
 };
 export const county: number = 7 + 1;
-export default function MainSection({ items, photos }: MainSectionProps) {
+export default function MainSection({
+  items,
+  photos,
+  productsInBasket,
+}: MainSectionProps) {
   const prod = useQuery({
     queryKey: ["getItemsCarousel"],
     queryFn: getItemsCarousel,
@@ -27,7 +32,7 @@ export default function MainSection({ items, photos }: MainSectionProps) {
   prod.data?.data.map(
     (
       prod: {
-        requestItem: { id: string; title: string; price: number };
+        requestItem: { id: number; title: string; price: number };
         requestPhoto: { photoLink: string }[];
       },
       i: number,
@@ -36,11 +41,13 @@ export default function MainSection({ items, photos }: MainSectionProps) {
         SLIDE.push(
           <MiniCard
             key={prod.requestItem.id}
+            itemId={prod.requestItem.id}
             title={prod.requestItem.title}
             price={prod.requestItem.price}
             img_url="/images/glasses2.jpeg"
             variable="standart"
             productDetail={`/${prod.requestItem.id}`}
+            productsInBasket={productsInBasket}
           />,
         );
       }
@@ -52,7 +59,12 @@ export default function MainSection({ items, photos }: MainSectionProps) {
       {/* <Carousel /> */}
       <EmblaCarousel slides={SLIDE} options={OPTIONS} />
       <MiniBannerSection />
-      <CatalogList variable="standart" items={items} photos={photos} />
+      <CatalogList
+        variable="standart"
+        items={items}
+        photos={photos}
+        productsInBasket={productsInBasket}
+      />
     </div>
   );
 }

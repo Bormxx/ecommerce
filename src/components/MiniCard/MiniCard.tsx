@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import { inter, roboto } from "@/styles/fonts";
 import Link from "next/link";
 import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useUserStore } from "@/shared/store/auth";
+import { addProductInBacket } from "@/shared/api/basket";
+import { useEffect, useState } from "react";
+import { BasketItem } from "@/shared/types";
+import ReplaceQuantity from "./ReplaceQuantity";
+// import { addProductInBacket } from "@/shared/api/basket";
 // import { useState } from "react";
 
 interface MiniCardProps {
@@ -12,23 +18,62 @@ interface MiniCardProps {
   variable: string;
   productDetail: string;
   key: string | number;
+  itemId: number;
+  productsInBasket: BasketItem[] | undefined;
 }
 
-const MiniCard = ({ title, price, img_url, variable, productDetail }: MiniCardProps) => {
+const MiniCard = ({
+  title,
+  price,
+  img_url,
+  variable,
+  productDetail,
+  itemId,
+  productsInBasket,
+}: MiniCardProps) => {
   const { isAuthenticated } = useUserStore();
+
   // const [isLiked, setIsLiked] = useState(false);
   const formattedPrice = new Intl.NumberFormat("ru-RU").format(price);
+  const [quantity, setQuantity] = useState(0);
+  // console.log(itemId, quantity);
+
+  useEffect(() => {
+    if (isAuthenticated && productsInBasket) {
+      const item = productsInBasket.find(
+        (item: BasketItem) => item.id === itemId,
+      );
+      if (item) {
+        setQuantity(item.quantity);
+      } else {
+        setQuantity(0);
+      }
+    }
+  }, [isAuthenticated, productsInBasket, itemId]);
+
+  function minusQuantity() {}
+  function plusQuantity() {}
+
   function handleLikeClick() {}
-  function addToCart() {}
+
+  function addToCart() {
+    setQuantity(1);
+    addProductInBacket({ itemId, quantity: 1 })
+      .then((response) => {
+        console.log("Товар добавлен в корзину:", response.message);
+      })
+      .catch((error) => {
+        console.error("Ошибка при добавлении товара в корзину:", error.message);
+      });
+  }
 
   return (
     <div
       className={`flex ${variable === "horizontal" ? "flex-row" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"}`}
     >
       <Link
-        href={productDetail != undefined ? `/products/${productDetail}` : "/"}
+        href={productDetail != undefined ? `/products${productDetail}` : "/"}
         className={`${variable === "mini" ? "w-[172px] flex-col gap-2" : variable === "horizontal" ? "w-full flex-row items-center justify-between gap-4" : "flex-col gap-2"} flex`}
-
       >
         <Image
           src={img_url}
@@ -51,14 +96,32 @@ const MiniCard = ({ title, price, img_url, variable, productDetail }: MiniCardPr
         </span>
       </Link>
       {isAuthenticated && (
-        <div className="flex items-center gap-1">
-          <button
-            className="flex h-10 w-[calc(100%-40px)] min-w-20 justify-center rounded-lg bg-blue-800 py-2 text-white"
-            type="button"
-            onClick={addToCart}
-          >
-            <ShoppingBagIcon width={24} height={24} />
-          </button>
+        <div className="flex items-center justify-between gap-1">
+          {quantity > 0 ? (
+            <div className="flex flex-grow gap-2">
+              <Link
+                className="flex h-10 w-[calc(100%-40px)] min-w-20 flex-grow items-center justify-center gap-1 rounded-lg bg-green-500 p-2 text-white"
+                href="/cart"
+              >
+                Перейти в <ShoppingBagIcon width={16} height={16} />
+              </Link>
+              <ReplaceQuantity
+                id={itemId}
+                minusQuantity={minusQuantity}
+                plusQuantity={plusQuantity}
+                quantity={quantity}
+              />
+            </div>
+          ) : (
+            <button
+              className="flex h-10 w-[calc(100%-40px)] min-w-20 justify-center rounded-lg bg-blue-800 py-2 text-white"
+              type="button"
+              onClick={addToCart}
+            >
+              <ShoppingBagIcon width={24} height={24} />
+            </button>
+          )}
+
           <button type="button" className="h-6 w-6" onClick={handleLikeClick}>
             <HeartIcon width={24} height={24} />
           </button>
