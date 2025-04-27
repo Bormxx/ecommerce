@@ -40,13 +40,13 @@ export default function MainSection({
       if (i + 1 < SLIDE_COUNT) {
         SLIDE.push(
           <MiniCard
-            key={prod.requestItem.id}
-            itemId={prod.requestItem.id}
-            title={prod.requestItem.title}
-            price={prod.requestItem.price}
+            key={prod.requestItem?.id}
+            itemId={prod.requestItem?.id}
+            title={prod.requestItem?.title}
+            price={prod.requestItem?.price}
             img_url="/images/glasses2.jpeg"
             variable="standart"
-            productDetail={`/${prod.requestItem.id}`}
+            productDetail={`/${prod.requestItem?.id}`}
             productsInBasket={productsInBasket}
           />,
         );

@@ -52,7 +52,7 @@
     const defaultMainPhoto = photos.find(p => p.isMainPhoto)?.photoLink || "/images/product_for_dev.png";
     const [mainPhotoLink, setMainPhotoLink] = useState<string>(defaultMainPhoto);
     const nonMainPhotos = photos.filter(photo => !photo.isMainPhoto).slice(0, 4);
-    const availabilityProduct = product.availability ? "Есть в наличии" : "Нет в наличии";
+    const availabilityProduct = product?.availability ? "Есть в наличии" : "Нет в наличии";
     const characteristicsList = characteristics[0]
     ? {
         "Материал оправы": characteristics[0].frameMatherials,
@@ -101,7 +101,7 @@
 
             <main className="w-full max-w-[456px]">
               <div className="flex justify-between">
-                <h1 className="font-bold text-[30px] leading-9 text-[#1F2937]">{product.title}</h1> 
+                <h1 className="font-bold text-[30px] leading-9 text-[#1F2937]">{product?.title}</h1> 
 
                 <div className="flex flex-col items-center justify-center gap-1">
                   <div className="flex items-center gap-2">
@@ -121,7 +121,7 @@
                 <span className="mt-1 font-normal text-[14px] leading-5 text-[#6B7280]">{quantityRatings} оценок</span>
               </div>
              
-              <div className="text-[#10B981] font-bold text-[30px] leading-9">{product.price} ₽</div>
+              <div className="text-[#10B981] font-bold text-[30px] leading-9">{product?.price} ₽</div>
 
               <div className="mt-4 flex justify-between gap-4">
 
@@ -153,7 +153,7 @@
 
               <p className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">Описание</p>
               <p className="mt-4 font-normal text-[14px] leading-5 text-[#6B7280]">
-                {product.description}
+                {product?.description}
               </p>
               <h2 className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">О товаре</h2>
 

@@ -33,7 +33,7 @@ export default function Home({ photos }: TypeRequest) {
 
 // TODO: Избавиться от getStaticProps
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const photosRes = await fetch("http://localhost:3000/api/old/photos");
   const photosReq = await photosRes.json();
   const photos = photosReq.request;

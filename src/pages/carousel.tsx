@@ -20,7 +20,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         {/* <div className="embla__viewport pl-5" ref={emblaRef}> */}
         <div className="w-[1180px] overflow-hidden" ref={emblaRef}>
           <div className="embla__container">
-            {slides.map((index, i) => (
+            {slides?.map((index, i) => (
               <div className="embla__slide" key={i}>
                 {index}
               </div>

@@ -15,27 +15,27 @@ export default function category({ items, photos }: TypeRequest) {
     </HomeContainer>
   );
 }
-export async function getStaticPaths() {
-  const categories = [
-    { title: "Dior" },
-    { title: "Boss" },
-    { title: "Ray-Ban" },
-    { title: "Chanel" },
-  ];
+// export async function getStaticPaths() {
+//   const categories = [
+//     { title: "Dior" },
+//     { title: "Boss" },
+//     { title: "Ray-Ban" },
+//     { title: "Chanel" },
+//   ];
 
-  const paths = categories.map((category) => ({
-    params: { id: category.title.toLowerCase() },
-  }));
+//   const paths = categories.map((category) => ({
+//     params: { id: category.title.toLowerCase() },
+//   }));
 
-  return {
-    paths,
-    fallback: false, // Если путь не найден, показываем 404
-  };
-}
+//   return {
+//     paths,
+//     fallback: false, // Если путь не найден, показываем 404
+//   };
+// }
 
 // TODO: Избавиться от getStaticProps
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const itemsRes = await fetch("http://localhost:3000/api/old/items");
   const itemsReq = await itemsRes.json();
   const items = itemsReq.request;

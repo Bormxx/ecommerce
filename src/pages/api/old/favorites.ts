@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../api/db";
-import { favorites } from "../../../api/models/user";
+import { favorites } from "../../../api/models/product";
 
 export default async function favoriteTable(
   req: NextApiRequest,

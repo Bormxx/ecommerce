@@ -56,7 +56,7 @@ export default function Carousel() {
       ref={sliderRef}
       style={{ scrollBehavior: "smooth" }}
     >
-      {products.map((product, index) => (
+      {products?.map((product, index) => (
         <div
           className="w-[170px]"
           key={index}
@@ -64,12 +64,13 @@ export default function Carousel() {
         >
           <MiniCard
             key={index}
-            itemId={product.id}
-            title={product.title}
-            price={product.price}
-            img_url={product.img_url}
+            itemId={product?.id}
+            title={product?.title}
+            price={product?.price}
+            img_url={product?.img_url}
             variable="mini"
             productDetail="/images/Product-172x172.jpg"
+            productsInBasket={[]}
           />
         </div>
       ))}

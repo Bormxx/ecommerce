@@ -21,7 +21,7 @@ export default async function handler(
         availability,
         photos,
         characteristics,
-      } = req.body;
+      } = req?.body;
 
       if (
         !title ||

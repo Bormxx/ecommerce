@@ -19,7 +19,7 @@ export default function catalog({ items, photos }: TypeRequest) {
 
 // TODO: Избавиться от getStaticProps
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const itemsRes = await fetch("http://localhost:3000/api/old/items");
   const itemsReq = await itemsRes.json();
   const items = itemsReq.request;
