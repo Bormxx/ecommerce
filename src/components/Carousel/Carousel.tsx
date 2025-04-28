@@ -8,18 +8,18 @@ export default function Carousel() {
   // const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const products = [
-    { title: "Классные очки", price: 10000, img_url: product },
-    { title: "Стильные часы", price: 5000, img_url: product },
-    { title: "Модный рюкзак", price: 15000, img_url: product },
-    { title: "Красивые наушники", price: 8000, img_url: product },
-    { title: "Классные очки", price: 2000, img_url: product },
-    { title: "Модная сумка", price: 12000, img_url: product },
-    { title: "Классные очки", price: 10000, img_url: product },
-    { title: "Стильные часы", price: 5000, img_url: product },
-    { title: "Модный рюкзак", price: 15000, img_url: product },
-    { title: "Красивые наушники", price: 8000, img_url: product },
-    { title: "Классные очки", price: 2000, img_url: product },
-    { title: "Модная сумка", price: 12000, img_url: product },
+    { title: "Классные очки", price: 10000, img_url: product, id: 1112 },
+    { title: "Стильные часы", price: 5000, img_url: product, id: 1113 },
+    { title: "Модный рюкзак", price: 15000, img_url: product, id: 1114 },
+    { title: "Красивые наушники", price: 8000, img_url: product, id: 1115 },
+    { title: "Классные очки", price: 2000, img_url: product, id: 1116 },
+    { title: "Модная сумка", price: 12000, img_url: product, id: 1117 },
+    { title: "Классные очки", price: 10000, img_url: product, id: 1118 },
+    { title: "Стильные часы", price: 5000, img_url: product, id: 1119 },
+    { title: "Модный рюкзак", price: 15000, img_url: product, id: 11110 },
+    { title: "Красивые наушники", price: 8000, img_url: product, id: 11111 },
+    { title: "Классные очки", price: 2000, img_url: product, id: 11112 },
+    { title: "Модная сумка", price: 12000, img_url: product, id: 11113 },
   ];
 
   // const nextSlide = () => {
@@ -64,6 +64,7 @@ export default function Carousel() {
         >
           <MiniCard
             key={index}
+            itemId={product.id}
             title={product.title}
             price={product.price}
             img_url={product.img_url}
