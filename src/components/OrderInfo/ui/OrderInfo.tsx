@@ -3,6 +3,7 @@ import { useOrderById } from "../../../shared/hooks/queries/useOrderById";
 import { useProtectedRoute } from "../../../shared/hooks/useProtectedRoute";
 import { useUserStore } from "../../../shared/store/auth";
 import { inter, roboto } from "../../../styles/fonts";
+import { ProductCard } from "./ProductCard";
 
 type Props = {
   ordeId: number;
@@ -21,7 +22,7 @@ export const OrderInfo = (props: Props) => {
       >
         Спасибо за заказ!
       </h1>
-      <div className="flex flex-col gap-5 rounded-xl p-6 shadow-lg">
+      <div className="flex flex-col gap-5 rounded-xl p-6 shadow-custom">
         {/* Инфа про получателя */}
         <div className="flex flex-col gap-2 border-b border-gray-400 pb-5">
           <p className={`${inter.className} text-base font-bold text-gray-800`}>
@@ -82,7 +83,14 @@ export const OrderInfo = (props: Props) => {
         </div>
 
         {/* Карточки твоаров */}
-        <div className="flex border-b border-gray-400 pb-5"></div>
+        {/* TODO: Проверить кейс со скроллом и если что попробовать скрыть его, вроде такой параметр hidden-scrollbar */}
+        {/* TODO: Подумать как лучше отобразить несколько карточек (Плитка или просто гор. скролл) */}
+        <div className="flex gap-5 border-b border-gray-400 pb-5">
+          {order &&
+            order.items.map((item) => (
+              <ProductCard item={item} key={item.item.id} />
+            ))}
+        </div>
 
         {/* Итоговая сумма */}
         <div className="flex gap-5">
@@ -113,7 +121,13 @@ export const OrderInfo = (props: Props) => {
         </div>
       </div>
       <div className="flex justify-end pt-6">
-        <Link href="/profile">Все заказы</Link>
+        <Link
+          href="/profile"
+          replace={true}
+          className="text-blue-600 underline"
+        >
+          Все заказы
+        </Link>
       </div>
     </div>
   );
