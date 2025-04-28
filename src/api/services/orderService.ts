@@ -63,7 +63,8 @@ export async function getOrderById(
   orderId: number,
 ): Promise<OrderWithItems | null> {
   const order = await db.query.orders.findFirst({
-    where: (order, { eq }) => eq(order.id, orderId) && eq(order.userId, userId),
+    where: (order, { eq, and }) =>
+      and(eq(order.id, orderId), eq(order.userId, userId)),
     with: {
       lists: {
         with: {
@@ -81,6 +82,7 @@ export async function getOrderById(
   });
 
   if (order) {
+    console.log("[LOG] Заказ найден:", order);
     const orderItems = order.lists.map((listItem) => ({
       item: listItem.item,
       quantity: listItem.quantity,
