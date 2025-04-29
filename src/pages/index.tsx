@@ -14,6 +14,7 @@ export default function Home({ photos }: TypeRequest) {
   const { products } = useProducts();
   const { basket } = useBasket();
   const { isAuthenticated } = useUserStore();
+  console.log(basket);
   useAuth();
 
   if (isAuthenticated && basket) {

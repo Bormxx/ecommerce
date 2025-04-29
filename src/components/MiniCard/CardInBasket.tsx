@@ -49,6 +49,7 @@ export default function CardInBasket({
     }
   };
   const plusQuantityHere = async (productId: number, newQuantity: number) => {
+    console.log(productId, newQuantity);
     try {
       const result = await updateQuantityProduct(productId, {
         quantity: newQuantity,

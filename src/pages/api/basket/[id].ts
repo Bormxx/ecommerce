@@ -9,7 +9,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const userId = await withAuth(req, res);
-  const itemId = parseInt(req.query.id as string, 10);
+  const itemId = Number(req.query.id);
 
   if (isNaN(itemId)) {
     return res.status(400).json({ error: "Некорректный ID товара" });
@@ -21,7 +21,7 @@ export default async function handler(
       if (typeof quantity !== "number") {
         return res.status(400).json({ error: "Некорректно задано количество" });
       }
-      await updateCartItemQuantityHandler(userId, itemId, { quantity }, res);
+      await updateCartItemQuantityHandler(userId, itemId, quantity, res);
     } catch (error) {
       console.error("Basket PUT error:", error);
     }

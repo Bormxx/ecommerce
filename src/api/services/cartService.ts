@@ -44,7 +44,7 @@ export async function updateCartItemQuantity(
   } else {
     await db
       .update(basket)
-      .set({ quantity })
+      .set({ quantity: quantity })
       .where(eq(basket.id, existingItem.id));
   }
 }
