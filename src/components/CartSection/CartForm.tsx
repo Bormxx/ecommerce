@@ -2,30 +2,31 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import CardInBasket from "@/components/MiniCard/CardInBasket";
 import { inter, roboto } from "@/styles/fonts";
-type Item = {
-  id: string;
-  price: number;
-  title: string;
-  quantity: number;
-  like: boolean;
-};
+import { BasketItem } from "@/shared/types";
+
+
 type CartFormProps = {
-  itemList: Item[];
+  itemList: BasketItem[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setItemList: any;
   total: number;
-  quantity:number;
+  quantity: number;
 };
-export default function CartForm({ itemList, setItemList, total, quantity }: CartFormProps) {
+export default function CartForm({
+  itemList,
+  setItemList,
+  total,
+  quantity,
+}: CartFormProps) {
   const router = useRouter();
 
-  const deleteCard = (id: string) => {
-    setItemList((prevList: Item[]) =>
+  const deleteCard = (id: number) => {
+    setItemList((prevList: BasketItem[]) =>
       prevList.filter((item) => item.id !== id),
     );
   };
-  function plusQuantity(id: string) {
-    setItemList((prevList: Item[]) =>
+  function plusQuantity(id: number) {
+    setItemList((prevList: BasketItem[]) =>
       prevList.map((item) =>
         item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
       ),
@@ -33,8 +34,8 @@ export default function CartForm({ itemList, setItemList, total, quantity }: Car
   }
   const formattedTotal = new Intl.NumberFormat("ru-RU").format(total);
 
-  function minusQuantity(id: string) {
-    setItemList((prevList: Item[]) =>
+  function minusQuantity(id: number) {
+    setItemList((prevList: BasketItem[]) =>
       prevList.map((item) =>
         item.id === id && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
@@ -42,12 +43,14 @@ export default function CartForm({ itemList, setItemList, total, quantity }: Car
       ),
     );
   }
-  const clickLike = (id: string) => {
-    setItemList((prevList: Item[]) =>
-      prevList.map((item) =>
-        item.id === id ? { ...item, like: !item.like } : item,
-      ),
-    );
+  const clickLike = (
+    // id: number
+  ) => {
+    // setItemList((prevList: BasketItem[]) =>
+    //   prevList.map((item) =>
+    //     item.id === id ? { ...item, like: !item.like } : item,
+    //   ),
+    // );
   };
   function getProductWord(quantity: number) {
     const lastDigit = quantity % 10;
@@ -70,18 +73,18 @@ export default function CartForm({ itemList, setItemList, total, quantity }: Car
         {itemList.map((item) => (
           <CardInBasket
             key={item.id}
-            price={item.price}
-            title={item.title}
+            price={item.item.price}
+            title={item.item.title}
             deleteCard={() => {
-              deleteCard(item.id);
+              deleteCard(item.itemId);
             }}
-            id={item.id}
+            id={item.itemId}
             minusQuantity={minusQuantity}
             plusQuantity={plusQuantity}
             //   image={item.image}
             //   deliveryTime={item.deliveryTime}
             quantity={item.quantity}
-            like={item.like}
+            // like={item.like}
             clickLike={clickLike}
           />
         ))}
@@ -125,7 +128,7 @@ export default function CartForm({ itemList, setItemList, total, quantity }: Car
               total === 0 ? "text-slate-400" : "text-white"
             }`}
             disabled={total === 0}
-            onClick={()=>router.push("/order")}
+            onClick={() => router.push("/order")}
           >
             Оформить заказ
           </button>

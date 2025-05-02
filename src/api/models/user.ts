@@ -39,14 +39,15 @@ export const cards = sqliteTable("cards", {
   cvv: text("cvv").notNull(),
 });
 
-export const favorites = sqliteTable("favorites", {
-  id: integer("favoriteId").notNull().primaryKey({ autoIncrement: true }),
-  userId: integer("userId")
-    .notNull()
-    .references(() => users.id),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
-});
+// Есть в модели Cart
+// export const favorites = sqliteTable("favorites", {
+//   id: integer("favoriteId").notNull().primaryKey({ autoIncrement: true }),
+//   userId: integer("userId")
+//     .notNull()
+//     .references(() => users.id),
+//   itemId: integer("itemId")
+//     .notNull()
+//     .references(() => items.id),
+// });
 
 export type Card = InferSelectModel<typeof cards>;

@@ -73,7 +73,7 @@ export async function invalidateAllSessions(userId: number): Promise<void> {
 }
 
 export function resetCookies(res: NextApiResponse) {
-  res.setHeader("Set-Cookie", `session=; HttpOnly; Max-Age=0;`);
+  res.setHeader("Set-Cookie", `session=; HttpOnly; Max-Age=0; Path=/api; SameSite=Lax;`);
 
   //return res.status(403).json({
   //  access: "denied",

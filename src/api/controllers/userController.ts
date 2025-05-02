@@ -33,7 +33,7 @@ export async function createUserHandler(
     const { user, token } = await createUser(data);
     res.setHeader(
       "Set-Cookie",
-      `session=${token}; HttpOnly; Max-Age=60; Path=/`,
+      `session=${token}; HttpOnly; Max-Age=60000; Path=/api; SameSite=Lax;`,
     );
     res.status(201).json({ ...user });
   } catch (error) {

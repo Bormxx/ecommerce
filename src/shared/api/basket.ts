@@ -34,7 +34,7 @@ export const addProductInBacket = async (body: {
   itemId: number;
   quantity: number;
 }): Promise<{ message: string }> => {
-  const response = await fetch(`api/basket/`, {
+  const response = await fetch(`api/basket `, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

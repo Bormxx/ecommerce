@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import CategoryPage from "@/components/CategoryPage/CategoryPage";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import { Photos, Product } from "@/shared/types";
 import { useAuth } from "../../shared/hooks/useAuth";
 
 export interface TypeRequest {
-  items: Product[] | null;
+  items: Product[] | undefined;
   photos: Photos[] | null;
 }
 export default function catalog({ items, photos }: TypeRequest) {
