@@ -15,7 +15,7 @@ export const me = async () => {
 export const updateUser = async (
   body: UpdateUserSchema,
 ): Promise<{ message: string }> => {
-  const response = await fetch("api/users", {
+  const response = await fetch("api/users/me", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
