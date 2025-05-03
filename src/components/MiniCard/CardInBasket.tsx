@@ -1,19 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
-import { inter, roboto } from "@/styles/fonts";
+import { inter } from "@/styles/fonts";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+// import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import ReplaceQuantity from "./ReplaceQuantity";
+import { updateQuantityProduct } from "@/shared/api/basket";
 
 type CardInBasketProps = {
   price: number;
   title: string;
   deleteCard: () => void;
-  id: string;
+  id: number;
   quantity: number;
-  minusQuantity: (id: string) => void;
-  plusQuantity: (id: string) => void;
-  like: boolean;
-  clickLike: (id: string) => void;
+  minusQuantity: (id: number) => void;
+  plusQuantity: (id: number) => void;
+  // like: boolean;
+  clickLike: (id: number) => void;
 };
 
 export default function CardInBasket({
@@ -24,22 +26,44 @@ export default function CardInBasket({
   quantity,
   minusQuantity,
   plusQuantity,
-  like,
+  // like,
   clickLike,
 }: CardInBasketProps) {
   const formattedPrice = new Intl.NumberFormat("ru-RU").format(
     price * quantity,
   );
-  function clickMinusQuantity() {
-    minusQuantity(id);
+  function deleteCardUsedId() {
+    //тут должен быть Запрос апи для удаления товара по id
+    deleteCard();
   }
-  function clickPlusQuantity() {
-    plusQuantity(id);
-  }
+
+  const minusQuantityHere = async (productId: number, newQuantity: number) => {
+    try {
+      const result = await updateQuantityProduct(productId, {
+        quantity: newQuantity,
+      });
+      console.log("Обновление прошло успешно:", result.message);
+      minusQuantity(id);
+    } catch (error) {
+      console.error("Ошибка при обновлении количества товара:", error);
+    }
+  };
+  const plusQuantityHere = async (productId: number, newQuantity: number) => {
+    try {
+      const result = await updateQuantityProduct(productId, {
+        quantity: newQuantity,
+      });
+      console.log("Обновление прошло успешно:", result.message);
+      plusQuantity(id);
+    } catch (error) {
+      console.error("Ошибка при обновлении количества товара:", error);
+    }
+  };
+
   return (
     <div
-      id={id}
-      className="flex flex-col mt-4 border-b border-gray-200 py-3 bg-white md:rounded-xl md:p-4 md:shadow-md"
+      id={id.toString()}
+      className="mt-4 flex flex-col border-b border-gray-200 bg-white py-3 md:rounded-xl md:p-4 md:shadow-md"
     >
       <div className="flex gap-2">
         <Link href={`/${id}`}>
@@ -56,25 +80,16 @@ export default function CardInBasket({
               {title}
             </h2>
           </Link>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              className="flex size-6 items-center justify-center rounded-[4px] bg-gray-200 text-xs"
-              onClick={clickMinusQuantity}
-            >
-              -
-            </button>
-            <p className={`${roboto.className} text-base font-bold`}>
-              {quantity}
-            </p>
-            <button
-              type="button"
-              onClick={clickPlusQuantity}
-              className="flex size-6 items-center justify-center rounded-[4px] bg-gray-200 text-xs"
-            >
-              +
-            </button>
-          </div>
+          <ReplaceQuantity
+            id={id}
+            minusQuantity={() => {
+              minusQuantityHere(id, quantity - 1);
+            }}
+            plusQuantity={() => {
+              plusQuantityHere(id, quantity + 1);
+            }}
+            quantity={quantity}
+          />
         </div>
         <div className="flex flex-col">
           <span className={`${inter.className} text-end text-sm font-bold`}>
@@ -83,7 +98,7 @@ export default function CardInBasket({
           <div className="flex">
             <button
               type="button"
-              onClick={deleteCard}
+              onClick={deleteCardUsedId}
               className="flex justify-center p-2 text-blue-800"
             >
               <TrashIcon className="h-4 w-4" />
@@ -93,11 +108,11 @@ export default function CardInBasket({
               className="flex justify-center p-2 text-blue-800"
               onClick={() => clickLike(id)}
             >
-              {like ? (
-                <HeartIconSolid className="h-4 w-4" />
-              ) : (
-                <HeartIcon className="h-4 w-4" />
-              )}
+              {/* {like ? ( */}
+              {/* <HeartIconSolid className="h-4 w-4" /> */}
+              {/* ) : ( */}
+              <HeartIcon className="h-4 w-4" />
+              {/* )} */}
             </button>
           </div>
         </div>

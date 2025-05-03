@@ -11,7 +11,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 export interface TypeRequest {
-  items: Product[] | null;
+  items: Product[] | undefined;
   photos: Photos[] | null;
 }
 export default function favoritesPage({ items, photos }: TypeRequest) {

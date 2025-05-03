@@ -17,7 +17,7 @@ import FilterSwitch from "../FilterComponent/FilterSwitch";
 import Title from "../Title/Title";
 import ButtonLong from "../ui-kit/ButtonLong";
 export interface TypeRequest {
-  items: Product[] | null;
+  items: Product[] | undefined;
   photos: Photos[] | null;
 }
 

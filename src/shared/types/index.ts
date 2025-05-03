@@ -69,11 +69,6 @@ export type OrderItem = {
   quantity: number;
 };
 
-export type OrderInfo = {
-  order: Order;
-  items: OrderItem[];
-};
-
 // Корзина
 
 export type Basket = {

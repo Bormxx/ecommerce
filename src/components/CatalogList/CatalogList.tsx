@@ -1,4 +1,4 @@
-import { Photos } from "@/shared/types";
+import { BasketItem, Photos } from "@/shared/types";
 import { Product } from "../../shared/types/";
 import MiniCard from "../MiniCard/MiniCard";
 
@@ -6,12 +6,14 @@ type CatalogListProps = {
   variable: string;
   items: Product[] | undefined;
   photos: Photos[] | null;
+  productsInBasket:BasketItem[];
 };
 
 export default function CatalogList({
   variable,
   items,
   photos,
+  productsInBasket,
 }: CatalogListProps) {
   return (
     <section
@@ -27,11 +29,13 @@ export default function CatalogList({
           return (
             <MiniCard
               key={index}
+              itemId={item.id}
               title={item.title}
               price={item.price}
               img_url={img_url}
               variable={variable}
               productDetail={`/${index}`}
+              productsInBasket={productsInBasket}
             />
           );
         })

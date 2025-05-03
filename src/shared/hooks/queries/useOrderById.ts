@@ -1,4 +1,4 @@
-import { OrderInfo } from "@/shared/types/";
+import { Order } from "@/shared/types/";
 import { useQuery } from "@tanstack/react-query";
 import { getOrderById } from "../../api/order";
 
@@ -8,7 +8,7 @@ export const useOrderById = (id: number) => {
     isPending: isPendingOrder,
     isError: isErrorOrder,
     error: errorOrder,
-  } = useQuery<OrderInfo, Error>({
+  } = useQuery<Order, Error>({
     queryKey: ["orderById", id],
     queryFn: async () => getOrderById(id),
   });

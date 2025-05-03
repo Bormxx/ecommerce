@@ -17,15 +17,4 @@ export const basket = sqliteTable("basket", {
 
 export type CartItem = InferSelectModel<typeof basket>;
 
-// Избранное
-export const favorites = sqliteTable("favorites", {
-  id: integer("favoriteId").notNull().primaryKey({ autoIncrement: true }),
-  userId: integer("userId")
-    .notNull()
-    .references(() => users.id),
-  itemId: integer("itemId")
-    .notNull()
-    .references(() => items.id),
-});
 
-export type Favorite = InferSelectModel<typeof favorites>;
