@@ -8,6 +8,7 @@ import { addProductInBacket } from "@/shared/api/basket";
 import { useEffect, useState } from "react";
 import { BasketItem } from "@/shared/types";
 import ReplaceQuantity from "./ReplaceQuantity";
+import { handleToggleFavorite } from "@/shared/utils/frontend/fetch";
 // import { addProductInBacket } from "@/shared/api/basket";
 // import { useState } from "react";
 
@@ -41,7 +42,7 @@ const MiniCard = ({
   useEffect(() => {
     if (isAuthenticated && productsInBasket) {
       const item = productsInBasket.find(
-        (item: BasketItem) => item.id === itemId,
+        (item: BasketItem) => item.item.id === itemId,
       );
       if (item) {
         setQuantity(item.quantity);
@@ -51,10 +52,9 @@ const MiniCard = ({
     }
   }, [isAuthenticated, productsInBasket, itemId]);
 
-  function minusQuantity() {}
-  function plusQuantity() {}
-
-  function handleLikeClick() {}
+  function handleLikeClick() {
+    handleToggleFavorite(itemId);
+  }
 
   function addToCart() {
     setQuantity(1);
@@ -97,19 +97,18 @@ const MiniCard = ({
       </Link>
       {isAuthenticated && (
         <div className="flex items-center justify-between gap-1">
-          {quantity > 0 ? (
+          {productsInBasket && quantity > 0 ? (
             <div className="flex flex-grow gap-2">
               <Link
-                className="flex h-10 w-[calc(100%-40px)] min-w-20 flex-grow items-center justify-center gap-1 rounded-lg bg-green-500 p-2 text-white"
+                className="flex h-10 w-[calc(100%-40px)] flex-grow items-center justify-center gap-1 rounded-lg bg-green-500 p-2 text-white"
                 href="/cart"
               >
-                Перейти в <ShoppingBagIcon width={16} height={16} />
+                <ShoppingBagIcon width={16} height={16} />
               </Link>
               <ReplaceQuantity
                 id={itemId}
-                minusQuantity={minusQuantity}
-                plusQuantity={plusQuantity}
                 quantity={quantity}
+                onQuantityChange={(newQty) => setQuantity(newQty)}
               />
             </div>
           ) : (

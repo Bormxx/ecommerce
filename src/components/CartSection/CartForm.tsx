@@ -3,70 +3,66 @@ import { useRouter } from "next/navigation";
 import CardInBasket from "@/components/MiniCard/CardInBasket";
 import { inter, roboto } from "@/styles/fonts";
 import { BasketItem } from "@/shared/types";
-
+import { getProductWord } from "@/shared/utils/frontend/cartHelpers";
+import { useEffect, useState } from "react";
 
 type CartFormProps = {
   itemList: BasketItem[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setItemList: any;
-  total: number;
-  quantity: number;
 };
-export default function CartForm({
-  itemList,
-  setItemList,
-  total,
-  quantity,
-}: CartFormProps) {
+export default function CartForm({ itemList, setItemList }: CartFormProps) {
+  const [total, setTotal] = useState(
+    itemList.reduce((acc, item) => acc + item.item.price * item.quantity, 0),
+  );
   const router = useRouter();
-
   const deleteCard = (id: number) => {
+    //добавить api на удаление товара
     setItemList((prevList: BasketItem[]) =>
-      prevList.filter((item) => item.id !== id),
+      prevList.filter((item) => item.item.id !== id),
     );
   };
+  useEffect(() => {
+    const totalSum = itemList.reduce(
+      (acc, item) => acc + item.item.price * item.quantity,
+      0,
+    );
+    setTotal(totalSum);
+  }, [itemList]);
   function plusQuantity(id: number) {
     setItemList((prevList: BasketItem[]) =>
       prevList.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+        item.item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
       ),
     );
   }
+  console.log(itemList);
   const formattedTotal = new Intl.NumberFormat("ru-RU").format(total);
 
+  //добавить api на удаление товара если item.quantity = 1
   function minusQuantity(id: number) {
     setItemList((prevList: BasketItem[]) =>
-      prevList.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item,
-      ),
+      prevList
+        .map((item) =>
+          item.item.id === id
+            ? item.quantity > 1
+              ? { ...item, quantity: item.quantity - 1 }
+              : null
+            : item,
+        )
+        .filter((item): item is BasketItem => item !== null),
     );
   }
-  const clickLike = (
-    // id: number
-  ) => {
-    // setItemList((prevList: BasketItem[]) =>
-    //   prevList.map((item) =>
-    //     item.id === id ? { ...item, like: !item.like } : item,
-    //   ),
-    // );
-  };
-  function getProductWord(quantity: number) {
-    const lastDigit = quantity % 10;
-    const lastTwoDigits = quantity % 100;
 
-    if (lastDigit === 1 && lastTwoDigits !== 11) {
-      return `${quantity} товар`;
-    } else if (
-      (lastDigit === 2 || lastDigit === 3 || lastDigit === 4) &&
-      (lastTwoDigits < 12 || lastTwoDigits > 14)
-    ) {
-      return `${quantity} товара`;
-    } else {
-      return `${quantity} товаров`;
-    }
-  }
+  const clickLike = () =>
+    // id: number
+    {
+      // setItemList((prevList: BasketItem[]) =>
+      //   prevList.map((item) =>
+      //     item.id === id ? { ...item, like: !item.like } : item,
+      //   ),
+      // );
+    };
   return (
     <div className="flex w-full flex-col gap-3 md:flex-row">
       <div className="mr-2 min-w-[580px] flex-grow">
@@ -76,9 +72,9 @@ export default function CartForm({
             price={item.item.price}
             title={item.item.title}
             deleteCard={() => {
-              deleteCard(item.id);
+              deleteCard(item.itemId);
             }}
-            id={item.id}
+            id={item.itemId}
             minusQuantity={minusQuantity}
             plusQuantity={plusQuantity}
             //   image={item.image}
@@ -98,7 +94,7 @@ export default function CartForm({
             <span
               className={`${inter.className} flex items-center text-sm text-slate-400`}
             >
-              {getProductWord(quantity)}
+              {getProductWord(itemList.length)}
             </span>
           </div>
           <div className="hidden flex-col gap-4 md:flex">
@@ -107,7 +103,7 @@ export default function CartForm({
                 Ваша корзина
               </p>
               <span className={`${inter.className} text-xs text-slate-400`}>
-                {getProductWord(quantity)}
+                {getProductWord(itemList.length)}
               </span>
             </div>
             <div className="mb-2 flex items-end justify-between">

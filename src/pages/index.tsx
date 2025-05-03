@@ -1,10 +1,11 @@
 import MainSection from "@/components/MainSection/MainSection";
-import { Photos } from "@/shared/types";
+import { BasketItem, Photos } from "@/shared/types";
 import HomeContainer from "../components/HomeContainer/HomeContainer";
 import { useAuth } from "../shared/hooks/useAuth";
 import { useProducts } from "../shared/hooks/queries/useProducts";
 import { useBasket } from "@/shared/hooks/queries/useBasket";
 import { useUserStore } from "@/shared/store/auth";
+import { useEffect, useState } from "react";
 
 export interface TypeRequest {
   photos: Photos[] | null;
@@ -12,24 +13,30 @@ export interface TypeRequest {
 
 export default function Home({ photos }: TypeRequest) {
   const { products } = useProducts();
-  const { basket } = useBasket();
   const { isAuthenticated } = useUserStore();
-  console.log(basket);
+  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+  const { basket } = useBasket();
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (basket) {
+        setBasketItems(basket.items);
+      } else {
+        setBasketItems([]);
+      }
+    }
+  }, [isAuthenticated, basket]);
+
   useAuth();
 
-  if (isAuthenticated && basket) {
-    return (
-      <HomeContainer>
-        <MainSection
-          items={products}
-          photos={photos}
-          productsInBasket={basket.items}
-        />
-      </HomeContainer>
-    );
-  } else {
-    return null;
-  }
+  return (
+    <HomeContainer>
+      <MainSection
+        items={products}
+        photos={photos}
+        productsInBasket={basketItems}
+      />
+    </HomeContainer>
+  );
 }
 
 // TODO: Избавиться от getStaticProps

@@ -2,9 +2,11 @@ import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import CartSection from "@/components/CartSection/CartSection";
 import { useBasket } from "@/shared/hooks/queries/useBasket";
+// import { useEffect } from "react";
 
 export default function Cart() {
   const { basket } = useBasket();
+
   return (
     <HomeContainer>
       <div className="flex h-[90vh] pt-10">

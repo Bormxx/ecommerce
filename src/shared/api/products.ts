@@ -19,3 +19,12 @@ export const getProductById = async (idProduct: number): Promise<ProductInfo> =>
   }
   return data.items;
 };
+
+export const getFavoritesInfo = async () => {
+  const response = await fetch("/api/products/favorites");
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error);
+  }
+  return data;
+};

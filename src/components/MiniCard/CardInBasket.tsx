@@ -4,7 +4,6 @@ import { inter } from "@/styles/fonts";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 // import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import ReplaceQuantity from "./ReplaceQuantity";
-import { updateQuantityProduct } from "@/shared/api/basket";
 
 type CardInBasketProps = {
   price: number;
@@ -29,38 +28,18 @@ export default function CardInBasket({
   // like,
   clickLike,
 }: CardInBasketProps) {
-  const formattedPrice = new Intl.NumberFormat("ru-RU").format(
-    price * quantity,
-  );
+  
   function deleteCardUsedId() {
     //тут должен быть Запрос апи для удаления товара по id
     deleteCard();
   }
 
-  const minusQuantityHere = async (productId: number, newQuantity: number) => {
-    try {
-      const result = await updateQuantityProduct(productId, {
-        quantity: newQuantity,
-      });
-      console.log("Обновление прошло успешно:", result.message);
-      minusQuantity(id);
-    } catch (error) {
-      console.error("Ошибка при обновлении количества товара:", error);
-    }
-  };
-  const plusQuantityHere = async (productId: number, newQuantity: number) => {
-    console.log(productId, newQuantity);
-    try {
-      const result = await updateQuantityProduct(productId, {
-        quantity: newQuantity,
-      });
-      console.log("Обновление прошло успешно:", result.message);
-      plusQuantity(id);
-    } catch (error) {
-      console.error("Ошибка при обновлении количества товара:", error);
-    }
-  };
-
+  function minusQuantityItem() {
+    minusQuantity(id);
+  }
+  function plusQuantityItem() {
+    plusQuantity(id);
+  }
   return (
     <div
       id={id.toString()}
@@ -83,18 +62,14 @@ export default function CardInBasket({
           </Link>
           <ReplaceQuantity
             id={id}
-            minusQuantity={() => {
-              minusQuantityHere(id, quantity - 1);
-            }}
-            plusQuantity={() => {
-              plusQuantityHere(id, quantity + 1);
-            }}
             quantity={quantity}
+            plusQuantity={plusQuantityItem}
+            minusQuantity={minusQuantityItem}
           />
         </div>
         <div className="flex flex-col">
           <span className={`${inter.className} text-end text-sm font-bold`}>
-            {formattedPrice} &#8381;
+            {new Intl.NumberFormat("ru-RU").format(price * quantity)} &#8381;
           </span>
           <div className="flex">
             <button

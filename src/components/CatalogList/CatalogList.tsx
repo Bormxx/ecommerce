@@ -6,7 +6,7 @@ type CatalogListProps = {
   variable: string;
   items: Product[] | undefined;
   photos: Photos[] | null;
-  productsInBasket:BasketItem[];
+  productsInBasket: BasketItem[];
 };
 
 export default function CatalogList({

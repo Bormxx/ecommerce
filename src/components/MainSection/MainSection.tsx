@@ -14,7 +14,7 @@ import MiniCard from "../MiniCard/MiniCard";
 type MainSectionProps = {
   items: Product[] | undefined;
   photos: Photos[] | null;
-  productsInBasket: BasketItem[];
+  productsInBasket: BasketItem[] ;
 };
 export const county: number = 7 + 1;
 export default function MainSection({

@@ -1,17 +1,42 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import CategoryPage from "@/components/CategoryPage/CategoryPage";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
-import { Photos, Product } from "@/shared/types";
+import { BasketItem, Photos } from "@/shared/types";
 import { useAuth } from "../../shared/hooks/useAuth";
+import { useBasket } from "@/shared/hooks/queries/useBasket";
+import { useProducts } from "@/shared/hooks/queries/useProducts";
+import { useEffect, useState } from "react";
+import { useUserStore } from "@/shared/store/auth";
 export interface TypeRequest {
-  items: Product[] | null;
   photos: Photos[] | null;
 }
-export default function category({ items, photos }: TypeRequest) {
+export default function category({ photos }: TypeRequest) {
+  const { products } = useProducts();
+  const { isAuthenticated } = useUserStore();
+  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+  const { basket } = useBasket();
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (basket) {
+        setBasketItems(basket.items);
+      } else {
+        setBasketItems([]);
+      }
+    } else {
+      setBasketItems([]);
+    }
+  }, [isAuthenticated, basket]);
+
+ 
   useAuth();
+
   return (
     <HomeContainer>
-      <CategoryPage items={items} photos={photos} />
+      <CategoryPage
+        items={products}
+        photos={photos}
+        itemsInBasketFromApi={basketItems}
+      />
     </HomeContainer>
   );
 }
@@ -36,13 +61,10 @@ export async function getStaticPaths() {
 // TODO: Избавиться от getStaticProps
 
 export async function getStaticProps() {
-  const itemsRes = await fetch("http://localhost:3000/api/old/items");
-  const itemsReq = await itemsRes.json();
-  const items = itemsReq.request;
   const photosRes = await fetch("http://localhost:3000/api/old/photos");
   const photosReq = await photosRes.json();
   const photos = photosReq.request;
   return {
-    props: { items, photos },
+    props: { photos },
   };
 }

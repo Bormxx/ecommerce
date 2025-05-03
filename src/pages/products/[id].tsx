@@ -56,7 +56,7 @@ export default function Product({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch("http://localhost:3000/api/products");
+  const res = await fetch("http://127.0.0.1:3000/api/products");
   const data = await res.json();
   const products: Product[] = data.items;
 
@@ -73,7 +73,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<ProductPageProps> = async ({ params }) => {
-  const res = await fetch(`http://localhost:3000/api/products/${params?.id}`);
+  const res = await fetch(`http://127.0.0.1:3000/api/products/${params?.id}`);
   const data = await res.json();
   
   return {
