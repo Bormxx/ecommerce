@@ -76,9 +76,9 @@ export default function CartForm({
             price={item.item.price}
             title={item.item.title}
             deleteCard={() => {
-              deleteCard(item.id);
+              deleteCard(item.itemId);
             }}
-            id={item.id}
+            id={item.itemId}
             minusQuantity={minusQuantity}
             plusQuantity={plusQuantity}
             //   image={item.image}

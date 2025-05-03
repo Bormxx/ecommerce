@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../../api/db";
 import { and, eq } from "drizzle-orm";
 import { withAuth } from "../../../../api/utils/withAuth";
-import { favorites } from "../../../../api/models/cart";
 
 // TODO: Вроде как доп. поэтому можно вырезать пока
 // TODO: Переписать на контроллеры и сервисы. Аналогично с products/[id].ts

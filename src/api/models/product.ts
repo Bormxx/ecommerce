@@ -96,3 +96,16 @@ export const postsRelations = relations(posts, ({ one }) => ({
 export interface ItemWithMainPhoto extends Item {
   mainPhoto?: Photo; // Только основное фото
 }
+
+// Избранное
+export const favorites = sqliteTable("favorites", {
+  id: integer("favoriteId").notNull().primaryKey({ autoIncrement: true }),
+  userId: integer("userId")
+    .notNull()
+    .references(() => users.id),
+  itemId: integer("itemId")
+    .notNull()
+    .references(() => items.id),
+});
+
+export type Favorite = InferSelectModel<typeof favorites>;

@@ -32,7 +32,7 @@ export async function updateCartItemQuantityHandler(
   } catch (error) {
     if (
       error instanceof Error &&
-      error.message === "Товар в корзине не найден"
+      error.message === "Item not found in cart"
     ) {
       res.status(404).json({ error: error.message });
     } else {

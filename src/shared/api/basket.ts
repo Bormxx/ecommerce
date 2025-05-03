@@ -13,7 +13,7 @@ export const getBasketInfo = async (): Promise<Basket> => {
 // Изменить количетсов конкретного товара в корзине
 export const updateQuantityProduct = async (
   idProduct: number,
-  body: { quantity: number }, 
+  body: { quantity: number },
 ): Promise<{ message: string }> => {
   const response = await fetch(`api/basket/${idProduct}`, {
     method: "PUT",
