@@ -11,7 +11,7 @@ export const authFormSchema = z.object({
     .string({
       required_error: "Поле обязательно",
     })
-    .min(6, "Введите пароль"),
+    .min(1, "Введите пароль"),
 });
 
 export type TAuthForm = z.infer<typeof authFormSchema>;
@@ -23,12 +23,18 @@ export const registerFormSchema = z
         required_error: "Поле обязательно",
       })
       .min(1, "Введите имя")
+      .regex(/^[a-zA-Zа-яёА-ЯЁ]+$/, {
+        message: "Разрешены символы латиницы и кириллицы",
+      })
       .default(""),
     surname: z
       .string({
         required_error: "Поле обязательно",
       })
       .min(1, "Введите фамилию")
+      .regex(/^[a-zA-Zа-яёА-ЯЁ]+$/, {
+        message: "Разрешены символы латиницы и кириллицы",
+      })
       .default(""),
     email: z
       .string({

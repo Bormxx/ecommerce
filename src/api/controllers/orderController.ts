@@ -31,7 +31,6 @@ export async function createOrderHandler(
   res.status(200).json({ orderId });
 }
 
-// TODO: v2 Изменить ответ с сервера, где будет более подробный вывод списка товаров
 // Получение заказа по ID
 export async function getOrderByIdHandler(
   userId: number,

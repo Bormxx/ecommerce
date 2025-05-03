@@ -39,13 +39,3 @@ export default function catalog({ photos }: TypeRequest) {
   );
 }
 
-// TODO: Избавиться от getStaticProps
-
-export async function getStaticProps() {
-  const photosRes = await fetch("http://localhost:3000/api/old/photos");
-  const photosReq = await photosRes.json();
-  const photos = photosReq.request;
-  return {
-    props: { photos },
-  };
-}

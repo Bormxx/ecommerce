@@ -105,15 +105,3 @@ export default function FavoritesPage() {
     </ProtectedRoute>
   );
 }
-
-// export async function getStaticProps() {
-//   const favoritesApi = await fetch(
-//     "http://localhost:3000/api/products/favorites",
-//   );
-//   const favoritesReq = await favoritesApi.json();
-//   // const favorites = favoritesReq.request;
-//   return {
-//     // favoritesReq,
-//     props: { favoritesReq },
-//   };
-// }

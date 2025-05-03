@@ -1,6 +1,5 @@
 import { InferSelectModel } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { items } from "./product";
 
 // Пользователи
 export const users = sqliteTable("users", {
