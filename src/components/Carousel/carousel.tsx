@@ -11,13 +11,11 @@ type PropType = {
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { slides, options } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
+  const [emblaRef] = useEmblaCarousel(options, [Autoplay()]);
   
   return (
     <div className="mt-10 flex">
-      {/* <section className="embla"> */}
       <section className="carousel1 m-auto">
-        {/* <div className="embla__viewport pl-5" ref={emblaRef}> */}
         <div className="w-[1180px] overflow-hidden" ref={emblaRef}>
           <div className="embla__container">
             {slides.map((index, i) => (

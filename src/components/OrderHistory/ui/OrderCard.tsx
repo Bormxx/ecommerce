@@ -67,10 +67,9 @@ export function OrderCard(props: Props) {
       >
         <div className="flex flex-col">
           {order.items.map((item, index) => (
-            <>
-              <OrderProductCard key={index} product={item.item} quantity={item.quantity}/>
-              <div className="my-4 border-b border-gray-400"></div>
-            </>
+            <div key={index} className="my-4 border-b border-gray-400">
+              <OrderProductCard product={item.item} quantity={item.quantity} />
+            </div>
           ))}
         </div>
       </div>

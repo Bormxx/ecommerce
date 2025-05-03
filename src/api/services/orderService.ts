@@ -50,10 +50,17 @@ export async function getUserOrders(userId: number): Promise<OrderWithItems[]> {
         0,
       );
 
-      const { lists, ...orderWithoutLists } = order;
+      const { id, userId, comment, address, phone, isCourier, payment, createOrderDate } = order;
 
       return {
-        ...orderWithoutLists,
+        id,
+        userId,
+        comment,
+        address,
+        phone,
+        isCourier,
+        payment,
+        createOrderDate,
         items: orderItems,
         totalQuantity,
         totalPrice,
@@ -106,10 +113,17 @@ export async function getOrderById(
       0,
     );
 
-    const { lists, ...orderWithoutLists } = order;
+    const { id, userId, comment, address, phone, isCourier, payment, createOrderDate } = order;
 
     return {
-      ...orderWithoutLists,
+      id,
+      userId,
+      comment,
+      address,
+      phone,
+      isCourier,
+      payment,
+      createOrderDate,
       items: orderItems,
       totalQuantity,
       totalPrice,

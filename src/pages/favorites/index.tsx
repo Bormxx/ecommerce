@@ -72,6 +72,7 @@ export default function favoritesPage({ items, photos }: TypeRequest) {
                 variable={variableList}
                 items={items}
                 photos={photos}
+                productsInBasket={[]}
               />
             </div>
           </section>
@@ -83,7 +84,7 @@ export default function favoritesPage({ items, photos }: TypeRequest) {
 
 // TODO: Избавиться от getStaticProps
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const itemsRes = await fetch("http://localhost:3000/api/old/items");
   const itemsReq = await itemsRes.json();
   const items = itemsReq.request;

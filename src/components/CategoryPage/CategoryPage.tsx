@@ -104,7 +104,12 @@ export default function CategoryPage({ items, photos }: TypeRequest) {
               </div>
             </div>
 
-            <CatalogList variable="standart" items={items} photos={photos} />
+            <CatalogList
+              variable="standart"
+              items={items}
+              photos={photos}
+              productsInBasket={[]}
+            />
           </div>
         </main>
       </div>

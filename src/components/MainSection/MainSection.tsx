@@ -3,10 +3,9 @@ import { EmblaOptionsType } from "embla-carousel";
 import Banner from "../Banners/Banner";
 import CatalogList from "../CatalogList/CatalogList";
 import MiniBannerSection from "../MiniBannerSection/MiniBannerSection";
-
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
-import EmblaCarousel from "../../pages/carousel";
+import EmblaCarousel from "../Carousel/carousel";
 import { getItemsCarousel } from "../../shared/api/carousel";
 import { Product } from "../../shared/types/";
 import MiniCard from "../MiniCard/MiniCard";

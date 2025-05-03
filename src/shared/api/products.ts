@@ -17,5 +17,6 @@ export const getProductById = async (idProduct: number): Promise<ProductInfo> =>
   if (!response.ok) {
     throw new Error(data.error);
   }
-  return data.items;
+  console.log(data, " 123");
+  return data;
 };

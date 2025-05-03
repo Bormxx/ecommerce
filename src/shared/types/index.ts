@@ -28,9 +28,9 @@ export type Characteristic = {
 };
 
 export type Post = {
-  itemId: number;
   id: number;
   userId: number;
+  itemId: number;
   rating: number;
   post: string;
 };
