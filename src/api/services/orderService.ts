@@ -1,8 +1,6 @@
 import { basket } from "@/api/models/cart";
 import {
   lists,
-  Order,
-  OrderItem,
   orders,
   OrderWithItems,
 } from "@/api/models/order";
@@ -26,7 +24,6 @@ export async function getUserOrders(userId: number): Promise<OrderWithItems[]> {
                 photos: {
                   where: (photo, { eq }) =>
                     eq(photo.isMainPhoto, true),
-
                   limit: 1,
                 },
                 characteristics: true,
@@ -143,6 +140,7 @@ export async function createOrder(
         phone: orderData.phone,
         isCourier: orderData.isCourier,
         payment: orderData.payment,
+        createOrderDate: new Date()
       })
       .returning({ id: orders.id });
 

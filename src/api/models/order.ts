@@ -15,6 +15,7 @@ export const orders = sqliteTable("orders", {
   phone: text("phone").notNull(),
   isCourier: integer("availability", { mode: "boolean" }).notNull(),
   payment: integer("payment"),
+  createOrderDate: integer("createOrderDate", {mode: "timestamp"}).notNull(),
 });
 
 export type Order = InferSelectModel<typeof orders>;
