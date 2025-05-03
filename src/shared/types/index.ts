@@ -7,6 +7,7 @@ export type Product = {
   description: string;
   availability: boolean;
   photos?: Photo[];
+  characteristics?: Characteristic[];
 };
 
 export interface Photo {
@@ -44,7 +45,7 @@ export type ProductInfo = {
 };
 
 // Товары
-
+// TODO: Можно привести ответ в более приятный вид
 export type Order = {
   id: number;
   userId: number;
@@ -53,6 +54,12 @@ export type Order = {
   isCourier: boolean;
   phone: string;
   comment: string | null;
+  items: {
+    item: Product;
+    quantity: number;
+  }[];
+  totalQuantity: number;
+  totalPrice: number;
 };
 
 export type OrderItem = {
@@ -60,11 +67,6 @@ export type OrderItem = {
   orderId: number;
   itemId: number;
   quantity: number;
-};
-
-export type OrderInfo = {
-  order: Order;
-  items: OrderItem[];
 };
 
 // Корзина

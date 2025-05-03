@@ -13,6 +13,7 @@ import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { getCards } from "../../shared/api/card";
 import { useBasket } from "../../shared/hooks/queries/useBasket";
 import MyModal from "../Dialog/Dialog";
 import AuthModal from "../Dialog/Variants/AuthModal";
@@ -28,7 +29,6 @@ import DeliveryType from "../OrderFormsComponents/DeliveryType";
 import OrderFieldSet from "../OrderFormsComponents/OrderFieldset";
 import PaymentType from "../OrderFormsComponents/PaymentType";
 import TextAreaField from "../OrderFormsComponents/TextAreaField";
-import { getCards } from '../../shared/api/card';
 
 export default function OrderForm() {
   const [isCourier, setIsCourier] = useState(true);
@@ -56,8 +56,8 @@ export default function OrderForm() {
 
   const mutation = useMutation({
     mutationFn: (form: TOrderFormSchema) => addOrder(form),
-    onSuccess: () => {
-      router.replace("/");
+    onSuccess: (data) => {
+      router.replace(`/thx-for-order/${data.orderId}`);
     },
     onError: (err) => {
       setBlockModal(false);
