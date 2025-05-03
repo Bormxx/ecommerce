@@ -1,5 +1,12 @@
 import { basket } from "@/api/models/cart";
-import { lists, orders, OrderWithItems } from "@/api/models/order";
+import {
+  lists,
+  Order,
+  OrderItem,
+  orders,
+  OrderWithItems,
+} from "@/api/models/order";
+
 
 import { eq } from "drizzle-orm";
 import { db } from "../../api/db";
@@ -8,14 +15,18 @@ import { db } from "../../api/db";
 export async function getUserOrders(userId: number): Promise<OrderWithItems[]> {
   try {
     const userOrders = await db.query.orders.findMany({
-      where: (order, { eq }) => eq(order.userId, userId),
+      where: (order, { eq }) =>
+        eq(order.userId, userId),
+
       with: {
         lists: {
           with: {
             item: {
               with: {
                 photos: {
-                  where: (photo, { eq }) => eq(photo.isMainPhoto, true),
+                  where: (photo, { eq }) =>
+                    eq(photo.isMainPhoto, true),
+
                   limit: 1,
                 },
                 characteristics: true,
