@@ -39,13 +39,19 @@ module.exports = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/api/:path*',
+        // source: '/(.*)',
         headers: [
           {
             key: 'Content-Security-Policy',
             value: cspHeader.replace(/\n/g, ''),
           },
           { key: 'Access-Control-Allow-Methods', value: 'GET,POST,PUT,DELETE' },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Authorization, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Page, Per-Page, Total-Items',
+          },
         ]
       }
     ]
