@@ -1,6 +1,7 @@
-// src/api/db.ts
-import Database from "better-sqlite3";
-import { drizzle } from "drizzle-orm/better-sqlite3";
+// import Database from "better-sqlite3";
+// import { drizzle } from "drizzle-orm/better-sqlite3";
+import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
 import { basket } from "@/api/models/cart";
 import {
   lists,
@@ -42,5 +43,11 @@ const schema = {
   listsRelations,
 };
 
-const baza = new Database("dev.db");
-export const db = drizzle(baza, { schema });
+const turso = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN!,
+});
+export const db = drizzle(turso, {schema});
+
+// const baza = new Database("dev.db");
+// export const db = drizzle(baza, { schema });
