@@ -5,7 +5,7 @@ export default {
   out: "./migrations",
   dialect: "turso",
   dbCredentials: {
-    url: 'libsql://ecommerce-bormxx.aws-eu-west-1.turso.io',
+    url: process.env.TURSO_DATABASE_URL!,
     authToken: process.env.TURSO_AUTH_TOKEN!,
   },
 } satisfies Config;
