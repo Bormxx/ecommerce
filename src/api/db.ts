@@ -44,8 +44,8 @@ const schema = {
 };
 
 const turso = createClient({
-  url: "libsql://ecommerce-bormxx.aws-eu-west-1.turso.io",
-    authToken: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mzg5OTc3MDMsImlkIjoiZDAwNzU4ZmItYzNlNy00ZjM5LWE5YWUtMGY2NTRmMDk3MTk4In0.7I8gIV-5uXuygU7l7H4Pqv0ZtHCJniNqLH2fX69CY6u93B2nl_NZjzhKwljM4ooXOAkCyRiaQVkbssMihE4BCg",
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN!,
 });
 export const db = drizzle(turso, {schema});
 
