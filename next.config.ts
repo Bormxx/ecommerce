@@ -39,8 +39,8 @@ module.exports = {
   async headers() {
     return [
       {
-        source: '/api/:path*',
-        // source: '/(.*)',
+        // source: '/api/:path*',
+        source: '/(.*)',
         headers: [
           {
             key: 'Content-Security-Policy',

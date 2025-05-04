@@ -85,10 +85,10 @@ export default function favoritesPage({ items, photos }: TypeRequest) {
 // TODO: Избавиться от getStaticProps
 
 export async function getServerSideProps() {
-  const itemsRes = await fetch("http://localhost:3000/api/old/items");
+  const itemsRes = await fetch("/api/old/items");
   const itemsReq = await itemsRes.json();
   const items = itemsReq.request;
-  const photosRes = await fetch("http://localhost:3000/api/old/photos");
+  const photosRes = await fetch("/api/old/photos");
   const photosReq = await photosRes.json();
   const photos = photosReq.request;
   return {
