@@ -43,7 +43,7 @@ export default function MainSection({
             itemId={prod.requestItem.id}
             title={prod.requestItem.title}
             price={prod.requestItem.price}
-            img_url="/images/glasses2.jpeg"
+            img_url={prod.requestPhoto[i - i].photoLink}
             variable="standart"
             productDetail={`/${prod.requestItem.id}`}
             productsInBasket={productsInBasket}
