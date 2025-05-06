@@ -15,7 +15,7 @@ export default async function Favorites(
   if (req.method === "GET") {
       try {
         const favorites = await db.query.favorites.findMany({
-          where: (item, { eq }) => eq(item.userId, 6)
+          where: (item, { eq }) => eq(item.userId, user)
         })
         res.status(200).json({ favorites });      
       } catch (error) {
