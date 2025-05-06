@@ -3,6 +3,7 @@ import { db } from "../../../../api/db";
 import { withAuth } from "../../../../api/utils/withAuth";
 import { and, eq } from "drizzle-orm";
 import { favorites } from "../../../../api/models/product";
+import { getItemByIdHandler } from "../../../../api/controllers/productController";
 
 // TODO: Вроде как доп. поэтому можно вырезать пока
 // TODO: Переписать на контроллеры и сервисы. Аналогично с products/[id].ts
@@ -17,7 +18,9 @@ export default async function Favorites(
         const favorites = await db.query.favorites.findMany({
           where: (item, { eq }) => eq(item.userId, user)
         })
-        res.status(200).json({ favorites });      
+        const likedItemsIds = favorites.map(item => item.itemId)
+        const likedItems = await Promise.all(likedItemsIds.map(item => getItemByIdHandler(item, res)))
+        res.status(200).json({ likedItems });      
       } catch (error) {
         res.status(500).json({ access: "denied" });
       }
