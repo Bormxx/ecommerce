@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import CatalogList from "@/components/CatalogList/CatalogList";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
@@ -16,11 +15,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 export default function FavoritesPage() {
-  const { data: favorites } = useQuery({
+  const { data } = useQuery({
     queryKey: ["favoritesInfo"],
     queryFn: getFavoritesInfo,
   });
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const favorites = data?.favorites ?? [];
   const [textActiveCardsLayout, setTextActiveCardsLayout] =
     useState("Карточки");
   const [textNoActiveCardsLayout, setTextNoActiveCardsLayout] =
@@ -31,10 +31,7 @@ export default function FavoritesPage() {
   const { basket } = useBasket();
 
   useEffect(() => {
-    console.log(favorites);
     if (isAuthenticated) {
-      console.log("Ттут");
-
       if (basket) {
         setBasketItems(basket.items);
       } else {
@@ -43,7 +40,7 @@ export default function FavoritesPage() {
     } else {
       setBasketItems([]);
     }
-  }, [isAuthenticated, basket]);
+  }, [isAuthenticated, basket, favorites]);
 
   function handleClickCardsLayout() {
     if (textNoActiveCardsLayout === "Список") {
@@ -94,9 +91,9 @@ export default function FavoritesPage() {
             <div className="mt-4 w-full rounded-lg bg-white">
               <CatalogList
                 variable={variableList}
-                items={[]}
-                photos={[]}
+                items={favorites}
                 productsInBasket={basketItems}
+                favorites={favorites}
               />
             </div>
           </section>

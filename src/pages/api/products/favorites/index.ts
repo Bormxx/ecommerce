@@ -26,7 +26,8 @@ export default async function Favorites(
     try {
       const { itemId } = req.body;
       const likedItem = await db.query.favorites.findFirst({
-        where: (item, { eq }) => eq(item.itemId, Number(itemId)),
+        where: (item, { eq, and }) =>
+          and(eq(item.itemId, Number(itemId)), eq(item.userId, user)),
       });
       if (likedItem) {
         await db

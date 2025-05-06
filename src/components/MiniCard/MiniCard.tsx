@@ -6,11 +6,10 @@ import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useUserStore } from "@/shared/store/auth";
 import { addProductInBacket } from "@/shared/api/basket";
 import { useEffect, useState } from "react";
-import { BasketItem } from "@/shared/types";
+import { BasketItem, Favorites } from "@/shared/types";
 import ReplaceQuantity from "./ReplaceQuantity";
 import { handleToggleFavorite } from "@/shared/utils/frontend/fetch";
-// import { addProductInBacket } from "@/shared/api/basket";
-// import { useState } from "react";
+import { HeartIcon as HeartIconBlack } from "@heroicons/react/24/solid";
 
 interface MiniCardProps {
   title: any;
@@ -21,6 +20,7 @@ interface MiniCardProps {
   key: string | number;
   itemId: number;
   productsInBasket: BasketItem[] | undefined;
+  favorites: Favorites[] | [];
 }
 
 const MiniCard = ({
@@ -31,14 +31,19 @@ const MiniCard = ({
   productDetail,
   itemId,
   productsInBasket,
+  favorites,
 }: MiniCardProps) => {
   const { isAuthenticated } = useUserStore();
-
-  // const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const formattedPrice = new Intl.NumberFormat("ru-RU").format(price);
   const [quantity, setQuantity] = useState(0);
-  // console.log(itemId, quantity);
 
+  useEffect(() => {
+    if (isAuthenticated && favorites) {
+      const liked = favorites.some((item) => item.itemId === itemId);
+      setIsLiked(liked);
+    }
+  }, [isAuthenticated, favorites, itemId]);
   useEffect(() => {
     if (isAuthenticated && productsInBasket) {
       const item = productsInBasket.find(
@@ -53,7 +58,17 @@ const MiniCard = ({
   }, [isAuthenticated, productsInBasket, itemId]);
 
   function handleLikeClick() {
-    handleToggleFavorite(itemId);
+    // Оптимистично переключаем состояние
+    setIsLiked((prev) => !prev);
+    console.log(itemId);
+    handleToggleFavorite(itemId)
+      .then((res) => {
+        console.log("Лайк обновлён:", res);
+      })
+      .catch((err) => {
+        console.error("Ошибка при лайке:", err);
+        setIsLiked((prev) => !prev);
+      });
   }
 
   function addToCart() {
@@ -122,7 +137,11 @@ const MiniCard = ({
           )}
 
           <button type="button" className="h-6 w-6" onClick={handleLikeClick}>
-            <HeartIcon width={24} height={24} />
+            {isLiked ? (
+              <HeartIconBlack width={24} height={24} />
+            ) : (
+              <HeartIcon width={24} height={24} />
+            )}
           </button>
         </div>
       )}

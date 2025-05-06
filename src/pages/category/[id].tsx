@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import CategoryPage from "@/components/CategoryPage/CategoryPage";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import { BasketItem } from "@/shared/types";
@@ -7,49 +6,37 @@ import { useBasket } from "@/shared/hooks/queries/useBasket";
 import { useProducts } from "@/shared/hooks/queries/useProducts";
 import { useEffect, useState } from "react";
 import { useUserStore } from "@/shared/store/auth";
+import { getFavoritesInfo } from "@/shared/api/products";
+import { useQuery } from "@tanstack/react-query";
 
-export default function category() {
+export default function Category() {
   const { products } = useProducts();
   const { isAuthenticated } = useUserStore();
+  const basketQuery = useBasket();
+  const { data } = useQuery({
+    queryKey: ["favoritesInfo"],
+    queryFn: getFavoritesInfo,
+  });
+  const favorites = data?.favorites ?? [];
   const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
-  const { basket } = useBasket();
-  useAuth();
+
   useEffect(() => {
-    if (isAuthenticated) {
-      if (basket) {
-        setBasketItems(basket.items);
-      } else {
-        setBasketItems([]);
-      }
+    if (isAuthenticated && basketQuery?.basket) {
+      setBasketItems(basketQuery.basket.items);
     } else {
       setBasketItems([]);
     }
-  }, [isAuthenticated, basket]);
+  }, [isAuthenticated, basketQuery?.basket]);
+
+  useAuth();
 
   return (
     <HomeContainer>
       <CategoryPage
         items={products}
-        photos={[]}
         itemsInBasketFromApi={basketItems}
+        favorites={favorites}
       />
     </HomeContainer>
   );
 }
-// export async function getStaticPath() {
-//   const categories = [
-//     { title: "Dior" },
-//     { title: "Boss" },
-//     { title: "Ray-Ban" },
-//     { title: "Chanel" },
-//   ];
-
-//   const paths = categories.map((category) => ({
-//     params: { id: category.title.toLowerCase() },
-//   }));
-
-//   return {
-//     paths,
-//     fallback: false, // Если путь не найден, показываем 404
-//   };
-// }

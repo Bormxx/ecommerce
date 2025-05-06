@@ -1,4 +1,4 @@
-import { BasketItem, Photos, Product } from "@/shared/types";
+import { BasketItem, Favorites, Product } from "@/shared/types";
 import { inter, roboto } from "@/styles/fonts";
 import {
   AdjustmentsHorizontalIcon,
@@ -18,14 +18,14 @@ import Title from "../Title/Title";
 import ButtonLong from "../ui-kit/ButtonLong";
 export interface TypeRequest {
   items: Product[] | undefined;
-  photos: Photos[] | null;
   itemsInBasketFromApi: BasketItem[];
+  favorites: Favorites[] | [];
 }
 
 export default function CategoryPage({
   items,
-  photos,
   itemsInBasketFromApi,
+  favorites,
 }: TypeRequest) {
   const router = useRouter();
   const { id } = router.query;
@@ -112,8 +112,8 @@ export default function CategoryPage({
             <CatalogList
               variable="standart"
               items={items}
-              photos={photos}
               productsInBasket={itemsInBasketFromApi}
+              favorites={favorites}
             />
           </div>
         </main>

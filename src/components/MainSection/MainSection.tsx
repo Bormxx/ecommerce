@@ -1,31 +1,31 @@
-import { BasketItem, Photos } from "@/shared/types";
-import { EmblaOptionsType } from "embla-carousel";
+import { BasketItem, Favorites } from "@/shared/types";
+// import { EmblaOptionsType } from "embla-carousel";
 import Banner from "../Banners/Banner";
 import CatalogList from "../CatalogList/CatalogList";
 import MiniBannerSection from "../MiniBannerSection/MiniBannerSection";
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
-import EmblaCarousel from "../Carousel/carousel";
 import { getItemsCarousel } from "../../shared/api/carousel";
 import { Product } from "../../shared/types/";
 import MiniCard from "../MiniCard/MiniCard";
+import EmblaCarousel from "../Carousel/Carousel";
 
 type MainSectionProps = {
   items: Product[] | undefined;
-  photos: Photos[] | null;
   productsInBasket: BasketItem[];
+  favorites: Favorites[] | [];
 };
 export const county: number = 7 + 1;
 export default function MainSection({
   items,
-  photos,
   productsInBasket,
+  favorites,
 }: MainSectionProps) {
   const prod = useQuery({
     queryKey: ["getItemsCarousel"],
     queryFn: getItemsCarousel,
   });
-  const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
+  // const OPTIONS: EmblaOptionsType = { align: "start", loop: true };
   const SLIDE_COUNT = county;
   const SLIDE: ReactNode[] = [];
   prod.data?.data.map(
@@ -36,6 +36,7 @@ export default function MainSection({
       },
       i: number,
     ) => {
+     
       if (i + 1 < SLIDE_COUNT) {
         SLIDE.push(
           <MiniCard
@@ -43,10 +44,11 @@ export default function MainSection({
             itemId={prod.requestItem.id}
             title={prod.requestItem.title}
             price={prod.requestItem.price}
-            img_url="/images/glasses2.jpeg"
+            img_url={prod.requestPhoto[0].photoLink}
             variable="standart"
             productDetail={`/${prod.requestItem.id}`}
             productsInBasket={productsInBasket}
+            favorites={favorites}
           />,
         );
       }
@@ -54,15 +56,15 @@ export default function MainSection({
   );
   return (
     <div className="mx-5 mb-28 flex flex-col gap-3 md:mx-0 md:mb-0 md:w-full md:gap-6">
-      <Banner />
+      <Banner items={items} />
       {/* <Carousel /> */}
-      <EmblaCarousel slides={SLIDE} options={OPTIONS} />
-      <MiniBannerSection />
+      <EmblaCarousel slides={SLIDE}  />
+      <MiniBannerSection items={items} />
       <CatalogList
         variable="standart"
         items={items}
-        photos={photos}
         productsInBasket={productsInBasket}
+        favorites={favorites}
       />
     </div>
   );

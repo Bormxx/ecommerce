@@ -2,22 +2,37 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import CardInBasket from "@/components/MiniCard/CardInBasket";
 import { inter, roboto } from "@/styles/fonts";
-import { BasketItem } from "@/shared/types";
+import { BasketItem, Favorites } from "@/shared/types";
 import { getProductWord } from "@/shared/utils/frontend/cartHelpers";
 import { useEffect, useState } from "react";
+import { updateQuantityProduct } from "@/shared/api/basket";
 
 type CartFormProps = {
   itemList: BasketItem[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setItemList: any;
+  favorites: Favorites[] | [];
 };
-export default function CartForm({ itemList, setItemList }: CartFormProps) {
+export default function CartForm({
+  itemList,
+  setItemList,
+  favorites,
+}: CartFormProps) {
   const [total, setTotal] = useState(
     itemList.reduce((acc, item) => acc + item.item.price * item.quantity, 0),
   );
+
   const router = useRouter();
-  const deleteCard = (id: number) => {
-    //добавить api на удаление товара
+  const deleteCard = async (id: number) => {
+    try {
+      const result = await updateQuantityProduct(id, {
+        quantity: 0,
+      });
+      console.log("Товар удален успешно:", result.message);
+    } catch (error) {
+      console.error("Ошибка при удалении товара:", error);
+    }
+
     setItemList((prevList: BasketItem[]) =>
       prevList.filter((item) => item.item.id !== id),
     );
@@ -36,7 +51,7 @@ export default function CartForm({ itemList, setItemList }: CartFormProps) {
       ),
     );
   }
-  console.log(itemList);
+
   const formattedTotal = new Intl.NumberFormat("ru-RU").format(total);
 
   //добавить api на удаление товара если item.quantity = 1
@@ -54,18 +69,9 @@ export default function CartForm({ itemList, setItemList }: CartFormProps) {
     );
   }
 
-  const clickLike = () =>
-    // id: number
-    {
-      // setItemList((prevList: BasketItem[]) =>
-      //   prevList.map((item) =>
-      //     item.id === id ? { ...item, like: !item.like } : item,
-      //   ),
-      // );
-    };
   return (
     <div className="flex w-full flex-col gap-3 md:flex-row">
-      <div className="mr-2 min-w-[580px] flex-grow">
+      <div className="mr-2 flex-grow">
         {itemList.map((item) => (
           <CardInBasket
             key={item.id}
@@ -78,10 +84,8 @@ export default function CartForm({ itemList, setItemList }: CartFormProps) {
             minusQuantity={minusQuantity}
             plusQuantity={plusQuantity}
             //   image={item.image}
-            //   deliveryTime={item.deliveryTime}
             quantity={item.quantity}
-            // like={item.like}
-            clickLike={clickLike}
+            favorites={favorites}
           />
         ))}
       </div>

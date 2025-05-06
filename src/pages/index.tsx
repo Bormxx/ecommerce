@@ -1,30 +1,33 @@
 import MainSection from "@/components/MainSection/MainSection";
-import { BasketItem, Photos } from "@/shared/types";
+import { BasketItem } from "@/shared/types";
 import HomeContainer from "../components/HomeContainer/HomeContainer";
 import { useAuth } from "../shared/hooks/useAuth";
 import { useProducts } from "../shared/hooks/queries/useProducts";
 import { useBasket } from "@/shared/hooks/queries/useBasket";
 import { useUserStore } from "@/shared/store/auth";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getFavoritesInfo } from "@/shared/api/products";
 
-export interface TypeRequest {
-  photos: Photos[] | null;
-}
-
-export default function Home({ photos }: TypeRequest) {
+export default function Home() {
   const { products } = useProducts();
+  console.log(products);
   const { isAuthenticated } = useUserStore();
+  const basketQuery = useBasket();
+  const { data } = useQuery({
+    queryKey: ["favoritesInfo"],
+    queryFn: getFavoritesInfo,
+  });
+  const favorites = data?.favorites ?? [];
   const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
-  const { basket } = useBasket();
+
   useEffect(() => {
-    if (isAuthenticated) {
-      if (basket) {
-        setBasketItems(basket.items);
-      } else {
-        setBasketItems([]);
-      }
+    if (isAuthenticated && basketQuery?.basket) {
+      setBasketItems(basketQuery.basket.items);
+    } else {
+      setBasketItems([]);
     }
-  }, [isAuthenticated, basket]);
+  }, [isAuthenticated, basketQuery?.basket]);
 
   useAuth();
 
@@ -32,20 +35,9 @@ export default function Home({ photos }: TypeRequest) {
     <HomeContainer>
       <MainSection
         items={products}
-        photos={photos}
         productsInBasket={basketItems}
+        favorites={favorites}
       />
     </HomeContainer>
   );
-}
-
-// TODO: Избавиться от getStaticProps
-
-export async function getServerSideProps() {
-  const photosRes = await fetch("http://localhost:3000/api/old/photos");
-  const photosReq = await photosRes.json();
-  const photos = photosReq.request;
-  return {
-    props: { photos },
-  };
 }

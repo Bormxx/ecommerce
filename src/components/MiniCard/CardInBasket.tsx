@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { inter } from "@/styles/fonts";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
-// import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import ReplaceQuantity from "./ReplaceQuantity";
+import { useEffect, useState } from "react";
+import { Favorites } from "@/shared/types";
 
 type CardInBasketProps = {
   price: number;
@@ -13,8 +15,7 @@ type CardInBasketProps = {
   quantity: number;
   minusQuantity: (id: number) => void;
   plusQuantity: (id: number) => void;
-  // like: boolean;
-  clickLike: (id: number) => void;
+  favorites: Favorites[] | [];
 };
 
 export default function CardInBasket({
@@ -25,10 +26,16 @@ export default function CardInBasket({
   quantity,
   minusQuantity,
   plusQuantity,
-  // like,
-  clickLike,
+  favorites,
 }: CardInBasketProps) {
-  
+  const [isLiked, setIsLiked] = useState(false);
+  useEffect(() => {
+    if (favorites) {
+      const liked = favorites.some((item) => item.itemId === id);
+      setIsLiked(liked);
+    }
+  }, [favorites, id]);
+
   function deleteCardUsedId() {
     //тут должен быть Запрос апи для удаления товара по id
     deleteCard();
@@ -40,6 +47,7 @@ export default function CardInBasket({
   function plusQuantityItem() {
     plusQuantity(id);
   }
+  function clickLike() {}
   return (
     <div
       id={id.toString()}
@@ -82,13 +90,13 @@ export default function CardInBasket({
             <button
               type="button"
               className="flex justify-center p-2 text-blue-800"
-              onClick={() => clickLike(id)}
+              onClick={clickLike}
             >
-              {/* {like ? ( */}
-              {/* <HeartIconSolid className="h-4 w-4" /> */}
-              {/* ) : ( */}
-              <HeartIcon className="h-4 w-4" />
-              {/* )} */}
+              {isLiked ? (
+                <HeartIconSolid className="h-4 w-4" />
+              ) : (
+                <HeartIcon className="h-4 w-4" />
+              )}
             </button>
           </div>
         </div>
