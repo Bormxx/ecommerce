@@ -18,8 +18,7 @@ export default async function Favorites(
         const favorites = await db.query.favorites.findMany({
           where: (item, { eq }) => eq(item.userId, user)
         })
-        const likedItemsIds = favorites.map(item => item.itemId)
-        const likedItems = await Promise.all(likedItemsIds.map(item => getItemByIdHandler(item, res)))
+        const likedItems = await Promise.all(favorites.map(item => getItemByIdHandler(item.itemId, res)))
         res.status(200).json({ likedItems });      
       } catch (error) {
         res.status(500).json({ access: "denied" });
