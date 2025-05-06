@@ -19,7 +19,7 @@ export default async function Favorites(
           where: (item, { eq }) => eq(item.userId, user)
         })
         const likedItems = await Promise.all(favorites.map(item => getItemByIdHandler(item.itemId, res)))
-        return res.status(200).json({favorites, likedItems });
+        res.status(200).json({favorites, likedItems });
       } catch (error) {
         res.status(500).json({ access: "denied" });
       }
