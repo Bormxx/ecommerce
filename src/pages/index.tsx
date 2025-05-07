@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getFavoritesInfo } from "@/shared/api/products";
 
+
 export default function Home() {
   const { products } = useProducts();
   const { isAuthenticated } = useUserStore();
@@ -27,6 +28,7 @@ export default function Home() {
       setBasketItems([]);
     }
   }, [isAuthenticated, basketQuery?.basket]);
+
 
   useAuth();
 

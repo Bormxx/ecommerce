@@ -37,6 +37,7 @@ export async function createUserHandler(
     );
     res.status(201).json({ ...user });
   } catch (error) {
+    console.log(error);
     if (
       error instanceof Error &&
       error.message ===
