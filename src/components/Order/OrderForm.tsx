@@ -1,0 +1,197 @@
+import { addOrder } from "@/shared/api/order";
+import { storages } from "@/shared/consts/consts";
+import {
+  TOrderFormSchema,
+  TOrderSchema,
+  orderSchema,
+} from "@/shared/types/schemas/order";
+import { cn } from "@/shared/utils/frontend/cn";
+import { modifyOrderData } from "@/shared/utils/frontend/dataModifiers";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { DateTime } from "luxon";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { getCards } from "../../shared/api/card";
+import { useBasket } from "../../shared/hooks/queries/useBasket";
+import MyModal from "../Dialog/Dialog";
+import AuthModal from "../Dialog/Variants/AuthModal";
+import CardDataModal from "../Dialog/Variants/CardDataModal";
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
+import AddressSection from "../OrderFormsComponents/AddressSection";
+import CartSubmitDetails from "../OrderFormsComponents/CartDetails/CartSubmitDetails";
+import CartSubmitField from "../OrderFormsComponents/CartSubmitField";
+import ClientInfoSection from "../OrderFormsComponents/ClientInfoSection";
+import ComboboxCustom from "../OrderFormsComponents/ComboboxCustom";
+import DeliveryDate from "../OrderFormsComponents/DeliveryDate";
+import DeliveryType from "../OrderFormsComponents/DeliveryType";
+import OrderFieldSet from "../OrderFormsComponents/OrderFieldset";
+import PaymentType from "../OrderFormsComponents/PaymentType";
+import TextAreaField from "../OrderFormsComponents/TextAreaField";
+
+export default function OrderForm() {
+  const [isCourier, setIsCourier] = useState(true);
+  const [city, setCity] = useState("Москва");
+  const [isOpened, setIsOpened] = useState(false);
+
+  const [number, setNumber] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [cvv, setCvv] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [blockModal, setBlockModal] = useState(false);
+  const [blockButton, setBlockButton] = useState(true);
+
+  const router = useRouter();
+
+  const { data } = useQuery({
+    queryKey: ["cards"],
+    queryFn: getCards,
+  });
+
+  const { basket, isPendingBasket, isErrorBasket } = useBasket();
+
+  const mutation = useMutation({
+    mutationFn: (form: TOrderFormSchema) => addOrder(form),
+    onSuccess: (data) => {
+      router.replace(`/thx-for-order/${data.orderId}`);
+    },
+    onError: (err) => {
+      setBlockModal(false);
+      setErrorMessage(err.message);
+      setBlockButton(true);
+    },
+    onMutate: () => {
+      setBlockModal(true);
+      setIsOpened(true);
+    },
+  });
+
+  const {
+    handleSubmit,
+    control,
+    trigger,
+    formState: { isValid },
+  } = useForm<TOrderSchema>({
+    resolver: zodResolver(orderSchema),
+    mode: "all",
+  });
+
+  const deliveryDate = DateTime.now()
+    .reconfigure({ locale: "ru" })
+    .plus({ day: 2 })
+    .toLocaleString(DateTime.DATE_FULL);
+
+  if (isErrorBasket || (basket && basket?.totalQuantity < 1)) {
+    router.replace("/");
+    return null;
+  }
+
+  if (isPendingBasket) {
+    return (
+      <div className="grow place-content-center place-items-center bg-slate-50">
+        <LoadingIcon />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <section>
+        <form
+          onSubmit={handleSubmit((data) => {
+            setBlockButton(false);
+            mutation.mutate(modifyOrderData(data));
+          })}
+          className="flex flex-col items-center justify-center sm:gap-5 sm:pt-5 md:pt-0 lg:flex-row lg:items-baseline"
+        >
+          <div className="flex w-full max-w-[598px] flex-col gap-6 p-5 sm:p-0">
+            <OrderFieldSet header={"Способ оплаты"}>
+              <PaymentType
+                control={control}
+                name={"payment"}
+                openFn={setIsOpened}
+                cards={data}
+              />
+            </OrderFieldSet>
+
+            <OrderFieldSet header={"Способ доставки"}>
+              <div
+                className={cn(
+                  "flex flex-col gap-4 rounded-xl bg-white p-4 shadow-custom sm:gap-6 sm:rounded-none sm:bg-transparent sm:p-0 sm:shadow-none",
+                )}
+              >
+                <DeliveryType
+                  control={control}
+                  name={"isCourier"}
+                  openFn={setIsCourier}
+                />
+                <div className="flex flex-col-reverse gap-4 sm:flex-col sm:gap-6">
+                  <AddressSection
+                    isCourier={isCourier}
+                    city={city}
+                    storageAddress={storages[city]}
+                    name={"address"}
+                    control={control}
+                  >
+                    <ComboboxCustom
+                      control={control}
+                      name={"city"}
+                      openFn={setCity}
+                    />
+                  </AddressSection>
+                  <DeliveryDate deliveryDate={deliveryDate} />
+                </div>
+              </div>
+            </OrderFieldSet>
+
+            <OrderFieldSet header={"Получатель"}>
+              <div className="flex flex-col gap-4 rounded-xl bg-white p-4 shadow-custom sm:gap-4 sm:rounded-none sm:bg-transparent sm:p-0 sm:shadow-none">
+                <ClientInfoSection control={control} name={"phone"} />
+                <TextAreaField name="comment" control={control} />
+              </div>
+            </OrderFieldSet>
+          </div>
+          <CartSubmitField
+            trigger={trigger}
+            title={"Ваш заказ"}
+            items={basket?.totalQuantity ?? 0}
+            isDisabled={isValid && blockButton}
+          >
+            <CartSubmitDetails cost={`${basket?.totalPrice ?? 0}`} />
+          </CartSubmitField>
+        </form>
+      </section>
+      <MyModal isTrue={isOpened} closeFn={setIsOpened} isBlocked={blockModal}>
+        {mutation.isPending || mutation.isSuccess ? (
+          <LoadingIcon />
+        ) : mutation.isError ? (
+          <AuthModal
+            isTrue={isOpened}
+            errorMessage={errorMessage}
+            closeFn={setIsOpened}
+          />
+        ) : (
+          <CardDataModal
+            states={{
+              number,
+              month,
+              year,
+              cvv,
+              setNumber,
+              setMonth,
+              setYear,
+              setCvv,
+            }}
+            closeFn={setIsOpened}
+            isOpened={isOpened}
+            blockModalFunc={setBlockModal}
+          />
+        )}
+      </MyModal>
+    </>
+  );
+}

@@ -1,13 +1,51 @@
-import { AcademicCapIcon } from "@heroicons/react/24/outline";
+import MainSection from "@/components/MainSection/MainSection";
+import { BasketItem, Photos } from "@/shared/types";
+import HomeContainer from "../components/HomeContainer/HomeContainer";
+import { useAuth } from "../shared/hooks/useAuth";
+import { useProducts } from "../shared/hooks/queries/useProducts";
+import { useBasket } from "@/shared/hooks/queries/useBasket";
+import { useUserStore } from "@/shared/store/auth";
+import { useEffect, useState } from "react";
 
-export default function Home() {
+export interface TypeRequest {
+  photos: Photos[] | null;
+}
+
+export default function Home({ photos }: TypeRequest) {
+  const { products } = useProducts();
+  const { isAuthenticated } = useUserStore();
+  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+  const { basket } = useBasket();
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (basket) {
+        setBasketItems(basket.items);
+      } else {
+        setBasketItems([]);
+      }
+    }
+  }, [isAuthenticated, basket]);
+
+  useAuth();
+
   return (
-    <div className="flex">
-      <div className="m-auto mt-10 flex">
-        <AcademicCapIcon className="size-10 mr-5" />
-        <h1 className="text-center text-3xl font-bold">Стартовая страница.</h1>
-        <AcademicCapIcon className="size-10 ml-5" />
-      </div>
-    </div>
+    <HomeContainer>
+      <MainSection
+        items={products}
+        photos={photos}
+        productsInBasket={basketItems}
+      />
+    </HomeContainer>
   );
+}
+
+// TODO: Избавиться от getStaticProps
+
+export async function getServerSideProps() {
+  const photosRes = await fetch(`${process.env.SITE_URL}/api/old/photos`);
+  const photosReq = await photosRes.json();
+  const photos = photosReq.request;
+  return {
+    props: { photos },
+  };
 }
