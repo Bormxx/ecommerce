@@ -19,26 +19,36 @@ export default async function Favorites(
           where: (item, { eq }) => eq(item.userId, user)
         })
         const likedItems = await Promise.all(favorites.map(item => getItemByIdHandler(item.itemId, res)))
-        console.log(favorites)
-        console.log(likedItems)
         res.status(200).json({ likedItems });
       } catch (error) {
         res.status(500).json({ access: "denied" });
       }
     }
-    if (req.method === "POST") {
+  }
+  if (req.method === "POST") {
     try {
-      const {itemId} = req.body
+      const { itemId } = req.body;
       const likedItem = await db.query.favorites.findFirst({
-        where: (item, { eq }) => eq(item.itemId, Number(itemId)),
-      })
-      if(likedItem){
-        await db.delete(favorites).where(and(eq(favorites.userId, user), eq(favorites.itemId, Number(itemId)))).execute()
-        return res.status(200).json({message: "Лайк удалён"})
-      }
-      else {
-        await db.insert(favorites).values({userId: user, itemId: itemId}).execute();
-        return res.status(200).json({message: "Лайк поставлен"})
+        where: (item, { eq, and }) =>
+          and(eq(item.itemId, Number(itemId)), eq(item.userId, user)),
+      });
+      if (likedItem) {
+        await db
+          .delete(favorites)
+          .where(
+            and(
+              eq(favorites.userId, user),
+              eq(favorites.itemId, Number(itemId)),
+            ),
+          )
+          .execute();
+        return res.status(200).json({ message: "Лайк удалён" });
+      } else {
+        await db
+          .insert(favorites)
+          .values({ userId: user, itemId: itemId })
+          .execute();
+        return res.status(200).json({ message: "Лайк поставлен" });
       }
     } catch (error) {
       return res.status(500).json({ access: "denied" });

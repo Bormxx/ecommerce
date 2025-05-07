@@ -1,25 +1,46 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import CatalogList from "@/components/CatalogList/CatalogList";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Title from "@/components/Title/Title";
+import { getFavoritesInfo } from "@/shared/api/products";
+import { useBasket } from "@/shared/hooks/queries/useBasket";
 import { useProtectedRoute } from "@/shared/hooks/useProtectedRoute";
-import { Photos, Product } from "@/shared/types";
+import { useUserStore } from "@/shared/store/auth";
+import { BasketItem } from "@/shared/types";
 import { inter } from "@/styles/fonts";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
-export interface TypeRequest {
-  items: Product[] | undefined;
-  photos: Photos[] | null;
-}
-export default function favoritesPage({ items, photos }: TypeRequest) {
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+
+export default function FavoritesPage() {
+  const { data } = useQuery({
+    queryKey: ["favoritesInfo"],
+    queryFn: getFavoritesInfo,
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const favorites = data?.favorites ?? [];
   const [textActiveCardsLayout, setTextActiveCardsLayout] =
     useState("Карточки");
   const [textNoActiveCardsLayout, setTextNoActiveCardsLayout] =
     useState("Список");
   const [variableList, setVariableList] = useState("standart");
+  const { isAuthenticated } = useUserStore();
+  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+  const { basket } = useBasket();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (basket) {
+        setBasketItems(basket.items);
+      } else {
+        setBasketItems([]);
+      }
+    } else {
+      setBasketItems([]);
+    }
+  }, [isAuthenticated, basket, favorites]);
 
   function handleClickCardsLayout() {
     if (textNoActiveCardsLayout === "Список") {
@@ -70,9 +91,9 @@ export default function favoritesPage({ items, photos }: TypeRequest) {
             <div className="mt-4 w-full rounded-lg bg-white">
               <CatalogList
                 variable={variableList}
-                items={items}
-                photos={photos}
-                productsInBasket={[]}
+                items={favorites}
+                productsInBasket={basketItems}
+                favorites={favorites}
               />
             </div>
           </section>
@@ -80,18 +101,4 @@ export default function favoritesPage({ items, photos }: TypeRequest) {
       </HomeContainer>
     </ProtectedRoute>
   );
-}
-
-// TODO: Избавиться от getStaticProps
-
-export async function getServerSideProps() {
-  const itemsRes = await fetch(`${process.env.SITE_URL}/api/old/items`);
-  const itemsReq = await itemsRes.json();
-  const items = itemsReq.request;
-  const photosRes = await fetch(`${process.env.SITE_URL}/api/old/photos`);
-  const photosReq = await photosRes.json();
-  const photos = photosReq.request;
-  return {
-    props: { items, photos },
-  };
 }

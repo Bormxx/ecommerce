@@ -2,9 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { inter } from "@/styles/fonts";
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
-// import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import ReplaceQuantity from "./ReplaceQuantity";
-import { updateQuantityProduct } from "@/shared/api/basket";
+import { useEffect, useState } from "react";
+import { Favorites } from "@/shared/types";
 
 type CardInBasketProps = {
   price: number;
@@ -14,8 +15,7 @@ type CardInBasketProps = {
   quantity: number;
   minusQuantity: (id: number) => void;
   plusQuantity: (id: number) => void;
-  // like: boolean;
-  clickLike: (id: number) => void;
+  favorites: Favorites[] | [];
 };
 
 export default function CardInBasket({
@@ -26,44 +26,32 @@ export default function CardInBasket({
   quantity,
   minusQuantity,
   plusQuantity,
-  // like,
-  clickLike,
+  favorites,
 }: CardInBasketProps) {
-  const formattedPrice = new Intl.NumberFormat("ru-RU").format(
-    price * quantity,
-  );
+  const [isLiked, setIsLiked] = useState(false);
+  useEffect(() => {
+    if (favorites) {
+      const liked = favorites.some((item) => item.itemId === id);
+      setIsLiked(liked);
+    }
+  }, [favorites, id]);
+
   function deleteCardUsedId() {
     //тут должен быть Запрос апи для удаления товара по id
     deleteCard();
   }
 
-  const minusQuantityHere = async (productId: number, newQuantity: number) => {
-    try {
-      const result = await updateQuantityProduct(productId, {
-        quantity: newQuantity,
-      });
-      console.log("Обновление прошло успешно:", result.message);
-      minusQuantity(id);
-    } catch (error) {
-      console.error("Ошибка при обновлении количества товара:", error);
-    }
-  };
-  const plusQuantityHere = async (productId: number, newQuantity: number) => {
-    try {
-      const result = await updateQuantityProduct(productId, {
-        quantity: newQuantity,
-      });
-      console.log("Обновление прошло успешно:", result.message);
-      plusQuantity(id);
-    } catch (error) {
-      console.error("Ошибка при обновлении количества товара:", error);
-    }
-  };
-
+  function minusQuantityItem() {
+    minusQuantity(id);
+  }
+  function plusQuantityItem() {
+    plusQuantity(id);
+  }
+  function clickLike() {}
   return (
     <div
       id={id.toString()}
-      className="mt-4 flex flex-col border-b border-gray-200 bg-white py-3 md:rounded-xl md:p-4 md:shadow-md"
+      className="mt-4 flex flex-col border-b border-gray-200 bg-none py-3 md:rounded-xl md:bg-white md:p-4 md:shadow-md"
     >
       <div className="flex gap-2">
         <Link href={`/${id}`}>
@@ -82,18 +70,14 @@ export default function CardInBasket({
           </Link>
           <ReplaceQuantity
             id={id}
-            minusQuantity={() => {
-              minusQuantityHere(id, quantity - 1);
-            }}
-            plusQuantity={() => {
-              plusQuantityHere(id, quantity + 1);
-            }}
             quantity={quantity}
+            plusQuantity={plusQuantityItem}
+            minusQuantity={minusQuantityItem}
           />
         </div>
         <div className="flex flex-col">
           <span className={`${inter.className} text-end text-sm font-bold`}>
-            {formattedPrice} &#8381;
+            {new Intl.NumberFormat("ru-RU").format(price * quantity)} &#8381;
           </span>
           <div className="flex">
             <button
@@ -106,13 +90,13 @@ export default function CardInBasket({
             <button
               type="button"
               className="flex justify-center p-2 text-blue-800"
-              onClick={() => clickLike(id)}
+              onClick={clickLike}
             >
-              {/* {like ? ( */}
-              {/* <HeartIconSolid className="h-4 w-4" /> */}
-              {/* ) : ( */}
-              <HeartIcon className="h-4 w-4" />
-              {/* )} */}
+              {isLiked ? (
+                <HeartIconSolid className="h-4 w-4" />
+              ) : (
+                <HeartIcon className="h-4 w-4" />
+              )}
             </button>
           </div>
         </div>

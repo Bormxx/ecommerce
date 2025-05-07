@@ -6,10 +6,10 @@ import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useUserStore } from "@/shared/store/auth";
 import { addProductInBacket } from "@/shared/api/basket";
 import { useEffect, useState } from "react";
-import { BasketItem } from "@/shared/types";
+import { BasketItem, Favorites } from "@/shared/types";
 import ReplaceQuantity from "./ReplaceQuantity";
-// import { addProductInBacket } from "@/shared/api/basket";
-// import { useState } from "react";
+import { handleToggleFavorite } from "@/shared/utils/frontend/fetch";
+import { HeartIcon as HeartIconBlack } from "@heroicons/react/24/solid";
 
 interface MiniCardProps {
   title: any;
@@ -20,6 +20,7 @@ interface MiniCardProps {
   key: string | number;
   itemId: number;
   productsInBasket: BasketItem[] | undefined;
+  favorites: Favorites[] | [];
 }
 
 const MiniCard = ({
@@ -30,18 +31,23 @@ const MiniCard = ({
   productDetail,
   itemId,
   productsInBasket,
+  favorites,
 }: MiniCardProps) => {
   const { isAuthenticated } = useUserStore();
-
-  // const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const formattedPrice = new Intl.NumberFormat("ru-RU").format(price);
   const [quantity, setQuantity] = useState(0);
-  // console.log(itemId, quantity);
 
+  useEffect(() => {
+    if (isAuthenticated && favorites) {
+      const liked = favorites.some((item) => item.itemId === itemId);
+      setIsLiked(liked);
+    }
+  }, [isAuthenticated, favorites, itemId]);
   useEffect(() => {
     if (isAuthenticated && productsInBasket) {
       const item = productsInBasket.find(
-        (item: BasketItem) => item.id === itemId,
+        (item: BasketItem) => item.item.id === itemId,
       );
       if (item) {
         setQuantity(item.quantity);
@@ -51,10 +57,18 @@ const MiniCard = ({
     }
   }, [isAuthenticated, productsInBasket, itemId]);
 
-  function minusQuantity() {}
-  function plusQuantity() {}
-
-  function handleLikeClick() {}
+  function handleLikeClick() {
+    // Оптимистично переключаем состояние
+    setIsLiked((prev) => !prev);
+    handleToggleFavorite(itemId)
+      .then((res) => {
+        console.log("Лайк обновлён:", res);
+      })
+      .catch((err) => {
+        console.error("Ошибка при лайке:", err);
+        setIsLiked((prev) => !prev);
+      });
+  }
 
   function addToCart() {
     setQuantity(1);
@@ -96,20 +110,19 @@ const MiniCard = ({
         </span>
       </Link>
       {isAuthenticated && (
-        <div className="flex items-center justify-between gap-1">
-          {quantity > 0 ? (
-            <div className="flex flex-grow gap-2">
-              <Link
-                className="flex h-10 w-[calc(100%-40px)] min-w-20 flex-grow items-center justify-center gap-1 rounded-lg bg-green-500 p-2 text-white"
+        <div className="flex h-10 items-center justify-between gap-1">
+          {productsInBasket && quantity > 0 ? (
+            <div className="flex flex-grow justify-end gap-2">
+              {/* <Link
+                className="flex h-10 w-[calc(100%-40px)] flex-grow items-center justify-center gap-1 rounded-lg bg-green-500 p-2 text-white"
                 href="/cart"
               >
-                Перейти в <ShoppingBagIcon width={16} height={16} />
-              </Link>
+                <ShoppingBagIcon width={16} height={16} />
+              </Link> */}
               <ReplaceQuantity
                 id={itemId}
-                minusQuantity={minusQuantity}
-                plusQuantity={plusQuantity}
                 quantity={quantity}
+                onQuantityChange={(newQty) => setQuantity(newQty)}
               />
             </div>
           ) : (
@@ -123,7 +136,11 @@ const MiniCard = ({
           )}
 
           <button type="button" className="h-6 w-6" onClick={handleLikeClick}>
-            <HeartIcon width={24} height={24} />
+            {isLiked ? (
+              <HeartIconBlack width={24} height={24} />
+            ) : (
+              <HeartIcon width={24} height={24} />
+            )}
           </button>
         </div>
       )}

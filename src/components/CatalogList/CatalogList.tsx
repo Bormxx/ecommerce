@@ -1,30 +1,29 @@
-import { BasketItem, Photos } from "@/shared/types";
+import { BasketItem, Favorites } from "@/shared/types";
 import { Product } from "../../shared/types/";
 import MiniCard from "../MiniCard/MiniCard";
 
 type CatalogListProps = {
   variable: string;
   items: Product[] | undefined;
-  photos: Photos[] | null;
-  productsInBasket:BasketItem[];
+  productsInBasket: BasketItem[];
+  favorites: Favorites[] | [];
 };
 
 export default function CatalogList({
   variable,
   items,
-  photos,
   productsInBasket,
+  favorites,
 }: CatalogListProps) {
   return (
     <section
-      className={`grid-list w-full gap-2 md:gap-5 ${variable === "horizontal" ? "flex flex-col" : "grid"}`}
+      className={`grid-list w-full gap-2 ${variable === "horizontal" ? "flex flex-col" : "grid"} md:gap-5`}
     >
       {items ? (
         items.map((item, index) => {
-          const photo = photos
-            ? photos.find((photo) => photo.itemId === item.id)
-            : null;
-          const img_url = photo ? photo.photoLink : "";
+          const photoLink = item.photos
+            ? item.photos.map((photo) => photo.photoLink)[0]
+            : "";
 
           return (
             <MiniCard
@@ -32,10 +31,11 @@ export default function CatalogList({
               itemId={item.id}
               title={item.title}
               price={item.price}
-              img_url={img_url}
+              img_url={photoLink}
               variable={variable}
               productDetail={`/${index}`}
               productsInBasket={productsInBasket}
+              favorites={favorites}
             />
           );
         })

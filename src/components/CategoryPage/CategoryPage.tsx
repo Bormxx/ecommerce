@@ -1,4 +1,4 @@
-import { Photos, Product } from "@/shared/types";
+import { BasketItem, Favorites, Product } from "@/shared/types";
 import { inter, roboto } from "@/styles/fonts";
 import {
   AdjustmentsHorizontalIcon,
@@ -18,10 +18,15 @@ import Title from "../Title/Title";
 import ButtonLong from "../ui-kit/ButtonLong";
 export interface TypeRequest {
   items: Product[] | undefined;
-  photos: Photos[] | null;
+  itemsInBasketFromApi: BasketItem[];
+  favorites: Favorites[] | [];
 }
 
-export default function CategoryPage({ items, photos }: TypeRequest) {
+export default function CategoryPage({
+  items,
+  itemsInBasketFromApi,
+  favorites,
+}: TypeRequest) {
   const router = useRouter();
   const { id } = router.query;
   const categoryName = id
@@ -43,7 +48,7 @@ export default function CategoryPage({ items, photos }: TypeRequest) {
   return (
     <>
       <Breadcrumbs />
-      <div className="gap-5 md:flex">
+      <div className="mx-5 gap-5 md:flex">
         <div
           className={`${isOpenFilterClass} fixed left-0 top-0 z-[51] h-full w-full flex-col gap-4 overflow-y-auto bg-gray-50 px-5 py-6 md:static md:flex md:w-auto md:overflow-y-visible md:p-0`}
         >
@@ -107,8 +112,8 @@ export default function CategoryPage({ items, photos }: TypeRequest) {
             <CatalogList
               variable="standart"
               items={items}
-              photos={photos}
-              productsInBasket={[]}
+              productsInBasket={itemsInBasketFromApi}
+              favorites={favorites}
             />
           </div>
         </main>
