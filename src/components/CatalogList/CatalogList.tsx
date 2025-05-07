@@ -17,7 +17,7 @@ export default function CatalogList({
 }: CatalogListProps) {
   return (
     <section
-      className={`grid-list w-full gap-2 md:gap-5 ${variable === "horizontal" ? "flex flex-col" : "grid"}`}
+      className={`grid-list w-full gap-2 ${variable === "horizontal" ? "flex flex-col" : "grid"} md:gap-5`}
     >
       {items ? (
         items.map((item, index) => {

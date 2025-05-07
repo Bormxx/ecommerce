@@ -25,7 +25,7 @@ export const getProductById = async (
 
 export const getFavoritesInfo = async () => {
   const response = await fetch(
-    "https://ecommerce-bay-xi.vercel.app/api/products/favorites",
+    "/api/products/favorites",
   );
   const data = await response.json();
   if (!response.ok) {

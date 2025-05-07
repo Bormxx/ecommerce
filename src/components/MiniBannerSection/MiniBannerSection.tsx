@@ -12,7 +12,6 @@ export default function MiniBannerSection({ items }: MiniBannerSectionProps) {
   const [categories, setCategories] = useState<
     { title: string; img: string }[]
   >([]);
-  console.log(categories);
   useEffect(() => {
     if (
       items &&

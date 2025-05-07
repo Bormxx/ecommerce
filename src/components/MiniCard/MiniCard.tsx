@@ -60,7 +60,6 @@ const MiniCard = ({
   function handleLikeClick() {
     // Оптимистично переключаем состояние
     setIsLiked((prev) => !prev);
-    console.log(itemId);
     handleToggleFavorite(itemId)
       .then((res) => {
         console.log("Лайк обновлён:", res);
@@ -111,15 +110,15 @@ const MiniCard = ({
         </span>
       </Link>
       {isAuthenticated && (
-        <div className="flex items-center justify-between gap-1">
+        <div className="flex h-10 items-center justify-between gap-1">
           {productsInBasket && quantity > 0 ? (
-            <div className="flex flex-grow gap-2">
-              <Link
+            <div className="flex flex-grow justify-end gap-2">
+              {/* <Link
                 className="flex h-10 w-[calc(100%-40px)] flex-grow items-center justify-center gap-1 rounded-lg bg-green-500 p-2 text-white"
                 href="/cart"
               >
                 <ShoppingBagIcon width={16} height={16} />
-              </Link>
+              </Link> */}
               <ReplaceQuantity
                 id={itemId}
                 quantity={quantity}

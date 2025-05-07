@@ -95,7 +95,7 @@ export default function SearchField({
                 {items.map((item, index) => (
                   <Link
                     key={item.id}
-                    href={`/item/${item.id}`}
+                    href={`/products/${item.id}`}
                     className={`group flex select-none items-center gap-2 bg-white px-3 py-1.5 hover:bg-blue-100/60 ${
                       index < items.length - 1 ? "border-b border-blue-500" : "" // Линия только между ссылками
                     }`}

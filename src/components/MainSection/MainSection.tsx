@@ -36,7 +36,6 @@ export default function MainSection({
       },
       i: number,
     ) => {
-     
       if (i + 1 < SLIDE_COUNT) {
         SLIDE.push(
           <MiniCard
@@ -57,8 +56,7 @@ export default function MainSection({
   return (
     <div className="mx-5 mb-28 flex flex-col gap-3 md:mx-0 md:mb-0 md:w-full md:gap-6">
       <Banner items={items} />
-      {/* <Carousel /> */}
-      <EmblaCarousel slides={SLIDE}  />
+      <EmblaCarousel slides={SLIDE} />
       <MiniBannerSection items={items} />
       <CatalogList
         variable="standart"

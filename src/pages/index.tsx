@@ -11,7 +11,6 @@ import { getFavoritesInfo } from "@/shared/api/products";
 
 export default function Home() {
   const { products } = useProducts();
-  console.log(products);
   const { isAuthenticated } = useUserStore();
   const basketQuery = useBasket();
   const { data } = useQuery({

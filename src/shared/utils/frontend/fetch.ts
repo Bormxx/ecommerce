@@ -1,16 +1,13 @@
 //Запрос для поставноки лайка
 export const handleToggleFavorite = async (itemId: number) => {
   try {
-    const response = await fetch(
-      "https://ecommerce-bay-xi.vercel.app/api/products/favorites",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ itemId }),
+    const response = await fetch("/api/products/favorites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({ itemId }),
+    });
 
     if (!response.ok) {
       throw new Error("Ошибка лайка");

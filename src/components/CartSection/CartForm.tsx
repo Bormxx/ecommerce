@@ -133,7 +133,7 @@ export default function CartForm({
             Оформить заказ
           </button>
         </div>
-        <div className="mt-[47px]">
+        <div className="mt-[47px] hidden md:block">
           <Image
             src="/images/chick-with-books.svg"
             alt="Женщина с книгой"

@@ -48,7 +48,7 @@ export default function CategoryPage({
   return (
     <>
       <Breadcrumbs />
-      <div className="gap-5 md:flex">
+      <div className="mx-5 gap-5 md:flex">
         <div
           className={`${isOpenFilterClass} fixed left-0 top-0 z-[51] h-full w-full flex-col gap-4 overflow-y-auto bg-gray-50 px-5 py-6 md:static md:flex md:w-auto md:overflow-y-visible md:p-0`}
         >

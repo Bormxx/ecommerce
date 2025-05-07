@@ -15,7 +15,7 @@ export default function Cart() {
 
   return (
     <HomeContainer>
-      <div className="flex h-[90vh] pt-10">
+      <div className="flex h-[90vh] px-5 pt-10 md:p-0">
         <Sidebar />
         {basket ? (
           <CartSection
