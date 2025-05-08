@@ -15,7 +15,7 @@ type MainSectionProps = {
   productsInBasket: BasketItem[];
   favorites: Favorites[] | [];
 };
-export const county: number = 7 + 1;
+export const county: number = 8 + 1;
 export default function MainSection({
   items,
   productsInBasket,
