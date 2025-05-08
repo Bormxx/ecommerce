@@ -54,6 +54,7 @@ export type Order = {
   isCourier: boolean;
   phone: string;
   comment: string | null;
+  createOrderDate: string;
   items: {
     item: Product;
     quantity: number;
@@ -140,7 +141,6 @@ export interface Photos {
   itemId: number;
   photoLink: string;
 }
-
 
 export interface References {
   id: number;
