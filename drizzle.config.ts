@@ -3,7 +3,6 @@
 // -----------------------------------------------------
 
 import type { Config } from "drizzle-kit";
-// import 'dotenv/config';
 require("dotenv").config();
 
 
