@@ -1,7 +1,9 @@
 import { inter, roboto } from "@/styles/fonts";
 import { useState } from "react";
 import { Order } from "../../../shared/types";
+import { formatedDate } from "../lib/formatedDate";
 import { OrderProductCard } from "./OrderProductCard";
+import { calculateStatusOrder } from '../lib/calculateStatusOrder';
 
 type Props = {
   order: Order;
@@ -16,17 +18,16 @@ export function OrderCard(props: Props) {
   };
 
   return (
-    <div className="flex min-w-[580px] flex-col gap-4 rounded-xl p-4 shadow-lg">
-      <div className="flex justify-between border-b border-gray-400">
+    <div className="flex flex-col gap-4 rounded-xl p-4 shadow-lg md:min-w-[580px]">
+      <div className="flex flex-col border-b border-gray-400 md:flex-row md:justify-between">
         {/*Секция с информацией*/}
         <div className="flex flex-col gap-2">
           {/*Время*/}
-          <div className="flex items-end gap-2">
+          <div className="flex items-end justify-between gap-2 md:justify-start">
             <p
               className={`${roboto.className} text-xl font-bold text-gray-800`}
             >
-              {/* TODO: Отдавать с бека */}
-              {`от 1 февраля 2025`}
+              {`от ${formatedDate(order.createOrderDate)}`}
             </p>
             <p
               className={`${inter.className} text-base font-normal text-gray-800`}
@@ -39,8 +40,7 @@ export function OrderCard(props: Props) {
             <p
               className={`${inter.className} text-base font-bold text-emerald-500`}
             >
-              {/* TODO: Отдавать с бека */}
-              Получен
+              {calculateStatusOrder(order.createOrderDate)}
             </p>
             <p
               className={`${inter.className} text-small font-normal text-gray-500`}
@@ -50,7 +50,7 @@ export function OrderCard(props: Props) {
           </div>
         </div>
         {/*Цена*/}
-        <div className="mb-4 flex flex-col items-end gap-2">
+        <div className="mb-4 flex flex-row-reverse items-end justify-between gap-2 md:flex-col">
           <p className={`${roboto.className} text-2xl font-bold text-gray-800`}>
             {`${order.totalPrice} ₽`}
           </p>

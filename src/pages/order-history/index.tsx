@@ -10,7 +10,7 @@ export default function OrderHistoryPage() {
 
         <main className="flex-1 pl-1 md:pl-5">
           <h1 className="mb-4 block text-[24px] font-bold leading-8 text-[#1F2937] md:hidden">
-            Мои заказы
+            История заказов
           </h1>
 
           <OrderHistory />

@@ -3,6 +3,7 @@ import { useOrderById } from "../../../shared/hooks/queries/useOrderById";
 import { useProtectedRoute } from "../../../shared/hooks/useProtectedRoute";
 import { useUserStore } from "../../../shared/store/auth";
 import { inter, roboto } from "../../../styles/fonts";
+import { formatedDate } from "../lib/formatedDate";
 import { ProductCard } from "./ProductCard";
 
 type Props = {
@@ -16,9 +17,9 @@ export const OrderInfo = (props: Props) => {
   useProtectedRoute();
 
   return (
-    <div>
+    <div className="mx-auto p-5 md:mx-0 md:p-0">
       <h1
-        className={`${roboto.className} pb-6 text-3xl font-bold text-gray-800`}
+        className={`${roboto.className} pb-5 text-3xl font-bold text-gray-800 md:pb-6`}
       >
         Спасибо за заказ!
       </h1>
@@ -28,7 +29,7 @@ export const OrderInfo = (props: Props) => {
           <p className={`${inter.className} text-base font-bold text-gray-800`}>
             Получатель
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row md:gap-6">
             <p
               className={`${inter.className} text-base font-normal text-gray-800`}
             >
@@ -52,7 +53,7 @@ export const OrderInfo = (props: Props) => {
         </div>
 
         {/* Пункт выдачи и дата */}
-        <div className="flex border-b border-gray-400 pb-5">
+        <div className="flex flex-col gap-2 border-b border-gray-400 pb-5 md:flex-row md:gap-0">
           <div className="flex min-w-[350px] flex-col">
             <p
               className={`${inter.className} text-sm font-normal text-gray-400`}
@@ -75,8 +76,9 @@ export const OrderInfo = (props: Props) => {
               <p
                 className={`${inter.className} text-base font-normal text-gray-800`}
               >
-                {/* TODO: Возвращать дату в ответе */}
-                30 февраля 2024
+                {order
+                  ? formatedDate(order.createOrderDate)
+                  : "Уточнить у менеджера"}
               </p>
             </div>
           )}
@@ -85,20 +87,22 @@ export const OrderInfo = (props: Props) => {
         {/* Карточки твоаров */}
         {/* TODO: Проверить кейс со скроллом и если что попробовать скрыть его, вроде такой параметр hidden-scrollbar */}
         {/* TODO: Подумать как лучше отобразить несколько карточек (Плитка или просто гор. скролл) */}
-        <div className="flex gap-5 border-b border-gray-400 pb-5">
-          {order &&
-            order.items.map((item) => (
-              <ProductCard item={item} key={item.item.id} />
-            ))}
+        <div className="max-h-80 overflow-y-auto border-b border-gray-400 pb-5">
+          <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-5">
+            {order &&
+              order.items.map((item) => (
+                <ProductCard item={item} key={item.item.id} />
+              ))}
+          </div>
         </div>
 
         {/* Итоговая сумма */}
-        <div className="flex gap-5">
+        <div className="flex justify-between md:justify-start md:gap-5">
           <div className="flex flex-col">
             <p
               className={`${inter.className} text-sm font-normal text-gray-400`}
             >
-              Общая сумма:
+              Общая сумма
             </p>
             <p
               className={`${roboto.className} text-3xl font-bold text-gray-800`}
@@ -106,11 +110,11 @@ export const OrderInfo = (props: Props) => {
               {order?.totalPrice} ₽
             </p>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col items-end md:items-start">
             <p
               className={`${inter.className} text-sm font-normal text-gray-400`}
             >
-              {`Оплачено ${order?.payment ? "картой" : ""}:`}
+              {`Оплачено ${order?.payment ? "картой" : ""}`}
             </p>
             <p
               className={`${inter.className} text-2xl font-bold text-gray-500`}
@@ -120,11 +124,11 @@ export const OrderInfo = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="flex justify-end pt-6">
+      <div className="flex justify-end pb-20 pt-6 md:pb-0">
         <Link
-          href="/profile"
+          href="/order-history"
           replace={true}
-          className="text-blue-600 underline"
+          className="mx-auto text-blue-600 md:mx-0 md:underline"
         >
           Все заказы
         </Link>

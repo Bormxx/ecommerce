@@ -2,8 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../../api/db";
 import { withAuth } from "../../../../api/utils/withAuth";
 import { and, eq } from "drizzle-orm";
-import { favorites } from "../../../../api/models/product";
+import { characteristics, favorites, items, posts } from "../../../../api/models/product";
 import { getItemByIdHandler } from "../../../../api/controllers/productController";
+import { getItemById } from "../../../../api/services/productService";
 
 // TODO: Вроде как доп. поэтому можно вырезать пока
 // TODO: Переписать на контроллеры и сервисы. Аналогично с products/[id].ts
@@ -16,9 +17,9 @@ export default async function Favorites(
   if (req.method === "GET") {
       try {
         const favorites = await db.query.favorites.findMany({
-          where: (item, { eq }) => eq(item.userId, user)
+          where: (item, { eq }) => eq(item.userId, user),
         })
-        const likedItems = await Promise.all(favorites.map(item => getItemByIdHandler(item.itemId, res)))
+        const likedItems = await Promise.all(favorites.map(item => getItemById(item.itemId)))
         res.status(200).json({ likedItems });
       } catch (error) {
         res.status(500).json({ access: "denied" });
