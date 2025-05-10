@@ -2,6 +2,7 @@ import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import ProductPage from "@/components/ProductPage/ProductPage";
 import {  GetServerSideProps } from "next";
 import { useProductById } from "../../shared/hooks/queries/useProductById";
+import LoadingIcon from "../../components/LoadingIcon/LoadingIcon";
 
 type Product = {
   id: number;
@@ -27,7 +28,7 @@ export default function Product(props: Props) {
         roundRating={product.averageRating}
         quantityRatings={product.postsCount}
         photos={product.photos}
-      /> : <h1>Product not found</h1>}
+      /> : <LoadingIcon />}
     </HomeContainer>
   );
 }
