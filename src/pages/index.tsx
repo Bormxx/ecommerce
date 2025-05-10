@@ -32,7 +32,7 @@ export default function Home() {
       (fav: ProductInfo) => fav.item,
     );
     setFavoritesItems(favoritesItemsFormatted);
-  }, [isAuthenticated, basketQuery?.basket, favorites]);
+  }, [isAuthenticated]);
 
   return (
     <HomeContainer>
@@ -40,7 +40,7 @@ export default function Home() {
         items={products}
         productsInBasket={basketItems}
         favorites={favoritesItems}
-        setFavorites={setFavoritesItems} 
+        setFavorites={setFavoritesItems}
       />
     </HomeContainer>
   );

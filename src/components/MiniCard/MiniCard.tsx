@@ -99,7 +99,7 @@ const MiniCard = ({
 
   return (
     <div
-      className={`flex ${variable === "horizontal" ? "flex-row" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"}`}
+      className={`flex ${variable === "horizontal" ? "flex-col items-end md:flex-row md:items-center" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"}`}
     >
       <Link
         href={productDetail != undefined ? `/products${productDetail}` : "/"}
@@ -112,7 +112,7 @@ const MiniCard = ({
           height={
             variable === "mini" ? 172 : variable === "standart" ? 248 : 80
           }
-          className="w-full object-contain"
+          className={`object-contain ${variable === "mini" ? "w-[172]" : variable === "standart" ? "w-[248]" : "w-[80]"}`}
         />
         <h3
           className={`${inter.className} ${variable === "horizontal" ? "w-full grow text-base text-blue-600" : ""} text-sm`}
