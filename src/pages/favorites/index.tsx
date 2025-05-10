@@ -64,7 +64,7 @@ export default function FavoritesPage() {
       <HomeContainer>
         <section className="flex p-5 md:pt-10">
           <Sidebar />
-          <section className="ml-5 w-full">
+          <section className="mx-5 w-full">
             <div className="flex justify-between">
               <Title text="Избранное" />
               <Menu>
