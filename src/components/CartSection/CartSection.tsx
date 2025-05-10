@@ -3,43 +3,24 @@ import { inter, roboto } from "@/styles/fonts";
 
 import { useEffect, useState } from "react";
 import CartForm from "./CartForm";
-import { BasketItem } from "@/shared/types";
+import { BasketItem, Product } from "@/shared/types";
+import { getProductWord } from "@/shared/utils/frontend/cartHelpers";
 type CartSectionProps = {
   itemsInBasketFromApi: BasketItem[];
+  favorites: Product[] | [];
+  setFavorites: (items: Product[]) => void;
 };
 export default function CartSection({
   itemsInBasketFromApi,
+  favorites,
+  setFavorites,
 }: CartSectionProps) {
-  const [total, setTotal] = useState(0);
-
   const [content, setContent] = useState<React.ReactNode>(null);
   const [itemList, setItemList] = useState(itemsInBasketFromApi);
 
-  const [quantity, setQuantity] = useState(0);
-
-  function getProductWord(quantity: number) {
-    const lastDigit = quantity % 10;
-    const lastTwoDigits = quantity % 100;
-
-    if (lastDigit === 1 && lastTwoDigits !== 11) {
-      return `${quantity} товар`;
-    } else if (
-      (lastDigit === 2 || lastDigit === 3 || lastDigit === 4) &&
-      (lastTwoDigits < 12 || lastTwoDigits > 14)
-    ) {
-      return `${quantity} товара`;
-    } else {
-      return `${quantity} товаров`;
-    }
-  }
-
-  function updateTotal() {
-    let summ = 0;
-    itemList.map((item) => {
-      summ += item.item.price * item.quantity;
-    });
-    return summ;
-  }
+  useEffect(() => {
+    setItemList(itemsInBasketFromApi);
+  }, [itemsInBasketFromApi]);
 
   useEffect(() => {
     if (itemList.length === 0) {
@@ -49,14 +30,12 @@ export default function CartSection({
         <CartForm
           itemList={itemList}
           setItemList={setItemList}
-          total={total}
-          quantity={quantity}
+          favorites={favorites}
+          setFavorites={setFavorites}
         />,
       );
     }
-    setTotal(updateTotal);
-    setQuantity(itemList.length);
-  }, [itemList, total]);
+  }, [itemList, favorites]);
 
   return (
     <div className="w-full md:pl-5">
@@ -65,7 +44,7 @@ export default function CartSection({
         <span
           className={`${inter.className} flex items-center text-sm text-slate-400 md:hidden`}
         >
-          {getProductWord(quantity)}
+          {getProductWord(itemList.length)}
         </span>
       </div>
       {content}

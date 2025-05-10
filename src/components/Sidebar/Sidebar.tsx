@@ -6,7 +6,7 @@ export default function Sidebar() {
 
   const menuItems = [
     { text: "Мой профиль", href: "/profile" },
-    { text: "История заказов", href: "/orders" },
+    { text: "История заказов", href: "/order-history" },
     { text: "Товары в избранном", href: "/favorites" },
     { text: "Корзина", href: "/cart" },
   ];

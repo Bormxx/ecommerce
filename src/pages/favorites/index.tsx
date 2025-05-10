@@ -1,26 +1,53 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import CatalogList from "@/components/CatalogList/CatalogList";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Title from "@/components/Title/Title";
+import { getFavoritesInfo } from "@/shared/api/products";
+import { useBasket } from "@/shared/hooks/queries/useBasket";
 import { useProtectedRoute } from "@/shared/hooks/useProtectedRoute";
-import { Photos, Product } from "@/shared/types";
+import { useUserStore } from "@/shared/store/auth";
+import { BasketItem, Product, ProductInfo } from "@/shared/types";
 import { inter } from "@/styles/fonts";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
-export interface TypeRequest {
-  items: Product[] | undefined;
-  photos: Photos[] | null;
-}
-export default function favoritesPage({ items, photos }: TypeRequest) {
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+
+export default function FavoritesPage() {
+  const { data } = useQuery({
+    queryKey: ["favoritesInfo"],
+    queryFn: getFavoritesInfo,
+  });
+  const favorites = data?.likedItems ?? null;
   const [textActiveCardsLayout, setTextActiveCardsLayout] =
     useState("Карточки");
   const [textNoActiveCardsLayout, setTextNoActiveCardsLayout] =
     useState("Список");
   const [variableList, setVariableList] = useState("standart");
+  const { isAuthenticated } = useUserStore();
+  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+  const { basket } = useBasket();
+  const [favoritesItems, setFavoritesItems] = useState<Product[] | null>(null);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (basket) {
+        setBasketItems(basket.items);
+      } else {
+        setBasketItems([]);
+      }
+    } else {
+      setBasketItems([]);
+    }
+    const favoritesItemsFormatted: Product[] = favorites
+      ? favorites.map((fav: ProductInfo) => ({
+          ...fav.item,
+          photos: fav.photos ?? null,
+        }))
+      : null;
+    setFavoritesItems(favoritesItemsFormatted);
+  }, [isAuthenticated, basket, favorites]);
   function handleClickCardsLayout() {
     if (textNoActiveCardsLayout === "Список") {
       setTextActiveCardsLayout("Список");
@@ -35,9 +62,9 @@ export default function favoritesPage({ items, photos }: TypeRequest) {
   return (
     <ProtectedRoute protection={useProtectedRoute}>
       <HomeContainer>
-        <section className="flex">
+        <section className="flex p-5 md:pt-10">
           <Sidebar />
-          <section className="ml-5 w-full">
+          <section className="mx-5 w-full">
             <div className="flex justify-between">
               <Title text="Избранное" />
               <Menu>
@@ -68,29 +95,23 @@ export default function favoritesPage({ items, photos }: TypeRequest) {
             </div>
 
             <div className="mt-4 w-full rounded-lg bg-white">
-              <CatalogList
-                variable={variableList}
-                items={items}
-                photos={photos}
-              />
+              {favoritesItems && favoritesItems.length > 0 ? (
+                <CatalogList
+                  variable={variableList}
+                  items={favoritesItems}
+                  productsInBasket={basketItems}
+                  favorites={favoritesItems}
+                  setFavorites={setFavoritesItems}
+                />
+              ) : (
+                <p className={`${inter.className} text-base`}>
+                  Избранных товаров пока нет
+                </p>
+              )}
             </div>
           </section>
         </section>
       </HomeContainer>
     </ProtectedRoute>
   );
-}
-
-// TODO: Избавиться от getStaticProps
-
-export async function getStaticProps() {
-  const itemsRes = await fetch("http://localhost:3000/api/old/items");
-  const itemsReq = await itemsRes.json();
-  const items = itemsReq.request;
-  const photosRes = await fetch("http://localhost:3000/api/old/photos");
-  const photosReq = await photosRes.json();
-  const photos = photosReq.request;
-  return {
-    props: { items, photos },
-  };
 }

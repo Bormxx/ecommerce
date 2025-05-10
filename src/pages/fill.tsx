@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Product, Users } from "../shared/types";
-import filling from "./filling";
+import filling from "../shared/utils/filling";
 
 // Заполняем таблицу с пользователями
 const usersUrl = "api/users";
@@ -127,16 +127,20 @@ const itemsValue = [
 // Берём данные из таблицы пользователей и генерируем корзины с рандомными значениями товаров
 
 const basketUrl: string = "api/basket";
-const basketValue: object[] = [];
+const basketValue: {
+  userId: number;
+  itemId: number;
+  quantity: number;
+}[] = [];
 const basketSize: number = 11; // Размер массива с корзинами
 const maxItemsInBasket: number = 4; // Максимальное количество одного товара в корзине
 
 async function fillingBasket() {
   for (let i = 0; i < basketSize; i++) {
-    let userId = await getRandomUser();
-    let itemId = await getRandomItem();
+    const userId = await getRandomUser();
+    const itemId = await getRandomItem();
     let flag: boolean = true; // Даёт разрешение на добавление корзины в массив basketValue
-    basketValue.map((item: any) => {
+    basketValue.map((item) => {
       if (item.userId !== userId && item.itemId !== itemId) {
         // Если в массиве basketValue нет корзины с таким userId и itemId, то flag = true
         flag = true;
@@ -245,7 +249,7 @@ type TPostValue = {
 };
 
 const postsUrl: string = "api/old/posts";
-let postsValue: TPostValue[] = [];
+const postsValue: TPostValue[] = [];
 const postsArray: string[] = [
   "Я купил эти очки и был очень доволен. Они очень удобные и стильные. Я бы рекомендовал их всем.",
   "Эти очки просто великолепны! Они очень удобные и обеспечивают отличное зрение. Я очень доволен своей покупкой.",
@@ -263,7 +267,7 @@ async function fillingPosts() {
       const postCount =
         Math.floor(Math.random() * usersRequest.data.users.length) + 1;
       for (let i = 0; i < postCount; i++) {
-        let userId = await getRandomUser();
+        const userId = await getRandomUser();
         const itemId = item.id;
         // Проверка на дубликаты, чтобы пользователь не мог дважды оставлять пост к одному товару
         for (let j = 0; j < postsValue.length; j++) {
@@ -292,7 +296,7 @@ async function fillingPosts() {
     },
   );
 }
-export const county: number = 7 + 1;
+
 export default function fill() {
   return (
     <div className="grid">

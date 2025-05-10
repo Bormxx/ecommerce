@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../../api/db";
-import { and, eq } from "drizzle-orm";
+import { and } from "drizzle-orm";
 import { withAuth } from "../../../../api/utils/withAuth";
 
 // TODO: Вроде как доп. поэтому можно вырезать пока
@@ -15,7 +15,7 @@ export default async function Favorites(
       try {
         const itemId = req.query.id
         const likedItem = await db.query.favorites.findFirst({
-          where: (item, { eq }) => and(eq(item.itemId, Number(itemId)), eq(item.userId, 6))
+          where: (item, { eq }) => and(eq(item.itemId, Number(itemId)), eq(item.userId, user))
         })
         res.status(200).json({ likedItem });      
       } catch (error) {

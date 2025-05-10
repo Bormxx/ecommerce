@@ -7,6 +7,7 @@ export type Product = {
   description: string;
   availability: boolean;
   photos?: Photo[];
+  characteristics?: Characteristic[];
 };
 
 export interface Photo {
@@ -27,9 +28,9 @@ export type Characteristic = {
 };
 
 export type Post = {
-  itemId: number;
   id: number;
   userId: number;
+  itemId: number;
   rating: number;
   post: string;
 };
@@ -44,7 +45,7 @@ export type ProductInfo = {
 };
 
 // Товары
-
+// TODO: Можно привести ответ в более приятный вид
 export type Order = {
   id: number;
   userId: number;
@@ -53,6 +54,13 @@ export type Order = {
   isCourier: boolean;
   phone: string;
   comment: string | null;
+  createOrderDate: string;
+  items: {
+    item: Product;
+    quantity: number;
+  }[];
+  totalQuantity: number;
+  totalPrice: number;
 };
 
 export type OrderItem = {
@@ -60,11 +68,6 @@ export type OrderItem = {
   orderId: number;
   itemId: number;
   quantity: number;
-};
-
-export type OrderInfo = {
-  order: Order;
-  items: OrderItem[];
 };
 
 // Корзина
@@ -121,7 +124,7 @@ export interface Users {
   setPassword: (password: string) => void;
 }
 
-export interface Favorites {
+export interface Favorite {
   id: number;
   userId: number;
   itemId: number;
@@ -138,7 +141,6 @@ export interface Photos {
   itemId: number;
   photoLink: string;
 }
-
 
 export interface References {
   id: number;

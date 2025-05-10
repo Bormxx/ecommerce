@@ -1,43 +1,48 @@
+import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import MainSection from "@/components/MainSection/MainSection";
-import { Photos } from "@/shared/types";
-import HomeContainer from "../components/HomeContainer/HomeContainer";
-import { useAuth } from "../shared/hooks/useAuth";
-import { useProducts } from "../shared/hooks/queries/useProducts";
+import { getFavoritesInfo } from "@/shared/api/products";
 import { useBasket } from "@/shared/hooks/queries/useBasket";
+import { useProducts } from "@/shared/hooks/queries/useProducts";
 import { useUserStore } from "@/shared/store/auth";
+import { BasketItem, Product, ProductInfo } from "@/shared/types";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useAuth } from "../shared/hooks/useAuth";
 
-export interface TypeRequest {
-  photos: Photos[] | null;
-}
-
-export default function Home({ photos }: TypeRequest) {
+export default function Home() {
   const { products } = useProducts();
-  const { basket } = useBasket();
   const { isAuthenticated } = useUserStore();
+  const basketQuery = useBasket();
+  const { data } = useQuery({
+    queryKey: ["favoritesInfo"],
+    queryFn: getFavoritesInfo,
+  });
+  const favorites = data?.likedItems ?? [];
+
+  const [favoritesItems, setFavoritesItems] = useState<Product[]>([]);
+  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
   useAuth();
+  useEffect(() => {
+    if (isAuthenticated && basketQuery?.basket) {
+      setBasketItems(basketQuery.basket.items);
+    } else {
+      setBasketItems([]);
+    }
 
-  if (isAuthenticated && basket) {
-    return (
-      <HomeContainer>
-        <MainSection
-          items={products}
-          photos={photos}
-          productsInBasket={basket.items}
-        />
-      </HomeContainer>
+    const favoritesItemsFormatted: Product[] = favorites.map(
+      (fav: ProductInfo) => fav.item,
     );
-  } else {
-    return null;
-  }
-}
+    setFavoritesItems(favoritesItemsFormatted);
+  }, [isAuthenticated]);
 
-// TODO: Избавиться от getStaticProps
-
-export async function getStaticProps() {
-  const photosRes = await fetch("http://localhost:3000/api/old/photos");
-  const photosReq = await photosRes.json();
-  const photos = photosReq.request;
-  return {
-    props: { photos },
-  };
+  return (
+    <HomeContainer>
+      <MainSection
+        items={products}
+        productsInBasket={basketItems}
+        favorites={favoritesItems}
+        setFavorites={setFavoritesItems}
+      />
+    </HomeContainer>
+  );
 }

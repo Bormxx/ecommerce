@@ -6,10 +6,10 @@ import { HeartIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useUserStore } from "@/shared/store/auth";
 import { addProductInBacket } from "@/shared/api/basket";
 import { useEffect, useState } from "react";
-import { BasketItem } from "@/shared/types";
+import { BasketItem, Product } from "@/shared/types";
 import ReplaceQuantity from "./ReplaceQuantity";
-// import { addProductInBacket } from "@/shared/api/basket";
-// import { useState } from "react";
+import { handleToggleFavorite } from "@/shared/utils/frontend/fetch";
+import { HeartIcon as HeartIconBlack } from "@heroicons/react/24/solid";
 
 interface MiniCardProps {
   title: any;
@@ -20,6 +20,8 @@ interface MiniCardProps {
   key: string | number;
   itemId: number;
   productsInBasket: BasketItem[] | undefined;
+  favorites: Product[] | [];
+  setFavorites: (items: Product[]) => void;
 }
 
 const MiniCard = ({
@@ -30,18 +32,29 @@ const MiniCard = ({
   productDetail,
   itemId,
   productsInBasket,
+  favorites,
+  setFavorites,
 }: MiniCardProps) => {
   const { isAuthenticated } = useUserStore();
-
-  // const [isLiked, setIsLiked] = useState(false);
+  const liked = favorites
+    ? favorites.some((favoriteItem) => favoriteItem.id === itemId)
+    : false;
+  const [isLiked, setIsLiked] = useState(liked);
   const formattedPrice = new Intl.NumberFormat("ru-RU").format(price);
   const [quantity, setQuantity] = useState(0);
-  // console.log(itemId, quantity);
 
+  useEffect(() => {
+    if (isAuthenticated && favorites) {
+      const liked = favorites.some(
+        (favoriteItem) => favoriteItem.id === itemId,
+      );
+      setIsLiked(liked);
+    }
+  }, [isAuthenticated, favorites]);
   useEffect(() => {
     if (isAuthenticated && productsInBasket) {
       const item = productsInBasket.find(
-        (item: BasketItem) => item.id === itemId,
+        (item: BasketItem) => item.item.id === itemId,
       );
       if (item) {
         setQuantity(item.quantity);
@@ -51,10 +64,27 @@ const MiniCard = ({
     }
   }, [isAuthenticated, productsInBasket, itemId]);
 
-  function minusQuantity() {}
-  function plusQuantity() {}
+  function handleLikeClick() {
+    setIsLiked((prev) => !prev);
 
-  function handleLikeClick() {}
+    handleToggleFavorite(itemId)
+      .then(() => {
+        const alreadyLiked = favorites.some((f) => f.id === itemId);
+
+        if (alreadyLiked) {
+          setFavorites(favorites.filter((f) => f.id !== itemId));
+        } else {
+          setFavorites([
+            ...favorites,
+            { id: itemId, title, price, description: "", availability: true },
+          ]);
+        }
+      })
+      .catch((err) => {
+        setIsLiked((prev) => !prev);
+        console.log(`Ошибка: ${err}`);
+      });
+  }
 
   function addToCart() {
     setQuantity(1);
@@ -69,7 +99,7 @@ const MiniCard = ({
 
   return (
     <div
-      className={`flex ${variable === "horizontal" ? "flex-row" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"}`}
+      className={`flex ${variable === "horizontal" ? "flex-col items-end md:flex-row md:items-center" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"}`}
     >
       <Link
         href={productDetail != undefined ? `/products${productDetail}` : "/"}
@@ -82,7 +112,7 @@ const MiniCard = ({
           height={
             variable === "mini" ? 172 : variable === "standart" ? 248 : 80
           }
-          className="w-full object-contain"
+          className={`object-contain ${variable === "mini" ? "w-[172]" : variable === "standart" ? "w-[248]" : "w-[80]"}`}
         />
         <h3
           className={`${inter.className} ${variable === "horizontal" ? "w-full grow text-base text-blue-600" : ""} text-sm`}
@@ -96,20 +126,13 @@ const MiniCard = ({
         </span>
       </Link>
       {isAuthenticated && (
-        <div className="flex items-center justify-between gap-1">
-          {quantity > 0 ? (
-            <div className="flex flex-grow gap-2">
-              <Link
-                className="flex h-10 w-[calc(100%-40px)] min-w-20 flex-grow items-center justify-center gap-1 rounded-lg bg-green-500 p-2 text-white"
-                href="/cart"
-              >
-                Перейти в <ShoppingBagIcon width={16} height={16} />
-              </Link>
+        <div className="flex h-10 items-center justify-between gap-1">
+          {productsInBasket && quantity > 0 ? (
+            <div className="flex flex-grow justify-end gap-2">
               <ReplaceQuantity
                 id={itemId}
-                minusQuantity={minusQuantity}
-                plusQuantity={plusQuantity}
                 quantity={quantity}
+                onQuantityChange={(newQty) => setQuantity(newQty)}
               />
             </div>
           ) : (
@@ -123,7 +146,11 @@ const MiniCard = ({
           )}
 
           <button type="button" className="h-6 w-6" onClick={handleLikeClick}>
-            <HeartIcon width={24} height={24} />
+            {isLiked ? (
+              <HeartIconBlack width={24} height={24} />
+            ) : (
+              <HeartIcon width={24} height={24} />
+            )}
           </button>
         </div>
       )}

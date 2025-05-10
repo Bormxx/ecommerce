@@ -23,10 +23,17 @@ export async function createSession(
   const session: Session = {
     id: sessionId,
     userId,
+    // expiresAt: new Date(),
     expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
   };
-  await db.insert(sessions).values(session);
-  return session;
+  try {
+    await db.insert(sessions).values(session);
+    console.log("Session created");
+    return session;
+  } catch (error) {
+    console.log("Error creating session", error);
+    throw new Error("Failed to create session");
+  }
 }
 
 export async function validateSessionToken(
@@ -73,7 +80,7 @@ export async function invalidateAllSessions(userId: number): Promise<void> {
 }
 
 export function resetCookies(res: NextApiResponse) {
-  res.setHeader("Set-Cookie", `session=; HttpOnly; Max-Age=0; Path=/api; SameSite=Lax;`);
+  res.setHeader("Set-Cookie", `session=; HttpOnly; Max-Age=0; Path=/api; SameSite=Strict;`);
 
   //return res.status(403).json({
   //  access: "denied",
