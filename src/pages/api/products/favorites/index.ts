@@ -2,8 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../../api/db";
 import { withAuth } from "../../../../api/utils/withAuth";
 import { and, eq } from "drizzle-orm";
-import { characteristics, favorites, items, posts } from "../../../../api/models/product";
-import { getItemByIdHandler } from "../../../../api/controllers/productController";
+import { favorites } from "../../../../api/models/product";
 import { getItemById } from "../../../../api/services/productService";
 
 // TODO: Вроде как доп. поэтому можно вырезать пока
@@ -15,29 +14,47 @@ export default async function Favorites(
 ) {
   const user = await withAuth(req, res);
   if (req.method === "GET") {
-      try {
-        const favorites = await db.query.favorites.findMany({
-          where: (item, { eq }) => eq(item.userId, user),
-        })
-        const likedItems = await Promise.all(favorites.map(item => getItemById(item.itemId)))
-        res.status(200).json({ likedItems });
-      } catch (error) {
-        res.status(500).json({ access: "denied" });
-      }
-    }
-    if (req.method === "POST") {
     try {
-      const {itemId} = req.body
+      const favorites = await db.query.favorites.findMany({
+        where: (item, { eq }) => eq(item.userId, user),
+      });
+      const likedItems = await Promise.all(
+        favorites.map((item) => getItemById(item.itemId)),
+      );
+      res.status(200).json({ likedItems });
+    } catch (error) {
+      res.status(500).json({ access: "denied" });
+ 
+    }
+  }
+  if (req.method === "POST") {
+    try {
+      const { itemId } = req.body;
       const likedItem = await db.query.favorites.findFirst({
-        where: (item, { eq }) => eq(item.itemId, Number(itemId)),
-      })
-      if(likedItem){
-        await db.delete(favorites).where(and(eq(favorites.userId, user), eq(favorites.itemId, Number(itemId)))).execute()
-        return res.status(200).json({message: "Лайк удалён"})
-      }
-      else {
-        await db.insert(favorites).values({userId: user, itemId: itemId}).execute();
-        return res.status(200).json({message: "Лайк поставлен"})
+        // было  { eq }
+        // стало  { eq, and }
+        where: (item, { eq, and }) =>
+          // было where: (item, { eq }) => eq(item.itemId, Number(itemId)),
+          // стало and(eq(item.itemId, Number(itemId)), eq(item.userId, user)),
+          and(eq(item.itemId, Number(itemId)), eq(item.userId, user)),
+      });
+      if (likedItem) {
+        await db
+          .delete(favorites)
+          .where(
+            and(
+              eq(favorites.userId, user),
+              eq(favorites.itemId, Number(itemId)),
+            ),
+          )
+          .execute();
+        return res.status(200).json({ message: "Лайк удалён" });
+      } else {
+        await db
+          .insert(favorites)
+          .values({ userId: user, itemId: itemId })
+          .execute();
+        return res.status(200).json({ message: "Лайк поставлен" });
       }
     } catch (error) {
       return res.status(500).json({ access: "denied" });

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import CardInBasket from "@/components/MiniCard/CardInBasket";
 import { inter, roboto } from "@/styles/fonts";
-import { BasketItem, Favorites } from "@/shared/types";
+import { BasketItem, Product } from "@/shared/types";
 import { getProductWord } from "@/shared/utils/frontend/cartHelpers";
 import { useEffect, useState } from "react";
 import { updateQuantityProduct } from "@/shared/api/basket";
@@ -11,12 +11,14 @@ type CartFormProps = {
   itemList: BasketItem[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setItemList: any;
-  favorites: Favorites[] | [];
+  favorites: Product[] | [];
+  setFavorites: (items: Product[]) => void;
 };
 export default function CartForm({
   itemList,
   setItemList,
   favorites,
+  setFavorites,
 }: CartFormProps) {
   const [total, setTotal] = useState(
     itemList.reduce((acc, item) => acc + item.item.price * item.quantity, 0),
@@ -86,6 +88,7 @@ export default function CartForm({
             //   image={item.image}
             quantity={item.quantity}
             favorites={favorites}
+            setFavorites={setFavorites}
           />
         ))}
       </div>

@@ -4,6 +4,8 @@ import CartSection from "@/components/CartSection/CartSection";
 import { useBasket } from "@/shared/hooks/queries/useBasket";
 import { useQuery } from "@tanstack/react-query";
 import { getFavoritesInfo } from "@/shared/api/products";
+import { useEffect, useState } from "react";
+import { Product, ProductInfo } from "@/shared/types";
 
 export default function Cart() {
   const { basket } = useBasket();
@@ -11,7 +13,18 @@ export default function Cart() {
     queryKey: ["favoritesInfo"],
     queryFn: getFavoritesInfo,
   });
-  const favorites = data?.favorites ?? [];
+  const favorites = data?.likedItems ?? null;
+  const [favoritesItems, setFavoritesItems] = useState<Product[] | []>([]);
+
+  useEffect(() => {
+    const favoritesItemsFormatted: Product[] = favorites
+      ? favorites.map((fav: ProductInfo) => ({
+          ...fav.item,
+          photos: fav.photos,
+        }))
+      : null;
+    setFavoritesItems(favoritesItemsFormatted);
+  }, [favorites]);
 
   return (
     <HomeContainer>
@@ -20,7 +33,8 @@ export default function Cart() {
         {basket ? (
           <CartSection
             itemsInBasketFromApi={basket.items}
-            favorites={favorites}
+            favorites={favoritesItems}
+            setFavorites={setFavoritesItems}
           />
         ) : (
           <p>Идет загрузка ...</p>

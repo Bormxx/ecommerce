@@ -5,7 +5,8 @@ import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import ReplaceQuantity from "./ReplaceQuantity";
 import { useEffect, useState } from "react";
-import { Favorites } from "@/shared/types";
+import { Product } from "@/shared/types";
+import { handleToggleFavorite } from "@/shared/utils/frontend/fetch";
 
 type CardInBasketProps = {
   price: number;
@@ -15,7 +16,8 @@ type CardInBasketProps = {
   quantity: number;
   minusQuantity: (id: number) => void;
   plusQuantity: (id: number) => void;
-  favorites: Favorites[] | [];
+  favorites: Product[] | [];
+  setFavorites: (items: Product[]) => void;
 };
 
 export default function CardInBasket({
@@ -27,14 +29,44 @@ export default function CardInBasket({
   minusQuantity,
   plusQuantity,
   favorites,
+  setFavorites,
 }: CardInBasketProps) {
-  const [isLiked, setIsLiked] = useState(false);
+  const liked = favorites
+    ? favorites.some((favoriteItem) => favoriteItem.id === id)
+    : false;
+  const [isLiked, setIsLiked] = useState(liked);
   useEffect(() => {
-    if (favorites) {
-      const liked = favorites.some((item) => item.itemId === id);
+    if (favorites && favorites.length > 0) {
+      const liked = favorites.some((item) => item.id === id);
       setIsLiked(liked);
     }
   }, [favorites, id]);
+
+  function handleLikeClick() {
+    setIsLiked((prev) => !prev);
+
+    handleToggleFavorite(id)
+      .then(() => {
+        const alreadyLiked = favorites.some((f) => f.id === id);
+        if (alreadyLiked) {
+          setFavorites(favorites.filter((f) => f.id !== id));
+        } else {
+          const newFavorite: Product = {
+            id,
+            title,
+            price,
+            description: "",
+            availability: true,
+            photos: [],
+          };
+          setFavorites([...favorites, newFavorite]);
+        }
+      })
+      .catch((err) => {
+        setIsLiked((prev) => !prev);
+        console.log(`Ошибка: ${err}`);
+      });
+  }
 
   function deleteCardUsedId() {
     //тут должен быть Запрос апи для удаления товара по id
@@ -47,7 +79,7 @@ export default function CardInBasket({
   function plusQuantityItem() {
     plusQuantity(id);
   }
-  function clickLike() {}
+
   return (
     <div
       id={id.toString()}
@@ -90,7 +122,7 @@ export default function CardInBasket({
             <button
               type="button"
               className="flex justify-center p-2 text-blue-800"
-              onClick={clickLike}
+              onClick={handleLikeClick}
             >
               {isLiked ? (
                 <HeartIconSolid className="h-4 w-4" />

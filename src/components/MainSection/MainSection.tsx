@@ -1,4 +1,4 @@
-import { BasketItem, Favorites } from "@/shared/types";
+import { BasketItem } from "@/shared/types";
 import Banner from "../Banners/Banner";
 import CatalogList from "../CatalogList/CatalogList";
 import MiniBannerSection from "../MiniBannerSection/MiniBannerSection";
@@ -13,7 +13,8 @@ import { county } from "../../shared/consts/consts";
 type MainSectionProps = {
   items: Product[] | undefined;
   productsInBasket: BasketItem[];
-  favorites: Favorites[] | [];
+  favorites: Product[] | [];
+  setFavorites: (items: Product[]) => void;
 };
 
 
@@ -21,6 +22,7 @@ export default function MainSection({
   items,
   productsInBasket,
   favorites,
+  setFavorites,
 }: MainSectionProps) {
   const prod = useQuery({
     queryKey: ["getItemsCarousel"],
@@ -49,6 +51,7 @@ export default function MainSection({
             productDetail={`/${prod.requestItem.id}`}
             productsInBasket={productsInBasket}
             favorites={favorites}
+            setFavorites={setFavorites}
           />,
         );
       }
@@ -64,6 +67,7 @@ export default function MainSection({
         items={items}
         productsInBasket={productsInBasket}
         favorites={favorites}
+        setFavorites={setFavorites}
       />
     </div>
   );
