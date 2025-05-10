@@ -14,7 +14,6 @@ export const OrderInfo = (props: Props) => {
   const { ordeId } = props;
   const user = useUserStore();
   const { order } = useOrderById(ordeId);
-  useProtectedRoute();
 
   return (
     <div className="mx-auto p-5 md:mx-0 md:p-0">

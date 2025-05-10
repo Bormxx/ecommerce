@@ -4,6 +4,8 @@ import ProfileBackground from "@/components/ProfileComponents/ProfileBackground"
 import Sidebar from "@/components/Sidebar/Sidebar";
 import ProfileSection from "@/components/ProfileSection/ProfileSection";
 import CustomSelect from "@/components/CustomSelect/CustomSelect";
+import ProtectedRoute from "../../components/ProtectedRoute/ProtectedRoute";
+import { useProtectedRoute } from "../../shared/hooks/useProtectedRoute";
 
 interface ProfileProps {
   name?: string;
@@ -27,63 +29,73 @@ export default function Profile({
 
   return (
     <HomeContainer>
+      <ProtectedRoute protection={useProtectedRoute}>
         <ProfileBackground imageUrl="/images/sport_meditation.svg">
-          <div className="flex p-5 md:pt-10 h-[90vh]">
+          <div className="flex h-[90vh] p-5 md:pt-10">
             <Sidebar />
 
             <main className="flex-1 pl-1 md:pl-5">
-              <h1 className="block md:hidden mb-4 font-bold text-[24px] leading-8 text-[#1F2937]">Мой профиль</h1>
+              <h1 className="mb-4 block text-[24px] font-bold leading-8 text-[#1F2937] md:hidden">
+                Мой профиль
+              </h1>
 
               <ProfileSection
                 {...profileData}
-                isEditing={isEditing} 
-                onEdit={() => setIsEditing(true)} 
+                isEditing={isEditing}
+                onEdit={() => setIsEditing(true)}
                 onCancel={() => setIsEditing(false)}
                 onSave={handleSave}
               />
 
               {!isEditing && (
-
                 <div className="mt-4">
-                  <label className="block font-normal text-[12px] leading-4 md:text-[14px] md:leading-5 text-[#6B7280]">Язык:</label>
-                    
-                  <CustomSelect/>
+                  <label className="block text-[12px] font-normal leading-4 text-[#6B7280] md:text-[14px] md:leading-5">
+                    Язык:
+                  </label>
+
+                  <CustomSelect />
 
                   <div className="mt-4 flex items-center space-x-2">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       id="emailNotify"
-                      className="w-[16px] h-[16px] rounded-full border border-[#9CA3AF] cursor-pointer bg-[#F9FAFB]" 
+                      className="h-[16px] w-[16px] cursor-pointer rounded-full border border-[#9CA3AF] bg-[#F9FAFB]"
                     />
-                    <label htmlFor="emailNotify" className="text-[#1F2937] font-normal text-[12px] leading-4 md:text-[14px] md:leading-5">
+                    <label
+                      htmlFor="emailNotify"
+                      className="text-[12px] font-normal leading-4 text-[#1F2937] md:text-[14px] md:leading-5"
+                    >
                       Уведомлять об изменении статуса заказов по email
                     </label>
                   </div>
-                    
+
                   <div className="mt-4 flex items-center">
-                    <input type="checkbox" id="darkModeToggle" className="sr-only peer" />
+                    <input
+                      type="checkbox"
+                      id="darkModeToggle"
+                      className="peer sr-only"
+                    />
 
                     <label
                       htmlFor="darkModeToggle"
-                      className="w-10 h-5 flex items-center bg-[#9CA3AF] rounded-full p-[2px] transition-colors peer-checked:bg-gray-600 cursor-pointer"
+                      className="flex h-5 w-10 cursor-pointer items-center rounded-full bg-[#9CA3AF] p-[2px] transition-colors peer-checked:bg-gray-600"
                     >
-                    <span
-                      className="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"
-                    ></span>
+                      <span className="h-4 w-4 transform rounded-full bg-white shadow-md transition-transform duration-300 peer-checked:translate-x-5"></span>
                     </label>
 
-                    <label 
+                    <label
                       htmlFor="darkModeToggle"
-                      className="ml-2 text-[#1F2937] font-normal text-[12px] leading-4 md:text-[14px] md:leading-5">
-                        Ночная тема
+                      className="ml-2 text-[12px] font-normal leading-4 text-[#1F2937] md:text-[14px] md:leading-5"
+                    >
+                      Ночная тема
                     </label>
-                      
                   </div>
                 </div>
               )}
             </main>
           </div>
-        </ProfileBackground>  
+        </ProfileBackground>
+      </ProtectedRoute>
     </HomeContainer>
   );
 }

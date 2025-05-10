@@ -1,6 +1,8 @@
 import { GetServerSideProps } from "next";
 import HomeContainer from "../../components/HomeContainer/HomeContainer";
 import { OrderInfo } from "../../components/OrderInfo";
+import ProtectedRoute from "../../components/ProtectedRoute/ProtectedRoute";
+import { useProtectedRoute } from "../../shared/hooks/useProtectedRoute";
 
 type Props = {
   orderId: number;
@@ -11,7 +13,9 @@ export default function ThanksForOrderPage(props: Props) {
 
   return (
     <HomeContainer>
-      <OrderInfo ordeId={orderId} />
+      <ProtectedRoute protection={useProtectedRoute}>
+        <OrderInfo ordeId={orderId} />
+      </ProtectedRoute>
     </HomeContainer>
   );
 }

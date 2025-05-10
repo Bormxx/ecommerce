@@ -7,6 +7,7 @@ import { useUserStore } from "@/shared/store/auth";
 import { BasketItem, Product, ProductInfo } from "@/shared/types";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useAuth } from "../shared/hooks/useAuth";
 
 export default function Home() {
   const { products } = useProducts();
@@ -20,7 +21,7 @@ export default function Home() {
 
   const [favoritesItems, setFavoritesItems] = useState<Product[]>([]);
   const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
-
+  useAuth();
   useEffect(() => {
     if (isAuthenticated && basketQuery?.basket) {
       setBasketItems(basketQuery.basket.items);
@@ -32,7 +33,7 @@ export default function Home() {
       (fav: ProductInfo) => fav.item,
     );
     setFavoritesItems(favoritesItemsFormatted);
-  }, [isAuthenticated, basketQuery?.basket, favorites]);
+  }, [isAuthenticated]);
 
   return (
     <HomeContainer>

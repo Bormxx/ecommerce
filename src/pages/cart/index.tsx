@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getFavoritesInfo } from "@/shared/api/products";
 import { useEffect, useState } from "react";
 import { Product, ProductInfo } from "@/shared/types";
+import ProtectedRoute from "../../components/ProtectedRoute/ProtectedRoute";
+import { useProtectedRoute } from "../../shared/hooks/useProtectedRoute";
 
 export default function Cart() {
   const { basket } = useBasket();
@@ -28,18 +30,20 @@ export default function Cart() {
 
   return (
     <HomeContainer>
-      <div className="flex h-[90vh] px-5 pt-10 md:p-0">
-        <Sidebar />
-        {basket ? (
-          <CartSection
-            itemsInBasketFromApi={basket.items}
-            favorites={favoritesItems}
-            setFavorites={setFavoritesItems}
-          />
-        ) : (
-          <p>Идет загрузка ...</p>
-        )}
-      </div>
+      <ProtectedRoute protection={useProtectedRoute}>
+        <div className="flex h-[90vh] p-5 md:pt-10">
+          <Sidebar />
+          {basket ? (
+            <CartSection
+              itemsInBasketFromApi={basket.items}
+              favorites={favoritesItems}
+              setFavorites={setFavoritesItems}
+            />
+          ) : (
+            <p>Идет загрузка ...</p>
+          )}
+        </div>
+      </ProtectedRoute>
     </HomeContainer>
   );
 }
