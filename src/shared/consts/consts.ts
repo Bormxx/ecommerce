@@ -3,3 +3,5 @@ export const storages: { [key: string]: string } = {
     "Санкт-Петербург": "ул. Галины, д. 1",
     Орел: "ул. Павлова, д. 10-б",
 };
+
+export const county: number = 9;

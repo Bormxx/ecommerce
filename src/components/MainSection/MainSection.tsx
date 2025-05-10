@@ -1,5 +1,4 @@
 import { BasketItem } from "@/shared/types";
-// import { EmblaOptionsType } from "embla-carousel";
 import Banner from "../Banners/Banner";
 import CatalogList from "../CatalogList/CatalogList";
 import MiniBannerSection from "../MiniBannerSection/MiniBannerSection";
@@ -9,6 +8,7 @@ import { getItemsCarousel } from "../../shared/api/carousel";
 import { Product } from "../../shared/types/";
 import MiniCard from "../MiniCard/MiniCard";
 import EmblaCarousel from "../Carousel/Carousel";
+import { county } from "../../shared/consts/consts";
 
 type MainSectionProps = {
   items: Product[] | undefined;
@@ -16,7 +16,8 @@ type MainSectionProps = {
   favorites: Product[] | [];
   setFavorites: (items: Product[]) => void;
 };
-export const county: number = 7 + 1;
+
+
 export default function MainSection({
   items,
   productsInBasket,

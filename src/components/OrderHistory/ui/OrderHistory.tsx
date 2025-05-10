@@ -6,8 +6,10 @@ export function OrderHistory() {
   const { orders } = useOrders();
 
   return (
-    <div className="flex flex-col p-5">
-      <h1 className={`${roboto.className} text-2xl font-bold`}>
+    <div className="flex flex-col pb-20 md:pb-0">
+      <h1
+        className={`${roboto.className} hidden pb-5 text-2xl font-bold md:block`}
+      >
         История заказов
       </h1>
       {/*Список*/}

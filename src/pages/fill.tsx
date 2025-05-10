@@ -296,7 +296,7 @@ async function fillingPosts() {
     },
   );
 }
-export const county: number = 7 + 1;
+
 export default function fill() {
   return (
     <div className="grid">
