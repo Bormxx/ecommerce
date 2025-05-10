@@ -14,7 +14,6 @@ export const OrderInfo = (props: Props) => {
   const { ordeId } = props;
   const user = useUserStore();
   const { order } = useOrderById(ordeId);
-  useProtectedRoute();
 
   return (
     <div className="mx-auto p-5 md:mx-0 md:p-0">
@@ -44,7 +43,7 @@ export const OrderInfo = (props: Props) => {
               className={`${inter.className} text-sm font-normal text-gray-400`}
             >
               {/* TODO: Необходимо хранить тлф в БД/сторе */}
-              Номер телефона
+              {order?.phone ? order.phone : "Телефон не указан"}
             </p>
           </div>
           <p className={`${inter.className} text-sm font-normal text-gray-800`}>
@@ -114,12 +113,12 @@ export const OrderInfo = (props: Props) => {
             <p
               className={`${inter.className} text-sm font-normal text-gray-400`}
             >
-              {`Оплачено ${order?.payment ? "картой" : ""}`}
+              {`Оплачено:`}
             </p>
             <p
               className={`${inter.className} text-2xl font-bold text-gray-500`}
             >
-              {`${order?.payment ? order.payment : "наличными"}`}
+              {`${order?.payment ? "картой" : "наличными"}`}
             </p>
           </div>
         </div>

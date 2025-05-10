@@ -1,14 +1,13 @@
+import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import MainSection from "@/components/MainSection/MainSection";
-import { BasketItem } from "@/shared/types";
-import HomeContainer from "../components/HomeContainer/HomeContainer";
-import { useAuth } from "../shared/hooks/useAuth";
-import { useProducts } from "../shared/hooks/queries/useProducts";
-import { useBasket } from "@/shared/hooks/queries/useBasket";
-import { useUserStore } from "@/shared/store/auth";
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { getFavoritesInfo } from "@/shared/api/products";
-
+import { useBasket } from "@/shared/hooks/queries/useBasket";
+import { useProducts } from "@/shared/hooks/queries/useProducts";
+import { useUserStore } from "@/shared/store/auth";
+import { BasketItem, Product, ProductInfo } from "@/shared/types";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useAuth } from "../shared/hooks/useAuth";
 
 export default function Home() {
   const { products } = useProducts();
@@ -18,26 +17,31 @@ export default function Home() {
     queryKey: ["favoritesInfo"],
     queryFn: getFavoritesInfo,
   });
-  const favorites = data?.favorites ?? [];
-  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+  const favorites = data?.likedItems ?? [];
 
+  const [favoritesItems, setFavoritesItems] = useState<Product[]>([]);
+  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+  useAuth();
   useEffect(() => {
     if (isAuthenticated && basketQuery?.basket) {
       setBasketItems(basketQuery.basket.items);
     } else {
       setBasketItems([]);
     }
-  }, [isAuthenticated, basketQuery?.basket]);
 
-
-  useAuth();
+    const favoritesItemsFormatted: Product[] = favorites.map(
+      (fav: ProductInfo) => fav.item,
+    );
+    setFavoritesItems(favoritesItemsFormatted);
+  }, [isAuthenticated]);
 
   return (
     <HomeContainer>
       <MainSection
         items={products}
         productsInBasket={basketItems}
-        favorites={favorites}
+        favorites={favoritesItems}
+        setFavorites={setFavoritesItems}
       />
     </HomeContainer>
   );

@@ -52,7 +52,7 @@ export default function MiniBannerSection({ items }: MiniBannerSectionProps) {
               </p>
               <Image
                 src={category.img}
-                className="h-[80%] w-full rounded-md bg-white object-cover"
+                className="h-20 w-full rounded-md bg-white object-cover md:min-w-32"
                 alt="продукт"
                 width={128}
                 height={128}
