@@ -8,7 +8,6 @@ import { NextApiResponse } from "next";
 // TODO: Добавить обработку ошибок для остальных методов
 // TODO: Добавить валидацию данных (опционально пока, не в приоритете)
 
-
 // Добавить товар в корзину
 export async function addItemToCartHandler(
   userId: number,
@@ -23,11 +22,11 @@ export async function addItemToCartHandler(
 export async function updateCartItemQuantityHandler(
   userId: number,
   itemId: number,
-  data: { quantity: number },
+  quantity: number,
   res: NextApiResponse,
 ) {
   try {
-    await updateCartItemQuantity(userId, itemId, data.quantity);
+    await updateCartItemQuantity(userId, itemId, quantity);
     res.status(200).json({ message: "Корзина успешна обновлена" });
   } catch (error) {
     if (

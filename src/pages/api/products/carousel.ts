@@ -2,7 +2,7 @@ import { and } from "drizzle-orm";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../api/db";
 import { photos } from "../../../api/models/product";
-import { county } from "../../fill";
+import { county } from "../../../shared/consts/consts";
 
 // TODO: Переписать на контроллеры и сервисы. Аналогично с products/[id].ts
 

@@ -56,7 +56,7 @@ export default function LoginMenu() {
               lg_hidden=""
             />
             <IconLink
-              link="/"
+              link="/favorites"
               icon={<HeartIcon />}
               text="Избранное"
               lg_hidden=""
