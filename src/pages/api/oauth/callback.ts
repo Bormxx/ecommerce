@@ -73,7 +73,7 @@ export default async function wow(req: NextApiRequest, res: NextApiResponse) {
 
       res.setHeader("Set-Cookie", [
         `session=${token}; HttpOnly; Max-Age=60000; Path=/api;`,
-        `yandex_oauth_state=; HttpOnly; Max-Age=0; Path=/api; SameSite=Lax;`,
+        `yandex_oauth_state=; HttpOnly; Max-Age=0; Path=/api; SameSite=Strict;`,
       ]);
 
       res.status(200).json({

@@ -24,6 +24,7 @@ export default async function Favorites(
       res.status(200).json({ likedItems });
     } catch (error) {
       res.status(500).json({ access: "denied" });
+ 
     }
   }
   if (req.method === "POST") {

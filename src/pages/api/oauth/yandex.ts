@@ -14,7 +14,7 @@ export default async function authYandex(
   
       res.setHeader(
         "Set-Cookie",
-        `yandex_oauth_state=${state}; HttpOnly; Max-Age=600; Path=/api; SameSite=Lax;`,
+        `yandex_oauth_state=${state}; HttpOnly; Max-Age=600; Path=/api; SameSite=Strict;`,
       );
       
       return res.status(200).json({url: url});
