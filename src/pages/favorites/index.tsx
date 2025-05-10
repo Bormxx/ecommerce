@@ -7,7 +7,7 @@ import { getFavoritesInfo } from "@/shared/api/products";
 import { useBasket } from "@/shared/hooks/queries/useBasket";
 import { useProtectedRoute } from "@/shared/hooks/useProtectedRoute";
 import { useUserStore } from "@/shared/store/auth";
-import { BasketItem } from "@/shared/types";
+import { BasketItem, Product, ProductInfo } from "@/shared/types";
 import { inter } from "@/styles/fonts";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
@@ -19,8 +19,7 @@ export default function FavoritesPage() {
     queryKey: ["favoritesInfo"],
     queryFn: getFavoritesInfo,
   });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const favorites = data?.favorites ?? [];
+  const favorites = data?.likedItems ?? null;
   const [textActiveCardsLayout, setTextActiveCardsLayout] =
     useState("Карточки");
   const [textNoActiveCardsLayout, setTextNoActiveCardsLayout] =
@@ -29,6 +28,7 @@ export default function FavoritesPage() {
   const { isAuthenticated } = useUserStore();
   const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
   const { basket } = useBasket();
+  const [favoritesItems, setFavoritesItems] = useState<Product[] | null>(null);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -40,8 +40,14 @@ export default function FavoritesPage() {
     } else {
       setBasketItems([]);
     }
+    const favoritesItemsFormatted: Product[] = favorites
+      ? favorites.map((fav: ProductInfo) => ({
+          ...fav.item,
+          photos: fav.photos ?? null,
+        }))
+      : null;
+    setFavoritesItems(favoritesItemsFormatted);
   }, [isAuthenticated, basket, favorites]);
-
   function handleClickCardsLayout() {
     if (textNoActiveCardsLayout === "Список") {
       setTextActiveCardsLayout("Список");
@@ -89,12 +95,19 @@ export default function FavoritesPage() {
             </div>
 
             <div className="mt-4 w-full rounded-lg bg-white">
-              <CatalogList
-                variable={variableList}
-                items={favorites}
-                productsInBasket={basketItems}
-                favorites={favorites}
-              />
+              {favoritesItems && favoritesItems.length > 0 ? (
+                <CatalogList
+                  variable={variableList}
+                  items={favoritesItems}
+                  productsInBasket={basketItems}
+                  favorites={favoritesItems}
+                  setFavorites={setFavoritesItems}
+                />
+              ) : (
+                <p className={`${inter.className} text-base`}>
+                  Избранных товаров пока нет
+                </p>
+              )}
             </div>
           </section>
         </section>

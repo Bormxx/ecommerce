@@ -123,7 +123,7 @@ export interface Users {
   setPassword: (password: string) => void;
 }
 
-export interface Favorites {
+export interface Favorite {
   id: number;
   userId: number;
   itemId: number;

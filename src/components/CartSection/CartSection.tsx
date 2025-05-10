@@ -3,14 +3,17 @@ import { inter, roboto } from "@/styles/fonts";
 
 import { useEffect, useState } from "react";
 import CartForm from "./CartForm";
-import { BasketItem, Favorites } from "@/shared/types";
+import { BasketItem, Product } from "@/shared/types";
 import { getProductWord } from "@/shared/utils/frontend/cartHelpers";
 type CartSectionProps = {
   itemsInBasketFromApi: BasketItem[];
-   favorites: Favorites[] | [];
+  favorites: Product[] | [];
+  setFavorites: (items: Product[]) => void;
 };
 export default function CartSection({
-  itemsInBasketFromApi, favorites
+  itemsInBasketFromApi,
+  favorites,
+  setFavorites,
 }: CartSectionProps) {
   const [content, setContent] = useState<React.ReactNode>(null);
   const [itemList, setItemList] = useState(itemsInBasketFromApi);
@@ -23,10 +26,16 @@ export default function CartSection({
     if (itemList.length === 0) {
       setContent(<p className="text-lg">Ваша корзина пуста</p>);
     } else {
-      setContent(<CartForm itemList={itemList} setItemList={setItemList} favorites={favorites}/>);
+      setContent(
+        <CartForm
+          itemList={itemList}
+          setItemList={setItemList}
+          favorites={favorites}
+          setFavorites={setFavorites}
+        />,
+      );
     }
-  }, [itemList]);
-
+  }, [itemList, favorites]);
 
   return (
     <div className="w-full md:pl-5">

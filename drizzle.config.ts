@@ -3,8 +3,8 @@
 // -----------------------------------------------------
 
 import type { Config } from "drizzle-kit";
-// import 'dotenv/config';
-require("dotenv").config();
+import 'dotenv/config';
+// require("dotenv").config();
 
 
 // -------Выбираем тип базы данных-----------------------
