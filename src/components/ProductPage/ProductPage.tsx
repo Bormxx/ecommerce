@@ -2,6 +2,11 @@
   import Image from 'next/image';
   import { useState } from "react";
   import { getRatingsWord } from "@/shared/utils/frontend/cartHelpers";
+  import { HeartIcon as HeartIconBlack } from "@heroicons/react/24/solid";
+  import { handleToggleFavorite } from "@/shared/utils/frontend/fetch";
+  import { addProductInBacket } from "@/shared/api/basket";
+  import { useBasket } from "@/shared/hooks/queries/useBasket";
+  import ReplaceQuantity from "../MiniCard/ReplaceQuantity";
 
   type Product = {
     id: number;
@@ -34,6 +39,7 @@
     roundRating: number;
     quantityRatings: number;
     photos: Photo[];
+    favorites: Product[] | [];
   };
 
   export default function ProductPage({
@@ -42,6 +48,7 @@
     roundRating,
     quantityRatings,
     photos,
+    favorites,
   }: ProductPageProps) {
 
     const defaultMainPhoto = photos.find(p => p.isMainPhoto)?.photoLink || "/images/product_for_dev.png";
@@ -49,6 +56,11 @@
     const nonMainPhotos = photos.filter(photo => !photo.isMainPhoto).slice(0, 4);
     const availabilityProduct = product.availability ? "Есть в наличии" : "Нет в наличии";
     const ratingsWord = getRatingsWord(quantityRatings);
+    const basketQuery = useBasket();
+    const itemId = product.id || 0;
+    const inBasket = basketQuery.basket?.items
+    ? basketQuery.basket.items.some((basketItem) => basketItem.itemId === itemId)
+    : false;
 
     const characteristicsList = characteristics[0]
     ? {
@@ -59,6 +71,38 @@
         "Наличие УФ фильтра": characteristics[0].linzeUVDefences,
       }
     : {};
+
+    const liked = favorites
+    ? favorites.some((favoriteItem) => favoriteItem.id === itemId)
+    : false;
+    const [isLiked, setIsLiked] = useState(liked);
+    const [quantity, setQuantity] = useState(1);
+    console.log(' liked.id ',  liked);
+
+    function handleLikeClick() {
+      setIsLiked((prev) => !prev);
+    
+      handleToggleFavorite(itemId)
+        .then(() => {
+          
+        })
+        .catch((err) => {
+          setIsLiked((prev) => !prev);
+          console.log(`Ошибка: ${err}`);
+        });
+    }
+
+    function addToCart() {
+        setQuantity(1);
+        addProductInBacket({ itemId, quantity: 1 })
+          .then((response) => {
+            console.log("Товар добавлен в корзину:", response.message);
+          })
+          .catch((error) => {
+            console.error("Ошибка при добавлении товара в корзину:", error.message);
+          });
+      }
+
 
     return (
       <div className="mx-auto max-w-[980px]">
@@ -125,25 +169,41 @@
               <div className="hidden md:flex mt-4 justify-between gap-4">
 
                 <div className="flex gap-1">
-              
-                  <button className="bg-[#1E40AF] w-[180px] h-[40px] text-white rounded-[6px] flex items-center justify-center">
+
+                  {inBasket ? (
+                    <div className="flex flex-grow justify-end gap-2">
+                      <ReplaceQuantity
+                        id={itemId}
+                        quantity={quantity}
+                        onQuantityChange={(newQty) => setQuantity(newQty)}
+                      />
+                    </div>
+                  ) : (
+                    <button className="bg-[#1E40AF] w-[180px] h-[40px] text-white rounded-[6px] flex items-center justify-center">
                     <Image 
                       src="/images/button_bag.svg" 
                       alt="Корзина" 
                       width={24} 
                       height={24} 
                       className="w-6 h-6"
+                      onClick={addToCart}
                     />
                   </button>
+                  )}
 
                   <button className="flex w-[40px] h-[40px] items-center justify-center">
-                    <Image 
-                      className="w-5 h-[18px] text-[#1E40AF] object-center object-contain" 
-                      src="/images/Heart.svg" 
-                      alt="Лайк" 
-                      width={20} 
-                      height={18} 
-                    />
+                    {isLiked ? (
+                      <HeartIconBlack width={24} height={24} />
+                    ) : (
+                      <Image 
+                        className="w-5 h-[18px] text-[#1E40AF] object-center object-contain" 
+                        src="/images/Heart.svg" 
+                        alt="Лайк" 
+                        width={20} 
+                        height={18} 
+                        onClick={handleLikeClick}
+                      />
+                    )}
                   </button>
                 </div>
 
@@ -173,8 +233,17 @@
               <div className="block md:hidden mt-4 gap-4">
 
                 <div className="flex justify-between gap-0">
-              
-                  <button className="bg-[#1E40AF] flex-1 h-[40px] text-white rounded-[6px] flex items-center justify-center">
+
+                  {inBasket ? (
+                    <div className="flex flex-grow justify-end gap-2">
+                      <ReplaceQuantity
+                        id={itemId}
+                        quantity={quantity}
+                        onQuantityChange={(newQty) => setQuantity(newQty)}
+                      />
+                    </div>
+                  ) : (
+                    <button className="bg-[#1E40AF] flex-1 h-[40px] text-white rounded-[6px] flex items-center justify-center">
                     {product.availability ? 
                     <Image 
                       src="/images/button_bag.svg" 
@@ -182,19 +251,26 @@
                       width={24} 
                       height={24} 
                       className="w-6 h-6"
-                    /> : 
-                    "Нет в наличии"
+                      onClick={addToCart}
+                    /> 
+                    : "Нет в наличии"
                     }
                   </button>
+                  )}
 
                   <button className="flex w-[40px] h-[40px] items-center justify-center">
-                    <Image 
-                      className="w-5 h-[18px] text-[#1E40AF] object-center object-contain" 
-                      src="/images/Heart.svg" 
-                      alt="Лайк" 
-                      width={20} 
-                      height={18} 
-                    />
+                    {isLiked ? (
+                      <HeartIconBlack width={24} height={24} />
+                    ) : (
+                      <Image 
+                        className="w-5 h-[18px] text-[#1E40AF] object-center object-contain" 
+                        src="/images/Heart.svg" 
+                        alt="Лайк" 
+                        width={20} 
+                        height={18} 
+                        onClick={handleLikeClick}
+                      />
+                    )}
                   </button>
                 </div>
               </div>
