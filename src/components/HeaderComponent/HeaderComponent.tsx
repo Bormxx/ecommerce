@@ -13,7 +13,7 @@ import SearchField from "../AuthFormsComponents/SearchField";
 
 export default function HeaderComponent() {
   const { pathname } = useRouter();
-  const hiddenRoutes = ["/cart", "/profile", "/order"];
+  const hiddenRoutes = ["/cart", "/profile", "/order", "/products/[id]"];
   const router = useRouter();
 
   const itemsList: TItemSchema[] = [];
