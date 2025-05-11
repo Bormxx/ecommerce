@@ -62,7 +62,7 @@ export default function FavoritesPage() {
   return (
     <ProtectedRoute protection={useProtectedRoute}>
       <HomeContainer>
-        <section className="flex p-5 md:pt-10">
+        <section className="flex h-[90vh] p-5 md:pt-10">
           <Sidebar />
           <section className="mx-5 w-full">
             <div className="flex justify-between">

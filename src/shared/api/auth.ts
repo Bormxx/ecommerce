@@ -70,3 +70,17 @@ export const getYandexUrl = async () => {
   }
   return data.url;
 };
+
+export const logOut = async () => {
+  const response = await fetch(`/api/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => null);
+    throw new Error(data?.error || "Не удалось выйти из аккаунта");
+  }
+
+  return true;
+};
