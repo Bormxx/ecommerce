@@ -1,31 +1,70 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import ProfileBackground from "@/components/ProfileComponents/ProfileBackground";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import ProfileSection from "@/components/ProfileSection/ProfileSection";
 import CustomSelect from "@/components/CustomSelect/CustomSelect";
+import { useUserStore } from "@/shared/store/auth";
+import { useMutation } from '@tanstack/react-query';
+import { updateUser } from "@/shared/api/user";
+import { useRouter } from 'next/router';
+import { logOut } from "@/shared/api/auth";
 import ProtectedRoute from "../../components/ProtectedRoute/ProtectedRoute";
 import { useProtectedRoute } from "../../shared/hooks/useProtectedRoute";
 
-interface ProfileProps {
-  name?: string;
-  surname?: string;
-  email?: string;
-}
+export default function Profile() {
+  
+  const name = useUserStore((state) => state.name);
+  const surname = useUserStore((state) => state.surname);
+  const email = useUserStore((state) => state.email);
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
-export default function Profile({
-  name = "Ярополк",
-  surname = "Иванов",
-  email = "",
-}: ProfileProps) {
+
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ name, surname, email });
   //const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.error("Ошибка при выходе:", error);
+    } finally {
+      useUserStore.getState().removeUserData();
+      useUserStore.getState().setIsAuthenticated(false);
+      router.push("/");
+    }
+  };
+
+  const mutation = useMutation({
+    mutationFn: updateUser,
+    onSuccess: (_, variables) => {
+      useUserStore.getState().setUserData({
+        name: variables.name ?? "",
+        surname: variables.surname ?? "",
+        email: variables.email ?? "",
+        avatar: "",
+      });
   
+      setIsEditing(false);
+      console.log('Профиль успешно обновлён');
+    },
+    onError: (error) => {
+      console.error('Ошибка при обновлении профиля:', error);
+    },
+  });
+
   const handleSave = (updatedData: { name: string; surname: string; email: string }) => {
     setProfileData(updatedData);
+    mutation.mutate(updatedData);
     setIsEditing(false);
   };
+
+  useEffect(() => {
+    setProfileData({ name, surname, email });
+  }, [name, surname, email]);
 
   return (
     <HomeContainer>
@@ -90,6 +129,13 @@ export default function Profile({
                       Ночная тема
                     </label>
                   </div>
+
+                    <button
+                      onClick={handleLogout}
+                      className="w-full max-w-[720px] md:max-w-[580px] mt-4 px-8 py-[7px] bg-[#FFFFFF] text-[#1E40AF] border border-[#1E40AF] rounded-md font-[700] text-[14px] leading-5 md:text-[16px] md:leading-6 hover:bg-[#1E40AF] hover:text-white transition">
+                        Выйти из аккаунта
+                    </button>
+
                 </div>
               )}
             </main>

@@ -1,6 +1,12 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
   import Image from 'next/image';
   import { useState } from "react";
+  import { getRatingsWord } from "@/shared/utils/frontend/cartHelpers";
+  import { HeartIcon as HeartIconBlack } from "@heroicons/react/24/solid";
+  import { handleToggleFavorite } from "@/shared/utils/frontend/fetch";
+  import { addProductInBacket } from "@/shared/api/basket";
+  import { useBasket } from "@/shared/hooks/queries/useBasket";
+  import ReplaceQuantity from "../MiniCard/ReplaceQuantity";
 
   type Product = {
     id: number;
@@ -33,6 +39,7 @@
     roundRating: number;
     quantityRatings: number;
     photos: Photo[];
+    favorites: Product[] | [];
   };
 
   export default function ProductPage({
@@ -41,18 +48,20 @@
     roundRating,
     quantityRatings,
     photos,
+    favorites,
   }: ProductPageProps) {
-
-    //console.log("Product Data:", product);
-    //console.log("Characteristics:", characteristics[0]);
-    //console.log("RoundRating:", roundRating);
-    //console.log("QuantityRatings:", quantityRatings);
-    //console.log("Photos:", photos);
 
     const defaultMainPhoto = photos.find(p => p.isMainPhoto)?.photoLink || "/images/product_for_dev.png";
     const [mainPhotoLink, setMainPhotoLink] = useState<string>(defaultMainPhoto);
     const nonMainPhotos = photos.filter(photo => !photo.isMainPhoto).slice(0, 4);
     const availabilityProduct = product.availability ? "Есть в наличии" : "Нет в наличии";
+    const ratingsWord = getRatingsWord(quantityRatings);
+    const basketQuery = useBasket();
+    const itemId = product.id || 0;
+    const inBasket = basketQuery.basket?.items
+    ? basketQuery.basket.items.some((basketItem) => basketItem.itemId === itemId)
+    : false;
+
     const characteristicsList = characteristics[0]
     ? {
         "Материал оправы": characteristics[0].frameMatherials,
@@ -63,14 +72,48 @@
       }
     : {};
 
+    const liked = favorites
+    ? favorites.some((favoriteItem) => favoriteItem.id === itemId)
+    : false;
+    const [isLiked, setIsLiked] = useState(liked);
+    const [quantity, setQuantity] = useState(1);
+    console.log(' liked.id ',  liked);
+
+    function handleLikeClick() {
+      setIsLiked((prev) => !prev);
+    
+      handleToggleFavorite(itemId)
+        .then(() => {
+          
+        })
+        .catch((err) => {
+          setIsLiked((prev) => !prev);
+          console.log(`Ошибка: ${err}`);
+        });
+    }
+
+    function addToCart() {
+        setQuantity(1);
+        addProductInBacket({ itemId, quantity: 1 })
+          .then((response) => {
+            console.log("Товар добавлен в корзину:", response.message);
+          })
+          .catch((error) => {
+            console.error("Ошибка при добавлении товара в корзину:", error.message);
+          });
+      }
+
+
     return (
       <div className="mx-auto max-w-[980px]">
-        <Breadcrumbs className="md:pb-5 md:pt-0"/>
-        <div className="relative flex flex-wrap justify-center gap-4 mb-8 md:rounded-xl md:bg-white md:p-6 md:shadow-custom">
-          <div className="gap-5 md:flex md:justify-center">
+        <Breadcrumbs className="hidden md:block md:pb-5 md:pt-0"/>
+        <div className="relative flex flex-wrap justify-center gap-4 mb-4 md:mb-8 md:rounded-xl md:bg-white md:p-6 md:shadow-custom">
+
+
+          <div className="px-5 md:px-0 gap-5 flex flex-col items-center md:items-start md:flex-row md:justify-center">
 
             <div>
-              <div className="w-[456px] h-[460px] bg-white rounded-lg overflow-hidden flex items-center justify-center">
+              <div className="min-w-[335px] min-h-[288px] bg-white rounded-lg overflow-hidden flex items-center justify-center mt-5 md:mt-0 mb-3 md:mb-0">
                 <Image 
                   src={mainPhotoLink}
                   alt="Основная фотография очков" 
@@ -80,7 +123,7 @@
                 />
               </div>
 
-              <div className="flex justify-center gap-2 mt-4">
+              <div className="hidden md:flex justify-center gap-2 mt-4">
                 {nonMainPhotos.map((photo) => (
                   <div
                     key={photo.id}
@@ -101,74 +144,135 @@
 
             <main className="w-full max-w-[456px]">
               <div className="flex justify-between">
-                <h1 className="font-bold text-[30px] leading-9 text-[#1F2937]">{product.title}</h1> 
+                <h1 className="font-bold text-[24px] md:text-[30px] leading-8 md:leading-9 text-[#1F2937]">{product.title}</h1> 
 
                 <div className="flex flex-col items-center justify-center gap-1">
                   <div className="flex items-center gap-2">
                     <Image 
-                      className="w-8 h-8 text-[#2563EB] object-center object-contain" 
+                      className="w-4 h-4 md:w-8 md:h-8 text-[#2563EB] object-center object-contain" 
                       src="/images/Star.svg" 
                       alt="Рейтинг" 
                       width={32} 
                       height={32} 
                     />
-                    <span className="font-bold text-[30px] leading-9 text-[#1F2937]">{roundRating}</span>
+                    <span className="font-bold text-[24px] md:text-[30px] leading-8 md:leading-9 text-[#1F2937]">{roundRating}</span>
                   </div>
                 </div>
               
               </div>
               <div className="flex justify-end">
-                <span className="mt-1 font-normal text-[14px] leading-5 text-[#6B7280]">{quantityRatings} оценок</span>
+                <span className="mt-0 md:mt-1 font-normal text-[14px] leading-5 text-[#6B7280]">{ratingsWord}</span>
               </div>
              
-              <div className="text-[#10B981] font-bold text-[30px] leading-9">{product.price} ₽</div>
+              <div className="text-[#10B981] font-bold text-[24px] md:text-[30px] leading-8 md:leading-9">{product.price} ₽</div>
 
-              <div className="mt-4 flex justify-between gap-4">
+              <div className="hidden md:flex mt-4 justify-between gap-4">
 
                 <div className="flex gap-1">
-              
-                  <button className="bg-[#1E40AF] w-[180px] h-[40px] text-white rounded-[6px] flex items-center justify-center">
+
+                  {inBasket ? (
+                    <div className="flex flex-grow justify-end gap-2">
+                      <ReplaceQuantity
+                        id={itemId}
+                        quantity={quantity}
+                        onQuantityChange={(newQty) => setQuantity(newQty)}
+                      />
+                    </div>
+                  ) : (
+                    <button className="bg-[#1E40AF] w-[180px] h-[40px] text-white rounded-[6px] flex items-center justify-center">
                     <Image 
                       src="/images/button_bag.svg" 
                       alt="Корзина" 
                       width={24} 
                       height={24} 
                       className="w-6 h-6"
+                      onClick={addToCart}
                     />
                   </button>
+                  )}
 
                   <button className="flex w-[40px] h-[40px] items-center justify-center">
-                    <Image 
-                      className="w-5 h-[18px] text-[#1E40AF] object-center object-contain" 
-                      src="/images/Heart.svg" 
-                      alt="Лайк" 
-                      width={20} 
-                      height={18} 
-                    />
+                    {isLiked ? (
+                      <HeartIconBlack width={24} height={24} />
+                    ) : (
+                      <Image 
+                        className="w-5 h-[18px] text-[#1E40AF] object-center object-contain" 
+                        src="/images/Heart.svg" 
+                        alt="Лайк" 
+                        width={20} 
+                        height={18} 
+                        onClick={handleLikeClick}
+                      />
+                    )}
                   </button>
                 </div>
 
                 <p className="font-normal text-[16px] leading-6 text-[#6B7280] self-end">{availabilityProduct}</p>
               </div>
 
-              <p className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">Описание</p>
-              <p className="mt-4 font-normal text-[14px] leading-5 text-[#6B7280]">
+              <p className="mt-3 md:mt-4 font-bold text-[14px] md:text-[16px] leading-5 md:leading-6 text-[#1F2937]">Описание</p>
+              <p className="mt-1 md:mt-4 font-normal text-[12px] md:text-[14px] leading-4 md:leading-5 text-[#6B7280]">
                 {product.description}
               </p>
-              <h2 className="mt-4 font-bold text-[16px] leading-6 text-[#1F2937]">О товаре</h2>
+              <h2 className="mt-3 md:mt-4 font-bold text-[14px] md:text-[16px] leading-5 md:leading-6 text-[#1F2937]">О товаре</h2>
 
-              <div className="mt-[14px]">
+              <div className="mt-[6px] md:mt-[14px]">
                 {Object.entries(characteristicsList).map(([key, value], index, array) => (
                   <div
                     key={key}
                     className={`flex justify-between ${
-                      index === array.length - 1 ? 'pt-2' : index === 0 ? 'border-b pb-2': 'border-b py-2'
+                      index === array.length - 1 ? 'pt-[6px] md:pt-2' : index === 0 ? 'border-b pb-[6px] md:pb-2': 'border-b py-[6px] md:py-2'
                     }`}
                   >
                     <span className="font-normal text-[12px] leading-4 text-[#6B7280]">{key}</span>
-                    <span className="font-normal text-[16px] leading-6 text-[#1F2937]">{value}</span>
+                    <span className="font-normal text-[14px] md:text-[16px] leading-5 md:leading-6 text-[#1F2937]">{value}</span>
                   </div>
                 ))}
+              </div>
+
+              <div className="block md:hidden mt-4 gap-4">
+
+                <div className="flex justify-between gap-0">
+
+                  {inBasket ? (
+                    <div className="flex flex-grow justify-end gap-2">
+                      <ReplaceQuantity
+                        id={itemId}
+                        quantity={quantity}
+                        onQuantityChange={(newQty) => setQuantity(newQty)}
+                      />
+                    </div>
+                  ) : (
+                    <button className="bg-[#1E40AF] flex-1 h-[40px] text-white rounded-[6px] flex items-center justify-center">
+                    {product.availability ? 
+                    <Image 
+                      src="/images/button_bag.svg" 
+                      alt="Корзина" 
+                      width={24} 
+                      height={24} 
+                      className="w-6 h-6"
+                      onClick={addToCart}
+                    /> 
+                    : "Нет в наличии"
+                    }
+                  </button>
+                  )}
+
+                  <button className="flex w-[40px] h-[40px] items-center justify-center">
+                    {isLiked ? (
+                      <HeartIconBlack width={24} height={24} />
+                    ) : (
+                      <Image 
+                        className="w-5 h-[18px] text-[#1E40AF] object-center object-contain" 
+                        src="/images/Heart.svg" 
+                        alt="Лайк" 
+                        width={20} 
+                        height={18} 
+                        onClick={handleLikeClick}
+                      />
+                    )}
+                  </button>
+                </div>
               </div>
     
             </main>
