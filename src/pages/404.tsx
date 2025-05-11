@@ -13,7 +13,7 @@ export default function p404() {
       </Head>
       <HomeContainer>
         <P404Background>
-          <p className="text-xl font-bold">
+          <p className="text-xl font-bold p-5">
             Индус Ярополк Иванов, как и данная страница, не существует.
           </p>
         </P404Background>
