@@ -15,8 +15,8 @@ export default function Home() {
   const { data } = useQuery({
     queryKey: ["favoritesInfo"],
     queryFn: getFavoritesInfo,
+    enabled: isAuthenticated, // Запускается только если пользователь авторизован
   });
-  // const favorites = data?.likedItems ?? [];
   const favoritesItems = (data?.likedItems ?? []).map(
     (fav: ProductInfo) => fav.item,
   );
