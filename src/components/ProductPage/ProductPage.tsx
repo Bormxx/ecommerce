@@ -64,10 +64,12 @@
       <div className="mx-auto max-w-[980px]">
         <Breadcrumbs className="hidden md:block md:pb-5 md:pt-0"/>
         <div className="relative flex flex-wrap justify-center gap-4 mb-4 md:mb-8 md:rounded-xl md:bg-white md:p-6 md:shadow-custom">
-          <div className="gap-5 md:flex md:justify-center">
+
+
+          <div className="px-5 md:px-0 gap-5 flex flex-col items-center md:items-start md:flex-row md:justify-center">
 
             <div>
-              <div className="w-[456px] h-[460px] bg-white rounded-lg overflow-hidden flex items-center justify-center mt-5 md:mt-0 mb-3 md:mb-0">
+              <div className="min-w-[335px] min-h-[288px] bg-white rounded-lg overflow-hidden flex items-center justify-center mt-5 md:mt-0 mb-3 md:mb-0">
                 <Image 
                   src={mainPhotoLink}
                   alt="Основная фотография очков" 
@@ -173,13 +175,16 @@
                 <div className="flex justify-between gap-0">
               
                   <button className="bg-[#1E40AF] flex-1 h-[40px] text-white rounded-[6px] flex items-center justify-center">
+                    {product.availability ? 
                     <Image 
                       src="/images/button_bag.svg" 
                       alt="Корзина" 
                       width={24} 
                       height={24} 
                       className="w-6 h-6"
-                    />
+                    /> : 
+                    "Нет в наличии"
+                    }
                   </button>
 
                   <button className="flex w-[40px] h-[40px] items-center justify-center">
