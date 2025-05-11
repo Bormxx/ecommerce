@@ -14,7 +14,7 @@ export const useBasket = () => {
   } = useQuery<Basket, Error>({
     queryKey: ["basketInfo"],
     queryFn: getBasketInfo,
-    enabled: isAuthenticated, // <- ключевая строка
+    enabled: isAuthenticated,
   });
 
   return {
