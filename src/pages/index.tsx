@@ -18,7 +18,6 @@ export default function Home() {
     queryFn: getFavoritesInfo,
   });
   const favorites = data?.likedItems ?? [];
-
   const [favoritesItems, setFavoritesItems] = useState<Product[]>([]);
   const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
   useAuth();
@@ -33,7 +32,7 @@ export default function Home() {
       (fav: ProductInfo) => fav.item,
     );
     setFavoritesItems(favoritesItemsFormatted);
-  }, [isAuthenticated]);
+  }, [isAuthenticated, favorites, basketQuery?.basket]);
 
   return (
     <HomeContainer>
