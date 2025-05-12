@@ -24,9 +24,7 @@ export const getProductById = async (
 };
 
 export const getFavoritesInfo = async () => {
-  const response = await fetch(
-    "/api/products/favorites",
-  );
+  const response = await fetch("/api/products/favorites");
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data.error);

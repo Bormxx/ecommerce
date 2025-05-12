@@ -17,7 +17,6 @@ type MainSectionProps = {
   setFavorites: (items: Product[]) => void;
 };
 
-
 export default function MainSection({
   items,
   productsInBasket,
@@ -32,31 +31,32 @@ export default function MainSection({
   const SLIDE_COUNT = county;
   const SLIDE: ReactNode[] = [];
   prod.data?.data.map(
-    (
-      prod: {
-        requestItem: { id: number; title: string; price: number };
-        requestPhoto: { photoLink: string }[];
-      },
-      i: number,
-    ) => {
-      if (i + 1 < SLIDE_COUNT) {
-        SLIDE.push(
-          <MiniCard
-            key={prod.requestItem.id}
-            itemId={prod.requestItem.id}
-            title={prod.requestItem.title}
-            price={prod.requestItem.price}
-            img_url={prod.requestPhoto[i - i].photoLink}
-            variable="standart"
-            productDetail={`/${prod.requestItem.id}`}
-            productsInBasket={productsInBasket}
-            favorites={favorites}
-            setFavorites={setFavorites}
-          />,
-        );
-      }
-    },
-  );
+        (
+          prod: {
+            requestItem: { id: number; title: string; price: number };
+            requestPhoto: { photoLink: string }[];
+          },
+          i: number,
+        ) => {
+          if (i + 1 < SLIDE_COUNT) {
+            SLIDE.push(
+              <MiniCard
+                key={prod.requestItem.id}
+                itemId={prod.requestItem.id}
+                title={prod.requestItem.title}
+                price={prod.requestItem.price}
+                img_url={prod.requestPhoto[i - i].photoLink}
+                variable="standart"
+                productDetail={`/${prod.requestItem.id}`}
+                productsInBasket={productsInBasket}
+                favorites={favorites}
+                setFavorites={setFavorites}
+              />,
+            );
+          }
+        },
+      )
+   
   return (
     <div className="mx-5 mb-28 flex flex-col gap-3 md:mx-0 md:mb-0 md:w-full md:gap-6">
       <Banner items={items} />

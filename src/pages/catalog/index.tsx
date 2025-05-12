@@ -1,12 +1,11 @@
 import CategoryPage from "@/components/CategoryPage/CategoryPage";
 import HomeContainer from "@/components/HomeContainer/HomeContainer";
-import { BasketItem } from "@/shared/types";
+import { ProductInfo } from "@/shared/types";
 import { useAuth } from "../../shared/hooks/useAuth";
 import { useProducts } from "@/shared/hooks/queries/useProducts";
 import { useUserStore } from "@/shared/store/auth";
-import { useEffect, useState } from "react";
 import { useBasket } from "@/shared/hooks/queries/useBasket";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getFavoritesInfo } from "@/shared/api/products";
 
 export default function Catalog() {
@@ -16,25 +15,44 @@ export default function Catalog() {
   const { data } = useQuery({
     queryKey: ["favoritesInfo"],
     queryFn: getFavoritesInfo,
+    enabled: isAuthenticated, // Запускается только если пользователь авторизован
   });
-  const favorites = data?.favorites ?? [];
-  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
-
-  useEffect(() => {
-    if (isAuthenticated && basketQuery?.basket) {
-      setBasketItems(basketQuery.basket.items);
-    } else {
-      setBasketItems([]);
-    }
-  }, [isAuthenticated, basketQuery?.basket]);
-
+  const favoritesItems = (data?.likedItems ?? []).map(
+    (fav: ProductInfo) => fav.item,
+  );
+  const basketItems =
+    isAuthenticated && basketQuery?.basket ? basketQuery.basket.items : [];
   useAuth();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: getFavoritesInfo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["favoritesInfo"] });
+    },
+  });
   return (
     <HomeContainer>
       <CategoryPage
         items={products}
         itemsInBasketFromApi={basketItems}
-        favorites={favorites}
+        favorites={favoritesItems}
+        setFavorites={(items) => {
+          const lastChanged =
+            items.find(
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (item) => !favoritesItems.some((f: any) => f.id === item.id),
+            ) ||
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            favoritesItems.find(
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (item: any) => !items.some((f) => f.id === item.id),
+            );
+
+          if (lastChanged) {
+            mutation.mutate(lastChanged.id);
+          }
+        }}
       />
     </HomeContainer>
   );

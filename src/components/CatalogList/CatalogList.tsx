@@ -1,6 +1,7 @@
 import { BasketItem } from "@/shared/types";
 import { Product } from "../../shared/types/";
 import MiniCard from "../MiniCard/MiniCard";
+import SkeletonCard from "../MiniCard/SkeletonCard";
 
 type CatalogListProps = {
   variable: string;
@@ -17,17 +18,15 @@ export default function CatalogList({
   favorites,
   setFavorites,
 }: CatalogListProps) {
-  if (items) {
-    return (
-      <section
-        className={`grid-list w-full gap-2 ${variable === "horizontal" ? "flex flex-col" : "grid"} md:gap-5`}
-      >
-        {items ? (
-          items.map((item, index) => {
-           
-            const photoLink = item.photos
-              ? item.photos.map((photo) => photo.photoLink)[0]
-              : "";
+  return (
+    <section
+      className={`grid-list w-full gap-2 ${
+        variable === "horizontal" ? "flex flex-col" : "grid"
+      } md:gap-5`}
+    >
+      {items
+        ? items.map((item, index) => {
+            const photoLink = item.photos?.[0]?.photoLink || "";
 
             return (
               <MiniCard
@@ -44,12 +43,9 @@ export default function CatalogList({
               />
             );
           })
-        ) : (
-          <p>Товары не найдены</p>
-        )}
-      </section>
-    );
-  } else {
-    return <p>Товары пока не добавлены в базу</p>;
-  }
+        : Array.from({ length: 6 }).map((_, index) => (
+            <SkeletonCard key={index} variable={variable} />
+          ))}
+    </section>
+  );
 }

@@ -1,4 +1,4 @@
-import { BasketItem, Favorites, Product } from "@/shared/types";
+import { BasketItem, Product } from "@/shared/types";
 import { inter, roboto } from "@/styles/fonts";
 import {
   AdjustmentsHorizontalIcon,
@@ -19,13 +19,15 @@ import ButtonLong from "../ui-kit/ButtonLong";
 export interface TypeRequest {
   items: Product[] | undefined;
   itemsInBasketFromApi: BasketItem[];
-  favorites: Favorites[] | [];
+  favorites: Product[] | [];
+  setFavorites: (items: Product[]) => void;
 }
 
 export default function CategoryPage({
   items,
   itemsInBasketFromApi,
   favorites,
+  setFavorites,
 }: TypeRequest) {
   const router = useRouter();
   const { id } = router.query;
@@ -114,6 +116,7 @@ export default function CategoryPage({
               items={items}
               productsInBasket={itemsInBasketFromApi}
               favorites={favorites}
+              setFavorites={setFavorites}
             />
           </div>
         </main>
