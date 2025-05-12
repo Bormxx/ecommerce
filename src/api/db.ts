@@ -6,18 +6,16 @@
 
 // Для SQLite базы данных
 
-import Database from "better-sqlite3";
-import { drizzle } from "drizzle-orm/better-sqlite3";
-
+// import Database from "better-sqlite3";
+// import { drizzle } from "drizzle-orm/better-sqlite3";
 
 // Для Turso базы данных
 
-// import { createClient } from "@libsql/client";
-// import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
 
 // В самом низу тоже нужно выбрать нужный тип базы данных
 // ------------------------------------------------------
-
 
 // Основные модели и схема базы данных
 import { basket } from "@/api/models/cart";
@@ -65,17 +63,16 @@ const schema = {
 
 // Для Turso базы данных
 
-// const turso = createClient({
-//   url: process.env.TURSO_DATABASE_URL!,
-//   authToken: process.env.TURSO_AUTH_TOKEN!,
-// });
-// export const db = drizzle(turso, {schema});
-
+const turso = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN!,
+});
+export const db = drizzle(turso, { schema });
 
 // Для SQLite базы данных
 
-const baza = new Database("dev.db");
-export const db = drizzle(baza, { schema });
+// const baza = new Database("dev.db");
+// export const db = drizzle(baza, { schema });
 
 // Если выбрана SQLite база данных, то сделать npm run push в консоли!!!
 // ------------------------------------------------------

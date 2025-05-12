@@ -1,11 +1,7 @@
 export default function SkeletonCard({ variable }: { variable: string }) {
   return (
     <div
-      className={`rounded-lg bg-white p-4 ${
-        variable === "horizontal"
-          ? "flex flex-col gap-4 md:flex-row"
-          : "flex flex-col gap-2"
-      } animate-pulse`}
+      className={`flex ${variable === "horizontal" ? "flex-col items-end md:flex-row md:items-center" : "flex-col"} gap-2 rounded-lg bg-white ${variable === "mini" ? "" : "p-4"} animate-pulse`}
     >
       <div
         className={`bg-gray-200 ${
