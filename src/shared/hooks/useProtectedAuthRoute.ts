@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export const useProtectedAuthRoute = () => {
-  const { isAuthenticated } = useUserStore();
+  const { isAuthenticated, isHydrated } = useUserStore();
   const router = useRouter();
   useEffect(() => {
     if (isAuthenticated) {
@@ -13,5 +13,5 @@ export const useProtectedAuthRoute = () => {
     }
   }, [isAuthenticated, router]);
 
-  return !isAuthenticated;
+  return isHydrated ? !isAuthenticated : isAuthenticated;
 };
