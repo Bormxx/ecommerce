@@ -1,9 +1,10 @@
 import { roboto } from "@/styles/fonts";
 import { useOrders } from "../../../shared/hooks/queries/useOrders";
+import LoadingIcon from "../../LoadingIcon/LoadingIcon";
 import { OrderCard } from "./OrderCard";
 
 export function OrderHistory() {
-  const { orders } = useOrders();
+  const { orders, isPendingOrders } = useOrders();
 
   return (
     <div className="flex flex-col pb-20 md:pb-0">
@@ -15,10 +16,12 @@ export function OrderHistory() {
       {/*Список*/}
       <div className="flex flex-col gap-4">
         {/*Карточки*/}
-        {orders ? (
+        {isPendingOrders ? (
+          <LoadingIcon />
+        ) : orders && orders.length !== 0 ? (
           orders.map((order) => <OrderCard key={order.id} order={order} />)
         ) : (
-          <div className="flex min-h-[200px] items-center justify-center rounded-xl bg-gray-100 p-4 shadow-lg">
+          <div className="flex items-center justify-center ">
             <p className="text-base font-normal text-gray-500">
               Заказов пока нет
             </p>
