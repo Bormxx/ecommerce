@@ -36,7 +36,7 @@ export default function CatalogList({
                 price={item.price}
                 img_url={photoLink}
                 variable={variable}
-                productDetail={`/${index}`}
+                productDetail={`/${item.id}`}
                 productsInBasket={productsInBasket}
                 favorites={favorites}
                 setFavorites={setFavorites}
