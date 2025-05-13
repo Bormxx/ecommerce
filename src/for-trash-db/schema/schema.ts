@@ -66,6 +66,7 @@ export const photos = sqliteTable("photos", {
 export const characteristics = sqliteTable("characteristics", {
   id: integer("characteristicId").notNull().primaryKey({ autoIncrement: true }),
   itemId: integer("itemId").notNull().references(() => items.id),
+  color: text("color").notNull(),
   frameMatherials: text("frameMatherials").notNull(),
   linzeMatherials: text("linzeMatherials").notNull(),
   linzeTypes: text("linzeTypes").notNull(),

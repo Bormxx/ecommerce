@@ -20,6 +20,7 @@ export interface Photo {
 export type Characteristic = {
   id: number;
   itemId: number;
+  color: string;
   frameMatherials: string;
   linzeMatherials: string;
   linzeTypes: string;

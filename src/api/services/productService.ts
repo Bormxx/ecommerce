@@ -26,6 +26,56 @@ export async function getAllItems(): Promise<ItemWithMainPhoto[]> {
   return allItems;
 }
 
+// Получение отфильтрованных товаров
+export async function getFilteredItems({
+  priceMin,
+  priceMax,
+  availability,
+  color,
+  frameMatherials,
+  linzeMatherials,
+  linzeTypes,
+  linzeUVDefences,
+  linzeEffects,
+}: {
+  priceMin?: number;
+  priceMax?: number;
+  availability?: boolean;
+  color?: string;
+  frameMatherials?: string;
+  linzeMatherials?: string;
+  linzeTypes?: string;
+  linzeUVDefences?: string;
+  linzeEffects?: string;
+}): Promise<ItemWithMainPhoto[]> {
+  const filters: any = {}; // Массив фильтров для SQL-запроса
+
+  if (priceMin !== undefined) filters.price = { gte: priceMin };
+  if (priceMax !== undefined) filters.price = { lte: priceMax };
+  if (availability !== undefined) filters.availability = availability;
+
+  const characteristicsFilter: any[] = [];
+  if (color) characteristicsFilter.push({ color: { like: `%${color}%` } });
+  if (frameMatherials) characteristicsFilter.push({ frameMatherials: { like: `%${frameMatherials}%` } });
+  if (linzeMatherials) characteristicsFilter.push({ linzeMatherials: { like: `%${linzeMatherials}%` } });
+  if (linzeTypes) characteristicsFilter.push({ linzeTypes: { like: `%${linzeTypes}%` } });
+  if (linzeUVDefences) characteristicsFilter.push({ linzeUVDefences: { like: `%${linzeUVDefences}%` } });
+  if (linzeEffects) characteristicsFilter.push({ linzeEffects: { like: `%${linzeEffects}%` } });
+
+  if (characteristicsFilter.length > 0) {
+    filters.characteristics = { or: characteristicsFilter };
+  }
+
+  const filteredItems = await db.query.items.findMany({
+    where: filters,
+    with: {
+      photos: true,
+    },
+  });
+
+  return filteredItems;
+}
+
 // Получение товара по ID
 export async function getItemById(itemId: number): Promise<{
   item: Item | null;
@@ -85,6 +135,7 @@ export async function createItem(itemData: {
   availability: boolean;
   photos?: { photoLink: string; isMainPhoto: boolean }[];
   characteristics?: {
+    color: string;
     frameMatherials: string;
     linzeMatherials: string;
     linzeTypes: string;
@@ -116,6 +167,7 @@ export async function createItem(itemData: {
     if (itemData.characteristics) {
       await tx.insert(characteristics).values({
         itemId: newItem.id,
+        color: itemData.characteristics.color,
         frameMatherials: itemData.characteristics.frameMatherials,
         linzeMatherials: itemData.characteristics.linzeMatherials,
         linzeTypes: itemData.characteristics.linzeTypes,
