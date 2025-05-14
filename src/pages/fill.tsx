@@ -208,6 +208,7 @@ async function fillingPhotos() {
 
 type Characteristics = {
   id: number;
+  color: string[];
   frameMatherials: string[];
   linzeMatherials: string[];
   linzeTypes: string[];
@@ -216,6 +217,7 @@ type Characteristics = {
 };
 
 const characteristicsUrl: string = "api/old/characteristics";
+const color: string[] = ["blue", "no-color", "gold", "red", "black", "green"];
 const frameMatherials: string[] = ["Титан", "Пластик", "Нержавеющая сталь"];
 const linzeMatherials: string[] = ["Пластик", "Стекло"];
 const linzeTypes: string[] = ["Без диоптрий", "С диоптриями", "Солнцезащиные"];

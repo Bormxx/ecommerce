@@ -19,6 +19,7 @@
   type Characteristic = {
     id: number;
     itemId: number;
+    color: string;
     frameMatherials: string;
     linzeMatherials: string;
     linzeTypes: string;
@@ -64,6 +65,7 @@
 
     const characteristicsList = characteristics[0]
     ? {
+        "Цвет": characteristics[0].color,
         "Материал оправы": characteristics[0].frameMatherials,
         "Линзы": characteristics[0].linzeEffects,
         "Материал линз": characteristics[0].linzeMatherials,
