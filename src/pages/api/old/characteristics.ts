@@ -13,6 +13,7 @@ export default async function referencesTable(
   if (req.method === "POST") {
     const {
       itemId,
+      color,
       frameMatherials,
       linzeMatherials,
       linzeTypes,
@@ -23,6 +24,7 @@ export default async function referencesTable(
       .insert(characteristics)
       .values({
         itemId,
+        color,
         frameMatherials,
         linzeMatherials,
         linzeTypes,
