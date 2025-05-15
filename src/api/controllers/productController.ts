@@ -22,24 +22,24 @@ export async function getFilteredItemsHandler(req:NextApiRequest, res: NextApiRe
     priceMin,
     priceMax,
     availability,
-    color,
-    frameMatherials,
-    linzeMatherials,
-    linzeTypes,
-    linzeUVDefences,
-    linzeEffects,
-  } = req.query;
+    color = [],
+    frameMatherials = [],
+    linzeMatherials = [],
+    linzeTypes = [],
+    linzeUVDefences = [],
+    linzeEffects = [],
+  } = req.body;
 
-  const items = await getFilteredItems({
-    priceMin: priceMin ? parseInt(priceMin) : undefined,
-    priceMax: priceMax ? parseInt(priceMax) : undefined,
-    availability: availability !== undefined ? availability === 'true' : undefined,
-    color,
-    frameMatherials,
-    linzeMatherials,
-    linzeTypes,
-    linzeUVDefences,
-    linzeEffects,
+ const items = await getFilteredItems({
+    priceMin: priceMin !== undefined ? parseInt(priceMin) : undefined,
+    priceMax: priceMax !== undefined ? parseInt(priceMax) : undefined,
+    availability: availability !== undefined ? availability === true : undefined,
+    color: Array.isArray(color) ? color : [color],
+    frameMatherials: Array.isArray(frameMatherials) ? frameMatherials : [frameMatherials],
+    linzeMatherials: Array.isArray(linzeMatherials) ? linzeMatherials : [linzeMatherials],
+    linzeTypes: Array.isArray(linzeTypes) ? linzeTypes : [linzeTypes],
+    linzeUVDefences: Array.isArray(linzeUVDefences) ? linzeUVDefences : [linzeUVDefences],
+    linzeEffects: Array.isArray(linzeEffects) ? linzeEffects : [linzeEffects],
   });
 
   res.status(200).json({ items });

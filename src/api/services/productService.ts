@@ -11,7 +11,7 @@ import {
 import { db } from "../db";
 import { averageRatingFunc } from "../utils/averageRatingFunc";
 import { round } from "../utils/round";
-import { and, eq, gte, lte } from 'drizzle-orm';
+import { and, eq, gte, lte, inArray } from 'drizzle-orm';
 
 // TODO: Реализовать метод для фильтров, для карусели, для полуения постов, но поудмать для чего отдельный запрос
 
@@ -32,22 +32,22 @@ export async function getFilteredItems({
   priceMin,
   priceMax,
   availability,
-  color,
-  frameMatherials,
-  linzeMatherials,
-  linzeTypes,
-  linzeUVDefences,
-  linzeEffects,
+  color = [],
+  frameMatherials = [],
+  linzeMatherials = [],
+  linzeTypes = [],
+  linzeUVDefences = [],
+  linzeEffects = [],
 }: {
   priceMin?: number;
   priceMax?: number;
   availability?: boolean;
-  color?: string;
-  frameMatherials?: string;
-  linzeMatherials?: string;
-  linzeTypes?: string;
-  linzeUVDefences?: string;
-  linzeEffects?: string;
+  color?: string[];
+  frameMatherials?: string[];
+  linzeMatherials?: string[];
+  linzeTypes?: string[];
+  linzeUVDefences?: string[];
+  linzeEffects?: string[];
 }): Promise<ItemWithMainPhoto[]> {
   const itemConditions = [];
   const charConditions = [];
@@ -59,12 +59,12 @@ export async function getFilteredItems({
     itemConditions.push(eq(items.availability, availability));
 
   // Условия для таблицы characteristics
-  if (color) charConditions.push(eq(characteristics.color, color));
-  if (frameMatherials) charConditions.push(eq(characteristics.frameMatherials, frameMatherials));
-  if (linzeMatherials) charConditions.push(eq(characteristics.linzeMatherials, linzeMatherials));
-  if (linzeTypes) charConditions.push(eq(characteristics.linzeTypes, linzeTypes));
-  if (linzeUVDefences) charConditions.push(eq(characteristics.linzeUVDefences, linzeUVDefences));
-  if (linzeEffects) charConditions.push(eq(characteristics.linzeEffects, linzeEffects));
+  if (color.length > 0) charConditions.push(inArray(characteristics.color, color));
+  if (frameMatherials.length > 0) charConditions.push(inArray(characteristics.frameMatherials, frameMatherials));
+  if (linzeMatherials.length > 0) charConditions.push(inArray(characteristics.linzeMatherials, linzeMatherials));
+  if (linzeTypes.length > 0) charConditions.push(inArray(characteristics.linzeTypes, linzeTypes));
+  if (linzeUVDefences.length > 0) charConditions.push(inArray(characteristics.linzeUVDefences, linzeUVDefences));
+  if (linzeEffects.length > 0) charConditions.push(inArray(characteristics.linzeEffects, linzeEffects));
 
   const filteredItems = await db
     .select()
