@@ -2,8 +2,9 @@ import {
   createItem,
   getAllItems,
   getItemById,
+  getFilteredItems,
 } from "@/api/services/productService";
-import { NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 // TODO: Добавить запросы на получение характеристик товара, параметров, категории и тд. Потребуется для фильтра (Возможно определить в другую группу)
 // TODO: Добавить обработку ошибок для остальных методов
@@ -12,6 +13,35 @@ import { NextApiResponse } from "next";
 // Получение всех товаров
 export async function getAllItemsHandler(res: NextApiResponse) {
   const items = await getAllItems();
+  res.status(200).json({ items });
+}
+
+// Получение отфильтрованных товаров
+export async function getFilteredItemsHandler(req:NextApiRequest, res: NextApiResponse) {
+   const {
+    priceMin,
+    priceMax,
+    availability,
+    color = [],
+    frameMatherials = [],
+    linzeMatherials = [],
+    linzeTypes = [],
+    linzeUVDefences = [],
+    linzeEffects = [],
+  } = req.body;
+
+ const items = await getFilteredItems({
+    priceMin: priceMin !== undefined ? parseInt(priceMin) : undefined,
+    priceMax: priceMax !== undefined ? parseInt(priceMax) : undefined,
+    availability: availability !== undefined ? availability === true : undefined,
+    color: Array.isArray(color) ? color : [color],
+    frameMatherials: Array.isArray(frameMatherials) ? frameMatherials : [frameMatherials],
+    linzeMatherials: Array.isArray(linzeMatherials) ? linzeMatherials : [linzeMatherials],
+    linzeTypes: Array.isArray(linzeTypes) ? linzeTypes : [linzeTypes],
+    linzeUVDefences: Array.isArray(linzeUVDefences) ? linzeUVDefences : [linzeUVDefences],
+    linzeEffects: Array.isArray(linzeEffects) ? linzeEffects : [linzeEffects],
+  });
+
   res.status(200).json({ items });
 }
 
@@ -33,6 +63,7 @@ export async function createItemHandler(
     availability: boolean;
     photos?: { photoLink: string; isMainPhoto: boolean }[];
     characteristics?: {
+      color: string;
       frameMatherials: string;
       linzeMatherials: string;
       linzeTypes: string;
