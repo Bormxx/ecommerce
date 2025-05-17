@@ -126,11 +126,6 @@ export default function AuthForm() {
                   placeholder="*******"
                   type={"password"}
                 />
-                <p
-                  className={`${inter.className} text-right text-base font-normal text-gray-500`}
-                >
-                  Забыли пароль?
-                </p>
               </FormField>
             </Fieldset>
             <FormButton text={"Войти"} isValid={isValid && blockButton} />
