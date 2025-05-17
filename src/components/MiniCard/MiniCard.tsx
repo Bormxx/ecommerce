@@ -51,6 +51,8 @@ const MiniCard = ({
       setIsLiked(liked);
     }
   }, [isAuthenticated, favorites]);
+
+  
   useEffect(() => {
     if (isAuthenticated && productsInBasket) {
       const item = productsInBasket.find(
