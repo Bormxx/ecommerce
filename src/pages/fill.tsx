@@ -134,6 +134,21 @@ const basketValue: {
 const basketSize: number = 11; // Размер массива с корзинами
 const maxItemsInBasket: number = 4; // Максимальное количество одного товара в корзине
 
+async function getRandomUser() {
+  const response = await axios.get("api/users");
+  console.log(response.data.users);
+  const users: Users[] = response.data.users;
+  const result = Math.floor(Math.random() * users.length);
+  return users[result].id;
+}
+
+async function getRandomItem() {
+  const response = await axios.get("api/products");
+  const items: Product[] = response.data.items;
+  const result = Math.floor(Math.random() * items.length);
+  return items[result].id;
+}
+
 async function fillingBasket() {
   for (let i = 0; i < basketSize; i++) {
     const userId = await getRandomUser();
@@ -158,21 +173,6 @@ async function fillingBasket() {
     }
   }
   filling(basketUrl, basketValue);
-}
-
-async function getRandomUser() {
-  const response = await axios.get("api/users");
-  console.log(response.data.users);
-  const users: Users[] = response.data.users;
-  const result = Math.floor(Math.random() * users.length);
-  return users[result].id;
-}
-
-async function getRandomItem() {
-  const response = await axios.get("api/products");
-  const items: Product[] = response.data.items;
-  const result = Math.floor(Math.random() * items.length);
-  return items[result].id;
 }
 
 // Заполняем таблицу с фотками товаров
