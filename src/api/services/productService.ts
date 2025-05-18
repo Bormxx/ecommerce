@@ -11,6 +11,7 @@ import {
 import { db } from "../db";
 import { averageRatingFunc } from "../utils/averageRatingFunc";
 import { round } from "../utils/round";
+import { and, eq, gte, lte, inArray } from 'drizzle-orm';
 
 // TODO: Реализовать метод для фильтров, для карусели, для полуения постов, но поудмать для чего отдельный запрос
 
@@ -24,6 +25,62 @@ export async function getAllItems(): Promise<ItemWithMainPhoto[]> {
   });
 
   return allItems;
+}
+
+// Получение отфильтрованных товаров
+export async function getFilteredItems({
+  priceMin,
+  priceMax,
+  availability,
+  color = [],
+  frameMatherials = [],
+  linzeMatherials = [],
+  linzeTypes = [],
+  linzeUVDefences = [],
+  linzeEffects = [],
+}: {
+  priceMin?: number;
+  priceMax?: number;
+  availability?: boolean;
+  color?: string[];
+  frameMatherials?: string[];
+  linzeMatherials?: string[];
+  linzeTypes?: string[];
+  linzeUVDefences?: string[];
+  linzeEffects?: string[];
+}): Promise<ItemWithMainPhoto[]> {
+  const itemConditions = [];
+  const charConditions = [];
+
+  // Условия для таблицы items
+  if (priceMin !== undefined) itemConditions.push(gte(items.price, priceMin));
+  if (priceMax !== undefined) itemConditions.push(lte(items.price, priceMax));
+  if (availability !== undefined)
+    itemConditions.push(eq(items.availability, availability));
+
+  // Условия для таблицы characteristics
+  if (color.length > 0) charConditions.push(inArray(characteristics.color, color));
+  if (frameMatherials.length > 0) charConditions.push(inArray(characteristics.frameMatherials, frameMatherials));
+  if (linzeMatherials.length > 0) charConditions.push(inArray(characteristics.linzeMatherials, linzeMatherials));
+  if (linzeTypes.length > 0) charConditions.push(inArray(characteristics.linzeTypes, linzeTypes));
+  if (linzeUVDefences.length > 0) charConditions.push(inArray(characteristics.linzeUVDefences, linzeUVDefences));
+  if (linzeEffects.length > 0) charConditions.push(inArray(characteristics.linzeEffects, linzeEffects));
+
+  const filteredItems = await db
+    .select()
+    .from(items)
+    .leftJoin(characteristics, eq(items.id, characteristics.itemId))
+    .leftJoin(photos, and(eq(photos.itemId, items.id), eq(photos.isMainPhoto, true)))
+    .where(and(...itemConditions, ...charConditions))
+    .all();
+
+  // Преобразуем результат в нужный формат
+  const result: ItemWithMainPhoto[] = filteredItems.map((row) => ({
+    ...row.items,
+    mainPhoto: row.photos ?? undefined,
+  }));
+
+  return result;
 }
 
 // Получение товара по ID
@@ -85,6 +142,7 @@ export async function createItem(itemData: {
   availability: boolean;
   photos?: { photoLink: string; isMainPhoto: boolean }[];
   characteristics?: {
+    color: string;
     frameMatherials: string;
     linzeMatherials: string;
     linzeTypes: string;
@@ -116,6 +174,7 @@ export async function createItem(itemData: {
     if (itemData.characteristics) {
       await tx.insert(characteristics).values({
         itemId: newItem.id,
+        color: itemData.characteristics.color,
         frameMatherials: itemData.characteristics.frameMatherials,
         linzeMatherials: itemData.characteristics.linzeMatherials,
         linzeTypes: itemData.characteristics.linzeTypes,

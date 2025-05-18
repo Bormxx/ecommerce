@@ -33,6 +33,7 @@ export const characteristics = sqliteTable("characteristics", {
   itemId: integer("itemId")
     .notNull()
     .references(() => items.id), // Ссылка на items.id
+  color: text("color").notNull(),
   frameMatherials: text("frameMatherials").notNull(),
   linzeMatherials: text("linzeMatherials").notNull(),
   linzeTypes: text("linzeTypes").notNull(),
