@@ -1,9 +1,10 @@
 import { inter, roboto } from "@/styles/fonts";
 import { useState } from "react";
 import { Order } from "../../../shared/types";
-import { formatedDate } from "../lib/formatedDate";
+
 import { OrderProductCard } from "./OrderProductCard";
 import { calculateStatusOrder } from '../lib/calculateStatusOrder';
+import { formatedDate } from '../../../shared/utils/frontend/formatedDate';
 
 type Props = {
   order: Order;

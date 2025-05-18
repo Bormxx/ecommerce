@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { useOrderById } from "../../../shared/hooks/queries/useOrderById";
-import { useProtectedRoute } from "../../../shared/hooks/useProtectedRoute";
 import { useUserStore } from "../../../shared/store/auth";
 import { inter, roboto } from "../../../styles/fonts";
-import { formatedDate } from "../lib/formatedDate";
+import { formatedDate } from "../../../shared/utils/frontend/formatedDate";
 import { ProductCard } from "./ProductCard";
 
 type Props = {
