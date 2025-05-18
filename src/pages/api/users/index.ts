@@ -22,7 +22,7 @@ export default async function handler(
     try {
       const inputs = formDataSchema.safeParse(req.body);
       const { name, surname, email, password, avatar } = req.body;
-      if (!name || !surname || !email || !inputs) {
+      if (!name || !surname || !email || inputs.error) {
         return res
           .status(400)
           .json({ error: "Некорректные данные пользователя" });

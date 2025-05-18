@@ -9,37 +9,37 @@ const usersValue = [
     name: "Иван",
     surname: "Иванов",
     email: "ivan@ya.ru",
-    password: "12345678",
+    password: "12345678aA!",
   },
   {
     name: "Геннадий",
     surname: "Геннадьев",
     email: "gena@ya.ru",
-    password: "12345678",
+    password: "12345678aA!",
   },
   {
     name: "Пётр",
     surname: "Петров",
     email: "petr@ya.ru",
-    password: "12345678",
+    password: "12345678aA!",
   },
   {
     name: "Владимир",
     surname: "Владимиров",
     email: "vova@ya.ru",
-    password: "12345678",
+    password: "12345678aA!",
   },
   {
     name: "Михаил",
     surname: "Михайлов",
     email: "michael@ya.ru",
-    password: "12345678",
+    password: "12345678aA!",
   },
   {
     name: "Фёдор",
     surname: "Фёдоров",
     email: "fedor@ya.ru",
-    password: "12345678",
+    password: "12345678aA!",
   },
 ];
 
