@@ -45,77 +45,76 @@ const usersValue = [
 
 // Заполняем таблицу с товарами
 const itemsUrl = "api/products";
-const itemDescriptionText =
-  "Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Описание Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+const itemDescriptionText = "Эти классические очки известны своим уникальным дизайном и высоким качеством. Они обеспечивают отличное зрение и являются отличным выбором для тех, кто ценит стиль и комфорт.";
 const itemsValue = [
   {
-    title: "Очки 1",
+    title: "Ray-Ban Aviator",
     price: 10000,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 2",
+    title: "Oakley Radar",
     price: 15000,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 3",
+    title: "Prada Mille",
     price: 10000,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 4",
+    title: "Gucci GG0033S",
     price: 3000,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 5",
+    title: "Versace Medusa",
     price: 1900,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 6",
+    title: "Dior Diorama",
     price: 10500,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 7",
+    title: "Chanel J12",
     price: 12300,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 8",
+    title: "Louis Vuitton Monogram",
     price: 14000,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 9",
+    title: "Burberry Brit",
     price: 9200,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 10",
+    title: "Calvin Klein 501",
     price: 2400,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 11",
+    title: "D&G GG0033S",
     price: 90200,
     description: itemDescriptionText,
     availability: true,
   },
   {
-    title: "Очки 12",
+    title: "Fendi Kan Ii",
     price: 2500,
     description: itemDescriptionText,
     availability: true,
