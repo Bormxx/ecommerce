@@ -136,7 +136,6 @@ const maxItemsInBasket: number = 4; // Максимальное количест
 
 async function getRandomUser() {
   const response = await axios.get("api/users");
-  console.log(response.data.users);
   const users: Users[] = response.data.users;
   const result = Math.floor(Math.random() * users.length);
   return users[result].id;
@@ -228,6 +227,7 @@ async function fillingCharacteristics() {
   itemsRequest.data.items.map((item: Characteristics) => {
     characteristicsValue.push({
       itemId: item.id,
+      color: color[Math.floor(Math.random() * color.length)],
       frameMatherials:
         frameMatherials[Math.floor(Math.random() * frameMatherials.length)],
       linzeMatherials:
