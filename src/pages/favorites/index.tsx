@@ -59,6 +59,7 @@ export default function FavoritesPage() {
       setVariableList("standart");
     }
   }
+
   return (
     <ProtectedRoute protection={useProtectedRoute}>
       <HomeContainer>
