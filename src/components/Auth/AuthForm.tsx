@@ -1,7 +1,6 @@
 import { signIn, yandexOauth } from "@/shared/api/auth";
 import { useUserStore } from "@/shared/store/auth";
 import { authFormSchema, TAuthForm } from "@/shared/types/schemas/auth";
-import { inter } from "@/styles/fonts";
 import { Fieldset } from "@headlessui/react";
 import { ArrowLongLeftIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";

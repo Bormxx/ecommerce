@@ -17,10 +17,10 @@ export default function Banner({ items }: BannerTypeProps) {
     <div className="flex min-h-[120px] rounded-[8px] bg-[linear-gradient(105.02deg,_#2563EB_38.18%,_#FFFFFF_118.65%)] px-5 py-2 sm:justify-evenly sm:p-[16px]">
       <div className="text-white">
         <h1 className={`${roboto.className} text-xl font-bold md:text-3xl`}>
-          Заголовок баннера
+          Скидка 40%
         </h1>
         <h2 className={`${inter.className} text-sm font-normal md:text-base`}>
-          Подзаголовок
+          на очки Dior и Boss до конца июня
         </h2>
       </div>
       <div className="hidden h-[168px] w-[280px] items-center justify-center md:flex">
