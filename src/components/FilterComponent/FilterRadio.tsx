@@ -1,27 +1,38 @@
-import React, { useState } from "react";
 import Radio from "./Radio";
 
-export default function FilterRadio() {
-  const [selectedValue, setSelectedValue] = useState("");
+type FilterRadioProps = {
+  available: boolean | undefined;
+  setAvailable: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+};
+
+export default function FilterRadio({
+  available,
+  setAvailable,
+}: FilterRadioProps) {
   const handleRadioChange = (value: string) => {
-    setSelectedValue(value); 
+    if (value === "available") {
+      setAvailable(true);
+    } else if (value === "for-order") {
+      setAvailable(false);
+    }
   };
+
   return (
     <div className="flex flex-wrap gap-4">
       <Radio
         text="В наличии"
-        value="avalible"
-        name_group="avalible"
-        selectedValue={selectedValue}
+        value="available"
+        name_group="available"
+        selectedValue={available === true ? "available" : ""}
         onChange={handleRadioChange}
       />
       <Radio
         text="На заказ"
         value="for-order"
-        name_group="avalible"
-        selectedValue={selectedValue}
+        name_group="available"
+        selectedValue={available === false ? "for-order" : ""}
         onChange={handleRadioChange}
-      />{" "}
+      />
     </div>
   );
 }

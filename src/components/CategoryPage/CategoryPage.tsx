@@ -6,7 +6,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import CatalogList from "../CatalogList/CatalogList";
 import FilterCheckbox from "../FilterComponent/FilterCheckbox";
@@ -15,7 +15,6 @@ import FilterPrice from "../FilterComponent/FilterPrice";
 import FilterRadio from "../FilterComponent/FilterRadio";
 import FilterSwitch from "../FilterComponent/FilterSwitch";
 import Title from "../Title/Title";
-import ButtonLong from "../ui-kit/ButtonLong";
 export interface TypeRequest {
   items: Product[] | undefined;
   itemsInBasketFromApi: BasketItem[];
@@ -30,6 +29,7 @@ export default function CategoryPage({
   setFavorites,
 }: TypeRequest) {
   const router = useRouter();
+  const [products, setProducts] = useState(items);
   const { id } = router.query;
   const categoryName = id
     ? typeof id === "string"
@@ -37,6 +37,14 @@ export default function CategoryPage({
       : ""
     : "Каталог";
   const [isOpenFilterClass, setIsOpenFilterClass] = useState("hidden");
+  const [minPrice, setMinPrice] = useState(10);
+  const [maxPrice, setMaxPrice] = useState(400000);
+  const [color, setColor] = useState<string[]>([]);
+  const [available, setAvailable] = useState<boolean | undefined>(undefined);
+  // const [linzeUVDefences, setLinzeUVDefences] = useState(false);
+  useEffect(() => {
+    setProducts(items);
+  }, [items]);
 
   function clickOpenFilter() {
     setIsOpenFilterClass("flex");
@@ -45,7 +53,54 @@ export default function CategoryPage({
   function clickCloseFilter() {
     setIsOpenFilterClass("hidden");
   }
-  function handleFilter() {}
+  const postFilter = async (body: {
+    priceMin?: number;
+    priceMax?: number;
+    availability?: boolean;
+    color?: string[];
+    frameMatherials?: string[];
+    linzeMatherials?: string[];
+    linzeTypes?: string[];
+    linzeUVDefences?: string[];
+    linzeEffects?: string[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }): Promise<{ items: Product[] }> => {
+    const response = await fetch("/api/filteredProducts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    const contentType = response.headers.get("content-type");
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Ошибка сервера: ${errorText}`);
+    }
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("Ответ не является JSON");
+    }
+
+    const data = await response.json();
+    return data;
+  };
+  function handleFilter(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log(available);
+    postFilter({
+      priceMin: minPrice,
+      priceMax: maxPrice,
+      color: color,
+      availability: available,
+    })
+      .then((response) => {
+        console.log("Товары отфильтрованы:", response.items);
+        setProducts(response.items);
+      })
+      .catch((error) => {
+        console.error("Ошибка при фильтрации товара:", error.message);
+      });
+  }
 
   return (
     <>
@@ -64,22 +119,44 @@ export default function CategoryPage({
               Фильтр
             </h2>
           </div>
-          <form className="flex flex-col gap-4 md:w-72">
+          <form className="flex flex-col gap-4 md:w-72" onSubmit={handleFilter}>
             <div className="flex flex-col gap-4">
-              <FilterComponent title="Цена" content={<FilterPrice />} />
-              <FilterComponent title="Цвет" content={<FilterCheckbox />} />
-              <FilterComponent title="Наличие" content={<FilterRadio />} />
               <FilterComponent
-                title="Еще какой-нибудь фильтр"
+                title="Цена"
+                content={
+                  <FilterPrice
+                    minPrice={minPrice}
+                    setMinPrice={setMinPrice}
+                    maxPrice={maxPrice}
+                    setMaxPrice={setMaxPrice}
+                  />
+                }
+              />
+              <FilterComponent
+                title="Цвет"
+                content={<FilterCheckbox color={color} setColor={setColor} />}
+              />
+              <FilterComponent
+                title="Наличие"
+                content={
+                  <FilterRadio
+                    available={available}
+                    setAvailable={setAvailable}
+                  />
+                }
+              />
+              <FilterComponent
+                title=""
                 content={<FilterSwitch />}
               />
             </div>
             <div className="flex w-full">
-              <ButtonLong
-                text="Применить фильтр"
-                onClick={handleFilter}
+              <button
                 type="submit"
-              />
+                className={`${inter.className} flex-grow rounded-[8px] bg-[#1E40AF] px-4 py-2 text-base font-bold text-white`}
+              >
+                Применить фильтр
+              </button>
             </div>
           </form>
         </div>
@@ -113,7 +190,7 @@ export default function CategoryPage({
 
             <CatalogList
               variable="standart"
-              items={items}
+              items={products}
               productsInBasket={itemsInBasketFromApi}
               favorites={favorites}
               setFavorites={setFavorites}
