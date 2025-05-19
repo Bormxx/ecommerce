@@ -41,7 +41,7 @@ export default function CategoryPage({
   const [maxPrice, setMaxPrice] = useState(400000);
   const [color, setColor] = useState<string[]>([]);
   const [available, setAvailable] = useState<boolean | undefined>(undefined);
-  // const [linzeUVDefences, setLinzeUVDefences] = useState(false);
+  const [linzeUVDefences, setLinzeUVDefences] = useState(false);
   const [filterTextList, setFilterTextList] = useState<string[]>([]);
   useEffect(() => {
     setProducts(items);
@@ -93,6 +93,7 @@ export default function CategoryPage({
       priceMax: maxPrice,
       color: color,
       availability: available,
+      linzeUVDefences: linzeUVDefences ? ["yes"] : [],
     })
       .then((response) => {
         console.log("Товары отфильтрованы:", response.items);
@@ -138,6 +139,9 @@ export default function CategoryPage({
           } else {
             newFilterList.push("На заказ");
           }
+        }
+        if (linzeUVDefences) {
+          newFilterList.push("С УФ-фильтром");
         }
         setFilterTextList(newFilterList);
       })
@@ -248,7 +252,15 @@ export default function CategoryPage({
                   />
                 }
               />
-              <FilterComponent title="" content={<FilterSwitch />} />
+              <FilterComponent
+                title=""
+                content={
+                  <FilterSwitch
+                    linzeUVDefences={linzeUVDefences}
+                    setLinzeUVDefences={setLinzeUVDefences}
+                  />
+                }
+              />
             </div>
             <div className="flex w-full">
               <button
