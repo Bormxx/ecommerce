@@ -2,6 +2,7 @@ import {
   createUserHandler,
   getAllUsersHandler,
 } from "@/api/controllers/userController";
+import { formDataSchema } from "@/shared/types/schemas/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 // TODO: Мб рефакторинг
@@ -19,8 +20,9 @@ export default async function handler(
     }
   } else if (req.method === "POST") {
     try {
+      const inputs = formDataSchema.safeParse(req.body);
       const { name, surname, email, password, avatar } = req.body;
-      if (!name || !surname || !email) {
+      if (!name || !surname || !email || inputs.error) {
         return res
           .status(400)
           .json({ error: "Некорректные данные пользователя" });
