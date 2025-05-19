@@ -42,6 +42,7 @@ export default function CategoryPage({
   const [color, setColor] = useState<string[]>([]);
   const [available, setAvailable] = useState<boolean | undefined>(undefined);
   // const [linzeUVDefences, setLinzeUVDefences] = useState(false);
+  const [filterTextList, setFilterTextList] = useState<string[]>([]);
   useEffect(() => {
     setProducts(items);
   }, [items]);
@@ -86,7 +87,7 @@ export default function CategoryPage({
   };
   function handleFilter(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(available);
+
     postFilter({
       priceMin: minPrice,
       priceMax: maxPrice,
@@ -96,9 +97,111 @@ export default function CategoryPage({
       .then((response) => {
         console.log("Товары отфильтрованы:", response.items);
         setProducts(response.items);
+        const newFilterList: string[] = [];
+        if (minPrice > 10) {
+          const formattedMinPrice = new Intl.NumberFormat("ru-RU").format(
+            minPrice,
+          );
+          newFilterList.push(`от ${formattedMinPrice} руб.`);
+        }
+        if (maxPrice < 400000) {
+          const formattedMaxnPrice = new Intl.NumberFormat("ru-RU").format(
+            maxPrice,
+          );
+          newFilterList.push(`до ${formattedMaxnPrice} руб.`);
+        }
+        if (color.length > 0) {
+          color.map((col) => {
+            if (col === "blue") {
+              newFilterList.push("Синий");
+            }
+            if (col === "no-color") {
+              newFilterList.push("Прозрачный");
+            }
+            if (col === "gold") {
+              newFilterList.push("Золотой");
+            }
+            if (col === "red") {
+              newFilterList.push("Красный");
+            }
+            if (col === "black") {
+              newFilterList.push("Черный");
+            }
+            if (col === "green") {
+              newFilterList.push("Зеленый");
+            }
+          });
+        }
+        if (available != undefined) {
+          if (available) {
+            newFilterList.push("В наличии");
+          } else {
+            newFilterList.push("На заказ");
+          }
+        }
+        setFilterTextList(newFilterList);
       })
       .catch((error) => {
         console.error("Ошибка при фильтрации товара:", error.message);
+      });
+  }
+
+  function handleCloseFilterText(filterToRemove: string) {
+    const updatedFilterList = filterTextList.filter(
+      (filter) => filter !== filterToRemove,
+    );
+    setFilterTextList(updatedFilterList);
+    let newMinPrice = 10;
+    let newMaxPrice = 400000;
+    // eslint-disable-next-line prefer-const
+    let newColors: string[] = [];
+    let newAvailable: boolean | undefined = undefined;
+
+    updatedFilterList.forEach((filter) => {
+      if (filter.startsWith("от ")) {
+        const num = parseInt(filter.replace(/[^\d]/g, ""), 10);
+        newMinPrice = isNaN(num) ? 10 : num;
+      }
+
+      if (filter.startsWith("до ")) {
+        const num = parseInt(filter.replace(/[^\d]/g, ""), 10);
+        newMaxPrice = isNaN(num) ? 400000 : num;
+      }
+      const colorMap: Record<string, string> = {
+        Синий: "blue",
+        Прозрачный: "no-color",
+        Золотой: "gold",
+        Красный: "red",
+        Черный: "black",
+        Зеленый: "green",
+      };
+      if (colorMap[filter]) {
+        newColors.push(colorMap[filter]);
+      }
+
+      if (filter === "В наличии") {
+        newAvailable = true;
+      } else if (filter === "На заказ") {
+        newAvailable = false;
+      }
+    });
+
+    setMinPrice(newMinPrice);
+    setMaxPrice(newMaxPrice);
+    setColor(newColors);
+    setAvailable(newAvailable);
+
+    postFilter({
+      priceMin: newMinPrice,
+      priceMax: newMaxPrice,
+      color: newColors,
+      availability: newAvailable,
+    })
+      .then((response) => {
+        setProducts(response.items);
+      })
+      .catch((error) => {
+        console.error("Ошибка при повторной фильтрации:", error.message);
       });
   }
 
@@ -145,10 +248,7 @@ export default function CategoryPage({
                   />
                 }
               />
-              <FilterComponent
-                title=""
-                content={<FilterSwitch />}
-              />
+              <FilterComponent title="" content={<FilterSwitch />} />
             </div>
             <div className="flex w-full">
               <button
@@ -174,18 +274,23 @@ export default function CategoryPage({
 
           <div className="relative my-4 flex flex-wrap justify-evenly gap-4 md:mt-11 md:rounded-xl md:bg-white md:p-6 md:shadow-custom">
             <div className="absolute left-0 top-[-40px] hidden gap-2 md:flex">
-              <div
-                className={`${inter.className} flex items-center rounded-[20px] border border-blue-800 px-3 py-[2px] text-xs text-blue-800`}
-              >
-                Фильтр 1
-                <XMarkIcon width={24} height={24} className="ml-3" />
-              </div>
-              <div
-                className={`${inter.className} flex items-center rounded-[20px] border border-blue-800 px-3 py-[2px] text-xs text-blue-800`}
-              >
-                Фильтр 2
-                <XMarkIcon width={24} height={24} className="ml-3" />
-              </div>
+              {filterTextList.map((filter, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={`${inter.className} flex items-center rounded-[20px] border border-blue-800 px-3 py-[2px] text-xs text-blue-800`}
+                  >
+                    {filter}
+                    <button
+                      onClick={() => {
+                        handleCloseFilterText(filter);
+                      }}
+                    >
+                      <XMarkIcon width={24} height={24} className="ml-3" />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
 
             <CatalogList
