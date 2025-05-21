@@ -61,10 +61,10 @@ export const registerFormSchema = z
     path: ["passwordCompare"],
   })
   .superRefine(({ password }, ctx) => {
-    if (password.length < 6) {
+    if (password.length < 8) {
       ctx.addIssue({
         code: "custom",
-        message: "Пароль меньше 6 символов",
+        message: "Пароль меньше 8 символов",
         path: ["password"],
       });
     }
@@ -119,13 +119,13 @@ export const formDataSchema = z
         message: "Разрешены символы латиницы и кириллицы",
       }),
     email: z.string().min(1, "Введите email").email(),
-    password: z.string().min(6, "Введите пароль"),
+    password: z.string().min(8, "Введите пароль"),
   })
   .superRefine(({ password }, ctx) => {
-    if (password.length < 6) {
+    if (password.length < 8) {
       ctx.addIssue({
         code: "custom",
-        message: "Пароль меньше 6 символов",
+        message: "Пароль меньше 8 символов",
         path: ["password"],
       });
     }
