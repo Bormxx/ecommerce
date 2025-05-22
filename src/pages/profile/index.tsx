@@ -3,7 +3,7 @@ import HomeContainer from "@/components/HomeContainer/HomeContainer";
 import ProfileBackground from "@/components/ProfileComponents/ProfileBackground";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import ProfileSection from "@/components/ProfileSection/ProfileSection";
-import CustomSelect from "@/components/CustomSelect/CustomSelect";
+//import CustomSelect from "@/components/CustomSelect/CustomSelect";
 import { useUserStore } from "@/shared/store/auth";
 import { useMutation } from '@tanstack/react-query';
 import { updateUser } from "@/shared/api/user";
@@ -17,7 +17,7 @@ export default function Profile() {
   const name = useUserStore((state) => state.name);
   const surname = useUserStore((state) => state.surname);
   const email = useUserStore((state) => state.email);
-  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
+//  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
 
   const [isEditing, setIsEditing] = useState(false);
