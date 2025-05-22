@@ -88,11 +88,11 @@ export default function Profile() {
 
               {!isEditing && (
                 <div className="mt-4">
-                  <label className="block text-[12px] font-normal leading-4 text-[#6B7280] md:text-[14px] md:leading-5">
+                  {/*<label className="block text-[12px] font-normal leading-4 text-[#6B7280] md:text-[14px] md:leading-5">
                     Язык:
                   </label>
 
-                  <CustomSelect />
+                  <CustomSelect />*/}
 
                   <div className="mt-4 flex items-center space-x-2">
                     <input
@@ -108,7 +108,7 @@ export default function Profile() {
                     </label>
                   </div>
 
-                  <div className="mt-4 flex items-center">
+                  {/*<div className="mt-4 flex items-center">
                     <input
                       type="checkbox"
                       id="darkModeToggle"
@@ -128,7 +128,7 @@ export default function Profile() {
                     >
                       Ночная тема
                     </label>
-                  </div>
+                  </div>*/}
 
                     <button
                       onClick={handleLogout}
