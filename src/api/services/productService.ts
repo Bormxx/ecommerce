@@ -66,21 +66,28 @@ export async function getFilteredItems({
   if (linzeUVDefences.length > 0) charConditions.push(inArray(characteristics.linzeUVDefences, linzeUVDefences));
   if (linzeEffects.length > 0) charConditions.push(inArray(characteristics.linzeEffects, linzeEffects));
 
-  const filteredItems = await db
-    .select()
-    .from(items)
-    .leftJoin(characteristics, eq(items.id, characteristics.itemId))
-    .leftJoin(photos, and(eq(photos.itemId, items.id), eq(photos.isMainPhoto, true)))
-    .where(and(...itemConditions, ...charConditions))
-    .all();
+  const filteredItems = await db.query.items.findMany({
+    with: {
+      photos: true,
+    },
+    where: (item, { and }) =>
+      and(
+        ...itemConditions,
+        ...(charConditions.length > 0
+          ? [
+              inArray(
+                item.id,
+                db
+                  .select({ id: characteristics.itemId })
+                  .from(characteristics)
+                  .where(and(...charConditions))
+              ),
+            ]
+          : [])
+      ),
+  });
 
-  // Преобразуем результат в нужный формат
-  const result: ItemWithMainPhoto[] = filteredItems.map((row) => ({
-    ...row.items,
-    mainPhoto: row.photos ?? undefined,
-  }));
-
-  return result;
+  return filteredItems;
 }
 
 // Получение товара по ID

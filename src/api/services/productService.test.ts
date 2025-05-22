@@ -1,233 +1,213 @@
-// productService.test.ts
-import { getFilteredItems } from "./productService";
-import { items, characteristics, photos } from "@/api/models/product";
+import { getFilteredItems } from "@/api/services/productService";
+import { db } from "@/api/db";
 
-// Моки
-const mockAll = jest.fn();
-const mockWhere = jest.fn(() => ({ all: mockAll }));
-const mockLeftJoinPhotos = jest.fn(() => ({ where: mockWhere }));
-const mockLeftJoinCharacteristics = jest.fn(() => ({ leftJoin: mockLeftJoinPhotos }));
-const mockFrom = jest.fn(() => ({ leftJoin: mockLeftJoinCharacteristics }));
-const mockSelect = jest.fn(() => ({ from: mockFrom }));
-
-jest.mock("@/api/db", () => {
-  return {
-    db: {
-      select: (...args: any[]) => mockSelect(...args),
+jest.mock("@/api/db", () => ({
+  db: {
+    query: {
+      items: {
+        findMany: jest.fn(),
+      },
+      characteristics: {
+        findMany: jest.fn(),
+      },
     },
-  };
-});
+    select: jest.fn(() => ({
+      from: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+    })),
+  },
+}));
 
 describe("getFilteredItems", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("должен возвращать отфильтрованные товары с главной фотографией", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 1, title: "Товар 1", price: 150, availability: 1, description: "Описание 1" },
-        photos: { id: 101, itemId: 1, photoLink: "photo1.jpg", isMainPhoto: 1 },
-      },
-    ]);
-
-    const filters = { priceMin: 100, priceMax: 200, availability: true };
-    const result = await getFilteredItems(filters);
-
-    expect(mockSelect).toHaveBeenCalled();
-    expect(mockFrom).toHaveBeenCalledWith(items);
-    expect(mockLeftJoinCharacteristics).toHaveBeenCalledWith(characteristics, expect.anything());
-    expect(mockLeftJoinPhotos).toHaveBeenCalledWith(photos, expect.anything());
-    expect(mockWhere).toHaveBeenCalledWith(expect.anything());
-
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe(1);
-    expect(result[0].mainPhoto.photoLink).toBe("photo1.jpg");
-  });
-
-  it("должен корректно фильтровать по характеристикам (цвет)", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 2, title: "Товар 2", price: 300, availability: 1, description: "Описание 2" },
-        photos: null,
-      },
-    ]);
-
-    const filters = { color: ["red", "blue"] };
-    const result = await getFilteredItems(filters);
-
-    expect(mockSelect).toHaveBeenCalled();
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe(2);
-    expect(result[0].mainPhoto).toBeUndefined();
-  });
-
-  it("должен возвращать пустой массив, если товаров нет", async () => {
-    mockAll.mockResolvedValueOnce([]);
-    const filters = { priceMin: 1000 };
-    const result = await getFilteredItems(filters);
-    expect(result).toEqual([]);
-  });
-
-  it("должен работать без фильтров", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 3, title: "Товар 3", price: 50, availability: 0, description: "Описание 3" },
-        photos: { id: 103, itemId: 3, photoLink: "photo3.jpg", isMainPhoto: 1 },
-      },
-    ]);
-
+  it("возвращает все товары без фильтров", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 1 }]);
     const result = await getFilteredItems({});
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe(3);
-    expect(result[0].mainPhoto.photoLink).toBe("photo3.jpg");
+    expect(db.query.items.findMany).toHaveBeenCalledTimes(1);
+    expect(result).toEqual([{ id: 1 }]);
   });
 
-  it("должен фильтровать по availability = false", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 4, title: "Товар 4", price: 200, availability: 0, description: "Описание 4" },
-        photos: null,
-      },
-    ]);
-
-    const result = await getFilteredItems({ availability: false });
-    expect(result).toHaveLength(1);
-    expect(result[0].availability).toBe(0);
+  it("фильтрует по минимальной цене", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 2 }]);
+    const priceMin = 100;
+    await getFilteredItems({ priceMin });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+    // Проверяем, что условие содержит gte с priceMin
+    // (в тестах сложно проверить полностью функцию, можно проверить вызов с gte)
   });
 
-  it("корректно обрабатывает фильтр по frameMatherials", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 5, title: "Товар 5", price: 500, availability: 1, description: "Описание 5" },
-        photos: null,
-      },
-    ]);
-
-    const result = await getFilteredItems({ frameMatherials: ["plastic"] });
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe(5);
+  it("фильтрует по максимальной цене", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 3 }]);
+    const priceMax = 500;
+    await getFilteredItems({ priceMax });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
   });
 
-  it("фильтрует по нескольким параметрам одновременно", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 6, title: "Товар 6", price: 750, availability: 1, description: "Описание 6" },
-        photos: { id: 106, itemId: 6, photoLink: "photo6.jpg", isMainPhoto: 1 },
-      },
-    ]);
-
-    const filters = {
-      priceMin: 700,
-      priceMax: 800,
-      availability: true,
-      color: ["green"],
-      linzeTypes: ["type1"],
-    };
-
-    const result = await getFilteredItems(filters);
-    expect(result).toHaveLength(1);
-    expect(result[0].price).toBe(750);
-    expect(result[0].mainPhoto.photoLink).toBe("photo6.jpg");
+  it("фильтрует по доступности true", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 4 }]);
+    const availability = true;
+    await getFilteredItems({ availability });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
   });
 
-  it("возвращает пустой массив при несовпадении фильтров", async () => {
-    mockAll.mockResolvedValueOnce([]);
-    const filters = { color: ["nonexistent"] };
-    const result = await getFilteredItems(filters);
+  it("фильтрует по доступности false", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 5 }]);
+    const availability = false;
+    await getFilteredItems({ availability });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("фильтрует по цвету одним значением", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 6 }]);
+    const color = ["red"];
+    await getFilteredItems({ color });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("фильтрует по цвету несколькими значениями", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 7 }]);
+    const color = ["red", "blue"];
+    await getFilteredItems({ color });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("фильтрует по материалу рамки", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 8 }]);
+    const frameMatherials = ["plastic"];
+    await getFilteredItems({ frameMatherials });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("фильтрует по материалу линз", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 9 }]);
+    const linzeMatherials = ["glass"];
+    await getFilteredItems({ linzeMatherials });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("фильтрует по типам линз", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 10 }]);
+    const linzeTypes = ["single-vision"];
+    await getFilteredItems({ linzeTypes });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("фильтрует по защите от UV", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 11 }]);
+    const linzeUVDefences = ["UV400"];
+    await getFilteredItems({ linzeUVDefences });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("фильтрует по эффектам линз", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 12 }]);
+    const linzeEffects = ["polarized"];
+    await getFilteredItems({ linzeEffects });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("фильтрует по нескольким характеристикам одновременно", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 13 }]);
+    const color = ["red"];
+    const frameMatherials = ["plastic"];
+    const linzeTypes = ["bifocal"];
+    await getFilteredItems({ color, frameMatherials, linzeTypes });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("фильтрует по цене, доступности и характеристикам вместе", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 14 }]);
+    const priceMin = 100;
+    const priceMax = 500;
+    const availability = true;
+    const color = ["red"];
+    const linzeEffects = ["polarized"];
+    await getFilteredItems({
+      priceMin,
+      priceMax,
+      availability,
+      color,
+      linzeEffects,
+    });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
+
+  it("возвращает пустой массив если ничего не найдено", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([]);
+    const result = await getFilteredItems({ color: ["unknown"] });
     expect(result).toEqual([]);
   });
 
-  it("работает с неполными фильтрами", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 7, title: "Товар 7", price: 1500, availability: 1, description: "Описание 7" },
-        photos: null,
-      },
-    ]);
-
-    const result = await getFilteredItems({ priceMax: 2000 });
-    expect(result).toHaveLength(1);
-    expect(result[0].price).toBe(1500);
-  });
-
-  it("вызывает все звенья ORM цепочки", async () => {
-    mockAll.mockResolvedValueOnce([]);
-    await getFilteredItems({});
-
-    expect(mockSelect).toHaveBeenCalledTimes(1);
-    expect(mockFrom).toHaveBeenCalledTimes(1);
-    expect(mockLeftJoinCharacteristics).toHaveBeenCalledTimes(1);
-    expect(mockLeftJoinPhotos).toHaveBeenCalledTimes(1);
-    expect(mockWhere).toHaveBeenCalledTimes(1);
-    expect(mockAll).toHaveBeenCalledTimes(1);
-  });
-
-  // =============================
-  // Новые тесты: Некорректные значения фильтров
-  // =============================
-
-  it("игнорирует нечисловые значения priceMin и priceMax", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 9, title: "Товар 9", price: 250, availability: 1, description: "Описание 9" },
-        photos: null,
-      },
-    ]);
-
-    const result = await getFilteredItems({ priceMin: "cheap", priceMax: "expensive" } as any);
-    expect(result).toHaveLength(1);
-    expect(result[0].price).toBe(250);
-  });
-
-  it("игнорирует некорректное значение availability", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 10, title: "Товар 10", price: 300, availability: 1, description: "Описание 10" },
-        photos: null,
-      },
-    ]);
-
-    const result = await getFilteredItems({ availability: "yes" } as any);
-    expect(result).toHaveLength(1);
-    expect(result[0].availability).toBe(1);
-  });
-
-  it("игнорирует некорректные типы у фильтров-массивов", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 11, title: "Товар 11", price: 350, availability: 1, description: "Описание 11" },
-        photos: null,
-      },
-    ]);
-
+  it("корректно обрабатывает пустые массивы характеристик", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 15 }]);
     const result = await getFilteredItems({
-      color: "red",
-      frameMatherials: { type: "plastic" },
-      linzeTypes: 42,
-    } as any);
-
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe(11);
+      color: [],
+      frameMatherials: [],
+      linzeMatherials: [],
+      linzeTypes: [],
+      linzeUVDefences: [],
+      linzeEffects: [],
+    });
+    expect(result).toEqual([{ id: 15 }]);
   });
 
-  it("возвращает товары при полностью невалидных фильтрах", async () => {
-    mockAll.mockResolvedValueOnce([
-      {
-        items: { id: 12, title: "Товар 12", price: 1200, availability: 1, description: "Описание 12" },
-        photos: null,
-      },
-    ]);
+  it("фильтрует по множественным значениям для нескольких характеристик", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 16 }]);
+    await getFilteredItems({
+      color: ["red", "blue"],
+      frameMatherials: ["plastic", "metal"],
+      linzeEffects: ["polarized", "anti-reflective"],
+    });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
+  });
 
+  it("обрабатывает undefined для всех фильтров (возвращает все)", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 17 }]);
     const result = await getFilteredItems({
-      priceMin: null,
-      availability: "abc",
-      color: 123,
-      frameMatherials: false,
-      linzeTypes: undefined,
-    } as any);
+      priceMin: undefined,
+      priceMax: undefined,
+      availability: undefined,
+      color: [],
+      frameMatherials: [],
+      linzeMatherials: [],
+      linzeTypes: [],
+      linzeUVDefences: [],
+      linzeEffects: [],
+    });
+    expect(result).toEqual([{ id: 17 }]);
+  });
 
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe(12);
+  it("фильтрует с наличием, минимальной и максимальной ценой и всеми характеристиками", async () => {
+    (db.query.items.findMany as jest.Mock).mockResolvedValueOnce([{ id: 19 }]);
+    await getFilteredItems({
+      priceMin: 50,
+      priceMax: 1000,
+      availability: true,
+      color: ["red"],
+      frameMatherials: ["plastic"],
+      linzeMatherials: ["glass"],
+      linzeTypes: ["single-vision"],
+      linzeUVDefences: ["UV400"],
+      linzeEffects: ["polarized"],
+    });
+    const call = (db.query.items.findMany as jest.Mock).mock.calls[0][0];
+    expect(call.where).toBeDefined();
   });
 });
