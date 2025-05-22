@@ -10,7 +10,6 @@ import { useState } from "react";
 import { TItemSchema } from "@/shared/types/schemas/item";
 import SearchField from "../AuthFormsComponents/SearchField";
 
-
 export default function HeaderComponent() {
   const { pathname } = useRouter();
   const hiddenRoutes = ["/cart", "/profile", "/order", "/products/[id]"];
@@ -24,7 +23,6 @@ export default function HeaderComponent() {
   const { control } = useForm<{ input: string }>({
     mode: "all",
   });
-
 
   const hiddenInCart = hiddenRoutes.includes(pathname) ? "hidden" : "";
   function routerToCatalog() {

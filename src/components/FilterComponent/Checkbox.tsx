@@ -1,18 +1,22 @@
-import { useState } from "react";
 type CheckboxProps = {
   text: string;
   value: string;
   name_group: string;
+  checked: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
-export default function Checkbox({ text, value, name_group }: CheckboxProps) {
-  const [colorText, setColorText] = useState("border-gray-100 text-gray-800");
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) {
-      setColorText("border-blue-600 text-blue-600");
-    } else {
-      setColorText("border-gray-100 text-gray-800");
-    }
-  }
+
+export default function Checkbox({
+  text,
+  value,
+  name_group,
+  checked,
+  onChange,
+}: CheckboxProps) {
+  const colorText = checked
+    ? "border-blue-600 text-blue-600"
+    : "border-gray-100 text-gray-800";
+
   return (
     <>
       <input
@@ -21,7 +25,8 @@ export default function Checkbox({ text, value, name_group }: CheckboxProps) {
         name={name_group}
         value={value}
         className="hidden"
-        onChange={handleChange}
+        checked={checked}
+        onChange={onChange}
       />
       <label
         htmlFor={value}

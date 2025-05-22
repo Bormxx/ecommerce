@@ -1,11 +1,23 @@
 import SwitchComponent from "./SwitchComponent";
 
-export default function FilterSwitch() {
+type FilterSwitchProps = {
+  linzeUVDefences: boolean;
+  setLinzeUVDefences: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function FilterSwitch({
+  linzeUVDefences,
+  setLinzeUVDefences,
+}: FilterSwitchProps) {
   return (
-    <div className="flex gap-4 flex-col">
-      <SwitchComponent text="Option 1" value="option1" name_group="group3" />
-      <SwitchComponent text="Option 2" value="option2" name_group="group3" />
-      <SwitchComponent text="Option 3" value="option3" name_group="group3" />
+    <div className="flex flex-col gap-4">
+      <SwitchComponent
+        text="С УФ-фильтром"
+        value="uv-filter"
+        name_group="group3"
+        checked={linzeUVDefences}
+        onChange={setLinzeUVDefences}
+      />
     </div>
   );
 }

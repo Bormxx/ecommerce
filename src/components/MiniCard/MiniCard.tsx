@@ -51,6 +51,7 @@ const MiniCard = ({
       setIsLiked(liked);
     }
   }, [isAuthenticated, favorites]);
+
   useEffect(() => {
     if (isAuthenticated && productsInBasket) {
       const item = productsInBasket.find(
@@ -112,7 +113,7 @@ const MiniCard = ({
           height={
             variable === "mini" ? 172 : variable === "standart" ? 248 : 80
           }
-          className={`object-contain ${variable === "mini" ? "w-[172]" : variable === "standart" ? "w-[248]" : "w-[80]"}`}
+          className={`object-contain ${variable === "mini" ? "w-[172px]" : variable === "standart" ? "w-full" : "w-[80px]"}`}
         />
         <h3
           className={`${inter.className} ${variable === "horizontal" ? "w-full grow text-base text-blue-600" : ""} text-sm`}
