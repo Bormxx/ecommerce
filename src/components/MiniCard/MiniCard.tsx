@@ -35,6 +35,7 @@ const MiniCard = ({
   favorites,
   setFavorites,
 }: MiniCardProps) => {
+  console.log(img_url);
   const { isAuthenticated } = useUserStore();
   const liked = favorites
     ? favorites.some((favoriteItem) => favoriteItem.id === itemId)
