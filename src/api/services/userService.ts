@@ -6,6 +6,7 @@ import {
   generateSessionToken,
 } from "../../shared/utils/backend/authSessions";
 import { db } from "../db";
+import { hideEmail } from "@/shared/utils/backend/helpers";
 
 // Получение всех пользователей
 export async function getAllUsers(): Promise<Omit<User, "password">[]> {
@@ -60,7 +61,7 @@ export async function createUser(userData: {
     const token = generateSessionToken();
     await createSession(token, newUser.id);
 
-    return { user: newUser, token };
+    return { user: { ...newUser, email: hideEmail(newUser.email)}, token };
 };
 
 // Получение данных о пользователе по ID
