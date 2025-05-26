@@ -1,11 +1,10 @@
 import { inter } from "@/styles/fonts";
 import Image from "next/image";
-import { Product } from '../../../shared/types';
 
 const img = "/images/Product-with-shadow.png";
 
 type Props = {
-  product: Product;
+  product: {title: string, photos?: { photoLink: string }[], price: number, characteristics?: { frameMatherials?: string }[] };
   quantity: number;
 };
 

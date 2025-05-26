@@ -1,10 +1,9 @@
 import Image from "next/image";
-import { Product } from "../../../shared/types";
 import { inter, roboto } from "../../../styles/fonts";
 
 type Props = {
   item: {
-    item: Product;
+    item: { title: string; photos?: { photoLink: string }[]; price: number };
     quantity: number;
   };
 };
