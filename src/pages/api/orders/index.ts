@@ -9,14 +9,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const userId = await withAuth(req, res);
-  if (!userId) return;
+  try {
+    const userId = await withAuth(req, res);
 
-  if (req.method === "GET") {
-    await getOrdersHandler(userId, res);
-  } else if (req.method === "POST") {
-    await createOrderHandler(userId, req.body, res);
-  } else {
-    res.status(405).json({ error: "Method Not Allowed" });
+    if (req.method === "GET") {
+      await getOrdersHandler(userId, res);
+    } else if (req.method === "POST") {
+      await createOrderHandler(userId, req.body, res);
+    } else {
+      res.status(405).json({ error: "Method Not Allowed" });
+    }
+  } catch (error) {
+    console.error("[LOG] Ошибка в API handler:", error);
+    return;
   }
 }
