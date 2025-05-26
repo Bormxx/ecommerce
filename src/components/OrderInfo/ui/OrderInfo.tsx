@@ -83,8 +83,6 @@ export const OrderInfo = (props: Props) => {
         </div>
 
         {/* Карточки твоаров */}
-        {/* TODO: Проверить кейс со скроллом и если что попробовать скрыть его, вроде такой параметр hidden-scrollbar */}
-        {/* TODO: Подумать как лучше отобразить несколько карточек (Плитка или просто гор. скролл) */}
         <div className="max-h-80 overflow-y-auto border-b border-gray-400 pb-5">
           <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-5">
             {order &&
