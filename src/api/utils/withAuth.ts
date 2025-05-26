@@ -4,12 +4,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 export async function withAuth(
   req: NextApiRequest,
   res: NextApiResponse,
-): Promise<number> {
+): Promise<number | null> {
   const token = req.cookies.session;
 
   if (!token) {
     res.status(401).json({ error: "Unauthorized" });
-    throw new Error("Unauthorized");
+    return null;
   }
 
   try {
@@ -17,7 +17,7 @@ export async function withAuth(
 
     if (!user || !session) {
       res.status(401).json({ error: "Invalid session" });
-      throw new Error("Invalid session");
+      return null;
     }
 
     return user.id;
@@ -26,6 +26,6 @@ export async function withAuth(
       console.log("[LOG] Ошибка аутентификации:", error);
       res.status(500).json({ error: "Internal server error" });
     }
-    throw error;
+    return null;
   }
 }

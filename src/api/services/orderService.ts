@@ -1,10 +1,5 @@
 import { basket } from "@/api/models/cart";
-import {
-  lists,
-  orders,
-  OrderWithItems,
-} from "@/api/models/order";
-
+import { lists, orders, OrderWithItems } from "@/api/models/order";
 
 import { eq } from "drizzle-orm";
 import { db } from "../../api/db";
@@ -13,8 +8,7 @@ import { db } from "../../api/db";
 export async function getUserOrders(userId: number): Promise<OrderWithItems[]> {
   try {
     const userOrders = await db.query.orders.findMany({
-      where: (order, { eq }) =>
-        eq(order.userId, userId),
+      where: (order, { eq }) => eq(order.userId, userId),
 
       with: {
         lists: {
@@ -22,8 +16,7 @@ export async function getUserOrders(userId: number): Promise<OrderWithItems[]> {
             item: {
               with: {
                 photos: {
-                  where: (photo, { eq }) =>
-                    eq(photo.isMainPhoto, true),
+                  where: (photo, { eq }) => eq(photo.isMainPhoto, true),
                   limit: 1,
                 },
                 characteristics: true,
@@ -50,7 +43,16 @@ export async function getUserOrders(userId: number): Promise<OrderWithItems[]> {
         0,
       );
 
-      const { id, userId, comment, address, phone, isCourier, payment, createOrderDate } = order;
+      const {
+        id,
+        userId,
+        comment,
+        address,
+        phone,
+        isCourier,
+        payment,
+        createOrderDate,
+      } = order;
 
       return {
         id,
@@ -113,7 +115,16 @@ export async function getOrderById(
       0,
     );
 
-    const { id, userId, comment, address, phone, isCourier, payment, createOrderDate } = order;
+    const {
+      id,
+      userId,
+      comment,
+      address,
+      phone,
+      isCourier,
+      payment,
+      createOrderDate,
+    } = order;
 
     return {
       id,
@@ -141,7 +152,7 @@ export async function createOrder(
     address: string;
     phone: string;
     isCourier: boolean;
-    payment?: number;
+    payment?: number | null;
   },
 ): Promise<number> {
   return db.transaction(async (tx) => {
@@ -154,7 +165,7 @@ export async function createOrder(
         phone: orderData.phone,
         isCourier: orderData.isCourier,
         payment: orderData.payment,
-        createOrderDate: new Date()
+        createOrderDate: new Date(),
       })
       .returning({ id: orders.id });
 
