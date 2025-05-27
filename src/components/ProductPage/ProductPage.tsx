@@ -182,15 +182,15 @@
                     </div>
                   ) : (
                     <button className="bg-[#1E40AF] w-[180px] h-[40px] text-white rounded-[6px] flex items-center justify-center">
-                    <Image 
-                      src="/images/button_bag.svg" 
-                      alt="Корзина" 
-                      width={24} 
-                      height={24} 
-                      className="w-6 h-6"
-                      onClick={addToCart}
-                    />
-                  </button>
+                      <Image 
+                        src="/images/button_bag.svg" 
+                        alt="Корзина" 
+                        width={24} 
+                        height={24} 
+                        className="w-6 h-6"
+                        onClick={addToCart}
+                      />
+                    </button>
                   )}
 
                   <button className="flex w-[40px] h-[40px] items-center justify-center">

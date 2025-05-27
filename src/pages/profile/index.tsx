@@ -47,7 +47,6 @@ export default function Profile() {
         email: variables.email ?? "",
         avatar: "",
       });
-  
       setIsEditing(false);
       console.log('Профиль успешно обновлён');
     },
@@ -56,7 +55,11 @@ export default function Profile() {
     },
   });
 
-  const handleSave = (updatedData: { name: string; surname: string; email: string }) => {
+  const handleSave = (updatedData: { 
+    name: string; 
+    surname: string; 
+    email: string 
+  }) => {
     setProfileData(updatedData);
     mutation.mutate(updatedData);
     setIsEditing(false);
